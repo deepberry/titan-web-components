@@ -9,3 +9,4 @@ src/stories
 src/App.vue
 src/main.js
 storybook-static
+yarn.lock

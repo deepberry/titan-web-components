@@ -13,16 +13,13 @@
     },
     "dependencies": {
         "@deepberry/common": "^0.1.6",
+        "@microsoft/signalr": "^6.0.7",
         "core-js": "^3.8.3",
         "element-plus": "^2.2.5",
         "pinia": "^2.0.17",
         "vue": "^3.2.13"
     },
     "devDependencies": {
-        "typescript": "^4.4.4",
-        "@types/webpack-env": "^1.17.0",
-        "@typescript-eslint/eslint-plugin": "^5.31.0",
-        "@typescript-eslint/parser": "^5.31.0",
         "@babel/core": "^7.12.16",
         "@babel/eslint-parser": "^7.12.16",
         "@babel/plugin-proposal-optional-chaining": "^7.17.12",
@@ -34,6 +31,9 @@
         "@storybook/manager-webpack5": "^6.5.9",
         "@storybook/testing-library": "^0.0.13",
         "@storybook/vue3": "^6.5.9",
+        "@types/webpack-env": "^1.17.0",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
         "@vue/cli-plugin-babel": "~5.0.0",
         "@vue/cli-plugin-eslint": "~5.0.0",
         "@vue/cli-service": "~5.0.0",
@@ -46,8 +46,10 @@
         "less-loader": "^11.0.0",
         "lint-staged": "^13.0.2",
         "prettier": "2.7.1",
+        "storybook": "^6.5.9",
         "storybook-source-code-addon": "^1.2.0",
         "style-resources-loader": "^1.5.0",
+        "typescript": "^4.4.4",
         "vue-loader": "^16.8.3",
         "vue-svg-inline-loader": "^2.1.3"
     },

@@ -1,4 +1,4 @@
-import RobotLive from "./src/components/RobotLive.vue";
+import RobotLive from "./src/components/RobotLive/RobotLive.vue";
 const components = {
     RobotLive,
 };

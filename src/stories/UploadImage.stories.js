@@ -1,5 +1,4 @@
-import RobotLive from "../components/RobotLive.vue";
-
+import RobotLive from "../components/RobotLive/RobotLive.vue";
 import "../assets/css/components/RobotLive.less";
 export default {
     title: "Example/RobotLive",
@@ -31,7 +30,7 @@ const Template = (args) => ({
     setup() {
         return { args };
     },
-    template: '<upload-image v-bind="args" />',
+    template: '<robot-live v-bind="args" />',
 });
 
 export const Default = Template.bind({});
