@@ -1,4 +1,4 @@
-import RobotLive from "../components/RobotLive/RobotLive.vue";
+import RobotLive from "../components/RobotLive/Index.vue";
 import "../assets/css/components/RobotLive.less";
 export default {
     title: "Example/RobotLive",

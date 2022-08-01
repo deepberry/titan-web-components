@@ -1,5 +1,5 @@
-import RobotLive from "./src/components/RobotLive/RobotLive.vue";
-const components = {
+import RobotLive from "./src/components/RobotLive/Index.vue";
+const components: any = {
     RobotLive,
 };
 

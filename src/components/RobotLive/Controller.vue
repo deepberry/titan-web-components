@@ -7,9 +7,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-    name: "ControllerPanel",
+    name: "RobotLiveController",
     props: {
         state: {
             type: Object,
@@ -24,8 +24,8 @@ export default {
     },
     emits: ["command"],
     methods: {
-        command: function (command) {
-            this.$emit("command", command);
+        command: function (cmd) {
+            this.$emit("command", cmd);
         },
     },
 };

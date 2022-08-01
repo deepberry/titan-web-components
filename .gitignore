@@ -4,6 +4,7 @@ node_modules
 .storydemo
 storybook-static
 yarn.lock
+temp
 
 # local env files
 .env.local

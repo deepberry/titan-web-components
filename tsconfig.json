@@ -4,21 +4,30 @@
         "module": "esnext",
         "strict": true,
         "jsx": "preserve",
-        "importHelpers": true,
         "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "allowJs": false,
+        "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "useDefineForClassFields": true,
         "sourceMap": true,
         "baseUrl": ".",
-        "useDefineForClassFields": true,
-        "types": ["vite-svg-loader", "webpack-env"],
+        "types": ["webpack-env", "vite-svg-loader"],
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["src/*"]
         },
-        "lib": ["esnext", "dom"],
-
-        "resolveJsonModule": true
+        "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/service/demo.js", "src/main.js"],
-    "exclude": ["node_modules", "dist"]
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "tests/**/*.ts",
+        "tests/**/*.tsx",
+        "src/stories/RobotLive.js"
+    ],
+    "exclude": ["node_modules", ".storybook", "./src/stories"]
 }

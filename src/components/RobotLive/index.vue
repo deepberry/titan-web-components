@@ -1,6 +1,5 @@
 <!--
-    控制轨道机器人进行移动，并直播展示给用户
-
+    组件功能：控制轨道机器人进行移动，并直播展示给用户
 
  -->
 <template>
@@ -26,12 +25,12 @@
 </template>
 
 <script setup lang="ts">
+import Controller from "./Controller.vue";
 // import * as signalR from "@microsoft/signalr";
 // const { SOCKET_API_URL } = import.meta.env;
 </script>
 
 <script lang="ts">
-import Controller from "./Controller.vue";
 export default {
     name: "RobotLive",
     props: ["property"],
@@ -60,7 +59,9 @@ export default {
     },
     computed: {},
     watch: {},
-    methods: {},
+    methods: {
+        execCommand() {},
+    },
     created: function () {},
     mounted: function () {},
 };
