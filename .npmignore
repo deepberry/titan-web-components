@@ -1,3 +1,11 @@
-# node
+.github
+.husky
+.storybook
+.storydemo
+.vscode
 node_modules
-package-lock.json
+public
+src/stories
+src/App.vue
+src/main.js
+storybook-static

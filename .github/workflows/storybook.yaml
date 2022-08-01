@@ -1,0 +1,45 @@
+name: Storybook
+
+on: [push]
+
+jobs:
+    build-storybook:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            # 安装私有公共库依赖
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  always-auth: true
+                  node-version: "16.x"
+                  registry-url: https://npm.pkg.github.com
+                  scope: "@deepberry"
+
+            - name: Install Dependencies
+              run: npm install
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+            # 发布storybook
+            - name: Build
+              run: npm run build-storybook
+            - name: Deploy Build
+              uses: JamesIves/github-pages-deploy-action@releases/v3
+              with:
+                  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                  BRANCH: dist
+                  FOLDER: storybook-static
+                  CLEAN: true
+
+            # 部署至OSS以用于CDN
+            - name: OSS
+              uses: manyuanrong/setup-ossutil@v2.0
+              with:
+                  endpoint: "oss-cn-zhangjiakou.aliyuncs.com"
+                  access-key-id: ${{secrets.OSS_ACCESSKEY_ID}}
+                  access-key-secret: ${{secrets.OSS_ACCESS_KEY_SECRET}}
+            - run: ossutil cp -rf storybook-static oss://deepberry/static/titan-web-components
+            # - run: ossutil cp -rf storybook-static oss://deepberry-admin/vue3-element-extend
