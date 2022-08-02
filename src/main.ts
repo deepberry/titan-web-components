@@ -11,7 +11,7 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 app.use(ElementPlus);
 
-import TitanUI from "../index.js";
+import TitanUI from "../index";
 app.use(TitanUI);
 
 // 3.Mount DOM

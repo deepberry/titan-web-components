@@ -25,12 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import Controller from "./Controller.vue";
 // import * as signalR from "@microsoft/signalr";
 // const { SOCKET_API_URL } = import.meta.env;
 </script>
 
 <script lang="ts">
+import Controller from "./controller.vue";
 export default {
     name: "RobotLive",
     props: ["property"],

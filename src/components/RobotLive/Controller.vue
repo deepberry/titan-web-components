@@ -8,8 +8,10 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
     name: "RobotLiveController",
+    emits: ["command"],
     props: {
         state: {
             type: Object,
@@ -22,11 +24,10 @@ export default {
             }),
         },
     },
-    emits: ["command"],
     methods: {
         command: function (cmd) {
             this.$emit("command", cmd);
         },
     },
-};
+});
 </script>
