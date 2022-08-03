@@ -1,25 +1,26 @@
-import RobotLive from "../components/RobotLive/index.vue";
-import "../assets/css/components/RobotLive.less";
+import RobotLive from "../components/RobotLive/Index.vue";
+import "../assets/css/RobotLive/Index.less";
+import "../assets/css/RobotLive/Controller.less";
 export default {
-    title: "Example/RobotLive",
+    title: "RobotLive/Index",
     component: RobotLive,
     argTypes: {
-        "v-model:url": {
-            table: {
-                category: "Data",
-            },
-            name: "v-model:url",
-            type: { name: "string", required: true },
-            default: "",
-            description: "图片路径",
-            control: {
-                type: "text",
-            },
-        },
+        // "v-model:url": {
+        //     table: {
+        //         category: "Data",
+        //     },
+        //     name: "v-model:url",
+        //     type: { name: "string", required: true },
+        //     default: "",
+        //     description: "图片路径",
+        //     control: {
+        //         type: "text",
+        //     },
+        // },
     },
     parameters: {
         componentSource: {
-            url: "https://raw.githubusercontent.com/deepberry/titan-web-components/master/src/components/RobotLive.vue",
+            url: "https://raw.githubusercontent.com/deepberry/titan-web-components/master/src/components/RobotLive/Index.vue",
             language: "vue",
         },
     },
@@ -38,12 +39,4 @@ Default.args = {
     auto: true,
     width: "148px",
     height: "148px",
-};
-
-export const Preview = Template.bind({});
-Preview.args = {
-    auto: false,
-    width: "148px",
-    height: "148px",
-    url: "test/iruxu/iruxu.png",
 };

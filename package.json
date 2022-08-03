@@ -17,12 +17,14 @@
         "@microsoft/signalr": "^6.0.7",
         "core-js": "^3.8.3",
         "element-plus": "^2.2.5",
+        "lodash": "^4.17.21",
         "pinia": "^2.0.17",
         "vue": "^3.2.13"
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",
         "@babel/eslint-parser": "^7.12.16",
+        "@mdx-js/react": "^2.1.2",
         "@storybook/addon-actions": "^6.5.9",
         "@storybook/addon-essentials": "^6.5.9",
         "@storybook/addon-interactions": "^6.5.9",

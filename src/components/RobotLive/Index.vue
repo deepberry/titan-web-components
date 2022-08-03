@@ -26,10 +26,9 @@
 </template>
 
 <script>
-import Controller from "./controller.vue";
+import Controller from "./Controller.vue";
 export default {
     name: "RobotLive",
-    props: ["property"],
     components: {
         Controller,
     },
@@ -50,6 +49,8 @@ export default {
                 top: false, //上调
                 bottom: false, //下调
                 stop: false, //停止
+                zoomIn: false, //拉近
+                zoomOut: false, //拉远
             },
         };
     },

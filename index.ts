@@ -1,5 +1,8 @@
-import RobotLive from "./src/components/RobotLive/index.vue";
-const components: any = {
+import TitanConfigProvider from "./src/components/ConfigProvider/Index.vue";
+import RobotLive from "./src/components/RobotLive/Index.vue";
+
+const components = {
+    TitanConfigProvider,
     RobotLive,
 };
 

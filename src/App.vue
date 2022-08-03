@@ -1,5 +1,5 @@
 <template>
-    <div><RobotLive /></div>
+    <TitanConfigProvider locale="enUs"><RobotLive /></TitanConfigProvider>
 </template>
 
 <script>

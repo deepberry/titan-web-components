@@ -13,25 +13,17 @@ npm install @deepberry/titan-web-components
 
 ### Import
 
-#### A.局部引入单个组件
-
-```javascript
-import { RobotLive } from "@deepberry/titan-web-components";
-export {components : RobotLive}
-```
-
-#### B.全局引入单个组件
-
-```javascript
-import { RobotLive } from "@deepberry/titan-web-components";
-app.component("RobotLive", RobotLive);
-```
-
-#### C.全局引入全部组件
-
-```javascript
+```js
 import TitanUI from "@deepberry/titan-web-components";
 app.use(TitanUI);
+```
+
+### International
+
+```html
+<TitanConfigProvider locale="enUs">
+    <!-- components -->
+</TitanConfigProvider>
 ```
 
 ### API Reference
