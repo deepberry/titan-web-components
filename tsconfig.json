@@ -16,7 +16,7 @@
         "useDefineForClassFields": true,
         "sourceMap": true,
         "baseUrl": ".",
-        "types": ["webpack-env", "vite-svg-loader"],
+        "types": ["webpack-env", "vite-svg-loader", "unplugin-vue-define-options"],
         "paths": {
             "@/*": ["src/*"]
         },

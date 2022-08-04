@@ -1,10 +1,19 @@
 ## 控制器
 
--   文件：[查看](../src/components/RobotLive/Controller.vue)
--   简介：控制器是一套简单的 UI，固定了根据不同的按钮，发送对应的动作执行事件
+-   [x] 控制器是一套简单的 UI，固定了根据不同的按钮，发送对应的动作执行事件
+-   [ ] **接口错误返回包格式待确认以修改 camera/robot.vue 中的错误 err.message**
 
 ## 相机控制器
 
--   文件：[查看](../src/components/RobotLive/CameraController.vue)
--   简介：建立连接，并向服务器发送`CommandCamera`指令与动作值。
-    **当前服务端未实现该接口**
+-   [x] 建立连接，并向服务器发送`CommandCamera`指令与动作值。
+-   [ ] **当前服务端未实现该接口**
+
+## 机器人控制器
+
+-   [x] 建立连接，并向服务器发送`CommandRobot`指令与动作值。
+-   [ ] **当前服务端接口实现的动作与产品有缺少**
+-   [ ] **无 线上接口**
+
+## TODO
+
+-   [ ] beacon 上报中心

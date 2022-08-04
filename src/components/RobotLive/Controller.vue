@@ -4,7 +4,12 @@
 <template>
     <div class="w-controller">
         <div class="u-controller" v-for="handler in handlers" :key="handler">
-            <el-tooltip class="u-controller-pop" effect="dark" :content="t(handler)" placement="top">
+            <el-tooltip
+                class="u-controller-pop"
+                effect="dark"
+                :content="t(`RobotLive.Controller.${handler}`)"
+                placement="top"
+            >
                 <el-button
                     class="u-controller-btn"
                     :class="`u-controller-btn--${handler}`"
@@ -12,6 +17,7 @@
                     :loading="state[handler]"
                     @click="command(handler)"
                     v-if="isEnabled(handler)"
+                    :disabled="state[handler]"
                     >{{ getControllerSymbol(handler) }}</el-button
                 >
             </el-tooltip>
@@ -20,49 +26,47 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, PropType } from "vue";
+import { PropType } from "vue";
 import { getControllerSymbol } from "../../utils/constants";
 import { useLocale } from "../../hooks";
-const { t } = useLocale();
-</script>
 
-<script lang="ts">
-export default defineComponent({
-    name: "RobotLiveController",
-    props: {
-        // 设备类型
-        equipment: {
-            type: String as PropType<string>,
-            required: true,
-        },
-        // 控制器按钮状态
-        state: {
-            type: Object,
-            default: () => ({
-                left: false,
-                right: false,
-                stop: false,
-            }),
-        },
-        // 启用控制器元件
-        handlers: {
-            type: Array as PropType<string[]>,
-            default: () => ["left", "right", "stop"],
-        },
+// 属性
+const props = defineProps({
+    // 设备类型
+    equipment: {
+        type: String as PropType<string>,
     },
-
-    emits: ["command"],
-    methods: {
-        // 执行控制命令
-        command(action) {
-            this.$emit("command", action);
-        },
-        // 判断元件是否启用
-        isEnabled(handler) {
-            return this.handlers.includes(handler);
-        },
+    // 控制器按钮状态
+    state: {
+        type: Object,
+        default: () => ({
+            left: false,
+            right: false,
+            stop: false,
+        }),
+        required: true,
+    },
+    // 启用控制器元件
+    handlers: {
+        type: Array as PropType<string[]>,
+        default: () => ["left", "right", "stop"],
+        required: true,
     },
 });
+
+// 事件
+const emit = defineEmits(["command"]);
+const command = (action) => {
+    emit("command", action);
+};
+
+// 判断元件是否启用
+const isEnabled = (handler) => {
+    return props.handlers.includes(handler);
+};
+
+// 其它
+const { t } = useLocale();
 </script>
 
 <style lang="less">

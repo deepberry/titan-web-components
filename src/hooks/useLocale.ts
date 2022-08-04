@@ -12,8 +12,8 @@ export const LocaleInjectionKey = Symbol("__titanLang__");
 const defaultLocale = "zhCn";
 
 // 读取路径
-export const translate = (path, key, locale) => {
-    return get(Locales[locale], `${path}.${key}`, key);
+export const translate = (path, locale) => {
+    return get(Locales[locale], `${path}`, path);
 };
 
 // 组件hook
@@ -34,8 +34,8 @@ export const useLocale = (_locale?: string) => {
     return {
         locale,
         lang,
-        t: (key) => {
-            return translate(vm?.type.name as string, key, unref(locale));
+        t: (path: string) => {
+            return translate(path, unref(locale));
         },
     };
 };
