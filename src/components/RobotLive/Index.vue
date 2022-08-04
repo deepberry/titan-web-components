@@ -6,7 +6,7 @@
         <!-- 视频直播 -->
         <div class="w-live-video">
             <!-- 播放器 -->
-            <div id="J_prismPlayer"></div>
+            <Video class="u-video" />
             <!-- 播放器组插槽 -->
             <slot name="video"></slot>
         </div>
@@ -17,49 +17,61 @@
             <slot name="controller"></slot>
             <div class="u-controllers">
                 <!-- 机器人控制 -->
-                <Controller class="u-robot-controller" :state="robotControllerState" @command="execCommand" />
-                <!-- 相机控制 -->
-                <Controller class="u-camera-controller" :state="cameraControllerState" @command="execCommand" />
+                <Controller
+                    class="u-robot-controller"
+                    :state="robotControllerState"
+                    @command="exec"
+                    equipment="robot"
+                    :handlers="['left', 'right', 'stop']"
+                />
             </div>
         </div>
+
+        <slot></slot>
     </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { defineComponent, PropType } from "vue";
+import { mapState } from "pinia";
+import { useRobotLiveStore } from "../../store/RobotLive";
+import { HubConnection } from "../../service/HubConnection";
 import Controller from "./Controller.vue";
-export default {
+import Video from "./Video.vue";
+</script>
+
+<script lang="ts">
+export default defineComponent({
     name: "RobotLive",
-    components: {
-        Controller,
+
+    props: {
+        //
+        // 接口参数
+        propertyId: {
+            type: String as PropType<string>,
+            required: true,
+        },
     },
+
     data: function () {
-        return {
-            // 机器人控制状态
-            robotControllerState: {
-                left: false, //左
-                right: false, //右
-                top: false, //前
-                bottom: false, //后
-                stop: false, //停止
-            },
-            // 相机控制状态
-            cameraControllerState: {
-                left: false, //左转
-                right: false, //右转
-                top: false, //上调
-                bottom: false, //下调
-                stop: false, //停止
-                zoomIn: false, //拉近
-                zoomOut: false, //拉远
-            },
-        };
+        return {};
     },
-    computed: {},
+    computed: {
+        ...mapState(useRobotLiveStore, ["robotControllerState", "cameraControllerState"]),
+    },
     watch: {},
     methods: {
-        execCommand() {},
+        exec(payload) {
+            payload.equipment = "";
+            payload.action = "";
+        },
+
+        connectRobot() {
+            const RobotConnection = new HubConnection({});
+        },
     },
-    created: function () {},
-    mounted: function () {},
-};
+    mounted: function () {
+        //
+    },
+});
 </script>

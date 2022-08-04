@@ -30,29 +30,32 @@ const { t } = useLocale();
 export default defineComponent({
     name: "RobotLiveController",
     props: {
+        // 设备类型
+        equipment: {
+            type: String as PropType<string>,
+            required: true,
+        },
         // 控制器按钮状态
         state: {
             type: Object,
             default: () => ({
                 left: false,
                 right: false,
-                top: false,
-                bottom: false,
                 stop: false,
             }),
         },
         // 启用控制器元件
         handlers: {
             type: Array as PropType<string[]>,
-            default: () => ["left", "right", "top", "bottom", "stop"],
+            default: () => ["left", "right", "stop"],
         },
     },
 
     emits: ["command"],
     methods: {
         // 执行控制命令
-        command(cmd) {
-            this.$emit("command", cmd);
+        command(action) {
+            this.$emit("command", action);
         },
         // 判断元件是否启用
         isEnabled(handler) {
