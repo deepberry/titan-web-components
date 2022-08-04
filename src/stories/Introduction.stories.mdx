@@ -1,7 +1,3 @@
-import { Meta } from "@storybook/addon-docs";
-// Should keep this blank line!!
-<Meta title="Example/Introduction" />;
-
 # Titan-Web-Components
 
 titan 智控平台复用组件。<br/>
@@ -19,11 +15,17 @@ npm install @deepberry/titan-web-components
 
 ### 2.Import
 
-#### Import
+#### 全部引入
 
 ```js
 import TitanUI from "@deepberry/titan-web-components";
 app.use(TitanUI);
+```
+
+#### 部分引入
+
+```js
+import RobotLive from "@deepberry/titan-web-components/src/components/RobotLive/Index.vue";
 ```
 
 ### International
@@ -33,8 +35,3 @@ app.use(TitanUI);
     <!-- components -->
 </TitanConfigProvider>
 ```
-
-#### API Reference
-
-查看对应组件属性与事件等
-https://admin.deepberry.cn/titan-web-components

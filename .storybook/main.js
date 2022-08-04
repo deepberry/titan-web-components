@@ -17,6 +17,11 @@ module.exports = {
     core: {
         builder: "@storybook/builder-webpack5",
     },
+    typescript: {
+        check: false,
+        checkOptions: {},
+        reactDocgen: false,
+    },
     webpackFinal: async (config, { configType }) => {
         config.resolve = {
             ...config.resolve,
@@ -49,6 +54,14 @@ module.exports = {
                     },
                 },
             ],
+        });
+        config.module.rules.push({
+            test: /\.mjs$/,
+            type: "javascript/auto",
+            resolve: {
+                fullySpecified: false,
+                extensions: [".js", ".vue", ".json"],
+            },
         });
         config.devServer = {
             proxy: {

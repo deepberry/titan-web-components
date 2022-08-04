@@ -28,13 +28,15 @@
 <script lang="ts" setup>
 import Camera from "./Camera.vue";
 import Robot from "./Robot.vue";
-import Live from "./Live.vue";
+import Live from "./Video.vue";
 import { HubConnectionOptions } from "../../service/HubConnection";
 import { PropType } from "vue";
 const props = defineProps({
+    // 相机设置
     camera: {
         type: Object as PropType<HubConnectionOptions>,
     },
+    // 机器人设置
     robot: {
         type: Object as PropType<HubConnectionOptions>,
     },

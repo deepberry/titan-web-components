@@ -41,7 +41,7 @@ const exec = async (action) => {
         .then(() => {
             controllerState[action] = true;
             ElMessage({
-                message: `${t("RobotLive.Message.isRunning")}${action}`,
+                message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",
             });
         })

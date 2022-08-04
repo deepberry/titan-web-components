@@ -17,3 +17,4 @@
 ## TODO
 
 -   [ ] beacon 上报中心
+-   [ ] storybook 的 bug https://github.com/storybookjs/storybook/issues （暂时无法解决）

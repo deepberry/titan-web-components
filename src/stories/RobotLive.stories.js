@@ -1,23 +1,9 @@
 import RobotLive from "../components/RobotLive/Index.vue";
 import "../assets/css/RobotLive/Index.less";
-import "../assets/css/RobotLive/Controller.less";
 export default {
     title: "RobotLive/Index",
     component: RobotLive,
-    argTypes: {
-        // "v-model:url": {
-        //     table: {
-        //         category: "Data",
-        //     },
-        //     name: "v-model:url",
-        //     type: { name: "string", required: true },
-        //     default: "",
-        //     description: "图片路径",
-        //     control: {
-        //         type: "text",
-        //     },
-        // },
-    },
+    argTypes: {},
     parameters: {
         componentSource: {
             url: "https://raw.githubusercontent.com/deepberry/titan-web-components/master/src/components/RobotLive/Index.vue",
@@ -36,7 +22,18 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    auto: true,
-    width: "148px",
-    height: "148px",
+    camera: {
+        url: "/api/camera",
+        params: {
+            propertyId: "123",
+        },
+        options: {},
+    },
+    robot: {
+        url: "/api/robot",
+        params: {
+            key: "value",
+        },
+        options: {},
+    },
 };

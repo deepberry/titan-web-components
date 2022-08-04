@@ -7,8 +7,8 @@ export const useRobotLiveStore = defineStore({
         robotControllerState: {
             left: false, //左
             right: false, //右
-            top: false, //前
-            bottom: false, //后
+            forward: false, //前
+            backward: false, //后
             stop: false, //停止
         },
         // 相机控制状态

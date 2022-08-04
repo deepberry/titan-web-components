@@ -1,6 +1,6 @@
 import TitanConfigProvider from "./src/components/ConfigProvider/Index.vue";
 import RobotLive from "./src/components/RobotLive/Index.vue";
-import RobotLiveVideo from "./src/components/RobotLive/Live.vue";
+import RobotLiveVideo from "./src/components/RobotLive/Video.vue";
 import RobotLiveCamera from "./src/components/RobotLive/Camera.vue";
 import RobotLiveRobot from "./src/components/RobotLive/Robot.vue";
 import RobotLiveController from "./src/components/RobotLive/Controller.vue";

@@ -6,7 +6,7 @@
         :state="controllerState"
         @command="exec"
         equipment="camera"
-        :handlers="['left', 'right', 'up', 'stop', 'down', 'zoomIn', 'zoomOut']"
+        :handlers="['left', 'right', 'up', 'down', 'stop', 'zoomIn', 'zoomOut']"
     />
 </template>
 
@@ -41,7 +41,7 @@ const exec = async (action) => {
         .then(() => {
             controllerState[action] = true;
             ElMessage({
-                message: `${t("RobotLive.Message.isRunning")}${action}`,
+                message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",
             });
         })

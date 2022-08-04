@@ -1,11 +1,13 @@
 # Titan web components
 
 泰坦业务公共组件模块  
-范围：用于 titan 项目和小程序
+范围：用于 titan PC Web、小程序、客户端
 
 ## Get Started
 
 ### Install
+
+私有包安装请先参考此[设置](https://github.com/deepberry/docs/blob/master/packages/install.md)
 
 ```shell
 npm install @deepberry/titan-web-components
@@ -13,9 +15,17 @@ npm install @deepberry/titan-web-components
 
 ### Import
 
+#### 全部引入
+
 ```js
 import TitanUI from "@deepberry/titan-web-components";
 app.use(TitanUI);
+```
+
+#### 部分引入
+
+```js
+import RobotLive from "@deepberry/titan-web-components/src/components/RobotLive/Index.vue";
 ```
 
 ### International

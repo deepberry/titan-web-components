@@ -1,8 +1,10 @@
 export const ControllerSymbols = {
     left: "←",
     right: "→",
-    top: "↑",
-    bottom: "↓",
+    up: "↑",
+    forward: "↑",
+    down: "↓",
+    backward: "↓",
     stop: "=",
     zoomIn: "-",
     zoomOut: "+",
