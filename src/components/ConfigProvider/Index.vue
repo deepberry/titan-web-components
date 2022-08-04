@@ -12,7 +12,6 @@ const props = defineProps({
         type: String as PropType<string>,
     },
 });
-
 useProvideLocale(props);
 </script>
 

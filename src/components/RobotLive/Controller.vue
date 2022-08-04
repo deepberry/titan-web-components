@@ -19,15 +19,16 @@
     </div>
 </template>
 
-<script lang="ts">
-// 引入依赖
+<script lang="ts" setup>
 import { defineComponent, PropType } from "vue";
-import { ControllerSymbols } from "../../constants/RobotLive";
+import { getControllerSymbol } from "../../utils/constants";
+import { useLocale } from "../../hooks";
+const { t } = useLocale();
+</script>
 
-// 组件声明
+<script lang="ts">
 export default defineComponent({
     name: "RobotLiveController",
-
     props: {
         // 控制器按钮状态
         state: {
@@ -53,25 +54,12 @@ export default defineComponent({
         command(cmd) {
             this.$emit("command", cmd);
         },
-
-        /* 工具函数
-         * ===========================
-         */
         // 判断元件是否启用
         isEnabled(handler) {
             return this.handlers.includes(handler);
         },
-        // 获取控制元件图标
-        getControllerSymbol(handler) {
-            return ControllerSymbols[handler];
-        },
     },
 });
-</script>
-
-<script lang="ts" setup>
-import { useLocale } from "../../hooks";
-const { t } = useLocale();
 </script>
 
 <style lang="less">
