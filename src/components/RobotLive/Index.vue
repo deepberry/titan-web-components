@@ -6,7 +6,7 @@
         <!-- 视频直播 -->
         <div class="w-live-video">
             <!-- 播放器 -->
-            <Live class="u-video" />
+            <Live class="u-video" :connection="$connection" v-if="videoEnable" :config="videoConf" />
             <!-- 播放器组插槽 -->
             <slot name="video"></slot>
         </div>
@@ -16,8 +16,8 @@
             <!-- 控制器组插槽 -->
             <slot name="controller"></slot>
             <div class="u-controllers">
-                <Camera class="u-controller u-controller--camera" :connection="connection" v-if="props.cameraEnable" />
-                <Robot class="u-controller u-controller--robot" :connection="connection" v-if="props.robotEnable" />
+                <Camera class="u-controller u-controller--camera" :connection="$connection" v-if="cameraEnable" />
+                <Robot class="u-controller u-controller--robot" :connection="$connection" v-if="robotEnable" />
             </div>
         </div>
 
@@ -29,8 +29,9 @@
 import Camera from "./Camera.vue";
 import Robot from "./Robot.vue";
 import Live from "./Video.vue";
-import { HubConnection, HubConnectionOptions } from "../../service/HubConnection";
-import { PropType } from "vue";
+import { createConnection, HubConnectionOptions } from "../../service/HubConnection";
+import { PlayerOptions } from "../../service/AliPlayer";
+import { PropType, onUnmounted } from "vue";
 
 // 属性
 const props = defineProps({
@@ -38,6 +39,10 @@ const props = defineProps({
     connectionConf: {
         type: Object as PropType<HubConnectionOptions>,
         required: true,
+    },
+    // 直播设置
+    videoConf: {
+        type: Object as PropType<PlayerOptions>,
     },
     // 启用相机
     cameraEnable: {
@@ -49,10 +54,20 @@ const props = defineProps({
         type: Boolean as PropType<boolean>,
         default: true,
     },
+    // 启用视频
+    videoEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
+    },
 });
+const { cameraEnable, robotEnable, videoEnable } = props;
 
 // 连接
-const connection = new HubConnection(props.connectionConf);
+const $connection = createConnection(props.connectionConf);
+$connection.start();
+onUnmounted(() => {
+    $connection.stop();
+});
 </script>
 
 <script lang="ts">

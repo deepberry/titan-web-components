@@ -7,72 +7,43 @@ import * as signalR from "@microsoft/signalr";
 interface HubConnectionOptions {
     url: string;
     params?: object;
-    options?: object;
-    retry?: number;
+    httpConf: signalR.HttpTransportType;
 }
+type HttpTransportType = signalR.HttpTransportType;
 
-interface Connection {
-    $connection: signalR.HubConnection;
-    api: string;
-    retryInterval: number;
-    // eslint-disable-next-line no-unused-vars
-    invoke: (key: any, val: any) => Promise<any>;
-}
+/**
+ * @desc 连接类型
+ * @document https://docs.microsoft.com/en-us/javascript/api/@microsoft/signalr/hubconnection?view=signalr-js-latest
+ */
+type HubConnection = signalR.HubConnection;
 
-class HubConnection implements Connection {
-    public api: string;
-    public $connection: signalR.HubConnection;
-    public retryInterval: number;
+/**
+ * @desc api地址
+ *
+ * @param {object} params
+ * @return {string} 序列化字符串
+ */
+const buildQuery = function (params) {
+    return new URLSearchParams(params).toString();
+};
 
-    /**
-     * 构建实例
-     * @param {HubConnectionOptions} args
-     * @memberof HubConnection
-     */
-    constructor(args: HubConnectionOptions) {
-        this.api = args.url + this._buildQuery(args.params);
-        this.$connection = this.build(args);
-        this.retryInterval = args.retry || 5000;
-    }
+/**
+ * @desc 创建连接
+ *
+ * @param {object} options
+ * @return {object} 连接实例
+ * @document https://docs.microsoft.com/zh-cn/javascript/api/@microsoft/signalr/hubconnectionbuilder?view=signalr-js-latest#@microsoft-signalr-hubconnectionbuilder-withurl
+ */
+const createConnection = function (options: HubConnectionOptions) {
+    const api = options.url + buildQuery(options.params);
+    return new signalR.HubConnectionBuilder()
+        .withUrl(api, options.httpConf)
+        .withAutomaticReconnect({
+            nextRetryDelayInMilliseconds: () => {
+                return 5000;
+            },
+        })
+        .build();
+};
 
-    /**
-     * 创建连接
-     *
-     * @param {*} options
-     * @return {*}
-     * @memberof HubConnection
-     * @document https://docs.microsoft.com/zh-cn/javascript/api/@microsoft/signalr/hubconnectionbuilder?view=signalr-js-latest#@microsoft-signalr-hubconnectionbuilder-withurl
-     */
-    build(args): signalR.HubConnection {
-        return new signalR.HubConnectionBuilder()
-            .withUrl(this.api, args.httpOptions)
-            .withAutomaticReconnect({
-                nextRetryDelayInMilliseconds: () => {
-                    return this.retryInterval;
-                },
-            })
-            .build();
-    }
-    /**
-     * 构建请求参数
-     *
-     * @param {*} params
-     * @return {*}
-     * @memberof HubConnection
-     */
-    _buildQuery(params) {
-        return new URLSearchParams(params).toString();
-    }
-
-    /**
-     * 发送指令
-     *
-     * @memberof HubConnection
-     * @document https://docs.microsoft.com/en-us/javascript/api/@microsoft/signalr/hubconnection?view=signalr-js-latest
-     */
-    invoke(key, val) {
-        return this.$connection.invoke(key, val);
-    }
-}
-
-export { HubConnection, HubConnectionOptions };
+export { HubConnection, HubConnectionOptions, HttpTransportType, createConnection, buildQuery };

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { Aliplayer } from "../service/AliPlayer";
 
 export const useRobotLiveStore = defineStore({
     id: "RobotLiveStore",
@@ -20,6 +21,11 @@ export const useRobotLiveStore = defineStore({
             stop: false, //停止
             zoomIn: false, //拉近
             zoomOut: false, //拉远
+        },
+        // 视频直播状态
+        video: {
+            isLiving: false, //是否直播中
+            player: {} as Aliplayer, //播放器实例
         },
     }),
     actions: {

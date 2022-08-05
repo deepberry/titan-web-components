@@ -11,21 +11,19 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from "vue";
 import { ElMessage } from "element-plus";
 import { useRobotLiveStore } from "../../store/RobotLive";
-import { HubConnection } from "../../service/HubConnection";
 import { useLocale } from "../../hooks";
 import Controller from "./Controller.vue";
 
 // 属性
 const props = defineProps({
     connection: {
-        type: Object as PropType<HubConnection>,
+        type: Object,
         required: true,
     },
 });
-const { connection } = props;
+const { connection: $connection } = props;
 
 // 状态
 const store = useRobotLiveStore();
@@ -34,7 +32,7 @@ const controllerState = store.robotControllerState;
 // 事件
 const { t } = useLocale();
 const exec = async (action) => {
-    connection
+    $connection
         .invoke("CommandCamera", action)
         .then(() => {
             controllerState[action] = true;
