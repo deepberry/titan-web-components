@@ -14,24 +14,22 @@
 import { PropType } from "vue";
 import { ElMessage } from "element-plus";
 import { useRobotLiveStore } from "../../store/RobotLive";
-import { HubConnection, HubConnectionOptions } from "../../service/HubConnection";
+import { HubConnection } from "../../service/HubConnection";
 import { useLocale } from "../../hooks";
 import Controller from "./Controller.vue";
 
 // 属性
 const props = defineProps({
-    config: {
-        type: Object as PropType<HubConnectionOptions>,
+    connection: {
+        type: Object as PropType<HubConnection>,
         required: true,
     },
 });
+const { connection } = props;
 
 // 状态
 const store = useRobotLiveStore();
 const controllerState = store.robotControllerState;
-
-// 连接
-const connection = new HubConnection(props.config);
 
 // 事件
 const { t } = useLocale();

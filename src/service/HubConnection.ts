@@ -8,11 +8,15 @@ interface HubConnectionOptions {
     url: string;
     params?: object;
     options?: object;
+    retry?: number;
 }
 
 interface Connection {
     $connection: signalR.HubConnection;
     api: string;
+    retryInterval: number;
+    // eslint-disable-next-line no-unused-vars
+    invoke: (key: any, val: any) => Promise<any>;
 }
 
 class HubConnection implements Connection {
@@ -28,7 +32,7 @@ class HubConnection implements Connection {
     constructor(args: HubConnectionOptions) {
         this.api = args.url + this._buildQuery(args.params);
         this.$connection = this.build(args);
-        this.retryInterval = 5000;
+        this.retryInterval = args.retry || 5000;
     }
 
     /**

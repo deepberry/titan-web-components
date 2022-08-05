@@ -16,8 +16,8 @@
             <!-- 控制器组插槽 -->
             <slot name="controller"></slot>
             <div class="u-controllers">
-                <Camera class="u-controller u-controller--camera" :config="props.camera" v-if="props.camera" />
-                <Robot class="u-controller u-controller--robot" :config="props.robot" v-if="props.robot" />
+                <Camera class="u-controller u-controller--camera" :connection="connection" v-if="props.cameraEnable" />
+                <Robot class="u-controller u-controller--robot" :connection="connection" v-if="props.robotEnable" />
             </div>
         </div>
 
@@ -29,18 +29,30 @@
 import Camera from "./Camera.vue";
 import Robot from "./Robot.vue";
 import Live from "./Video.vue";
-import { HubConnectionOptions } from "../../service/HubConnection";
+import { HubConnection, HubConnectionOptions } from "../../service/HubConnection";
 import { PropType } from "vue";
+
+// 属性
 const props = defineProps({
-    // 相机设置
-    camera: {
+    // 连接设置
+    connectionConf: {
         type: Object as PropType<HubConnectionOptions>,
+        required: true,
     },
-    // 机器人设置
-    robot: {
-        type: Object as PropType<HubConnectionOptions>,
+    // 启用相机
+    cameraEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
+    },
+    // 启用机器人
+    robotEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
     },
 });
+
+// 连接
+const connection = new HubConnection(props.connectionConf);
 </script>
 
 <script lang="ts">
