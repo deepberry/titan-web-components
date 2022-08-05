@@ -1,0 +1,87 @@
+@color: #004680;
+
+.w-controller {
+    .size(340px, 250px);
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: repeat(3, 33.33%);
+    grid-template-areas:
+        ". top . out"
+        "left stop right ."
+        ". bottom . in";
+    justify-content: center;
+    align-content: center;
+    .u-controller {
+        .flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        .el-button {
+            .size(100px);
+            .fz(100px,1);
+            .r(10px);
+            transform: rotate(45deg);
+            color: @color;
+        }
+    }
+    .u-controller-forward,
+    .u-controller-up {
+        grid-area: top;
+    }
+    .u-controller-left {
+        grid-area: left;
+    }
+    .u-controller-stop {
+        grid-area: stop;
+        &::before,
+        &::after {
+            content: "";
+            .db;
+            .pa;
+            .z(-1);
+            .r(50%);
+            .size(110px);
+            border: 1px solid @color;
+        }
+        &::before {
+            .size(250px);
+        }
+        .el-button {
+            .fz(40px);
+            transform: rotate(90deg);
+        }
+    }
+    .u-controller-right {
+        grid-area: right;
+    }
+    .u-controller-backward,
+    .u-controller-down {
+        grid-area: bottom;
+    }
+    .u-controller-zoomIn,
+    .u-controller-zoomOut {
+        .el-button {
+            .fz(40px,1);
+            transform: rotate(0deg);
+            &::after {
+                content: "";
+                .db;
+                .pa;
+                .size(50px);
+                .r(10px);
+                border: 1px solid @color;
+            }
+        }
+    }
+    .u-controller-zoomIn {
+        grid-area: in;
+        align-self: end;
+        .el-button {
+            .fz(30px);
+        }
+    }
+    .u-controller-zoomOut {
+        grid-area: out;
+        align-self: start;
+    }
+}
