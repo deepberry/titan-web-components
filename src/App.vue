@@ -1,5 +1,5 @@
 <template>
-    <TitanConfigProvider locale="enUs"><RobotLive /></TitanConfigProvider>
+    <TitanConfigProvider locale="enUs"><RobotLive :camera="camera" :robot="robot" /></TitanConfigProvider>
 </template>
 
 <script>
@@ -8,7 +8,10 @@ export default {
     props: [],
     components: {},
     data: function () {
-        return {};
+        return {
+            camera: [],
+            robot: [],
+        };
     },
     computed: {},
     watch: {},
