@@ -3,7 +3,7 @@
 ------------------------------------------------------>
 <template>
     <div class="w-controller">
-        <div class="u-controller" v-for="handler in handlers" :key="handler">
+        <div class="u-controller" :class="`u-controller-${handler}`" v-for="handler in handlers" :key="handler">
             <el-tooltip
                 class="u-controller-pop"
                 effect="dark"
@@ -18,6 +18,7 @@
                     @click="command(handler)"
                     v-if="isEnabled(handler)"
                     :disabled="state[handler]"
+                    link
                     >{{ getControllerSymbol(handler) }}</el-button
                 >
             </el-tooltip>

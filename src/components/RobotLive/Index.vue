@@ -76,3 +76,6 @@ export default defineComponent({
     name: "RobotLive",
 });
 </script>
+<style lang="less">
+@import "../../assets/css/RobotLive/Index.less";
+</style>
