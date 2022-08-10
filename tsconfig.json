@@ -22,6 +22,13 @@
         },
         "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es5", "ES2015.Promise", "ES2015", "es2017"]
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "tests/**/*.ts",
+        "tests/**/*.tsx",
+        "src/stories/RobotLiveVideo.stories.js"
+    ],
     "exclude": ["node_modules", ".storybook", "./src/stories"]
 }

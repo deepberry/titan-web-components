@@ -22,18 +22,13 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    camera: {
-        url: "/api/camera",
-        params: {
-            propertyId: "123",
-        },
-        options: {},
+    // 连接设置
+    connectionConf: {
+        type: {},
+        required: true,
     },
-    robot: {
-        url: "/api/robot",
-        params: {
-            key: "value",
-        },
-        options: {},
+    // 直播设置
+    videoConf: {
+        type: {},
     },
 };

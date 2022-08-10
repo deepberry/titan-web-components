@@ -1,5 +1,8 @@
 <template>
-    <TitanConfigProvider locale="enUs"><RobotLive /></TitanConfigProvider>
+    <TitanConfigProvider locale="enUs">
+        <!-- <RobotLive /> -->
+        <RobotLiveController />
+    </TitanConfigProvider>
 </template>
 
 <script>

@@ -70,6 +70,13 @@ const isEnabled = (handler) => {
 const { t } = useLocale();
 </script>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+    name: "RobotLiveController",
+});
+</script>
+
 <style lang="less">
 @import "../../assets/css/RobotLive/Controller.less";
 </style>

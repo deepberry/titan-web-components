@@ -46,4 +46,4 @@ const createPlayer = function (config) {
     return new Aliplayer(config);
 };
 
-export { Aliplayer, createPlayer, PlayerOptions };
+export { createPlayer, PlayerOptions };

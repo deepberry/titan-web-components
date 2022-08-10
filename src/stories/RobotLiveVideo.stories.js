@@ -22,5 +22,13 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    url: "test",
+    connection: {
+        on: function () {
+            console.log("connected");
+        },
+        off: function () {
+            console.log("unconnected");
+        },
+    },
+    config: {},
 };

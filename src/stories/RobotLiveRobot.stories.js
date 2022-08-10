@@ -22,11 +22,5 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    config: {
-        url: "/api/robot",
-        params: {
-            key: "value",
-        },
-        options: {},
-    },
+    connection: {},
 };

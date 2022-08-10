@@ -22,11 +22,5 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    config: {
-        url: "/api/camera",
-        params: {
-            propertyId: "123",
-        },
-        options: {},
-    },
+    connection: {},
 };
