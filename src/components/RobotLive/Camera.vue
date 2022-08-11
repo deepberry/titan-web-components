@@ -31,11 +31,14 @@ const controllerState = store.cameraControllerState;
 
 // 事件
 const { t } = useLocale();
+// const emit = defineEmits(['success','fail']);
 const exec = async (action) => {
     $connection
         .invoke("CommandCamera", action)
         .then(() => {
             store.commandCamera(action);
+
+            // emit('success', action);
             ElMessage({
                 message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",
@@ -43,11 +46,14 @@ const exec = async (action) => {
         })
         .catch((err) => {
             controllerState[action] = false;
+
+            // emit('fail', err);
             // TODO:错误提示
             ElMessage({
                 message: err.message,
                 type: "error",
             });
+
             console.error(err);
             // TODO:beacon上报
         });
