@@ -46,4 +46,4 @@ const createConnection = function (options: HubConnectionOptions) {
         .build();
 };
 
-export { HubConnection, HubConnectionOptions, HttpTransportType, createConnection, buildQuery };
+export { createConnection, buildQuery, HubConnectionOptions, HttpTransportType, HubConnection };

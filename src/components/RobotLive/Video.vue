@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unused-vars -->
 <!-----------------------------------------------------
 * 组件功能：视频直播
 * 参考文档：https://help.aliyun.com/document_detail/125570.html
@@ -9,7 +8,7 @@
 
 <script lang="ts" setup>
 import { PropType, onUnmounted, onMounted } from "vue";
-import { createPlayer, PlayerOptions } from "../../service/AliPlayer";
+import { createPlayer, PlayerOptions } from "../../extensions/AliPlayer";
 import { useRobotLiveStore } from "../../store/RobotLive";
 
 // 属性

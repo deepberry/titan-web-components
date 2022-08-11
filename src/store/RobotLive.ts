@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { Aliplayer } from "../service/AliPlayer";
 
 export const useRobotLiveStore = defineStore({
     id: "RobotLiveStore",

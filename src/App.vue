@@ -1,7 +1,7 @@
 <template>
     <TitanConfigProvider locale="enUs">
         <!-- <RobotLive /> -->
-        <RobotLiveController />
+        <RobotLiveRobot />
     </TitanConfigProvider>
 </template>
 

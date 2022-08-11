@@ -29,8 +29,8 @@
 import Camera from "./Camera.vue";
 import Robot from "./Robot.vue";
 import Live from "./Video.vue";
-import { createConnection, HubConnectionOptions } from "../../service/HubConnection";
-import { PlayerOptions } from "../../service/AliPlayer";
+import { createConnection, HubConnectionOptions } from "../../extensions/HubConnection";
+import { PlayerOptions } from "../../extensions/AliPlayer";
 import { PropType, onUnmounted } from "vue";
 
 // 属性
