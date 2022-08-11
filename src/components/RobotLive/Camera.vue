@@ -35,7 +35,7 @@ const exec = async (action) => {
     $connection
         .invoke("CommandCamera", action)
         .then(() => {
-            controllerState[action] = true;
+            store.commandCamera(action);
             ElMessage({
                 message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",

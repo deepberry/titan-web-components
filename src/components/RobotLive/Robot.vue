@@ -33,9 +33,9 @@ const controllerState = store.robotControllerState;
 const { t } = useLocale();
 const exec = async (action) => {
     $connection
-        .invoke("CommandCamera", action)
+        .invoke("CommandRobot", action)
         .then(() => {
-            controllerState[action] = true;
+            store.commandRobot(action);
             ElMessage({
                 message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",

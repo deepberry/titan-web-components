@@ -7,9 +7,8 @@ import * as signalR from "@microsoft/signalr";
 interface HubConnectionOptions {
     url: string;
     params?: object;
-    httpConf: signalR.HttpTransportType;
+    httpConf: signalR.IHttpConnectionOptions;
 }
-type HttpTransportType = signalR.HttpTransportType;
 
 /**
  * @desc 连接类型
@@ -35,7 +34,7 @@ const buildQuery = function (params) {
  * @document https://docs.microsoft.com/zh-cn/javascript/api/@microsoft/signalr/hubconnectionbuilder?view=signalr-js-latest#@microsoft-signalr-hubconnectionbuilder-withurl
  */
 const createConnection = function (options: HubConnectionOptions) {
-    const api = options.url + buildQuery(options.params);
+    const api = options.url + "?" + buildQuery(options.params);
     return new signalR.HubConnectionBuilder()
         .withUrl(api, options.httpConf)
         .withAutomaticReconnect({
@@ -46,4 +45,4 @@ const createConnection = function (options: HubConnectionOptions) {
         .build();
 };
 
-export { createConnection, buildQuery, HubConnectionOptions, HttpTransportType, HubConnection };
+export { createConnection, buildQuery, HubConnectionOptions, HubConnection };

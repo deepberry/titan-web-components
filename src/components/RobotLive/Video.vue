@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, onUnmounted, onMounted } from "vue";
+import { PropType, onBeforeUnmount, onMounted } from "vue";
 import { createPlayer, PlayerOptions } from "../../extensions/AliPlayer";
 import { useRobotLiveStore } from "../../store/RobotLive";
 
@@ -53,8 +53,6 @@ const { connection: $connection, config } = props;
 
 // 状态
 const store = useRobotLiveStore();
-let status = store.video.isLiving;
-let $player = store.video.player;
 
 // 实例
 onMounted(() => {
@@ -68,17 +66,14 @@ onMounted(() => {
         };
 
         // 初始化播放器
-        $player = createPlayer(_config);
-        status = true;
+        store.video.player = createPlayer(_config);
+        store.video.status = true;
     });
 });
-onUnmounted(() => {
+onBeforeUnmount(() => {
     // 停止直播
     $connection.off("StartLive");
-
-    // 销毁播放器
-    $player.dispose();
-    status = false;
+    store.video.status = true;
 });
 </script>
 
