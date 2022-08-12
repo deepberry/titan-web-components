@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { useRobotLiveStore } from "../../store/RobotLive";
 import { useLocale } from "../../hooks";
 import Controller from "./Controller.vue";
@@ -31,28 +31,28 @@ const controllerState = store.cameraControllerState;
 
 // 事件
 const { t } = useLocale();
-// const emit = defineEmits(['success','fail']);
+const emit = defineEmits(["success", "fail"]);
 const exec = async (action) => {
     $connection
         .invoke("CommandCamera", action)
         .then(() => {
             store.commandCamera(action);
 
-            // emit('success', action);
-            ElMessage({
-                message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
-                type: "success",
-            });
+            emit("success", action);
+            // ElMessage({
+            //     message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
+            //     type: "success",
+            // });
         })
         .catch((err) => {
             controllerState[action] = false;
 
-            // emit('fail', err);
+            emit("fail", err);
             // TODO:错误提示
-            ElMessage({
-                message: err.message,
-                type: "error",
-            });
+            // ElMessage({
+            //     message: err.message,
+            //     type: "error",
+            // });
 
             console.error(err);
             // TODO:beacon上报
