@@ -1,7 +1,6 @@
 <template>
     <TitanConfigProvider locale="enUs">
-        <!-- <RobotLive /> -->
-        <RobotLiveRobot />
+        <CommonPanel />
     </TitanConfigProvider>
 </template>
 
