@@ -10,7 +10,7 @@
         <div class="c-panel-apps">
             <el-tooltip
                 effect="dark"
-                :content="item.desc"
+                :content="t(`CommonPanel.Navigation.${item.name}`)"
                 placement="right"
                 v-for="(item, i) in apps"
                 :key="i"
@@ -19,7 +19,7 @@
                 <a
                     :href="item.url"
                     class="c-panel-apps__item"
-                    :class="{ active: focusApp == item.name }"
+                    :class="{ active: app == item.name }"
                     @click="go(item.name, $event)"
                 >
                     <Icon :name="item.name" />
@@ -29,26 +29,36 @@
     </div>
 </template>
 
+<script lang="ts" setup>
+import { useLocale } from "../../hooks";
+const { t } = useLocale();
+</script>
+
 <script lang="ts">
-import Icon from "../Icons/Index.vue";
 import { defineComponent } from "vue";
+import Icon from "../Icons/Index.vue";
 export default defineComponent({
     name: "CommonPanel",
     components: {
         Icon,
     },
+    props: {
+        app: {
+            type: String,
+            default: "insights",
+        },
+    },
     data: function () {
         return {
             apps: [
-                { name: "insights", url: "/insights", desc: "园区管理" },
-                { name: "erp", url: "/erp", desc: "ERP系统" },
+                { name: "insights", url: "/insights" },
+                { name: "erp", url: "/erp" },
             ],
-            focusApp: "insights",
         };
     },
     methods: {
         go(app, e) {
-            if (this.focusApp == app) {
+            if (this.app == app) {
                 e.preventDefault();
             }
         },
@@ -57,54 +67,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "../../assets/css/global.less";
-@size: 60px;
-@black: #18222f;
-@primary: #00467b;
-.c-panel {
-    background-color: @black;
-    width: @size;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-}
-.c-panel-logo {
-    width: @size;
-    height: @size;
-    background-color: @primary;
-    padding: 12px;
-    box-sizing: border-box;
-    svg {
-        fill: #fff;
-    }
-}
-.c-panel-apps {
-    display: flex;
-    flex-direction: column;
-}
-.c-panel-apps__item {
-    width: @size;
-    height: @size;
-    box-sizing: border-box;
-    padding: 20px;
-
-    svg {
-        fill: #fff;
-    }
-
-    &.active {
-        background-color: #f0f4f9;
-        svg {
-            fill: #a2b5cd;
-        }
-        cursor: not-allowed;
-    }
-    &:not(.active):hover {
-        background-color: #d1dbe5;
-        svg {
-            fill: @primary;
-        }
-    }
-}
+@import "../../assets/css/Common/Panel.less";
 </style>

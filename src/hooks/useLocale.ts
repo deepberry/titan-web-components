@@ -22,7 +22,7 @@ export const useLocale = (_locale?: string) => {
     const vm = getCurrentInstance() as any;
 
     // 获取全局语言设置
-    const globalLocale = vm.provides[LocaleInjectionKey] && inject(LocaleInjectionKey);
+    const globalLocale = vm?.provides?.[LocaleInjectionKey] && inject(LocaleInjectionKey);
 
     // 获取当前语言:本地设置>全局设置>默认设置
     const locale = computed(() => {

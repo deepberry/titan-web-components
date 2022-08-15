@@ -16,4 +16,12 @@ export default {
             isRunning: "正在持续执行动作",
         },
     },
+
+    // 公共侧边栏
+    CommonPanel: {
+        Navigation: {
+            insights: "园区管理",
+            erp: "ERP系统",
+        },
+    },
 };

@@ -16,4 +16,12 @@ export default {
             isRunning: "Ongoing action",
         },
     },
+
+    // 公共侧边栏
+    CommonPanel: {
+        Navigation: {
+            insights: "Park Management",
+            erp: "ERP System",
+        },
+    },
 };
