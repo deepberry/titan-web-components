@@ -1,7 +1,7 @@
 @color: #004680;
 
 .w-controller {
-    .size(340px, 250px);
+    .size(340px, 260px);
     display: grid;
     grid-template-columns: repeat(4, 25%);
     grid-template-rows: repeat(3, 33.33%);
@@ -15,14 +15,11 @@
         .flex;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
         .el-button {
-            // .size(10px);
-            .fz(20px,1);
-            .r(10px);
-            transform: rotate(45deg);
-            color: @color;
+            .fz(36px,1);
             padding: 10px;
+            color: @color;
+
             &:hover {
                 color: #f56c6c;
             }
@@ -31,12 +28,19 @@
     .u-controller-forward,
     .u-controller-up {
         grid-area: top;
+        .el-button {
+            transform: rotate(0deg) scale(2, 1);
+        }
     }
     .u-controller-left {
         grid-area: left;
+        .el-button {
+            transform: rotate(-90deg) scale(2, 1);
+        }
     }
     .u-controller-stop {
         grid-area: stop;
+        .size(84px);
         &::before,
         &::after {
             content: "";
@@ -57,10 +61,16 @@
     }
     .u-controller-right {
         grid-area: right;
+        .el-button {
+            transform: rotate(90deg) scale(2, 1);
+        }
     }
     .u-controller-backward,
     .u-controller-down {
         grid-area: bottom;
+        .el-button {
+            transform: rotate(-180deg) scale(2, 1);
+        }
     }
     .u-controller-zoomIn,
     .u-controller-zoomOut {
@@ -79,13 +89,13 @@
     }
     .u-controller-zoomIn {
         grid-area: in;
-        align-self: end;
+        align-self: start;
         .el-button {
             .fz(30px);
         }
     }
     .u-controller-zoomOut {
         grid-area: out;
-        align-self: start;
+        align-self: end;
     }
 }

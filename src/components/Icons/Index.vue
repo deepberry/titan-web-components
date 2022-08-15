@@ -7,6 +7,7 @@
 <script>
 import logo from "./Logo.vue";
 import insights from "./Insights.vue";
+import account from "./Account.vue";
 import erp from "./Erp.vue";
 import user from "./User.vue";
 import logout from "./Logout.vue";
@@ -18,6 +19,7 @@ export default {
     components: {
         logo,
         insights,
+        account,
         erp,
         user,
         logout,
