@@ -41,8 +41,6 @@
                     class="c-panel-menu__item"
                     :class="'is--' + item.name"
                     @click="go(item.name, $event)"
-                    @mouseenter="!j && (menu_status = true)"
-                    @mouseleave="!j && (menu_status = false)"
                 >
                     <Icon :name="item.name" />
                 </a>
@@ -81,7 +79,6 @@ export default defineComponent({
                 { name: "organization", url: "/account/switch" },
                 { name: "logout", url: "/users/logout" },
             ],
-            menu_status: false,
         };
     },
     methods: {
@@ -92,11 +89,6 @@ export default defineComponent({
                 this.$emit("logout");
                 return;
             }
-
-            // 已在同一个应用内不再跳转（其实我觉得可以点，继续回到应用根更合理）
-            if (this.app == target) {
-                e.preventDefault();
-            }
         },
     },
 });
@@ -104,4 +96,8 @@ export default defineComponent({
 
 <style lang="less">
 @import "../../assets/css/Common/Panel.less";
+
+// 安装菜单CSS动画
+@offset: v-bind('menu.length -1 + "00%"');
+.installPanelMenuAnimation(@offset);
 </style>

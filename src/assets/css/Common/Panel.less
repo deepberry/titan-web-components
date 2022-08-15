@@ -46,7 +46,8 @@
         svg {
             fill: #a2b5cd;
         }
-        cursor: not-allowed;
+        // cursor: not-allowed;
+        cursor: default;
     }
     &:not(.active):hover {
         background-color: #d1dbe5;
@@ -71,6 +72,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+
     svg {
         width: 20px;
         fill: @secondary;
@@ -102,6 +104,29 @@
             svg {
                 fill: #f00;
             }
+        }
+    }
+}
+
+// 菜单展开动画
+.installPanelMenuAnimation(@offset) {
+    .c-panel-menu__item {
+        background-color: @black;
+        &:first-child {
+            z-index: 1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        &:not(:first-child) {
+            transform: translateY(@offset);
+            transition: 0.25s ease-in-out;
+        }
+    }
+
+    .c-panel-menu:hover {
+        .c-panel-menu__item:not(:first-child) {
+            transform: translateY(-100%);
         }
     }
 }
