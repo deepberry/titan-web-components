@@ -73,6 +73,7 @@ export default defineComponent({
             apps: [
                 { name: "insights", url: "/insights" },
                 { name: "erp", url: "/erp" },
+                { name: "group", url: "/account/management" },
             ],
             menu: [
                 { name: "user", url: "/users/settings" },

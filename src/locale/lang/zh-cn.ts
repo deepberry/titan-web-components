@@ -22,6 +22,7 @@ export default {
         Navigation: {
             insights: "园区管理",
             erp: "ERP系统",
+            group: "账号管理",
         },
         Menu: {
             user: "资料设置",
