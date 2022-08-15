@@ -11,6 +11,21 @@
     top: 0;
     left: 0;
     height: 100%;
+    z-index: @common-panel-z-index;
+}
+@media screen and (max-width: @phone) {
+    .c-panel::before {
+        content: "";
+        display: block;
+        background-color: rgba(38, 50, 56, 0.9);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: @size;
+        right: 0;
+        bottom: 0;
+    }
 }
 
 // LOGO
@@ -30,6 +45,9 @@
 .c-panel-navigation {
     display: flex;
     flex-direction: column;
+
+    max-height: calc(100vh - @size*2);
+    overflow-y: auto;
 }
 .c-panel-navigation__item {
     width: @size;

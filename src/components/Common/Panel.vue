@@ -98,7 +98,15 @@ export default defineComponent({
 <style lang="less">
 @import "../../assets/css/Common/Panel.less";
 
+// 导航自动适配
+@media screen and (max-width: @phone) {
+    .c-panel-navigation {
+        max-height: calc(100vh - @size - v-bind("menu.length") * @size);
+    }
+}
 // 安装菜单CSS动画
 @offset: v-bind('menu.length -1 + "00%"');
-.installPanelMenuAnimation(@offset);
+@media screen and (min-width: @phone) {
+    .installPanelMenuAnimation(@offset);
+}
 </style>
