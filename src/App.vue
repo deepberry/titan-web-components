@@ -1,5 +1,5 @@
 <template>
-    <TitanConfigProvider locale="enUs">
+    <TitanConfigProvider locale="en-us">
         <CommonPanel />
     </TitanConfigProvider>
 </template>

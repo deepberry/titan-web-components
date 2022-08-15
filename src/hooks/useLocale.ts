@@ -13,7 +13,8 @@ const defaultLocale = "zhCn";
 
 // 读取路径
 export const translate = (path, locale) => {
-    return get(Locales[locale], `${path}`, path);
+    const _locale = locale.includes("-") ? locale.replace("-", "_") : locale;
+    return get(Locales[_locale], `${path}`, path);
 };
 
 // 组件hook
