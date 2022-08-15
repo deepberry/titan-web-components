@@ -2,6 +2,8 @@
 @size: @common-panel-width;
 @black: #18222f;
 @primary: #00467b;
+@secondary: #8196b1;
+@light: #fff;
 .c-panel {
     background-color: @black;
     width: @size;
@@ -10,28 +12,33 @@
     left: 0;
     height: 100%;
 }
+
+// LOGO
 .c-panel-logo {
     width: @size;
     height: @size;
     background-color: @primary;
-    padding: 12px;
+    padding: 14px;
     box-sizing: border-box;
+
     svg {
-        fill: #fff;
+        fill: @light;
     }
 }
-.c-panel-apps {
+
+// 导航
+.c-panel-navigation {
     display: flex;
     flex-direction: column;
 }
-.c-panel-apps__item {
+.c-panel-navigation__item {
     width: @size;
     height: @size;
     box-sizing: border-box;
     padding: 20px;
 
     svg {
-        fill: #fff;
+        fill: @light;
     }
 
     &.active {
@@ -45,6 +52,56 @@
         background-color: #d1dbe5;
         svg {
             fill: @primary;
+        }
+    }
+}
+
+// 菜单
+.c-panel-menu {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.c-panel-menu__item {
+    width: @size;
+    height: @size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    svg {
+        width: 20px;
+        fill: @secondary;
+    }
+
+    &:hover {
+        svg {
+            fill: @light;
+        }
+    }
+
+    &.is--user {
+        position: relative;
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 8px;
+            right: 8px;
+            content: "";
+            display: block;
+            background-color: @secondary;
+            height: 2px;
+            opacity: 0.25;
+        }
+    }
+
+    &.is--logout {
+        &:hover {
+            svg {
+                fill: #f00;
+            }
         }
     }
 }

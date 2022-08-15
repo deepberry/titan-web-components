@@ -23,5 +23,10 @@ export default {
             insights: "园区管理",
             erp: "ERP系统",
         },
+        Menu: {
+            user: "资料设置",
+            logout: "退出登录",
+            organization: "切换工作组织",
+        },
     },
 };

@@ -23,5 +23,10 @@ export default {
             insights: "Park Management",
             erp: "ERP System",
         },
+        Menu: {
+            user: "Profile",
+            logout: "Logout",
+            organization: "Switch Organization",
+        },
     },
 };
