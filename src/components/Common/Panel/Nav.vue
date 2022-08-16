@@ -13,7 +13,6 @@
                 :href="item.url"
                 class="c-panel-navigation__item"
                 :class="{ active: current == item.name }"
-                @click="go(item.name, $event)"
                 @mouseenter="focusNav(i)"
             >
                 <Icon :name="item.name" />
