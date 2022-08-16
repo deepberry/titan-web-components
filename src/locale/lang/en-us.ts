@@ -26,7 +26,7 @@ export default {
         },
         Menu: {
             user: "Profile",
-            logout: "Logout",
+            logout: "Sign Out",
             organization: "Switch Organization",
         },
     },

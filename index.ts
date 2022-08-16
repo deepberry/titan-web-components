@@ -1,5 +1,5 @@
 import TitanConfigProvider from "./src/components/Common/ConfigProvider.vue";
-import CommonPanel from "./src/components/Common/Panel.vue";
+import CommonPanel from "./src/components/Common/Panel/Index.vue";
 
 import RobotLive from "./src/components/RobotLive/Index.vue";
 import RobotLiveVideo from "./src/components/RobotLive/Video.vue";
