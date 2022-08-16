@@ -1,6 +1,8 @@
 <template>
     <TitanConfigProvider locale="en-us">
-        <CommonPanel />
+        <CommonPanel v-model:isOpen="status" />
+
+        <el-button @click="toggle"> toggleSidebar </el-button>
     </TitanConfigProvider>
 </template>
 
@@ -10,11 +12,17 @@ export default {
     props: [],
     components: {},
     data: function () {
-        return {};
+        return {
+            status: false,
+        };
     },
     computed: {},
     watch: {},
-    methods: {},
+    methods: {
+        toggle: function () {
+            this.status = !this.status;
+        },
+    },
     created: function () {},
     mounted: function () {},
 };

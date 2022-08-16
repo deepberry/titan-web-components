@@ -1,25 +1,58 @@
 @import "./var.less";
 .c-panel {
-    background-color: @black;
     width: @size;
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     z-index: @common-panel-z-index;
-}
-@media screen and (max-width: @phone) {
-    .c-panel::before {
+
+    // MASK
+    &::before {
         content: "";
-        display: block;
         background-color: rgba(38, 50, 56, 0.9);
         width: 100%;
         height: 100%;
         position: fixed;
         top: 0;
-        left: @size;
+        left: 0;
         right: 0;
         bottom: 0;
+
+        display: none;
+    }
+}
+
+.c-panel-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: @black;
+}
+
+// 移动端展开
+@keyframes maskFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@fadeTime: 0.2s; //保证动画时间一致
+@media screen and (max-width: @phone) {
+    .c-panel-wrapper {
+        transform: translateX(-100%);
+        transition: @fadeTime ease-in-out;
+    }
+    .c-panel.is--open {
+        .c-panel-wrapper {
+            transform: translateX(0);
+        }
+        &::before {
+            display: block;
+            animation: maskFadeIn @fadeTime ease-in-out;
+        }
     }
 }
 

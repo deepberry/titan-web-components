@@ -1,15 +1,17 @@
 <template>
-    <div class="c-panel">
-        <!-- LOGO -->
-        <div class="c-panel-logo">
-            <a href="/" class="c-panel-logo__link">
-                <Icon name="logo" title="深莓智能" />
-            </a>
+    <div class="c-panel" :class="{ 'is--open': isOpen }" @click="closeMask">
+        <div class="c-panel-wrapper">
+            <!-- LOGO -->
+            <div class="c-panel-logo">
+                <a href="/" class="c-panel-logo__link">
+                    <Icon name="logo" title="深莓智能" />
+                </a>
+            </div>
+            <!-- 应用导航（顶部） -->
+            <Navigation :data="apps" :current="app" :shrink="menusLength" />
+            <!-- 用户操作（底部） -->
+            <Menus :data="menus" />
         </div>
-        <!-- 应用导航（顶部） -->
-        <Navigation :data="apps" :current="app" :shrink="menusLength" />
-        <!-- 用户操作（底部） -->
-        <Menus :data="menus" />
     </div>
 </template>
 
@@ -24,9 +26,15 @@ import { defineComponent } from "vue";
 export default defineComponent({
     name: "CommonPanel",
     props: {
+        //当前应用
         app: {
             type: String,
             default: "insights",
+        },
+        //开启状态（用于移动端）
+        isOpen: {
+            type: Boolean,
+            default: false,
         },
     },
     data: function () {
@@ -47,6 +55,11 @@ export default defineComponent({
     computed: {
         menusLength: function () {
             return this.menus.length;
+        },
+    },
+    methods: {
+        closeMask: function () {
+            this.$emit("update:isOpen", false);
         },
     },
 });

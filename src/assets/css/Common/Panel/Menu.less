@@ -65,8 +65,11 @@
     }
 
     .c-panel-menu:hover {
+        .c-panel-menu__item:first-child {
+            position: static;
+        }
         .c-panel-menu__item:not(:first-child) {
-            transform: translateY(-100%);
+            transform: translateY(0);
         }
     }
 }
