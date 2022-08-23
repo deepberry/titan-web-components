@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 // import { ElMessage } from "element-plus";
+import pinia from "../../store/store";
 import { useRobotLiveStore } from "../../store/RobotLive";
 import { useLocale } from "../../hooks";
 import Controller from "./Controller.vue";
@@ -26,7 +27,7 @@ const props = defineProps({
 const { connection: $connection } = props;
 
 // 状态
-const store = useRobotLiveStore();
+const store = useRobotLiveStore(pinia);
 const controllerState = store.robotControllerState;
 
 // 事件

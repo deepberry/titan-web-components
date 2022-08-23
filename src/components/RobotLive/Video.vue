@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts" setup>
+import pinia from "../../store/store";
 import { PropType, onBeforeUnmount, onMounted } from "vue";
 import { createPlayer, PlayerOptions } from "../../extensions/AliPlayer";
 import { useRobotLiveStore } from "../../store/RobotLive";
@@ -52,7 +53,7 @@ const props = defineProps({
 const { connection: $connection, config } = props;
 
 // 状态
-const store = useRobotLiveStore();
+const store = useRobotLiveStore(pinia);
 
 // 实例
 onMounted(() => {
