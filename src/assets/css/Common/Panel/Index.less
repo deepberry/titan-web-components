@@ -11,8 +11,8 @@
     &::before {
         content: "";
         background-color: rgba(38, 50, 56, 0.9);
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         position: fixed;
         top: 0;
         left: 0;
@@ -41,15 +41,13 @@
 }
 @fadeTime: 0.2s; //保证动画时间一致
 @media screen and (max-width: @phone) {
+    .c-panel-wrapper,
     .c-panel {
-        display: none;
-    }
-    .c-panel-wrapper {
         transform: translateX(-100%);
         transition: @fadeTime ease-in-out;
     }
     .c-panel.is--open {
-        display: block;
+        transform: translateX(0);
         .c-panel-wrapper {
             transform: translateX(0);
         }

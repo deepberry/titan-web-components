@@ -39,7 +39,7 @@ export default defineComponent({
         data: {
             type: Array,
             default: () => {
-                return [{ name: "insights", url: "/insights" }];
+                return [];
             },
         },
         shrink: {
