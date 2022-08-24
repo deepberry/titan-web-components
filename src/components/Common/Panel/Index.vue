@@ -15,16 +15,18 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import { defineComponent } from "vue";
 import Navigation from "./Nav.vue";
 import Menus from "./Menus.vue";
 import Icon from "../../Icons/Index.vue";
-</script>
-
-<script lang="ts">
-import { defineComponent } from "vue";
 export default defineComponent({
     name: "CommonPanel",
+    components: {
+        Navigation,
+        Menus,
+        Icon,
+    },
     props: {
         //当前应用
         app: {
@@ -53,6 +55,7 @@ export default defineComponent({
         };
     },
     computed: {
+        // 用于给用户菜单栏缩放留出空间（移动环境下用户菜单栏将不会被折叠）
         menusLength: function () {
             return this.menus.length;
         },

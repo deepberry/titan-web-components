@@ -29,5 +29,11 @@ export default {
             logout: "退出登录",
             organization: "切换工作组织",
         },
+        Message: {
+            logout_confirm: "你确定要退出吗？",
+            logout_title: "消息",
+            logout_ok: "确定",
+            logout_cancel: "取消",
+        },
     },
 };

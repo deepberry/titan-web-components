@@ -29,5 +29,11 @@ export default {
             logout: "Sign Out",
             organization: "Switch Organization",
         },
+        Message: {
+            logout_confirm: "Are you sure to sign out?",
+            logout_title: "Warning",
+            logout_ok: "Ok",
+            logout_cancel: "Cancel",
+        },
     },
 };

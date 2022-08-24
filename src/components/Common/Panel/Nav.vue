@@ -21,16 +21,16 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import { defineComponent } from "vue";
 import Icon from "../../Icons/Index.vue";
 import { useLocale } from "../../../hooks";
 const { t } = useLocale();
-</script>
-
-<script lang="ts">
-import { defineComponent } from "vue";
 export default defineComponent({
     name: "CommonPanelNav",
+    components: {
+        Icon,
+    },
     props: {
         current: {
             type: String,
@@ -60,6 +60,7 @@ export default defineComponent({
         },
     },
     methods: {
+        t,
         focusNav(index) {
             this.focus_index = index;
         },

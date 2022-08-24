@@ -28,14 +28,6 @@ app.use(TitanUI);
 import CommonPanel from "@deepberry/titan-web-components/src/components/Common/Panel.vue";
 ```
 
-### International
-
-```html
-<TitanConfigProvider locale="en-us">
-    <!-- components -->
-</TitanConfigProvider>
-```
-
 ### API Reference
 
 查看对应组件属性与事件等  

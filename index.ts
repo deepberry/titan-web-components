@@ -1,5 +1,5 @@
-import TitanConfigProvider from "./src/components/Common/ConfigProvider.vue";
 import CommonPanel from "./src/components/Common/Panel/Index.vue";
+import CommonMain from "./src/components/Common/Main.vue";
 
 import RobotLive from "./src/components/RobotLive/Index.vue";
 import RobotLiveVideo from "./src/components/RobotLive/Video.vue";
@@ -8,8 +8,8 @@ import RobotLiveRobot from "./src/components/RobotLive/Robot.vue";
 import RobotLiveController from "./src/components/RobotLive/Controller.vue";
 
 const components = {
-    TitanConfigProvider,
     CommonPanel,
+    CommonMain,
 
     RobotLive,
     RobotLiveVideo,

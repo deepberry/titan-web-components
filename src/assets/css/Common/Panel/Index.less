@@ -41,11 +41,15 @@
 }
 @fadeTime: 0.2s; //保证动画时间一致
 @media screen and (max-width: @phone) {
+    .c-panel {
+        display: none;
+    }
     .c-panel-wrapper {
         transform: translateX(-100%);
         transition: @fadeTime ease-in-out;
     }
     .c-panel.is--open {
+        display: block;
         .c-panel-wrapper {
             transform: translateX(0);
         }

@@ -15,35 +15,42 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script>
 import Icon from "../../Icons/Index.vue";
+import User from "../../../utils/user";
 import { useLocale } from "../../../hooks";
 const { t } = useLocale();
-</script>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
+export default {
     name: "CommonPanelMenu",
+    components: {
+        Icon,
+    },
     props: {
         data: {
             type: Array,
-            default: () => {
-                return [{ name: "user", url: "/users/settings" }];
+            default: function () {
+                return [];
             },
         },
     },
     methods: {
+        t,
         go(target, e) {
-            // TODO:登出、二次确认
+            // 退出登录二次确认
             if (target == "logout") {
                 e.preventDefault();
-                this.$emit("logout");
-                return;
+                this.$confirm(t("CommonPanel.Message.logout_confirm"), t("CommonPanel.Message.logout_title"), {
+                    confirmButtonText: t("CommonPanel.Message.logout_ok"),
+                    cancelButtonText: t("CommonPanel.Message.logout_cancel"),
+                    type: "warning",
+                }).then(() => {
+                    User.destroy();
+                    User.toLogin();
+                });
             }
         },
     },
-});
+};
 </script>
 
 <style lang="less">
