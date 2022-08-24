@@ -43,6 +43,10 @@ export default {
                     confirmButtonText: t("CommonPanel.Message.logout_ok"),
                     cancelButtonText: t("CommonPanel.Message.logout_cancel"),
                     type: "warning",
+                    customClass: "c-panel-logout",
+                    confirmButtonClass: "u-btn u-btn__confirm",
+                    cancelButtonClass: "u-btn u-btn__cancel",
+                    buttonSize: "large",
                 }).then(() => {
                     User.destroy();
                     User.toLogin();

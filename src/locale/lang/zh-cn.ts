@@ -32,7 +32,7 @@ export default {
         Message: {
             logout_confirm: "你确定要退出吗？",
             logout_title: "消息",
-            logout_ok: "确定",
+            logout_ok: "退出登录",
             logout_cancel: "取消",
         },
     },

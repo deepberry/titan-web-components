@@ -44,12 +44,12 @@ export default defineComponent({
             apps: [
                 { name: "insights", url: "/insights" },
                 { name: "erp", url: "/erp" },
-                { name: "group", url: "/account/management" },
+                { name: "group", url: "/member/management" },
             ],
 
             menus: [
-                { name: "user", url: "/users/settings" },
-                { name: "organization", url: "/account/switch" },
+                { name: "user", url: "/user/profile" },
+                { name: "organization", url: "/user/organization" },
                 { name: "logout", url: "" },
             ],
         };
