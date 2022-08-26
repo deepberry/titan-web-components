@@ -1,5 +1,5 @@
 <template>
-    <div class="c-panel" :class="{ 'is--open': isOpen }" @click="closeMask">
+    <div class="c-panel" :class="{ 'is--open': status }" @click="closeMask">
         <div class="c-panel-wrapper">
             <!-- LOGO -->
             <div class="c-panel-logo">
@@ -41,6 +41,8 @@ export default defineComponent({
     },
     data: function () {
         return {
+            status: false,
+
             apps: [
                 { name: "insights", url: "/insights" },
                 { name: "erp", url: "/erp" },
@@ -54,6 +56,11 @@ export default defineComponent({
             ],
         };
     },
+    watch: {
+        isOpen: function (val) {
+            this.status = val;
+        },
+    },
     computed: {
         // 用于给用户菜单栏缩放留出空间（移动环境下用户菜单栏将不会被折叠）
         menusLength: function () {
@@ -62,6 +69,7 @@ export default defineComponent({
     },
     methods: {
         closeMask: function () {
+            this.status = false;
             this.$emit("update:isOpen", false);
         },
     },

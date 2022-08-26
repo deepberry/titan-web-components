@@ -32,7 +32,7 @@ export default {
         Message: {
             logout_confirm: "Are you sure to sign out?",
             logout_title: "Warning",
-            logout_ok: "Ok",
+            logout_ok: "OK",
             logout_cancel: "Cancel",
         },
     },

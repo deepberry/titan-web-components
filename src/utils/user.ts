@@ -1,5 +1,4 @@
 // 用户信息中央处理模块
-
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
@@ -137,25 +136,6 @@ class User {
             return _val.toLowerCase();
         }
     }
-
-    /**
-     * 获取用户信息
-     *
-     * @return {*}
-     * @memberof User
-     */
-    // async getInfo() {
-    //     if (this.userdata) {
-    //         return new Promise((resolve) => {
-    //             resolve(this.userdata);
-    //         });
-    //     } else {
-    //         return await getUserInfo().then((res) => {
-    //             this.userdata = res.data;
-    //             return res.data;
-    //         });
-    //     }
-    // }
 }
 
 export default new User();
