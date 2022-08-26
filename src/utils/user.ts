@@ -1,9 +1,10 @@
 // 用户信息中央处理模块
 
 class User {
-    // 令牌KEY
+    // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
     static LAST_AUTH = "LAST_AUTH_TITAN";
+    static DB_LOCALE = "dp_lang";
 
     protected anonymous: any;
     protected userdata: any;
@@ -109,6 +110,32 @@ class User {
      */
     refresh(key, val) {
         return localStorage.setItem(key, val);
+    }
+
+    /**
+     * 设置语言偏好
+     *
+     * @param {*} locale
+     * @return {*}
+     * @memberof User
+     */
+    setLocale(locale) {
+        return localStorage.setItem(User.DB_LOCALE, locale);
+    }
+
+    /**
+     * 获取语言偏好设置
+     *
+     * @return {*}
+     * @memberof User
+     */
+    getLocale() {
+        const _val = localStorage.getItem(User.DB_LOCALE);
+        if (!_val) {
+            return "zh-cn";
+        } else {
+            return _val.toLowerCase();
+        }
     }
 
     /**

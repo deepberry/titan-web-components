@@ -31,7 +31,7 @@ export default defineComponent({
         //当前应用
         app: {
             type: String,
-            default: "insights",
+            default: "",
         },
         //开启状态（用于移动端）
         isOpen: {

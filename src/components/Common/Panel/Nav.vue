@@ -1,6 +1,6 @@
 <template>
-    <div class="c-panel-navigation" @mouseleave="blurNav">
-        <i class="c-panel-navigation__focus" :style="focusStyle"></i>
+    <div class="c-panel-navigation" @mouseleave="blurNav" @mouseenter="focusNav">
+        <i class="c-panel-navigation__focus" :style="focusStyle" v-show="current || focus_any"></i>
         <el-tooltip
             effect="dark"
             :content="t(`CommonPanel.Navigation.${item.name}`)"
@@ -13,7 +13,7 @@
                 :href="item.url"
                 class="c-panel-navigation__item"
                 :class="{ active: current == item.name }"
-                @mouseenter="focusNav(i)"
+                @mouseenter="focusNavItem(i)"
             >
                 <Icon :name="item.name" />
             </a>
@@ -34,7 +34,7 @@ export default defineComponent({
     props: {
         current: {
             type: String,
-            default: "insights",
+            default: "",
         },
         data: {
             type: Array,
@@ -50,6 +50,7 @@ export default defineComponent({
     data: function () {
         return {
             focus_index: 0,
+            focus_any: false,
         };
     },
     computed: {
@@ -61,11 +62,15 @@ export default defineComponent({
     },
     methods: {
         t,
-        focusNav(index) {
+        focusNavItem(index) {
             this.focus_index = index;
+        },
+        focusNav() {
+            this.focus_any = true;
         },
         blurNav() {
             this.focus_index = 0;
+            this.focus_any = false;
         },
     },
 });
