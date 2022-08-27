@@ -45,8 +45,8 @@ export default defineComponent({
 
             apps: [
                 { name: "insights", url: "/insights" },
-                { name: "erp", url: "/erp" },
                 { name: "enterprise", url: "/enterprise/member" },
+                { name: "erp", url: "/erp" },
             ],
 
             menus: [

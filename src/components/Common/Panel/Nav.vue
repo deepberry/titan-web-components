@@ -63,6 +63,14 @@ export default defineComponent({
             return this.current && this.data.map((item: any) => item?.name).indexOf(this.current) > -1;
         },
     },
+    watch: {
+        current: {
+            immediate: true,
+            handler(val) {
+                this.focus_index = this.data.map((item: any) => item?.name).indexOf(val);
+            },
+        },
+    },
     methods: {
         t,
         focusNavItem(index) {
@@ -75,11 +83,6 @@ export default defineComponent({
             this.focus_index = 0;
             this.focus_any = false;
         },
-    },
-    mounted() {
-        if (this.current) {
-            this.focus_index = this.data.map((item: any) => item?.name).indexOf(this.current);
-        }
     },
 });
 </script>
