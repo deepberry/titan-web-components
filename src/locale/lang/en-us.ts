@@ -22,7 +22,7 @@ export default {
         Navigation: {
             insights: "Park Management",
             erp: "ERP System",
-            group: "Account Management",
+            enterprise: "Account Management",
         },
         Menu: {
             user: "Profile",

@@ -12,7 +12,7 @@ import erp from "./Erp.vue";
 import user from "./User.vue";
 import logout from "./Logout.vue";
 import organization from "./Organization.vue";
-import group from "./Group.vue";
+import enterprise from "./Enterprise.vue";
 export default {
     name: "Icon",
     props: ["name", "color"],
@@ -24,7 +24,7 @@ export default {
         user,
         logout,
         organization,
-        group,
+        enterprise,
     },
 };
 </script>

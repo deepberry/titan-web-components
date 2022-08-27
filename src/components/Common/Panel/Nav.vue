@@ -1,6 +1,6 @@
 <template>
     <div class="c-panel-navigation" @mouseleave="blurNav" @mouseenter="focusNav">
-        <i class="c-panel-navigation__focus" :style="focusStyle" v-show="current || focus_any"></i>
+        <i class="c-panel-navigation__focus" :style="focusStyle" v-show="isValidApp || focus_any"></i>
         <el-tooltip
             effect="dark"
             :content="t(`CommonPanel.Navigation.${item.name}`)"
@@ -59,6 +59,9 @@ export default defineComponent({
                 transform: "translateY(" + this.focus_index * 100 + "%)",
             };
         },
+        isValidApp: function () {
+            return this.current && this.data.map((item: any) => item?.name).indexOf(this.current) > -1;
+        },
     },
     methods: {
         t,
@@ -72,6 +75,11 @@ export default defineComponent({
             this.focus_index = 0;
             this.focus_any = false;
         },
+    },
+    mounted() {
+        if (this.current) {
+            this.focus_index = this.data.map((item: any) => item?.name).indexOf(this.current);
+        }
     },
 });
 </script>
