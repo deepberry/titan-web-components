@@ -33,6 +33,8 @@ const buildQuery = function (params) {
  * @return {object} 连接实例
  * @document https://docs.microsoft.com/zh-cn/javascript/api/@microsoft/signalr/hubconnectionbuilder?view=signalr-js-latest#@microsoft-signalr-hubconnectionbuilder-withurl
  */
+
+// TODO:小程序的websocket连接是 wss:// web端是ws://
 const createConnection = function (options: HubConnectionOptions) {
     const api = options.url + "?" + buildQuery(options.params);
     return new signalR.HubConnectionBuilder()

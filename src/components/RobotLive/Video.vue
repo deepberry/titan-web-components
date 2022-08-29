@@ -12,6 +12,8 @@ import { PropType, onBeforeUnmount, onMounted } from "vue";
 import { createPlayer, PlayerOptions } from "../../extensions/AliPlayer";
 import { useRobotLiveStore } from "../../store/RobotLive";
 
+// TODO: 小程序不兼容，js构建的视频无法显示
+
 // 属性
 const props = defineProps({
     connection: {
