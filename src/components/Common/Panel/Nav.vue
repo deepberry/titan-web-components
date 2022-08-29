@@ -62,12 +62,15 @@ export default defineComponent({
         isValidApp: function () {
             return this.current && this.data.map((item: any) => item?.name).indexOf(this.current) > -1;
         },
+        appIndex: function () {
+            return this.data.map((item: any) => item?.name).indexOf(this.current);
+        },
     },
     watch: {
         current: {
             immediate: true,
             handler(val) {
-                this.focus_index = this.data.map((item: any) => item?.name).indexOf(val);
+                this.focus_index = this.appIndex;
             },
         },
     },
@@ -80,7 +83,7 @@ export default defineComponent({
             this.focus_any = true;
         },
         blurNav() {
-            this.focus_index = 0;
+            this.focus_index = this.appIndex;
             this.focus_any = false;
         },
     },
