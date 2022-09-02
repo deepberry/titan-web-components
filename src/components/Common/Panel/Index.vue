@@ -8,19 +8,18 @@
                 </a>
             </div>
             <!-- 应用导航（顶部） -->
-            <Navigation :data="apps" :current="app" :shrink="menusLength" />
+            <Navigation :data="navs" :current="app" :shrink="menusLength" />
             <!-- 用户操作（底部） -->
             <Menus :data="menus" />
         </div>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script>
 import Navigation from "./Nav.vue";
 import Menus from "./Menus.vue";
 import Icon from "../../Icons/Index.vue";
-export default defineComponent({
+export default {
     name: "CommonPanel",
     components: {
         Navigation,
@@ -32,6 +31,11 @@ export default defineComponent({
         app: {
             type: String,
             default: "",
+        },
+        // 导航列表
+        enabledApps: {
+            type: Array,
+            default: () => [],
         },
         //开启状态（用于移动端）
         isOpen: {
@@ -49,6 +53,8 @@ export default defineComponent({
                 { name: "erp", url: "/erp" },
             ],
 
+            navs: [],
+
             menus: [
                 { name: "user", url: "/user/profile" },
                 { name: "organization", url: "/user/organization" },
@@ -59,6 +65,17 @@ export default defineComponent({
     watch: {
         isOpen: function (val) {
             this.status = val;
+        },
+        enabledApps: {
+            handler: function (arr) {
+                if (arr && arr.length) {
+                    this.navs = this.apps.filter((item) => arr.includes(item.name));
+                } else {
+                    this.navs = this.apps;
+                }
+            },
+            immediate: true,
+            deep: true,
         },
     },
     computed: {
@@ -73,7 +90,7 @@ export default defineComponent({
             this.$emit("update:isOpen", false);
         },
     },
-});
+};
 </script>
 
 <style lang="less">

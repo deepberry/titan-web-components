@@ -1,11 +1,9 @@
 <template>
-    <TitanConfigProvider locale="en-us">
-        <CommonPanel v-model:isOpen="status" />
+    <CommonPanel v-model:isOpen="status" />
 
-        <el-button @click="toggle"> toggleSidebar </el-button>
+    <!-- <el-button @click="toggle"> toggleSidebar </el-button> -->
 
-        <RobotLiveController />
-    </TitanConfigProvider>
+    <!-- <RobotLiveController /> -->
 </template>
 
 <script>
@@ -16,6 +14,7 @@ export default {
     data: function () {
         return {
             status: false,
+            list: ["insights"],
         };
     },
     computed: {},
