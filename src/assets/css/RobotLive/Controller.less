@@ -15,11 +15,12 @@
         .flex;
         align-items: center;
         justify-content: center;
-        .el-button {
-            .fz(36px,1);
-            padding: 10px;
+        .u-controller-btn {
+            .db;
+            position: relative;
+            .size(50px);
             color: @color;
-
+            z-index: 2;
             &:hover {
                 color: #f56c6c;
             }
@@ -28,17 +29,20 @@
     .u-controller-forward,
     .u-controller-up {
         grid-area: top;
-        .el-button {
-            transform: rotate(0deg) scale(2, 1);
+        .u-controller-btn {
+            background: url(../../../../icons/up.svg) center center no-repeat;
+            background-size: 48px;
         }
     }
     .u-controller-left {
         grid-area: left;
-        .el-button {
-            transform: rotate(-90deg) scale(2, 1);
+        .u-controller-btn {
+            background: url(../../../../icons/left.svg) center center no-repeat;
+            background-size: 48px;
         }
     }
     .u-controller-stop {
+        position: relative;
         grid-area: stop;
         .size(84px);
         &::before,
@@ -54,48 +58,44 @@
         &::before {
             .size(250px);
         }
-        .el-button {
-            .fz(40px);
-            transform: rotate(90deg);
+        .u-controller-btn {
+            background: url(../../../../icons/stop.svg) center center no-repeat;
+            background-size: 48px;
         }
     }
     .u-controller-right {
         grid-area: right;
-        .el-button {
-            transform: rotate(90deg) scale(2, 1);
+        .u-controller-btn {
+            background: url(../../../../icons/right.svg) center center no-repeat;
+            background-size: 48px;
         }
     }
     .u-controller-backward,
     .u-controller-down {
         grid-area: bottom;
-        .el-button {
-            transform: rotate(-180deg) scale(2, 1);
+        .u-controller-btn {
+            background: url(../../../../icons/down.svg) center center no-repeat;
+            background-size: 48px;
         }
     }
     .u-controller-zoomIn,
     .u-controller-zoomOut {
-        .el-button {
-            .fz(40px,1);
-            transform: rotate(0deg);
-            &::after {
-                content: "";
-                .db;
-                .pa;
-                .size(50px);
-                .r(10px);
-                border: 1px solid @color;
-            }
-        }
+        .size(68px);
     }
     .u-controller-zoomIn {
         grid-area: in;
         align-self: start;
-        .el-button {
-            .fz(30px);
+        .u-controller-btn {
+            background: url(../../../../icons/zoomIn.svg) center center no-repeat;
+            background-size: 58px;
         }
     }
     .u-controller-zoomOut {
         grid-area: out;
         align-self: end;
+        .u-controller-btn {
+            background: url(../../../../icons/zoomOut.svg) center center no-repeat;
+            background-size: 58px;
+        }
     }
 }

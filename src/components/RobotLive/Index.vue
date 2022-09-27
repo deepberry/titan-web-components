@@ -16,7 +16,9 @@
             <!-- 控制器组插槽 -->
             <slot name="controller"></slot>
             <div class="u-controllers">
+                <slot name="camera"></slot>
                 <Camera class="u-controller u-controller--camera" :connection="$connection" v-if="cameraEnable" />
+                <slot name="robot"></slot>
                 <Robot class="u-controller u-controller--robot" :connection="$connection" v-if="robotEnable" />
             </div>
         </div>

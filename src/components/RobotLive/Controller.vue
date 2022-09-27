@@ -19,8 +19,7 @@
                     v-if="isEnabled(handler)"
                     :disabled="state[handler]"
                     link
-                    >{{ getControllerSymbol(handler) }}</el-button
-                >
+                ></el-button>
             </el-tooltip>
         </div>
     </div>
@@ -28,7 +27,6 @@
 
 <script lang="ts" setup>
 import { PropType } from "vue";
-import { getControllerSymbol } from "../../utils/constants";
 import { useLocale } from "../../hooks";
 
 // 属性
