@@ -6,10 +6,8 @@ class User {
     static DB_LOCALE = "dp_lang";
 
     protected anonymous: any;
-    protected userdata: any;
     protected expiration: number;
     constructor() {
-        this.userdata = null;
         this.anonymous = {
             uid: 0,
             group: 0,

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-// import { ElMessage } from "element-plus";
+import { ElMessage } from "element-plus";
 import pinia from "../../store/store";
 import { useRobotLiveStore } from "../../store/RobotLive";
 import { useLocale } from "../../hooks";
@@ -40,20 +40,19 @@ const exec = async (action) => {
             store.commandCamera(action);
 
             emit("success", action);
-            // ElMessage({
-            //     message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
-            //     type: "success",
-            // });
+            ElMessage({
+                message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
+                type: "success",
+            });
         })
         .catch((err) => {
             controllerState[action] = false;
 
             emit("fail", err);
-            // TODO:错误提示
-            // ElMessage({
-            //     message: err.message,
-            //     type: "error",
-            // });
+            ElMessage({
+                message: err.message,
+                type: "error",
+            });
 
             console.error(err);
             // TODO:beacon上报
