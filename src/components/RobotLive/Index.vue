@@ -16,10 +16,14 @@
             <!-- 控制器组插槽 -->
             <slot name="controller"></slot>
             <div class="u-controllers">
-                <slot name="camera"></slot>
-                <Camera class="u-controller u-controller--camera" :connection="$connection" v-if="cameraEnable" />
-                <slot name="robot"></slot>
-                <Robot class="u-controller u-controller--robot" :connection="$connection" v-if="robotEnable" />
+                <div class="u-controllers-item">
+                    <slot name="camera"></slot>
+                    <Camera class="u-controller u-controller--camera" :connection="$connection" v-if="cameraEnable" />
+                </div>
+                <div class="u-controllers-item">
+                    <slot name="robot"></slot>
+                    <Robot class="u-controller u-controller--robot" :connection="$connection" v-if="robotEnable" />
+                </div>
             </div>
         </div>
 
@@ -78,6 +82,75 @@ export default defineComponent({
     name: "RobotLive",
 });
 </script>
+
 <style lang="less">
-@import "../../assets/css/RobotLive/Index.less";
+.w-live {
+    .flex;
+    width: 1000px;
+    gap: 20px;
+    .w-live-video {
+        .flex;
+        align-items: center;
+        background-color: #000;
+        width: 400px;
+        border: 1px solid #ddd;
+        .r(5px);
+    }
+    .w-live-controller {
+        .w-controller + .w-controller {
+            .mt(30px);
+        }
+    }
+    .u-controllers-item {
+        .u-title {
+            .fz(16px,2);
+            .bold;
+            .mb(20px);
+        }
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .w-live {
+        flex-direction: column;
+        .w-live-video {
+            .size(100%,460px);
+            min-width: 100px;
+            min-height: 100px;
+        }
+        .w-live-controller .u-controllers {
+            .flex;
+            justify-content: space-between;
+        }
+    }
+}
+@media only screen and (max-width: 750px) {
+    .w-live {
+        .w-live-video {
+            .size(100%,340px);
+        }
+        .w-live-controller .u-controllers {
+            zoom: 0.75;
+        }
+    }
+}
+@media only screen and (max-width: 450px) {
+    .w-live {
+        .w-live-video {
+            .size(100%,220px);
+        }
+        .w-live-controller .u-controllers {
+            zoom: 0.45;
+        }
+    }
+}
+@media only screen and (max-width: 300px) {
+    .w-live {
+        .w-live-video {
+            .size(100%,180px);
+        }
+        .w-live-controller .u-controllers {
+            zoom: 0.35;
+        }
+    }
+}
 </style>
