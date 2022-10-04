@@ -92,7 +92,7 @@ export default defineComponent({
         .flex;
         align-items: center;
         background-color: #000;
-        width: 400px;
+        min-width: 600px;
         border: 1px solid #ddd;
         .r(5px);
     }
@@ -111,6 +111,7 @@ export default defineComponent({
 }
 @media only screen and (max-width: 1000px) {
     .w-live {
+        width: 100%;
         flex-direction: column;
         .w-live-video {
             .size(100%,460px);
