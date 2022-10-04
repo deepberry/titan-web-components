@@ -109,9 +109,9 @@ export default defineComponent({
         }
     }
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1024px) {
     .w-live {
-        width: 100%;
+        .w(100%);
         flex-direction: column;
         .w-live-video {
             .size(100%,460px);
