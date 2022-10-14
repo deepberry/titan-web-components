@@ -71,7 +71,7 @@ class User {
      * @memberof User
      */
     getToken() {
-        return localStorage.getItem(User.TOKEN_KEY);
+        return sessionStorage.getItem(User.TOKEN_KEY) || localStorage.getItem(User.TOKEN_KEY);
     }
 
     /**
