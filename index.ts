@@ -7,6 +7,8 @@ import RobotLiveCamera from "./src/components/RobotLive/Camera.vue";
 import RobotLiveRobot from "./src/components/RobotLive/Robot.vue";
 import RobotLiveController from "./src/components/RobotLive/Controller.vue";
 
+import PropManometer from "./src/components/Props/Manometer.vue";
+
 const components = {
     CommonPanel,
     CommonMain,
@@ -16,6 +18,8 @@ const components = {
     RobotLiveCamera,
     RobotLiveRobot,
     RobotLiveController,
+
+    PropManometer,
 };
 
 const install = function (Vue) {

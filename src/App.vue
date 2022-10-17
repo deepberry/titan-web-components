@@ -1,9 +1,9 @@
 <template>
     <!-- <CommonPanel v-model:isOpen="status" /> -->
-
     <!-- <el-button @click="toggle"> toggleSidebar </el-button> -->
+    <!-- <RobotLiveController /> -->
 
-    <RobotLiveController />
+    <PropManometer />
 </template>
 
 <script>
