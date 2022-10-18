@@ -41,17 +41,17 @@ export default {
         // 推荐区间最小值
         fitMin: {
             type: Number,
-            default: 60,
+            default: 20,
         },
         // 推荐区间最大值
         fitMax: {
             type: Number,
-            default: 80,
+            default: 40,
         },
         // 当前值
         value: {
             type: Number,
-            default: 70,
+            default: 60,
         },
         // 描述
         label: {
