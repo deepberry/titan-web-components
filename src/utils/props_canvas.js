@@ -28,6 +28,7 @@ class RXcanvas {
         this.ctx = ctx;
         return this;
     }
+
     drawSector(cx, cy, radius, start = 0, end = 180, anticlockwise = false, callback) {
         this.ctx.save();
         this.ctx.beginPath();
@@ -37,6 +38,20 @@ class RXcanvas {
         this.ctx.closePath();
         this.ctx.restore();
         return this.ctx;
+    }
+
+    getArcCoord(cx, cy, radius, angle) {
+        if (angle < 90) {
+            return {
+                x: cx - radius * Math.cos((angle * Math.PI) / 180),
+                y: cy - radius * Math.sin((angle * Math.PI) / 180),
+            };
+        } else {
+            return {
+                x: cx + radius * Math.cos(((180 - angle) * Math.PI) / 180),
+                y: cy - radius * Math.sin(((180 - angle) * Math.PI) / 180),
+            };
+        }
     }
 }
 

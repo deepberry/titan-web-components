@@ -28,3 +28,9 @@ export default {
     mounted: function () {},
 };
 </script>
+
+<style lang="less">
+body {
+    background-color: #eee;
+}
+</style>
