@@ -46,7 +46,7 @@ export default {
         // 推荐区间最大值
         fitMax: {
             type: Number,
-            default: 40,
+            default: 80,
         },
         // 当前值
         value: {
@@ -128,15 +128,15 @@ export default {
             ctx.fillStyle = "#000";
             const fitMin_text_w = ctx.measureText(String(this.fitMin)).width;
             const fitMax_text_w = ctx.measureText(String(this.fitMax)).width;
-            const getFitOffset = function (x, fw) {
-                if (fitStart < 90) {
+            const getFitOffset = function (start, x, fw) {
+                if (start < 90) {
                     return x - fw - 2; //额外间隙
                 } else {
                     return x + 2; //额外间隙
                 }
             };
-            ctx.fillText(String(this.fitMin), getFitOffset(startPoint.x, fitMin_text_w), startPoint.y);
-            ctx.fillText(String(this.fitMax), getFitOffset(endPoint.x, fitMax_text_w), endPoint.y);
+            ctx.fillText(String(this.fitMin), getFitOffset(fitStart, startPoint.x, fitMin_text_w), startPoint.y);
+            ctx.fillText(String(this.fitMax), getFitOffset(fitEnd, endPoint.x, fitMax_text_w), endPoint.y);
             ctx.restore();
 
             // 3.内环底色覆盖
@@ -180,6 +180,7 @@ export default {
             // 6.中央描述
             ctx.save();
             ctx.font = `${this.height / 9 + "px"} Arial`;
+            ctx.strokeStyle = "#fff";
             ctx.fillText(this.label, cx - ctx.measureText(this.label).width / 2, cy);
 
             ctx.font = `bold ${this.height / 8 + "px"} Arial`;
