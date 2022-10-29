@@ -26,7 +26,7 @@ export default {
         // 画布高度
         height: {
             type: Number,
-            default: 110,
+            default: 120,
         },
         // 最小值
         min: {
@@ -96,7 +96,7 @@ export default {
             // 公共
             // ======================
             const cx = this.width / 2;
-            const cy = this.height - 30;
+            const cy = this.height - 40;
             const outer_r = this.height - 40;
             const inner_r = this.height - 60;
             const thick = outer_r - inner_r;
@@ -181,7 +181,7 @@ export default {
             ctx.save();
             ctx.font = `${this.height / 9 + "px"} Arial`;
             ctx.strokeStyle = "#fff";
-            ctx.fillText(this.label, cx - ctx.measureText(this.label).width / 2, cy);
+            ctx.fillText(this.label, cx - ctx.measureText(this.label).width / 2, this.height - 18);
 
             ctx.font = `bold ${this.height / 8 + "px"} Arial`;
             const value_text_w = ctx.measureText(this.value).width;
@@ -192,11 +192,11 @@ export default {
 
             ctx.font = `bold ${this.height / 8 + "px"} Arial`;
             ctx.fillStyle = "#409eff";
-            ctx.fillText(this.value, total_text_start, cy + 16);
+            ctx.fillText(this.value, total_text_start, this.height);
 
             ctx.font = `${this.height / 12 + "px"} Arial`;
             ctx.fillStyle = "#999";
-            ctx.fillText(this.unit, total_text_start + value_text_w + 2, cy + 15); //2为视觉对齐偏移
+            ctx.fillText(this.unit, total_text_start + value_text_w + 2, this.height - 2); //2为视觉对齐偏移
             ctx.restore();
         },
     },
