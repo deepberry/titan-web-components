@@ -97,8 +97,8 @@ export default {
             // ======================
             const cx = this.width / 2;
             const cy = this.height - 40;
-            const outer_r = this.height - 40;
-            const inner_r = this.height - 60;
+            const outer_r = this.height - 50;
+            const inner_r = this.height - 70;
             const thick = outer_r - inner_r;
 
             // 1.红色外环
