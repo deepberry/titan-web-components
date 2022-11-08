@@ -23,6 +23,7 @@ export default {
             insights: "园区管理",
             erp: "ERP系统",
             enterprise: "成员管理",
+            salary: "薪资管理",
         },
         Menu: {
             user: "资料设置",

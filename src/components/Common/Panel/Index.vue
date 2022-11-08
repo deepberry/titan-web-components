@@ -51,6 +51,7 @@ export default {
                 { name: "insights", url: "/insights" },
                 { name: "enterprise", url: "/enterprise/member" },
                 { name: "erp", url: "/erp" },
+                { name: "salary", url: "/salary" },
             ],
 
             navs: [],

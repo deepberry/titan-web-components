@@ -13,6 +13,7 @@ import user from "./User.vue";
 import logout from "./Logout.vue";
 import organization from "./Organization.vue";
 import enterprise from "./Enterprise.vue";
+import salary from "./Salary.vue";
 export default {
     name: "Icon",
     props: ["name", "color"],
@@ -25,6 +26,7 @@ export default {
         logout,
         organization,
         enterprise,
+        salary,
     },
 };
 </script>
