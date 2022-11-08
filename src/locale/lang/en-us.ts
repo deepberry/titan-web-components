@@ -23,6 +23,7 @@ export default {
             insights: "Park Management",
             erp: "ERP System",
             enterprise: "Account Management",
+            salary: "Salary Management",
         },
         Menu: {
             user: "Profile",
