@@ -51,6 +51,9 @@ export default {
         solar_elevation_angle: {
             type: Number,
             default: 150,
+            validator: function (value) {
+                return value >= 0 && value <= 180;
+            },
         },
         // 描述
         label: {
@@ -83,6 +86,8 @@ export default {
     methods: {
         render() {
             const shadowColor = "#deeffe";
+            const solar_elevation_angle =
+                this.solar_elevation_angle > 180 ? 180 : Math.max(this.solar_elevation_angle, 0);
             // 画板
             // ======================
             const $canvas = new RXcanvas(this.elementId);
@@ -111,7 +116,6 @@ export default {
             // ======================
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.setLineDash([]);
             ctx.strokeStyle = shadowColor;
             ctx.fillStyle = shadowColor;
             ctx.ellipse(cx, cy, outer_r - 2, inner_r - 2, 0, Math.PI, 0, false);
@@ -124,7 +128,6 @@ export default {
             // ======================
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.setLineDash([]);
             ctx.strokeStyle = "#fff";
             ctx.fillStyle = "#fff";
             ctx.ellipse(
@@ -133,7 +136,7 @@ export default {
                 outer_r - 2,
                 inner_r - 2,
                 0,
-                -((180 - this.solar_elevation_angle) / 180) * Math.PI,
+                -((180 - solar_elevation_angle) / 180) * Math.PI,
                 0,
                 false
             );
@@ -157,14 +160,13 @@ export default {
                 return { x, y };
             };
 
-            const { x: _x, y: _y } = getPoint(this.solar_elevation_angle - 180);
+            const { x: _x, y: _y } = getPoint(solar_elevation_angle - 180);
 
             // 4. 绘制三角形
             // ======================
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.setLineDash([]);
-            if (this.solar_elevation_angle > 90) {
+            if (solar_elevation_angle > 90) {
                 ctx.strokeStyle = shadowColor;
                 ctx.fillStyle = shadowColor;
             } else {
@@ -222,7 +224,7 @@ export default {
             const img = new Image();
             img.src = require("../../assets/img/props/sunlight.svg");
 
-            const angle = 180 - this.solar_elevation_angle;
+            const angle = 180 - solar_elevation_angle;
             const radian = (angle / 180) * Math.PI;
             const x = cx + outer_r * Math.cos(radian);
             const y = cy - inner_r * Math.sin(radian);
