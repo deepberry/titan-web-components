@@ -39,10 +39,10 @@ export default {
             default: "06:00 PM",
         },
         // 正午时间
-        noon: {
-            type: String,
-            default: "12:00 PM",
-        },
+        // noon: {
+        //     type: String,
+        //     default: "12:00 PM",
+        // },
         // 当前值
         value: {
             type: String,
@@ -82,6 +82,7 @@ export default {
     },
     methods: {
         render() {
+            const shadowColor = "#deeffe";
             // 画板
             // ======================
             const $canvas = new RXcanvas(this.elementId);
@@ -106,7 +107,80 @@ export default {
             ctx.ellipse(cx, cy, outer_r, inner_r, 0, startAngle, endAngle, anticlockwise);
             ctx.stroke();
 
-            // 2. 绘制地平线
+            // 2. 绘制椭圆内部阴影
+            // ======================
+            ctx.beginPath();
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.setLineDash([]);
+            ctx.strokeStyle = shadowColor;
+            ctx.fillStyle = shadowColor;
+            ctx.ellipse(cx, cy, outer_r - 2, inner_r - 2, 0, Math.PI, 0, false);
+
+            ctx.lineTo(cx, cy);
+            ctx.fill();
+            ctx.stroke();
+
+            // 3. 绘制椭圆扇形
+            // ======================
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.setLineDash([]);
+            ctx.strokeStyle = "#fff";
+            ctx.fillStyle = "#fff";
+            ctx.ellipse(
+                cx,
+                cy,
+                outer_r - 2,
+                inner_r - 2,
+                0,
+                -((180 - this.solar_elevation_angle) / 180) * Math.PI,
+                0,
+                false
+            );
+
+            ctx.lineTo(cx, cy);
+            ctx.fill();
+            ctx.stroke();
+
+            // 求椭圆上的坐标
+            // ======================
+            const getPoint = (angle) => {
+                // 如果角度大于90度，需要相反计算
+                if (angle > 90) {
+                    angle = 180 - angle;
+                }
+                // 求弧度
+                const radian = (angle / 180) * Math.PI;
+                // 求椭圆上的坐标
+                const x = cx + outer_r * Math.cos(radian);
+                const y = cy + inner_r * Math.sin(radian);
+                return { x, y };
+            };
+
+            const { x: _x, y: _y } = getPoint(this.solar_elevation_angle - 180);
+            console.log(_x, _y, cx, cy);
+
+            // 4. 绘制三角形
+            // ======================
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.setLineDash([]);
+            if (this.solar_elevation_angle > 90) {
+                ctx.strokeStyle = shadowColor;
+                ctx.fillStyle = shadowColor;
+            } else {
+                ctx.strokeStyle = "#fff";
+                ctx.fillStyle = "#fff";
+            }
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(_x, _y);
+            ctx.lineTo(_x, cy);
+            ctx.lineTo(cx, cy);
+            ctx.fill();
+            ctx.stroke();
+
+            // 5. 绘制地平线
             // ======================
             ctx.beginPath();
             ctx.lineWidth = 2;
@@ -115,7 +189,7 @@ export default {
             ctx.lineTo(cx + outer_r + 10, cy);
             ctx.stroke();
 
-            // 3. 绘制中轴虚线
+            // 6. 绘制中轴虚线
             // ======================
             ctx.beginPath();
             ctx.lineWidth = 2;
@@ -125,7 +199,7 @@ export default {
             ctx.lineTo(cx, cy);
             ctx.stroke();
 
-            // 4. 绘制日出日落时间
+            // 7. 绘制日出日落时间
             // ======================
             ctx.save();
             ctx.font = `${this.height / 10 + "px"} Arial`;
@@ -134,23 +208,23 @@ export default {
             const max_text_w = ctx.measureText(this.sunset).width;
             // 日出
             const min_text_offset = min_text_w > thick ? -min_text_w / 2 + thick / 2 : thick / 2 - min_text_w / 2;
-            ctx.fillText(String(this.sunrise), cx - outer_r + min_text_offset - 10, cy + 15);
+            ctx.fillText(String(this.sunrise), cx - outer_r + min_text_offset - 10, cy + 20);
             // 日落
             const max_text_offset = max_text_w > thick ? -max_text_w / 2 + thick / 2 : thick / 2 - max_text_w / 2;
-            ctx.fillText(String(this.sunset), cx + inner_r + max_text_offset + 10, cy + 15);
+            ctx.fillText(String(this.sunset), cx + inner_r + max_text_offset + 10, cy + 20);
             // 正午
-            const noon_text_w = ctx.measureText(this.noon).width;
-            const noon_text_offset = noon_text_w > thick ? -noon_text_w / 2 + thick / 2 : thick / 2 - noon_text_w / 2;
-            ctx.fillText(String(this.noon), cx - noon_text_w / 2, cy + 15);
+            // const noon_text_w = ctx.measureText(this.noon).width;
+            // const noon_text_offset = noon_text_w > thick ? -noon_text_w / 2 + thick / 2 : thick / 2 - noon_text_w / 2;
+            // ctx.fillText(String(this.noon), cx - noon_text_w / 2, cy + 15);
             ctx.restore();
 
-            // 5. 绘制当前太阳位置 (太阳高度角 - 椭圆)
+            // 8. 绘制当前太阳位置 (太阳高度角 - 椭圆)
             // 遮挡住椭圆线
             // ======================
             const img = new Image();
             img.src = require("../../assets/img/props/sunlight.svg");
 
-            const angle = this.solar_elevation_angle;
+            const angle = 180 - this.solar_elevation_angle;
             const radian = (angle / 180) * Math.PI;
             const x = cx + outer_r * Math.cos(radian);
             const y = cy - inner_r * Math.sin(radian);
@@ -160,21 +234,11 @@ export default {
                 ctx.restore();
             };
 
-            // 6. 绘制椭圆扇形
-            // ======================
-            // ctx.beginPath();
-            // ctx.lineWidth = 1;
-            // ctx.strokeStyle = "#DFEFFD";
-            // ctx.fillStyle = "#DFEFFD";
-            // ctx.ellipse(cx, cy, outer_r, inner_r, 0, -(this.solar_elevation_angle / 180) * Math.PI, 0, false);
-            // ctx.lineTo(cx, cy);
-            // ctx.fill();
-            // ctx.stroke();
-
-            // 7. 中央描述
+            // 9. 中央描述
             ctx.save();
             ctx.font = `${this.height / 9 + "px"} Arial`;
             ctx.strokeStyle = "#fff";
+            ctx.fillStyle = "#000";
             ctx.fillText(this.label, cx - ctx.measureText(this.label).width / 2, this.height - 18);
 
             ctx.font = `bold ${this.height / 8 + "px"} Arial`;
