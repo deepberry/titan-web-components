@@ -110,7 +110,6 @@ export default {
             // 2. 绘制椭圆内部阴影
             // ======================
             ctx.beginPath();
-            ctx.beginPath();
             ctx.lineWidth = 2;
             ctx.setLineDash([]);
             ctx.strokeStyle = shadowColor;
@@ -159,7 +158,6 @@ export default {
             };
 
             const { x: _x, y: _y } = getPoint(this.solar_elevation_angle - 180);
-            console.log(_x, _y, cx, cy);
 
             // 4. 绘制三角形
             // ======================
