@@ -48,7 +48,7 @@ export default {
             type: String,
             default: "12:00 PM",
         },
-        solar_elevation_angle: {
+        solarElevationAngle: {
             type: Number,
             default: 150,
             validator: function (value) {
@@ -86,8 +86,7 @@ export default {
     methods: {
         render() {
             const shadowColor = "#deeffe";
-            const solar_elevation_angle =
-                this.solar_elevation_angle > 180 ? 180 : Math.max(this.solar_elevation_angle, 0);
+            const solar_elevation_angle = this.solarElevationAngle > 180 ? 180 : Math.max(this.solarElevationAngle, 0);
             // 画板
             // ======================
             const $canvas = new RXcanvas(this.elementId);
@@ -208,10 +207,10 @@ export default {
             const max_text_w = ctx.measureText(this.sunset).width;
             // 日出
             const min_text_offset = min_text_w > thick ? -min_text_w / 2 + thick / 2 : thick / 2 - min_text_w / 2;
-            ctx.fillText(String(this.sunrise), cx - outer_r + min_text_offset - 10, cy + 20);
+            ctx.fillText(String(this.sunrise), cx - outer_r + min_text_offset + 10, cy + 18);
             // 日落
             const max_text_offset = max_text_w > thick ? -max_text_w / 2 + thick / 2 : thick / 2 - max_text_w / 2;
-            ctx.fillText(String(this.sunset), cx + inner_r + max_text_offset + 10, cy + 20);
+            ctx.fillText(String(this.sunset), cx + inner_r + max_text_offset - 10, cy + 18);
             // 正午
             // const noon_text_w = ctx.measureText(this.noon).width;
             // const noon_text_offset = noon_text_w > thick ? -noon_text_w / 2 + thick / 2 : thick / 2 - noon_text_w / 2;

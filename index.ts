@@ -8,6 +8,7 @@ import RobotLiveRobot from "./src/components/RobotLive/Robot.vue";
 import RobotLiveController from "./src/components/RobotLive/Controller.vue";
 
 import PropManometer from "./src/components/Props/Manometer.vue";
+import PropSunlight from "./src/components/Props/Sunlight.vue";
 
 const components = {
     CommonPanel,
@@ -20,6 +21,7 @@ const components = {
     RobotLiveController,
 
     PropManometer,
+    PropSunlight,
 };
 
 const install = function (Vue) {
