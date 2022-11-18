@@ -62,6 +62,8 @@ class User {
     destroy() {
         localStorage.removeItem(User.TOKEN_KEY);
         localStorage.removeItem(User.LAST_AUTH);
+        sessionStorage.removeItem(User.TOKEN_KEY);
+        sessionStorage.removeItem(User.LAST_AUTH);
     }
 
     /**
