@@ -94,8 +94,15 @@ class User {
      * @param {*} url
      * @memberof User
      */
-    toLogin(url?: string) {
-        url = url ? encodeURIComponent(url) : encodeURIComponent(location.href);
+    toLogin(url: string = location.href) {
+        // 移除临时token带来的副作用
+        const _ = url.split("?");
+        const params = _.length > 1 ? new URLSearchParams(_[1]) : false;
+        if (params) {
+            params.delete("__token");
+            url = _[0] + "?" + params.toString();
+        }
+        url = url && encodeURIComponent(url);
         location.href = "/account/login?redirect=" + url;
     }
 
