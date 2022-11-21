@@ -114,7 +114,6 @@ export default {
             // 2. 绘制椭圆内部阴影
             // ======================
             ctx.beginPath();
-            ctx.lineWidth = 2;
             ctx.strokeStyle = shadowColor;
             ctx.fillStyle = shadowColor;
             ctx.ellipse(cx, cy, outer_r - 2, inner_r - 2, 0, Math.PI, 0, false);
@@ -126,7 +125,6 @@ export default {
             // 3. 绘制椭圆扇形
             // ======================
             ctx.beginPath();
-            ctx.lineWidth = 2;
             ctx.strokeStyle = "#fff";
             ctx.fillStyle = "#fff";
             ctx.ellipse(
@@ -142,7 +140,7 @@ export default {
 
             ctx.lineTo(cx, cy);
             ctx.fill();
-            ctx.stroke();
+            // ctx.stroke();
 
             // 求椭圆上的坐标
             // ======================
@@ -164,7 +162,6 @@ export default {
             // 4. 绘制三角形
             // ======================
             ctx.beginPath();
-            ctx.lineWidth = 2;
             if (solar_elevation_angle > 90) {
                 ctx.strokeStyle = shadowColor;
                 ctx.fillStyle = shadowColor;
@@ -175,14 +172,11 @@ export default {
             ctx.moveTo(cx, cy);
             ctx.lineTo(_x, _y);
             ctx.lineTo(_x, cy);
-            ctx.lineTo(cx, cy);
             ctx.fill();
-            ctx.stroke();
 
             // 5. 绘制地平线
             // ======================
             ctx.beginPath();
-            ctx.lineWidth = 2;
             ctx.strokeStyle = "#797978";
             ctx.moveTo(cx - outer_r - 10, cy);
             ctx.lineTo(cx + outer_r + 10, cy);
@@ -191,7 +185,6 @@ export default {
             // 6. 绘制中轴虚线
             // ======================
             ctx.beginPath();
-            ctx.lineWidth = 2;
             ctx.setLineDash([5, 3]);
             ctx.strokeStyle = "#B2B2B2";
             ctx.moveTo(cx, cy - inner_r);
