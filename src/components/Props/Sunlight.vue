@@ -62,7 +62,9 @@ export default {
         },
     },
     data: function () {
-        return {};
+        return {
+            canvas: null,
+        };
     },
     computed: {
         elementId() {
