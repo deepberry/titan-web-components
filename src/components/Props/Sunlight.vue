@@ -5,6 +5,10 @@
 </template>
 <script>
 import RXcanvas from "../../utils/props_canvas";
+
+let canvas = null;
+let ctx = null;
+
 export default {
     name: "PropSunlight",
     props: {
@@ -62,9 +66,7 @@ export default {
         },
     },
     data: function () {
-        return {
-            canvas: null,
-        };
+        return {};
     },
     computed: {
         elementId() {
@@ -81,18 +83,21 @@ export default {
     watch: {
         value: {
             handler: function (val, oldVal) {
-                val && this.render();
+                if (val !== undefined || val !== null) {
+                    requestAnimationFrame(() => {
+                        this.render();
+                    });
+                }
             },
         },
     },
     methods: {
         render() {
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
             const shadowColor = "#deeffe";
             const solar_elevation_angle = this.solarElevationAngle > 180 ? 180 : Math.max(this.solarElevationAngle, 0);
-            // 画板
-            // ======================
-            const $canvas = new RXcanvas(this.elementId);
-            const ctx = $canvas.ctx;
 
             // 公共
             // ======================
@@ -144,22 +149,7 @@ export default {
             ctx.fill();
             // ctx.stroke();
 
-            // 求椭圆上的坐标
-            // ======================
-            const getPoint = (angle) => {
-                // 如果角度大于90度，需要相反计算
-                if (angle > 90) {
-                    angle = 180 - angle;
-                }
-                // 求弧度
-                const radian = (angle / 180) * Math.PI;
-                // 求椭圆上的坐标
-                const x = cx + outer_r * Math.cos(radian);
-                const y = cy + inner_r * Math.sin(radian);
-                return { x, y };
-            };
-
-            const { x: _x, y: _y } = getPoint(solar_elevation_angle - 180);
+            const { x: _x, y: _y } = RXcanvas.getEllipsePoint(solar_elevation_angle - 180, cx, cy, outer_r, inner_r);
 
             // 4. 绘制三角形
             // ======================
@@ -247,8 +237,18 @@ export default {
 
             ctx.restore();
         },
+        destroy() {
+            canvas = null;
+            ctx = null;
+        },
+    },
+    unmounted: function () {
+        this.destroy();
     },
     mounted: function () {
+        const $canvas = new RXcanvas(this.elementId);
+        canvas = $canvas.canvas;
+        ctx = $canvas.ctx;
         this.render();
     },
 };

@@ -53,10 +53,10 @@ export default {
             default: 80,
         },
         // 当前值
-        // value: {
-        //     type: Number,
-        //     default: 60,
-        // },
+        value: {
+            type: Number,
+            default: 60,
+        },
         // 描述
         label: {
             type: String,
@@ -70,7 +70,7 @@ export default {
     },
     data: function () {
         return {
-            value: 60,
+            // value: 60,
         };
     },
     computed: {
@@ -88,15 +88,19 @@ export default {
     watch: {
         value: {
             handler: function (val, oldVal) {
-                if (val) {
-                    this.clear();
-                    this.render();
+                if (val !== undefined || val !== null) {
+                    requestAnimationFrame(() => {
+                        this.render();
+                    });
                 }
             },
         },
     },
     methods: {
         render() {
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
             // 公共
             // ======================
             const cx = this.width / 2;
@@ -108,7 +112,7 @@ export default {
             // 1.红色外环
             ctx.save();
             ctx.fillStyle = "#F64B4B";
-            canvas.drawSector(cx, cy, outer_r, 0, 180, true);
+            RXcanvas.drawSector(ctx, cx, cy, outer_r, 0, 180, true);
             ctx.restore();
 
             // 2.绿色适宜指标
@@ -126,8 +130,8 @@ export default {
             ctx.restore();
 
             ctx.save();
-            const startPoint = canvas.getArcCoord(cx, cy, outer_r, fitStart);
-            const endPoint = canvas.getArcCoord(cx, cy, outer_r, fitEnd);
+            const startPoint = RXcanvas.getArcCoord(cx, cy, outer_r, fitStart);
+            const endPoint = RXcanvas.getArcCoord(cx, cy, outer_r, fitEnd);
             ctx.font = `${this.height / 10 + "px"} Arial`;
             ctx.fillStyle = "#000";
             const fitMin_text_w = ctx.measureText(String(this.fitMin)).width;
@@ -146,7 +150,7 @@ export default {
             // 3.内环底色覆盖
             ctx.save();
             ctx.fillStyle = this.bgcolor;
-            canvas.drawSector(cx, cy, inner_r, 0, 180, true);
+            RXcanvas.drawSector(ctx, cx, cy, inner_r, 0, 180, true);
             ctx.restore();
 
             // 4.底部阈值
@@ -203,24 +207,24 @@ export default {
             ctx.fillText(this.unit, total_text_start + value_text_w + 2, this.height - 2); //2为视觉对齐偏移
             ctx.restore();
         },
-        clear() {
+        destroy() {
             canvas = null;
             ctx = null;
         },
     },
+    unmounted: function () {
+        this.destroy();
+    },
     mounted: function () {
-        canvas = new RXcanvas(this.elementId);
-        ctx = canvas.ctx;
+        const $canvas = new RXcanvas(this.elementId);
+        canvas = $canvas.canvas;
+        ctx = $canvas.ctx;
         this.render();
 
         // 测试
-        setInterval(() => {
-            this.value = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
-        }, 1000);
-    },
-    unmounted: function () {
-        canvas = null;
-        ctx = null;
+        // setInterval(() => {
+        //     this.value = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
+        // }, 1000);
     },
 };
 </script>
