@@ -113,6 +113,7 @@ export default {
             const endAngle = 0 * Math.PI;
             const anticlockwise = false;
             ctx.beginPath();
+            ctx.setLineDash([]);
             ctx.lineWidth = 2;
             ctx.strokeStyle = "#409eff";
             ctx.ellipse(cx, cy, outer_r, inner_r, 0, startAngle, endAngle, anticlockwise);
