@@ -52,6 +52,7 @@ export default {
                 { name: "enterprise", url: "/enterprise/member" },
                 { name: "erp", url: "/erp" },
                 { name: "salary", url: "/salary" },
+                { name: "workers", url: "/workers" },
             ],
 
             navs: [],

@@ -1,10 +1,10 @@
 <template>
-    <!-- <CommonPanel v-model:isOpen="status" /> -->
+    <CommonPanel v-model:isOpen="status" />
     <!-- <el-button @click="toggle"> toggleSidebar </el-button> -->
     <!-- <RobotLiveController /> -->
 
     <!-- <PropManometer /> -->
-    <PropSunlight />
+    <!-- <PropSunlight /> -->
 </template>
 
 <script>

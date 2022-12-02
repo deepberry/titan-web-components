@@ -24,6 +24,7 @@ export default {
             erp: "ERP System",
             enterprise: "Account Management",
             salary: "Salary Management",
+            workers: "Workers",
         },
         Menu: {
             user: "Profile",

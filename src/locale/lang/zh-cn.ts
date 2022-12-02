@@ -24,6 +24,7 @@ export default {
             erp: "ERP系统",
             enterprise: "成员管理",
             salary: "薪资管理",
+            workers: "工人管理",
         },
         Menu: {
             user: "资料设置",
