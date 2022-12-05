@@ -1,9 +1,10 @@
 <template>
-    <CommonPanel v-model:isOpen="status" />
+    <!-- <CommonPanel v-model:isOpen="status" /> -->
     <!-- <el-button @click="toggle"> toggleSidebar </el-button> -->
     <!-- <RobotLiveController /> -->
 
-    <!-- <PropManometer /> -->
+    <PropManometer :id="1" :value="test1" />
+    <PropManometer :id="2" :value="test2" />
     <!-- <PropSunlight /> -->
 </template>
 
@@ -16,6 +17,10 @@ export default {
         return {
             status: false,
             list: ["insights"],
+            test1: 0,
+            test2: 0,
+            max: 100,
+            min: 0,
         };
     },
     computed: {},
@@ -26,7 +31,13 @@ export default {
         },
     },
     created: function () {},
-    mounted: function () {},
+    mounted: function () {
+        // 测试
+        // setInterval(() => {
+        //     this.test1 = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
+        //     this.test2 = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
+        // }, 1000);
+    },
 };
 </script>
 

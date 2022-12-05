@@ -4,11 +4,8 @@
     </div>
 </template>
 <script>
+import { markRaw } from "vue";
 import RXcanvas from "../../utils/props_canvas";
-
-let canvas = null;
-let ctx = null;
-
 export default {
     name: "PropManometer",
     props: {
@@ -70,7 +67,8 @@ export default {
     },
     data: function () {
         return {
-            // value: 60,
+            canvas: markRaw({}),
+            ctx: markRaw({}),
         };
     },
     computed: {
@@ -98,6 +96,9 @@ export default {
     },
     methods: {
         render() {
+            const ctx = this.ctx;
+            const canvas = this.canvas;
+
             // 清空画布
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -208,8 +209,8 @@ export default {
             ctx.restore();
         },
         destroy() {
-            canvas = null;
-            ctx = null;
+            this.canvas = null;
+            this.ctx = null;
         },
     },
     unmounted: function () {
@@ -217,14 +218,9 @@ export default {
     },
     mounted: function () {
         const $canvas = new RXcanvas(this.elementId);
-        canvas = $canvas.canvas;
-        ctx = $canvas.ctx;
+        this.canvas = $canvas.canvas;
+        this.ctx = $canvas.ctx;
         this.render();
-
-        // 测试
-        // setInterval(() => {
-        //     this.value = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
-        // }, 1000);
     },
 };
 </script>
