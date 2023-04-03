@@ -4,6 +4,7 @@ class User {
     static TOKEN_KEY = "TOKEN_TITAN";
     static LAST_AUTH = "LAST_AUTH_TITAN";
     static DB_LOCALE = "dp_lang";
+    static DB_TIMEZONE = "dp_timezone";
 
     protected anonymous: any;
     protected expiration: number;
@@ -141,6 +142,32 @@ class User {
             return "zh-cn";
         } else {
             return _val.toLowerCase();
+        }
+    }
+
+    /**
+     * 设置时区
+     *
+     * @param {*} timezone
+     * @return {*}
+     * @memberof User
+     */
+    setTimezone(timezone: string) {
+        return localStorage.setItem(User.DB_TIMEZONE, timezone);
+    }
+
+    /**
+     * 获取时区
+     *
+     * @return {*}
+     * @memberof User
+     */
+    getTimezone() {
+        const _val = localStorage.getItem(User.DB_TIMEZONE);
+        if (!_val) {
+            return "Asia/Shanghai";
+        } else {
+            return _val;
         }
     }
 }
