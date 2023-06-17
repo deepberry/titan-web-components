@@ -2,6 +2,7 @@
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
+    static TOKEN_KEY_V2 = "TOKEN_TITAN_V2";
     static LAST_AUTH = "LAST_AUTH_TITAN";
     static DB_LOCALE = "dp_lang";
     static DB_TIMEZONE = "dp_timezone";
@@ -73,7 +74,10 @@ class User {
      * @return {*}
      * @memberof User
      */
-    getToken() {
+    getToken({ version } = { version: 1 }) {
+        if (version === 2) {
+            return sessionStorage.getItem(User.TOKEN_KEY_V2) || localStorage.getItem(User.TOKEN_KEY_V2);
+        }
         return sessionStorage.getItem(User.TOKEN_KEY) || localStorage.getItem(User.TOKEN_KEY);
     }
 
