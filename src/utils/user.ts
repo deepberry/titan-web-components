@@ -1,9 +1,10 @@
 // 用户信息中央处理模块
+import { request } from "./request";
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
     static TOKEN_KEY_V2 = "TOKEN_TITAN_V2";
-    static LAST_AUTH = "LAST_AUTH_TITAN";
+    static LAST_AUTH = "created_at";
     static DB_LOCALE = "dp_lang";
     static DB_TIMEZONE = "dp_timezone";
 
@@ -16,7 +17,7 @@ class User {
             name: "未登录",
             avatar: "",
         };
-        this.expiration = 2100000000;
+        this.expiration = 2592000000;
     }
 
     /**
@@ -51,8 +52,9 @@ class User {
      * @memberof User
      */
     private _save(data) {
-        localStorage.setItem(User.TOKEN_KEY, data.token);
-        localStorage.setItem(User.LAST_AUTH, String(Date.now()));
+        localStorage.setItem(User.TOKEN_KEY, data.v1_token);
+        localStorage.setItem(User.TOKEN_KEY_V2, data.v2_token);
+        localStorage.setItem(User.LAST_AUTH, data.created_at);
     }
 
     /**
@@ -63,9 +65,12 @@ class User {
      */
     destroy() {
         localStorage.removeItem(User.TOKEN_KEY);
+        localStorage.removeItem(User.TOKEN_KEY_V2);
         localStorage.removeItem(User.LAST_AUTH);
+
         sessionStorage.removeItem(User.TOKEN_KEY);
         sessionStorage.removeItem(User.LAST_AUTH);
+        sessionStorage.removeItem(User.TOKEN_KEY_V2);
     }
 
     /**
@@ -87,10 +92,22 @@ class User {
      * @return {*}
      * @memberof User
      */
-    isAuthenticated() {
-        // const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
-        const isExpired = false; //Date.now() - lastAuth > this.expiration;
+    isAuthenticated(): boolean {
+        const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
+        const isExpired = Date.now() - lastAuth > this.expiration;
         return !!this.getToken() && !isExpired;
+    }
+
+    /**
+     * 是否需要刷新token
+     * @params {number} days 离过期时间小于多少天时刷新token
+     * @return {boolean}
+     * @memberof User
+     */
+    needRefreshToken(days: number = 3): boolean {
+        const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
+        const isNeedRefresh = Date.now() - lastAuth > this.expiration - days * 24 * 3600 * 1000;
+        return this.isAuthenticated() && isNeedRefresh;
     }
 
     /**
@@ -112,15 +129,12 @@ class User {
     }
 
     /**
-     * 更新指定缓存字段
-     *
-     * @param {*} key
-     * @param {*} val
-     * @return {*}
-     * @memberof User
+     * 更新用户token
+     * @returns Promise
      */
-    refresh(key, val) {
-        return localStorage.setItem(key, val);
+    async refreshToken(): Promise<any> {
+        const res = await request().get("/account/token/refresh");
+        this.update(res.data.data);
     }
 
     /**

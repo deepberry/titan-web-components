@@ -9,6 +9,9 @@ module.exports = {
     //⚛️ Proxy ~
     devServer: {
         proxy: {
+            "/api/titan": {
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:10090" : "https://api.deepberry.cn",
+            },
             "/api/cms": {
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.deepberry.cn",
             },
