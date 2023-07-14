@@ -1,5 +1,5 @@
 // 用户信息中央处理模块
-import { request } from "./request";
+import { $titan2 } from "@deepberry/common/js/https";
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
@@ -133,8 +133,10 @@ class User {
      * @returns Promise
      */
     async refreshToken(): Promise<any> {
-        const res = await request().get("/account/token/refresh");
-        this.update(res.data.data);
+        return $titan2().get("api/titan/account/token/refresh").then(res => {
+            this.update(res.data.data);
+            return res;
+        })
     }
 
     /**
