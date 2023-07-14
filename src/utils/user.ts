@@ -133,7 +133,7 @@ class User {
      * @returns Promise
      */
     async refreshToken(): Promise<any> {
-        return $titan2().get("api/titan/account/token/refresh").then(res => {
+        return $titan2().post("api/titan/account/token/refresh").then(res => {
             this.update(res.data.data);
             return res;
         })
