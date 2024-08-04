@@ -1,5 +1,7 @@
 // 用户信息中央处理模块
 import { $titan2 } from "@deepberry/common/js/https";
+import axios from "axios";
+import { getCdnLink } from "@deepberry/common/js/utils";
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
@@ -189,6 +191,46 @@ class User {
         } else {
             return _val;
         }
+    }
+
+    /**
+     * 版本预检
+     * @param {string} version
+     * @returns {boolean}
+     * @memberof User
+     */
+    checkVersion(version: string): boolean {
+        try {
+            const titan_version = localStorage.getItem("titan_version");
+
+            if (titan_version == version) {
+                console.log('版本预检通过');
+                return true;
+            } else {
+                console.log('版本预检失败，清空缓存');
+                localStorage.clear();
+                localStorage.setItem("titan_version", version);
+
+                this.toLogin();
+
+                return false;
+            }
+        } catch (err) {
+            this.toLogin();
+            return false;
+        }
+    }
+
+    /**
+     * 加载默认配置
+     */
+    getTitanDefaultConf() {
+        return axios.get(`${getCdnLink("/common/system/conf/titan_default.json")}`).then(res => {
+            console.log("titan_default_conf", res);
+            sessionStorage.setItem("titan_default_conf", JSON.stringify(res.data));
+
+            return this.checkVersion(res.data.titan_version);
+        });
     }
 }
 
