@@ -10,6 +10,9 @@ import RobotLiveController from "./src/components/RobotLive/Controller.vue";
 import PropManometer from "./src/components/Props/Manometer.vue";
 import PropSunlight from "./src/components/Props/Sunlight.vue";
 
+import CommonSidebar from "./src/components/Common/Sidebar/Index.vue";
+import CommonHeader from "./src/components/Common/Header/Index.vue";
+
 const components = {
     CommonPanel,
     CommonMain,
@@ -22,6 +25,9 @@ const components = {
 
     PropManometer,
     PropSunlight,
+
+    CommonSidebar,
+    CommonHeader,
 };
 
 const install = function (Vue) {

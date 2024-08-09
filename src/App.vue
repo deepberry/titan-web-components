@@ -1,18 +1,21 @@
 <template>
-    <!-- <CommonPanel v-model:isOpen="status" /> -->
-    <!-- <el-button @click="toggle"> toggleSidebar </el-button> -->
-    <!-- <RobotLiveController /> -->
-
-    <PropManometer :id="1" :value="test1" />
-    <PropManometer :id="2" :value="test2" />
-    <!-- <PropSunlight /> -->
+    <div class="l-col2">
+        <CommonHeader> </CommonHeader>
+        <CommonSidebar :menus="menus"></CommonSidebar>
+        <div class="c-main">
+            <slot></slot>
+        </div>
+    </div>
 </template>
 
 <script>
+import CommonHeader from "@/components/Common/Header/Index.vue";
 export default {
     name: "App",
     props: [],
-    components: {},
+    components: {
+        CommonHeader,
+    },
     data: function () {
         return {
             status: false,
@@ -21,6 +24,22 @@ export default {
             test2: 0,
             max: 100,
             min: 0,
+
+            menus: [
+                {
+                    path: "/greenhouse",
+                    name: "greenhouse",
+                    redirect: "/greenhouse/index",
+                    meta: {
+                        title: "园区管理 - GreenHouse",
+                        icon: "aigrow2",
+                        sort: 10,
+                        showInNav: true,
+                        name: "园区管理",
+                    },
+                    children: [],
+                },
+            ],
         };
     },
     computed: {},
@@ -45,4 +64,5 @@ export default {
 body {
     background-color: #eee;
 }
+@import "./assets/css/app.less";
 </style>

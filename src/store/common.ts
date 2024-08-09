@@ -3,7 +3,9 @@ import { defineStore } from "pinia";
 export const useCommonStore = defineStore({
     id: "commonStore",
     state: () => ({
-        // count: 1
+        sidebarStatus: false,
+        opened: false, // 左侧边栏展开状态
+        sideExpanded: [], // 左侧边栏展开的菜单
     }),
     actions: {
         // countPlusOne() {

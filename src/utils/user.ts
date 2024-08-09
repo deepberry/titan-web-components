@@ -135,10 +135,12 @@ class User {
      * @returns Promise
      */
     async refreshToken(): Promise<any> {
-        return $titan2().post("api/titan/account/token/refresh").then(res => {
-            this.update(res.data.data);
-            return res;
-        })
+        return $titan2()
+            .post("api/titan/account/token/refresh")
+            .then((res) => {
+                this.update(res.data.data);
+                return res;
+            });
     }
 
     /**
@@ -194,6 +196,25 @@ class User {
     }
 
     /**
+     * 权限检查
+     * @param value
+     * @returns  boolean
+     * @memberof User
+     */
+    hasPermission = (value: string[]): boolean => {
+        const permissions = sessionStorage.getItem("titan_permissions");
+        if (permissions) {
+            try {
+                const permissionsArr = JSON.parse(permissions);
+                return permissionsArr.some((item: string) => value.includes(item));
+            } catch (error) {
+                return false;
+            }
+        }
+        return false;
+    };
+
+    /**
      * 版本预检
      * @param {string} version
      * @returns {boolean}
@@ -204,10 +225,10 @@ class User {
             const titan_version = localStorage.getItem("titan_version");
 
             if (titan_version == version) {
-                console.log('版本预检通过');
+                console.log("版本预检通过");
                 return true;
             } else {
-                console.log('版本预检失败，清空缓存');
+                console.log("版本预检失败，清空缓存");
                 localStorage.clear();
                 localStorage.setItem("titan_version", version);
 
@@ -225,7 +246,7 @@ class User {
      * 加载默认配置
      */
     getTitanDefaultConf() {
-        return axios.get(`${getCdnLink("/common/system/conf/titan_default.json")}`).then(res => {
+        return axios.get(`${getCdnLink("/common/system/conf/titan_default.json")}`).then((res) => {
             console.log("titan_default_conf", res);
             sessionStorage.setItem("titan_default_conf", JSON.stringify(res.data));
 

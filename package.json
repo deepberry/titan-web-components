@@ -21,7 +21,8 @@
         "fabric": "^5.2.4",
         "lodash": "^4.17.21",
         "pinia": "^2.0.17",
-        "vue": "^3.2.13"
+        "vue": "^3.2.13",
+        "vue-router": "^4.4.3"
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",

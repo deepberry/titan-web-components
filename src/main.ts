@@ -11,8 +11,11 @@ app.use(ElementPlus);
 import TitanUI from "../index";
 app.use(TitanUI);
 
-import pinia from "@/store/store";
+import pinia from "./store/store";
 app.use(pinia);
+
+import router from "./router/index";
+app.use(router);
 
 // 3.Mount DOM
 app.mount("#app");
