@@ -8,8 +8,13 @@ export const useCommonStore = defineStore({
         sideExpanded: [], // 左侧边栏展开的菜单
     }),
     actions: {
-        // countPlusOne() {
-        //     this.count++;
-        // },
+        // 开关侧边栏
+        toggleSidebar() {
+            this.sidebarStatus = !this.sidebarStatus;
+        },
+        // 开关左侧边栏
+        toggleLeftSidebar() {
+            this.opened = !this.opened;
+        },
     },
 });

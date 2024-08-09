@@ -9,18 +9,16 @@
     >
         <router-link class="c-nav-logo" to="/">
             <img
+                v-if="!isCollapse"
                 class="u-simple"
                 :class="'u-logo'"
                 :src="require(`../../../assets/img/common/logo.svg`)"
-                svg-inline
                 fill="#fff"
-                v-if="!isCollapse"
             />
             <img
                 class="u-full"
                 :class="'u-logo'"
                 :src="require(`../../../assets/img/common/logo-full.svg`)"
-                svg-inline
                 fill="#fff"
                 v-else
             />
@@ -47,7 +45,7 @@
                                 v-if="item.meta.icon"
                                 class="u-icon"
                                 :src="iconPath(item.meta.icon)"
-                                svg-inline
+                                v-svg-inline
                                 alt=""
                             />
                             <span class="u-name">{{ item.meta.name }}</span>

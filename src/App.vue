@@ -33,8 +33,6 @@ export default {
                     meta: {
                         title: "园区管理 - GreenHouse",
                         icon: "aigrow2",
-                        sort: 10,
-                        showInNav: true,
                         name: "园区管理",
                     },
                     children: [],

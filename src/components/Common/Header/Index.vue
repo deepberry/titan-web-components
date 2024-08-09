@@ -1,9 +1,12 @@
 <template>
-    <div class="c-header" :class="{ 'is-fixed': hasScrollTop }">
+    <div class="c-header" :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop }">
         <!-- 消息提醒 -->
         <slot name="notice"></slot>
 
         <div class="c-header-left">
+            <i class="u-trigger" @click.stop="toggleSidebar">
+                <img src="../../../assets/img/common/menu.svg" alt="" />
+            </i>
             <slot> </slot>
         </div>
 
@@ -14,12 +17,20 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useCommonStore } from "../../../store/common";
 export default {
     name: "HeaderIndex",
     data() {
         return {
             hasScrollTop: false,
         };
+    },
+    computed: {
+        ...mapState(useCommonStore, ["opened"]),
+        isPad() {
+            return document.documentElement.clientWidth <= 1134;
+        },
     },
     mounted() {
         window.addEventListener("scroll", this.scroll);
@@ -30,6 +41,20 @@ export default {
     methods: {
         scroll() {
             this.hasScrollTop = document.documentElement.scrollTop > 0;
+        },
+        toggleSidebar() {
+            useCommonStore().toggleLeftSidebar();
+
+            localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
+
+            if (useCommonStore().opened) {
+                const key = this.activeMenu.split("/")[1];
+                const index = this.menus.findIndex((item) => item.path.split("/")[1] === key);
+
+                const expended = useCommonStore().sideExpanded;
+
+                useCommonStore().sideExpanded = [...new Set([...expended, index])];
+            }
         },
     },
 };

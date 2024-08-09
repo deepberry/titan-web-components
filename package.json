@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "0.5.9",
+    "version": "0.6.0",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
@@ -22,7 +22,8 @@
         "lodash": "^4.17.21",
         "pinia": "^2.0.17",
         "vue": "^3.2.13",
-        "vue-router": "^4.4.3"
+        "vue-router": "^4.4.3",
+        "vue-svg-inline-plugin": "^2.2.3"
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",
