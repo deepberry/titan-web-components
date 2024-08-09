@@ -22,9 +22,9 @@ app.use(TitanUI);
 import pinia from "./store/store";
 app.use(pinia);
 
-import router from "./router/index";
-import { merge } from "lodash";
-app.use(router);
+// import router from "./router/index";
+// import { merge } from "lodash";
+// app.use(router);
 
 // 3.Mount DOM
 app.mount("#app");

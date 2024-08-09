@@ -21,6 +21,12 @@ import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 export default {
     name: "HeaderIndex",
+    props: {
+        menus: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             hasScrollTop: false,
@@ -30,6 +36,14 @@ export default {
         ...mapState(useCommonStore, ["opened"]),
         isPad() {
             return document.documentElement.clientWidth <= 1134;
+        },
+        activeMenu() {
+            const route = this.$route;
+            const { meta, path } = route;
+            if (meta.activeMenu) {
+                return meta.activeMenu;
+            }
+            return path;
         },
     },
     mounted() {
