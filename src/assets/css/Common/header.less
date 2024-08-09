@@ -57,6 +57,16 @@
     }
 }
 
+@media screen and (max-width: @ipad) {
+    .c-header {
+        &.is-opened {
+            .u-trigger {
+                .none;
+            }
+        }
+    }
+}
+
 @keyframes wordsLoop {
     0% {
         transform: translateX(0);

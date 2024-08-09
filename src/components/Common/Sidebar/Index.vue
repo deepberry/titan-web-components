@@ -63,7 +63,6 @@
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import User from "../../../utils/user";
-import { getCdnLink } from "@deepberry/common/js/utils";
 
 export default {
     name: "CommonSidebar",
@@ -145,7 +144,7 @@ export default {
     },
     methods: {
         iconPath(icon) {
-            return getCdnLink(`common/menus/${icon}.svg`);
+            return require("../../../assets/img/menus/" + icon + ".svg");
         },
         isActive(item) {
             const { meta } = this.$route;

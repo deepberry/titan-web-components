@@ -16,6 +16,65 @@
     }
 }
 
+.c-nav-menu__item {
+    width: @sidebar-width-fold;
+    height: @sidebar-width-fold;
+    box-sizing: border-box;
+    // padding: 20px;
+    position: relative;
+    .pointer;
+
+    &:not(.active):hover {
+        .u-name,
+        .u-expand {
+            color: @logo-bg;
+        }
+        .u-icon {
+            // @logo-bg
+            fill: @logo-bg;
+        }
+    }
+
+    .u-name,
+    .u-expand {
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .u-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .u-expand {
+        .pa;
+        right: 10px;
+    }
+
+    .u-external {
+        .size(10px);
+        fill: #fff;
+    }
+
+    svg {
+        fill: #fff;
+        transition: 0.12s ease-in-out;
+    }
+
+    &.active {
+        .u-icon {
+            // #a2b5cd
+            fill: #a2b5cd;
+        }
+        // cursor: default;
+        .u-name,
+        .u-expand {
+            color: #a2b5cd;
+        }
+    }
+}
+
 .c-nav--closed {
     width: 60px;
     transition: all 0.2s ease-in-out;
@@ -44,7 +103,7 @@
             }
             .u-icon {
                 // @logo-bg
-                fill: @logo-bg;
+                fill: #fff;
             }
         }
     }
@@ -119,64 +178,6 @@
 
 .c-nav-menu__list {
     width: 200px;
-}
-.c-nav-menu__item {
-    width: @sidebar-width-fold;
-    height: @sidebar-width-fold;
-    box-sizing: border-box;
-    // padding: 20px;
-    position: relative;
-    .pointer;
-
-    &:not(.active):hover {
-        .u-name,
-        .u-expand {
-            color: @logo-bg;
-        }
-        .u-icon {
-            // @logo-bg
-            fill: @logo-bg;
-        }
-    }
-
-    .u-name,
-    .u-expand {
-        font-size: 14px;
-        color: #fff;
-    }
-
-    .u-name {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .u-expand {
-        .pa;
-        right: 10px;
-    }
-
-    .u-external {
-        .size(10px);
-        fill: #fff;
-    }
-
-    svg {
-        fill: #fff;
-        transition: 0.12s ease-in-out;
-    }
-
-    &.active {
-        .u-icon {
-            // #a2b5cd
-            fill: #a2b5cd;
-        }
-        // cursor: default;
-        .u-name,
-        .u-expand {
-            color: #a2b5cd;
-        }
-    }
 }
 .c-nav-menu__title {
     .flex;

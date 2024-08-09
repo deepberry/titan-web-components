@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" id="svg1889" width="682.66669" height="682.66669" viewBox="0 0 682.66669 682.66669">
+  <defs id="defs1893">
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath1903">
+      <path d="M 0,512 H 512 V 0 H 0 Z" id="path1901"/>
+    </clipPath>
+  </defs>
+  <mask id="custom"><rect id="bg" x="0" y="0" width="100%" height="100%" fill="white"/><g transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)"/></mask><g mask="url(#custom)"><g id="g1895" transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)">
+    <g id="g1897">
+      <g id="g1899" clip-path="url(#clipPath1903)">
+        <g id="g1905" transform="translate(106,273.125)">
+          <path d="M 0,0 C 0,45.287 36.713,82 82,82 127.287,82 164,45.287 164,0 164,-45.287 127.287,-82 82,-82 36.713,-82 0,-45.287 0,0 Z" style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1907"/>
+        </g>
+        <g id="g1909" transform="translate(234,20)">
+          <path d="m 0,0 h -174 c -27.129,0 -46.39,26.435 -38.083,52.261 22.067,68.611 89.699,118.26 165.645,118.26 36.229,0 69.818,-11.298 97.438,-30.563" style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1911"/>
+        </g>
+        <g id="g1913" transform="translate(313,410)">
+          <path d="M 0,0 C 0,45.287 36.713,82 82,82 127.287,82 164,45.287 164,0 164,-45.287 127.287,-82 82,-82 36.713,-82 0,-45.287 0,0 Z" style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1915"/>
+        </g>
+        <g id="g1917" transform="translate(270.6299,274)">
+          <path d="m 0,0 c 31.085,32.88 75.113,53.396 123.933,53.396 36.228,0 69.817,-11.298 97.437,-30.563" style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1919"/>
+        </g>
+        <g id="g1921" transform="translate(417,20)">
+          <path d="M 0,0 V 150" style="fill:currentColor;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1923"/>
+        </g>
+        <g id="g1925" transform="translate(492,95)">
+          <path d="M 0,0 H -150" style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" id="path1927"/>
+        </g>
+      </g>
+    </g>
+  </g></g>
+</svg>
