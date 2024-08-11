@@ -188,5 +188,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../../assets/css/common/Sidebar/index.less";
+@import "../../../assets/css/Common/Sidebar/index.less";
 </style>
