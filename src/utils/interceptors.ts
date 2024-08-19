@@ -61,7 +61,10 @@ function installStandardInterceptors(target, options?: any) {
                 if (response.data.code < 0) {
                     // response.data.msg && loadPop(`[${response.data.code}]${response.data.msg}`, popType);
                     User.destroy();
-                    // User.toLogin();
+                    if (location.port !== "8080") {
+                        // process.env.NODE_ENV === 'development'
+                        User.toLogin();
+                    }
                 }
                 if (!options?.special) {
                     return Promise.reject(response);
