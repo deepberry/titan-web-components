@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getSuperToken, getAllOrganization } from "@/service/account";
+import { getSuperToken, getAllOrganization } from "../../../service/account";
 import User from "../../../utils/user";
 import { useLocale } from "../../../hooks";
 const { t } = useLocale();

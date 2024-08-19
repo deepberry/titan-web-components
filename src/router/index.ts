@@ -5,7 +5,7 @@ const routes = [
         path: "/account",
         name: "account",
         redirect: "/account/login",
-        component: () => import("@/views/Index.vue"),
+        component: () => import("../views/Index.vue"),
         meta: { title: "账号中心 - Account" },
         children: [
             {
@@ -25,7 +25,7 @@ const routes = [
             icon: "aigrow2",
             name: "园区管理",
         },
-        component: () => import("@/views/Index.vue"),
+        component: () => import("../views/Index.vue"),
         children: [],
     },
 ];
