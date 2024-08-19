@@ -22,10 +22,10 @@
 <script>
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
-import CommonOrg from "@/components/Common/Header/Org.vue";
-import CommonUser from "@/components/Common/Header/User.vue";
-import User from "@/utils/user";
-import { useUserData } from "@/store/userData";
+import CommonOrg from "./Org.vue";
+import CommonUser from "./User.vue";
+import User from "../../../utils/user";
+import { useUserData } from "../../../store/userData";
 
 export default {
     name: "HeaderIndex",

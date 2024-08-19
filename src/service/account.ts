@@ -1,4 +1,4 @@
-import { $titan2 } from "@/utils/api";
+import { $titan2 } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {

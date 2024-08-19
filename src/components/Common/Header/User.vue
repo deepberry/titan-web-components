@@ -15,11 +15,11 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserData } from "@/store/userData";
-import { useLocale } from "@/hooks";
+import { useUserData } from "../../../store/userData";
+import { useLocale } from "../../../hooks";
 const { t } = useLocale();
-import User from "@/utils/user";
-import Avatar from "@/components/Common/Widget/Avatar.vue";
+import User from "../../../utils/user";
+import Avatar from "../Widget/Avatar.vue";
 export default {
     name: "CommonHeaderUser",
     components: {

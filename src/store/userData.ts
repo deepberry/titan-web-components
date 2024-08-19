@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import User from "@/utils/user";
+import User from "../utils/user";
 import { getProfile, getCurrentOrganization } from "@/service/account";
 
 export const useUserData = defineStore({

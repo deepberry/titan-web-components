@@ -35,10 +35,10 @@
 
 <script>
 import { mapState } from "pinia";
-import User from "@/utils/user";
-import { useUserData } from "@/store/userData";
+import User from "../../../utils/user";
+import { useUserData } from "../../../store/userData";
 import { switchOrg } from "@/service/account";
-import { useLocale } from "@/hooks";
+import { useLocale } from "../../../hooks";
 const { t } = useLocale();
 import OrgSwitchPop from "./OrgSwitchPop.vue";
 export default {
