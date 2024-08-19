@@ -38,4 +38,18 @@ export default {
             logout_cancel: "取消",
         },
     },
+
+    // 公共Header
+    commonHeader: {
+        organization: {
+            select: "请选择需要审查的组织",
+        },
+        messagebox: {
+            cancel: "取消",
+            confirm: "确认",
+        },
+        logout: "退出登录",
+        confirm_logout: "确认退出登录？",
+        current: "当前",
+    },
 };

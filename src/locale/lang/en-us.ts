@@ -38,4 +38,18 @@ export default {
             logout_cancel: "Cancel",
         },
     },
+
+    // 公共Header
+    commonHeader: {
+        organization: {
+            select: "Select Organization",
+        },
+        messagebox: {
+            cancel: "Cancel",
+            confirm: "Confirm",
+        },
+        logout: "Logout",
+        confirm_logout: "Are you sure to logout?",
+        current: "Current",
+    },
 };

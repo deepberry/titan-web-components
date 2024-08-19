@@ -108,6 +108,7 @@ class User {
      */
     needRefreshToken(days: number = 3): boolean {
         const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
+        console.log(lastAuth);
         const isNeedRefresh = Date.now() - lastAuth > this.expiration - days * 24 * 3600 * 1000;
         return this.isAuthenticated() && isNeedRefresh;
     }

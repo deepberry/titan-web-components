@@ -12,6 +12,8 @@ import PropSunlight from "./src/components/Props/Sunlight.vue";
 
 import CommonSidebar from "./src/components/Common/Sidebar/Index.vue";
 import CommonHeader from "./src/components/Common/Header/Index.vue";
+import HeaderUser from "./src/components/Common/Header/User.vue";
+import HeaderOrg from "./src/components/Common/Header/Org.vue";
 
 const components = {
     CommonPanel,
@@ -28,6 +30,8 @@ const components = {
 
     CommonSidebar,
     CommonHeader,
+    HeaderUser,
+    HeaderOrg,
 };
 
 const install = function (Vue) {

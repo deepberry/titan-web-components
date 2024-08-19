@@ -103,9 +103,9 @@ export default {
             return filterMenus;
         },
         activeMenu() {
-            const route = this.$route;
+            const route = this.$route || {};
             const { meta, path, name } = route;
-            if (meta.activeMenu) {
+            if (meta?.activeMenu) {
                 return meta.activeMenu;
             }
             return name;
@@ -147,8 +147,8 @@ export default {
             return require("../../../assets/img/menus/" + icon + ".svg");
         },
         isActive(item) {
-            const { meta } = this.$route;
-            return meta.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
+            const { meta } = this.$route || {};
+            return meta?.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
         },
         handleMenuItemClick(item, index) {
             this.$router.push({ name: item.name });

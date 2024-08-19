@@ -11,7 +11,10 @@
         </div>
 
         <div class="c-header-right">
-            <slot name="right"></slot>
+            <slot name="right">
+                <CommonOrg></CommonOrg>
+                <CommonUser></CommonUser>
+            </slot>
         </div>
     </div>
 </template>
@@ -19,8 +22,17 @@
 <script>
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
+import CommonOrg from "@/components/Common/Header/Org.vue";
+import CommonUser from "@/components/Common/Header/User.vue";
+import User from "@/utils/user";
+import { useUserData } from "@/store/userData";
+
 export default {
     name: "HeaderIndex",
+    components: {
+        CommonUser,
+        CommonOrg,
+    },
     props: {
         menus: {
             type: Array,
@@ -47,6 +59,7 @@ export default {
         },
     },
     mounted() {
+        useUserData().getUserInfo();
         window.addEventListener("scroll", this.scroll);
     },
     beforeUnmount() {

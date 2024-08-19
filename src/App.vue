@@ -1,6 +1,10 @@
 <template>
     <div class="l-col2">
-        <CommonHeader> </CommonHeader>
+        <CommonHeader>
+            <template name="right">
+                <HeaderUser></HeaderUser>
+            </template>
+        </CommonHeader>
         <CommonSidebar :menus="menus"></CommonSidebar>
         <div class="c-main">
             <slot></slot>
@@ -10,11 +14,13 @@
 
 <script>
 import CommonHeader from "@/components/Common/Header/Index.vue";
+import HeaderUser from "@/components/Common/Header/User.vue";
 export default {
     name: "App",
     props: [],
     components: {
         CommonHeader,
+        HeaderUser,
     },
     data: function () {
         return {
