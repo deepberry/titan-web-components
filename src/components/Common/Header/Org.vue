@@ -34,9 +34,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
 import User from "../../../utils/user";
-import { useUserData } from "../../../store/userData";
 import { switchOrg } from "../../../service/account";
 import { useLocale } from "../../../hooks";
 const { t } = useLocale();
@@ -44,13 +42,22 @@ import OrgSwitchPop from "./OrgSwitchPop.vue";
 export default {
     name: "CommonHeaderOrg",
     components: { OrgSwitchPop },
+    props: {
+        organizations: {
+            type: Array,
+            default: () => [],
+        },
+        profile: {
+            type: Object,
+            default: () => {},
+        },
+    },
     data() {
         return {
             showOrg: false,
         };
     },
     computed: {
-        ...mapState(useUserData, ["organizations", "profile"]),
         isSuper() {
             return this.profile?.token?.is_super;
         },

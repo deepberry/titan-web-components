@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
-import { useUserData } from "../../../store/userData";
 import { useLocale } from "../../../hooks";
 const { t } = useLocale();
 import User from "../../../utils/user";
@@ -25,8 +23,11 @@ export default {
     components: {
         Avatar,
     },
-    computed: {
-        ...mapState(useUserData, ["profile"]),
+    props: {
+        profile: {
+            type: Object,
+            default: () => {},
+        },
     },
     methods: {
         t,

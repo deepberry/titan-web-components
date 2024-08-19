@@ -11,10 +11,9 @@
         </div>
 
         <div class="c-header-right">
-            <slot name="right">
-                <CommonOrg></CommonOrg>
-                <CommonUser></CommonUser>
-            </slot>
+            <slot name="right"></slot>
+            <CommonOrg :profile="profile" :organizations="organizations"></CommonOrg>
+            <CommonUser :profile="profile"></CommonUser>
         </div>
     </div>
 </template>
@@ -24,8 +23,7 @@ import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import CommonOrg from "./Org.vue";
 import CommonUser from "./User.vue";
-import User from "../../../utils/user";
-import { useUserData } from "../../../store/userData";
+import { getProfile, getCurrentOrganization } from "../../../service/account";
 
 export default {
     name: "HeaderIndex",
@@ -42,6 +40,26 @@ export default {
     data() {
         return {
             hasScrollTop: false,
+            profile: {
+                // 用户资料
+                avatar: "",
+                disabled: 0,
+                id: 0,
+                name: "",
+                organization: { id: 0, active: 1, user_id: 0, name: "", logo: "" },
+                phone_number: "",
+                preference: {}, //偏好设置
+                username: "",
+                level: 1,
+                token: {
+                    is_dev: 0,
+                    is_super: 0,
+                    oid: 0,
+                    uid: 0,
+                    version: 2,
+                },
+            },
+            organizations: [],
         };
     },
     computed: {
@@ -59,13 +77,21 @@ export default {
         },
     },
     mounted() {
-        useUserData().getUserInfo();
+        this.loadUserInfo();
         window.addEventListener("scroll", this.scroll);
     },
     beforeUnmount() {
         window.removeEventListener("scroll", this.scroll);
     },
     methods: {
+        async loadUserInfo() {
+            const profile = await getProfile().then((res) => res.data.data);
+            this.profile = profile;
+            if (profile.id) {
+                const organizations = await getCurrentOrganization().then((res) => res.data.data);
+                this.organizations = organizations;
+            }
+        },
         scroll() {
             this.hasScrollTop = document.documentElement.scrollTop > 0;
         },
