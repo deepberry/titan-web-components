@@ -7,13 +7,15 @@
             <i class="u-trigger" @click.stop="toggleSidebar">
                 <img src="../../../assets/img/common/menu.svg" alt="" />
             </i>
-            <slot> </slot>
+            <slot></slot>
         </div>
 
         <div class="c-header-right">
             <slot name="right"></slot>
             <CommonOrg :profile="profile" :organizations="organizations"></CommonOrg>
-            <CommonUser :profile="profile"></CommonUser>
+            <CommonUser :profile="profile">
+                <slot name="user"></slot>
+            </CommonUser>
         </div>
     </div>
 </template>

@@ -15,8 +15,7 @@ import { installSimpleInterceptors, installStandardInterceptors } from "./interc
  */
 export function $titan2(options?: any) {
     const config = {
-        baseURL: "/",
-
+        baseURL: process.env.VUE_APP_TITAN_API + "api/titan/",
         withCredentials: false,
         headers: {
             Authorization: "Bearer " + User.getToken({ version: 2 }),
