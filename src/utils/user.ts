@@ -225,8 +225,9 @@ class User {
         try {
             const titan_version = localStorage.getItem("titan_version");
 
-            if (titan_version == version) {
+            if (!titan_version || titan_version == version) {
                 console.log("版本预检通过");
+                localStorage.setItem("titan_version", version);
                 return true;
             } else {
                 console.log("版本预检失败，清空缓存");
