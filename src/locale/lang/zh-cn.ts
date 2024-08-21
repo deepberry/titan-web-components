@@ -51,5 +51,12 @@ export default {
         logout: "退出登录",
         confirm_logout: "确认退出登录？",
         current: "当前",
+        change_organization: "切换组织",
+        message: "消息中心",
+        profile_settings: "资料设置",
+        order_center: "订单中心",
+        enterprise_settings: "企业管理",
+        doc: "文档中心",
+        help: "帮助中心",
     },
 };

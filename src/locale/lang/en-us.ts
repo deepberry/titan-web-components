@@ -51,5 +51,12 @@ export default {
         logout: "Logout",
         confirm_logout: "Are you sure to logout?",
         current: "Current",
+        change_organization: "Change Organization",
+        message: "Message",
+        doc: "Documentation",
+        help: "Help",
+        profile_settings: "Profile",
+        order_center: "Order",
+        enterprise_settings: "Enterprise",
     },
 };

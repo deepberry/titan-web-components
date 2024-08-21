@@ -1,9 +1,7 @@
 <template>
     <div class="l-col2">
         <CommonHeader>
-            <template v-slot:user>
-                <el-dropdown-item>dropdown</el-dropdown-item>
-            </template>
+            <template v-slot:user> </template>
         </CommonHeader>
         <CommonSidebar :menus="menus"></CommonSidebar>
         <div class="c-main">

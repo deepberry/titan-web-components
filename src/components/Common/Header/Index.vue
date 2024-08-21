@@ -12,8 +12,8 @@
 
         <div class="c-header-right">
             <slot name="right"></slot>
-            <CommonOrg :profile="profile" :organizations="organizations"></CommonOrg>
-            <CommonUser :profile="profile">
+            <CommonOrg ref="org" :profile="profile" :organizations="organizations"></CommonOrg>
+            <CommonUser :profile="profile" @changeOrg="changeOrg">
                 <slot name="user"></slot>
             </CommonUser>
         </div>
@@ -86,6 +86,9 @@ export default {
         window.removeEventListener("scroll", this.scroll);
     },
     methods: {
+        changeOrg() {
+            this.$refs.org.showOrgSwitch();
+        },
         async loadUserInfo() {
             const profile = await getProfile().then((res) => res.data.data);
             this.profile = profile;
