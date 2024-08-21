@@ -58,14 +58,14 @@ function installStandardInterceptors(target, options?: any) {
                 if (!options?.special && (!options || !options.mute)) {
                     response.data.msg && loadPop(`[${response.data.code}]${response.data.msg}`, popType);
                 }
-                if (response.data.code < 0) {
-                    // response.data.msg && loadPop(`[${response.data.code}]${response.data.msg}`, popType);
-                    User.destroy();
-                    if (location.port !== "8080") {
-                        // process.env.NODE_ENV === 'development'
-                        User.toLogin();
-                    }
-                }
+                // if (response.data.code < 0) {
+                //     // response.data.msg && loadPop(`[${response.data.code}]${response.data.msg}`, popType);
+                //     User.destroy();
+                //     if (location.port !== "8080") {
+                //         // process.env.NODE_ENV === 'development'
+                //         User.toLogin();
+                //     }
+                // }
                 if (!options?.special) {
                     return Promise.reject(response);
                 }

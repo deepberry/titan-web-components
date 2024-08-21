@@ -7,7 +7,7 @@
         <template #dropdown>
             <el-dropdown-menu>
                 <slot></slot>
-                <el-dropdown-item @click="logout">{{ t("commonHeader.logout") }}</el-dropdown-item>
+                <!-- <el-dropdown-item @click="logout">{{ t("commonHeader.logout") }}</el-dropdown-item> -->
             </el-dropdown-menu>
         </template>
     </el-dropdown>
@@ -31,18 +31,18 @@ export default {
     },
     methods: {
         t,
-        logout() {
-            this.$confirm(t("commonHeader.confirm_logout"), t("commonHeader.logout"), {
-                confirmButtonText: t("commonHeader.messagebox.confirm"),
-                cancelButtonText: t("commonHeader.messagebox.cancel"),
-                type: "warning",
-            })
-                .then(() => {
-                    User.destroy();
-                    User.toLogin();
-                })
-                .catch(() => {});
-        },
+        // logout() {
+        //     this.$confirm(t("commonHeader.confirm_logout"), t("commonHeader.logout"), {
+        //         confirmButtonText: t("commonHeader.messagebox.confirm"),
+        //         cancelButtonText: t("commonHeader.messagebox.cancel"),
+        //         type: "warning",
+        //     })
+        //         .then(() => {
+        //             User.destroy();
+        //             User.toLogin();
+        //         })
+        //         .catch(() => {});
+        // },
     },
 };
 </script>
