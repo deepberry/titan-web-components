@@ -107,16 +107,7 @@ export default {
         },
         homes: {
             type: Array,
-            default: () => [
-                {
-                    name: "首页",
-                    href: "/",
-                },
-                {
-                    name: "文档",
-                    href: "https://www.baidu.com",
-                },
-            ],
+            default: () => [],
         },
     },
     data() {
