@@ -35,9 +35,9 @@
                     </div>
                 </template>
                 <div class="c-nav-home">
-                    <div class="c-nav-home__item" v-for="(item, i) in homes" :key="i">
-                        <a :href="item.href" class="u-name">{{ item.name }}</a>
-                    </div>
+                    <a class="c-nav-home__item" v-for="(item, i) in homes" :key="i" :href="item.href">
+                        <span class="u-name">{{ item.name }}</span>
+                    </a>
                 </div>
             </el-popover>
         </template>
@@ -107,7 +107,16 @@ export default {
         },
         homes: {
             type: Array,
-            default: () => [],
+            default: () => [
+                {
+                    name: "首页",
+                    href: "/",
+                },
+                {
+                    name: "文档",
+                    href: "https://www.baidu.com",
+                },
+            ],
         },
     },
     data() {
