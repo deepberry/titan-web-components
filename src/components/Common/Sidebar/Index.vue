@@ -7,7 +7,41 @@
         }"
         ref="nav"
     >
-        <router-link class="c-nav-logo" to="/">
+        <template v-if="homes?.length">
+            <el-popover
+                :show-arrow="false"
+                placement="right-end"
+                class="c-nav-logo_pop"
+                popper-class="c-nav-logo_popcontent"
+                :offset="6"
+                trigger="click"
+            >
+                <template #reference>
+                    <div class="c-nav-logo">
+                        <img
+                            v-if="!isCollapse"
+                            class="u-simple"
+                            :class="'u-logo'"
+                            :src="require(`../../../assets/img/common/logo.svg`)"
+                            fill="#fff"
+                        />
+                        <img
+                            class="u-full"
+                            :class="'u-logo'"
+                            :src="require(`../../../assets/img/common/logo-full.svg`)"
+                            fill="#fff"
+                            v-else
+                        />
+                    </div>
+                </template>
+                <div class="c-nav-home">
+                    <div class="c-nav-home__item" v-for="(item, i) in homes" :key="i">
+                        <a :href="item.href" class="u-name">{{ item.name }}</a>
+                    </div>
+                </div>
+            </el-popover>
+        </template>
+        <router-link class="c-nav-logo" to="/" v-else>
             <img
                 v-if="!isCollapse"
                 class="u-simple"
@@ -68,6 +102,10 @@ export default {
     name: "CommonSidebar",
     props: {
         menus: {
+            type: Array,
+            default: () => [],
+        },
+        homes: {
             type: Array,
             default: () => [],
         },

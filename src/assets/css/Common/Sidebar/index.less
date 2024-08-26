@@ -138,6 +138,7 @@
     .flex;
     justify-content: center;
     align-items: center;
+    .pointer;
     svg {
         display: block;
         height: 32px;
@@ -250,6 +251,23 @@
 }
 .c-nav-menu__tooltip {
     .none;
+}
+
+.c-nav-logo_popcontent {
+    padding: 0 !important;
+}
+
+.c-nav-home__item {
+    padding: 10px 15px;
+    background-color: @sidebar-bg;
+
+    .u-name {
+        color: #fff;
+    }
+
+    &:hover {
+        background-color: lighten(@sidebar-bg, 10%);
+    }
 }
 
 @media screen and (max-width: @phone) {

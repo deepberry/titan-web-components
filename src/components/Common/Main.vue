@@ -39,4 +39,10 @@ export default defineComponent({
         }
     }
 }
+
+@media screen and (max-width: @phone) {
+    .c-main {
+        margin-left: 0;
+    }
+}
 </style>
