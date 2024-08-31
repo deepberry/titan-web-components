@@ -92,7 +92,7 @@ export default {
         async loadUserInfo() {
             const profile = await getProfile().then((res) => res.data.data);
             this.profile = profile;
-            if (profile.id) {
+            if (profile?.id) {
                 const organizations = await getCurrentOrganization().then((res) => res.data.data);
                 this.organizations = organizations;
             }

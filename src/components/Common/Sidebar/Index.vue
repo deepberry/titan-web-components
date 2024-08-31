@@ -9,12 +9,11 @@
     >
         <template v-if="homes?.length">
             <el-popover
-                :show-arrow="false"
                 placement="right-end"
                 class="c-nav-logo_pop"
                 popper-class="c-nav-logo_popcontent"
-                :offset="6"
                 trigger="click"
+                effect="dark"
             >
                 <template #reference>
                     <div class="c-nav-logo">
@@ -107,7 +106,16 @@ export default {
         },
         homes: {
             type: Array,
-            default: () => [],
+            default: () => [
+                {
+                    name: "首页",
+                    href: "/",
+                },
+                {
+                    name: "文档",
+                    href: "https://www.baidu.com",
+                },
+            ],
         },
     },
     data() {

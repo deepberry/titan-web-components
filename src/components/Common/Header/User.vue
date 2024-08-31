@@ -48,10 +48,10 @@ export default {
             return document.documentElement.clientWidth <= 1134;
         },
         isSuper() {
-            return this.profile.token.is_super;
+            return this.profile?.token?.is_super;
         },
         isDev() {
-            return this.profile.token.is_dev;
+            return this.profile?.token?.is_dev;
         },
         isFounder() {
             return this.profile?.id === this.profile?.organization?.user_id || this.profile.level === 99;

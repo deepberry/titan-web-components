@@ -254,20 +254,31 @@
 }
 
 .c-nav-logo_popcontent {
-    padding: 0 !important;
+    border-radius: 6px;
+    background-color: #18222f !important;
+
+    .el-popper__arrow {
+        &::before {
+            background-color: #18222f !important;
+        }
+    }
 }
 
 .c-nav-home__item {
-    padding: 10px 15px;
-    background-color: @sidebar-bg;
+    padding: 6px 10px;
+    // background-color: @sidebar-bg;
     display: block;
+    border-radius: 2px;
 
     .u-name {
-        color: #fff;
+        color: #ddd;
     }
 
     &:hover {
-        background-color: lighten(@sidebar-bg, 10%);
+        background-color: #233448;
+        .u-name {
+            color: #fff;
+        }
     }
 }
 
