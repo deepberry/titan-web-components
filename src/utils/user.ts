@@ -108,7 +108,6 @@ class User {
      */
     needRefreshToken(days: number = 3): boolean {
         const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
-        console.log(lastAuth);
         const isNeedRefresh = Date.now() - lastAuth > this.expiration - days * 24 * 3600 * 1000;
         return this.isAuthenticated() && isNeedRefresh;
     }
@@ -137,7 +136,7 @@ class User {
      */
     async refreshToken(): Promise<any> {
         return $titan2()
-            .post("api/titan/account/token/refresh")
+            .post("account/token/refresh")
             .then((res) => {
                 this.update(res.data.data);
                 return res;
