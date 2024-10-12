@@ -39,6 +39,39 @@ export default {
                     },
                     children: [],
                 },
+                {
+                    path: "/greenhouse",
+                    name: "greenhouse",
+                    redirect: "/greenhouse/index",
+                    meta: {
+                        title: "园区管理 - GreenHouse",
+                        icon: "fruit",
+                        name: "园区管理",
+                    },
+                    children: [],
+                },
+                {
+                    path: "/greenhouse",
+                    name: "greenhouse",
+                    redirect: "/greenhouse/index",
+                    meta: {
+                        title: "园区管理 - GreenHouse",
+                        icon: "scale2",
+                        name: "园区管理",
+                    },
+                    children: [],
+                },
+                {
+                    path: "/greenhouse",
+                    name: "greenhouse",
+                    redirect: "/greenhouse/index",
+                    meta: {
+                        title: "园区管理 - GreenHouse",
+                        icon: "member_fill",
+                        name: "园区管理",
+                    },
+                    children: [],
+                },
             ],
         };
     },
