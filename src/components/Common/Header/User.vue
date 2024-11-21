@@ -75,19 +75,13 @@ export default {
                 .catch(() => {});
         },
         toProfile() {
-            this.$router.push({
-                path: "/user/profile",
-            });
+            window.open("/user/profile", "_blank");
         },
         toOrder() {
-            this.$router.push({
-                path: "/order/index",
-            });
+            window.open("/order/index", "_blank");
         },
         toEnterprise() {
-            this.$router.push({
-                name: "enterprise",
-            });
+            window.open("/enterprise/member", "_blank");
         },
         toHelp() {
             window.open("/help/doc", "_blank");
