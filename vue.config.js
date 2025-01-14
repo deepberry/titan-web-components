@@ -6,25 +6,12 @@
  */
 const path = require("path");
 module.exports = {
-    //❤️ Multiple pages ~
-    // pages: {
-    //     index: {
-    //         title: "Home",
-    //         entry: "src/main.js",
-    //         template: "public/index.html",
-    //         filename: "index.html",
-    //     },
-    //     $project: {
-    //         title: "Project",
-    //         entry: "src/core/$project/index.js",
-    //         template: "public/$project/index.html",
-    //         filename: "$project/index.html",
-    //     },
-    // },
-
     //⚛️ Proxy ~
     devServer: {
         proxy: {
+            "/api/titan": {
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:10090" : "https://api.deepberry.cn",
+            },
             "/api/cms": {
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.deepberry.cn",
             },

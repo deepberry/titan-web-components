@@ -2,27 +2,27 @@
 import * as Locales from "../locale";
 
 // 工具方法
-import { getCurrentInstance, computed, unref, provide, inject } from "vue";
+import { getCurrentInstance, computed, unref } from "vue";
 import { get } from "lodash";
-
-// 定义全局注入key
-export const LocaleInjectionKey = Symbol("__titanLang__");
+import User from "../utils/user";
 
 // 设定默认语言
-const defaultLocale = "zhCn";
+const defaultLocale = "zh-cn";
 
 // 读取路径
 export const translate = (path, locale) => {
-    return get(Locales[locale], `${path}`, path);
+    const _locale = locale.includes("-") ? locale.replace("-", "_") : locale;
+    return get(Locales[_locale], `${path}`, path);
 };
 
 // 组件hook
 export const useLocale = (_locale?: string) => {
     // 获取上下文实例
-    const vm = getCurrentInstance() as any;
+    // const vm = getCurrentInstance() as any;
 
     // 获取全局语言设置
-    const globalLocale = vm.provides[LocaleInjectionKey] && inject(LocaleInjectionKey);
+    // const globalLocale = vm?.$i18n?.locale;
+    const globalLocale = User.getLocale();
 
     // 获取当前语言:本地设置>全局设置>默认设置
     const locale = computed(() => {
@@ -38,13 +38,4 @@ export const useLocale = (_locale?: string) => {
             return translate(path, unref(locale));
         },
     };
-};
-
-// 全局预设
-export const useProvideLocale = (props) => {
-    // 设置全局语言
-    const locale = props.locale;
-    if (locale) {
-        provide(LocaleInjectionKey, locale);
-    }
 };

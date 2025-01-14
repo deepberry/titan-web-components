@@ -16,12 +16,18 @@
         "useDefineForClassFields": true,
         "sourceMap": true,
         "baseUrl": ".",
-        "types": ["webpack-env", "vite-svg-loader", "unplugin-vue-define-options"],
         "paths": {
             "@/*": ["src/*"]
         },
-        "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es5", "ES2015.Promise", "ES2015", "es2017"]
+        "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es5", "ES2015.Promise", "ES2015", "es2017"],
+        "types": ["webpack-env", "unplugin-vue-define-options"]
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "src/utils/props_canvas.js",
+        "src/utils/props_canvas.js"
+    ],
     "exclude": ["node_modules", ".storybook", "./src/stories"]
 }

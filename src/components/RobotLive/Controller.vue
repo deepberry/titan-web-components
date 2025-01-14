@@ -19,8 +19,7 @@
                     v-if="isEnabled(handler)"
                     :disabled="state[handler]"
                     link
-                    >{{ getControllerSymbol(handler) }}</el-button
-                >
+                ></el-button>
             </el-tooltip>
         </div>
     </div>
@@ -28,7 +27,6 @@
 
 <script lang="ts" setup>
 import { PropType } from "vue";
-import { getControllerSymbol } from "../../utils/constants";
 import { useLocale } from "../../hooks";
 
 // 属性
@@ -68,6 +66,13 @@ const isEnabled = (handler) => {
 
 // 其它
 const { t } = useLocale();
+</script>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+    name: "RobotLiveController",
+});
 </script>
 
 <style lang="less">

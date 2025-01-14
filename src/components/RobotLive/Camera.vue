@@ -11,35 +11,35 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from "vue";
 import { ElMessage } from "element-plus";
+import pinia from "../../store/store";
 import { useRobotLiveStore } from "../../store/RobotLive";
-import { HubConnection, HubConnectionOptions } from "../../service/HubConnection";
 import { useLocale } from "../../hooks";
 import Controller from "./Controller.vue";
 
 // 属性
 const props = defineProps({
-    config: {
-        type: Object as PropType<HubConnectionOptions>,
+    connection: {
+        type: Object,
         required: true,
     },
 });
+const { connection: $connection } = props;
 
 // 状态
-const store = useRobotLiveStore();
+const store = useRobotLiveStore(pinia);
 const controllerState = store.cameraControllerState;
-
-// 连接
-const connection = new HubConnection(props.config);
 
 // 事件
 const { t } = useLocale();
+const emit = defineEmits(["success", "fail"]);
 const exec = async (action) => {
-    connection
+    $connection
         .invoke("CommandCamera", action)
         .then(() => {
-            controllerState[action] = true;
+            store.commandCamera(action);
+
+            emit("success", action);
             ElMessage({
                 message: t("RobotLive.Message.isRunning") + t(`RobotLive.Controller.${action}`),
                 type: "success",
@@ -47,11 +47,13 @@ const exec = async (action) => {
         })
         .catch((err) => {
             controllerState[action] = false;
-            // TODO:错误提示
+
+            emit("fail", err);
             ElMessage({
                 message: err.message,
                 type: "error",
             });
+
             console.error(err);
             // TODO:beacon上报
         });

@@ -25,15 +25,7 @@ app.use(TitanUI);
 #### 部分引入
 
 ```js
-import RobotLive from "@deepberry/titan-web-components/src/components/RobotLive/Index.vue";
-```
-
-### International
-
-```html
-<TitanConfigProvider locale="enUs">
-    <!-- components -->
-</TitanConfigProvider>
+import CommonPanel from "@deepberry/titan-web-components/src/components/Common/Panel.vue";
 ```
 
 ### API Reference

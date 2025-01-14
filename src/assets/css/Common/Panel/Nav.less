@@ -1,0 +1,45 @@
+@import "./var.less";
+.c-panel-navigation {
+    display: flex;
+    flex-direction: column;
+
+    max-height: calc(100vh - @size*2);
+    overflow-y: auto;
+    position: relative;
+}
+.c-panel-navigation__item {
+    width: @size;
+    height: @size;
+    box-sizing: border-box;
+    padding: 20px;
+    position: relative;
+
+    svg {
+        fill: @light;
+        transition: 0.12s ease-in-out;
+    }
+
+    &.active {
+        // background-color: #f0f4f9;
+        svg {
+            fill: #a2b5cd;
+        }
+        // cursor: not-allowed;
+        cursor: default;
+    }
+    &:not(.active):hover {
+        // background-color: #d1dbe5;
+        svg {
+            fill: @primary;
+        }
+    }
+}
+.c-panel-navigation__focus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #f0f4f9;
+    width: @size;
+    height: @size;
+    transition: 0.08s ease-in-out;
+}

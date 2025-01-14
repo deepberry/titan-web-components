@@ -1,2 +1,2 @@
-export { default as zhCn } from "./lang/zh-cn";
-export { default as enUs } from "./lang/en-us";
+export { default as zh_cn } from "./lang/zh-cn";
+export { default as en_us } from "./lang/en-us";

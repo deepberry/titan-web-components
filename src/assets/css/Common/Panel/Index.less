@@ -1,0 +1,72 @@
+@import "./var.less";
+.c-panel {
+    width: @size;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: @common-panel-z-index;
+
+    // MASK
+    &::before {
+        content: "";
+        background-color: rgba(38, 50, 56, 0.9);
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        display: none;
+    }
+}
+
+.c-panel-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: @black;
+}
+
+// 移动端展开
+@keyframes maskFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@fadeTime: 0.2s; //保证动画时间一致
+@media screen and (max-width: @phone) {
+    .c-panel-wrapper,
+    .c-panel {
+        transform: translateX(-100%);
+        transition: @fadeTime ease-in-out;
+    }
+    .c-panel.is--open {
+        transform: translateX(0);
+        .c-panel-wrapper {
+            transform: translateX(0);
+        }
+        &::before {
+            display: block;
+            animation: maskFadeIn @fadeTime ease-in-out;
+        }
+    }
+}
+
+// LOGO
+.c-panel-logo {
+    width: @size;
+    height: @size;
+    background-color: @primary;
+    padding: 14px;
+    box-sizing: border-box;
+
+    svg {
+        fill: @light;
+    }
+}

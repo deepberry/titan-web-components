@@ -6,7 +6,7 @@
         <!-- 视频直播 -->
         <div class="w-live-video">
             <!-- 播放器 -->
-            <Live class="u-video" />
+            <Live class="u-video" :connection="$connection" v-if="videoEnable" :config="videoConf" />
             <!-- 播放器组插槽 -->
             <slot name="video"></slot>
         </div>
@@ -16,8 +16,14 @@
             <!-- 控制器组插槽 -->
             <slot name="controller"></slot>
             <div class="u-controllers">
-                <Camera class="u-controller u-controller--camera" :config="props.camera" v-if="props.camera" />
-                <Robot class="u-controller u-controller--robot" :config="props.robot" v-if="props.robot" />
+                <div class="u-controllers-item">
+                    <slot name="camera"></slot>
+                    <Camera class="u-controller u-controller--camera" :connection="$connection" v-if="cameraEnable" />
+                </div>
+                <div class="u-controllers-item">
+                    <slot name="robot"></slot>
+                    <Robot class="u-controller u-controller--robot" :connection="$connection" v-if="robotEnable" />
+                </div>
             </div>
         </div>
 
@@ -29,17 +35,44 @@
 import Camera from "./Camera.vue";
 import Robot from "./Robot.vue";
 import Live from "./Video.vue";
-import { HubConnectionOptions } from "../../service/HubConnection";
-import { PropType } from "vue";
+import { createConnection, HubConnectionOptions } from "../../extensions/HubConnection";
+import { PlayerOptions } from "../../extensions/AliPlayer";
+import { PropType, onUnmounted } from "vue";
+
+// 属性
 const props = defineProps({
-    // 相机设置
-    camera: {
+    // 连接设置
+    connectionConf: {
         type: Object as PropType<HubConnectionOptions>,
+        required: true,
     },
-    // 机器人设置
-    robot: {
-        type: Object as PropType<HubConnectionOptions>,
+    // 直播设置
+    videoConf: {
+        type: Object as PropType<PlayerOptions>,
     },
+    // 启用相机
+    cameraEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
+    },
+    // 启用机器人
+    robotEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
+    },
+    // 启用视频
+    videoEnable: {
+        type: Boolean as PropType<boolean>,
+        default: true,
+    },
+});
+const { cameraEnable, robotEnable, videoEnable } = props;
+
+// 连接
+const $connection = createConnection(props.connectionConf);
+$connection.start();
+onUnmounted(() => {
+    $connection.stop();
 });
 </script>
 

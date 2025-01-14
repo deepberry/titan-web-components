@@ -1,0 +1,22 @@
+@import "~/node_modules/csslab/reset.css";
+@import "./global.less";
+@import "./Common/dialog.less";
+@import "./mixin.less";
+
+.c-main {
+    padding: 60px 20px 0 20px;
+    margin-right: 0;
+
+    &.is-collapse {
+        margin-right: @aside-width;
+    }
+
+    &.is-opened {
+        margin-left: @sidebar-width;
+    }
+    @media screen and (max-width: @phone) {
+        &.is-opened {
+            margin-left: 0;
+        }
+    }
+}
