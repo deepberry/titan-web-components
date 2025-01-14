@@ -30,3 +30,27 @@ export function $titan2(options?: any) {
 
     return ins;
 }
+
+/**
+ * cms接口请求构建器
+ *
+ * @param {*} baseURL
+ * @return {*}
+ */
+export function $cms(options?: any) {
+    const config = {
+        baseURL: process.env.VUE_APP_TITAN_API + "api/cms/",
+        withCredentials: false,
+        headers: {
+            Authorization: "Bearer " + User.getToken({ version: 2 }),
+        },
+    };
+
+    // 创建实例
+    const ins = axios.create(config);
+
+    // 指定拦截器
+    installStandardInterceptors(ins, options);
+
+    return ins;
+}

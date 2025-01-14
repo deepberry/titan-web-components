@@ -6,17 +6,23 @@
         <CommonSidebar :menus="menus"></CommonSidebar>
         <div class="c-main">
             <slot></slot>
+
+            <el-button @click="openPayPop">Open Pay Pop</el-button>
         </div>
+
+        <PayPop v-model="show" @close="show = false"></PayPop>
     </div>
 </template>
 
 <script>
 import CommonHeader from "@/components/Common/Header/Index.vue";
+import PayPop from "@/components/Common/Widget/PayPop.vue";
 export default {
     name: "App",
     props: [],
     components: {
         CommonHeader,
+        PayPop,
     },
     data: function () {
         return {
@@ -73,6 +79,8 @@ export default {
                     children: [],
                 },
             ],
+
+            show: false,
         };
     },
     computed: {},
@@ -80,6 +88,9 @@ export default {
     methods: {
         toggle: function () {
             this.status = !this.status;
+        },
+        openPayPop: function () {
+            this.show = true;
         },
     },
     created: function () {},
