@@ -10,7 +10,13 @@
             <el-button @click="openPayPop">Open Pay Pop</el-button>
         </div>
 
-        <PayPop v-model="show" @close="show = false"></PayPop>
+        <PayPop
+            v-model="show"
+            :productId="1"
+            productType="TITAN_PACK"
+            :dashboardId="435"
+            productDesc="普通套餐"
+        ></PayPop>
     </div>
 </template>
 

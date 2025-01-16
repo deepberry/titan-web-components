@@ -39,7 +39,7 @@ export function $titan2(options?: any) {
  */
 export function $cms(options?: any) {
     const config = {
-        baseURL: process.env.VUE_APP_TITAN_API + "api/cms/",
+        baseURL: process.env.VUE_APP_CMS_API + "api/cms/",
         withCredentials: false,
         headers: {
             Authorization: "Bearer " + User.getToken({ version: 2 }),

@@ -2,24 +2,25 @@
     <el-dialog
         class="c-pay-pop"
         :title="title"
-        v-model="visible"
+        :model-value="modelValue"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :width="width"
+        @close="cancel"
     >
         <div class="c-pay-pop-box">
             <el-tabs class="c-pay-pop-tab" v-model="pay_type" type="card">
-                <el-tab-pane label="支付宝" name="alipay">
-                    <template #label>
-                        <span class="u-tab">
-                            <img src="../../../assets/img/common/alipay.png" />支付宝支付<em>支持花呗分期</em>
-                        </span>
-                    </template>
-                </el-tab-pane>
                 <el-tab-pane label="微信" name="wepay">
                     <template #label>
                         <span class="u-tab">
                             <img src="../../../assets/img/common/wepay.png" />微信支付<em>支持信用卡</em>
+                        </span>
+                    </template>
+                </el-tab-pane>
+                <el-tab-pane label="支付宝" name="alipay" disabled>
+                    <template #label>
+                        <span class="u-tab">
+                            <img src="../../../assets/img/common/alipay.png" />支付宝支付<em>支持花呗分期</em>
                         </span>
                     </template>
                 </el-tab-pane>
@@ -33,11 +34,16 @@
                 <div class="u-paybox">
                     <i class="u-qrcode u-wechat">
                         <qrcode-vue v-if="qrcode" class="u-pic" :value="qrcode" :size="260" level="H"></qrcode-vue>
+                        <div class="u-pic u-expired" v-if="expired">
+                            二维码已过期,<a class="u-refresh" @click.stop="onRefresh"
+                                ><el-icon><Refresh></Refresh></el-icon>刷新</a
+                            >
+                        </div>
                     </i>
                     <span class="u-skip u-skip-alipay" v-if="isAlipay"
                         >手机不在身边？使用<a :href="skip_url" target="_blank">电脑版支付宝</a>支付。</span
                     >
-                    <span class="u-exp">（20分钟过期，请在支付完成后点击【已完成支付】）</span>
+                    <span class="u-exp">（10分钟过期，请在支付完成后点击【已完成支付】）</span>
                     <transition name="fade">
                         <el-alert
                             class="u-warning"
@@ -64,53 +70,96 @@
 <script>
 import QrcodeVue from "qrcode.vue";
 import { checkOrder, createOrder } from "../../../service/order";
+import { debounce } from "lodash";
 export default {
     name: "PayPop",
-    props: ["modelValue", "w", "t", "payMode", "returnUrl", "productId", "productDesc", "count"],
+    props: {
+        modelValue: {
+            type: Boolean,
+            default: false,
+        },
+        w: {
+            type: String,
+            default: "50%",
+        },
+        t: {
+            type: String,
+            default: "支付中心",
+        },
+        payMode: {
+            type: String,
+            default: "wepay",
+        },
+        productId: {
+            type: String,
+            default: "",
+        },
+        productDesc: {
+            type: String,
+            default: "",
+        },
+        productType: {
+            type: String,
+            default: "TITAN_PACK",
+        },
+        dashboardId: {
+            type: [String, Number],
+            default: "",
+        },
+        iccNumber: {
+            type: String,
+            default: "",
+        },
+        from: {
+            type: String,
+            default: "user",
+        },
+    },
+    emits: ["update:modelValue", "done"],
     data: function () {
         return {
-            // 窗口可见性
-            visible: this.v || false,
-            width: this.w || "50%",
-            title: this.t || "支付中心",
+            // 窗口
+            width: this.w,
+            title: this.t,
 
             // 产品
-            pay_type: this.payMode || "wepay",
+            pay_type: this.payMode,
             product_id: this.productId,
-            return_url: this.returnUrl,
 
             // 订单信息
             qrcode: "",
-            order_id: "",
+            order_id: "DB001173701099526844",
             price: 0,
             status: "",
             skip_url: "", //支付宝跳转支付地址
 
             // 支付失败或过期提醒
             warning_visible: false,
+
+            // 是否过期
+            expired: true,
+            timer: null,
         };
     },
     computed: {
         params: function () {
-            return {
-                pay_type: this.pay_type,
+            const obj = {
+                pay_method: this.pay_type,
+                product_type: this.productType,
                 product_id: this.product_id,
-                return_url: this.return_url,
-                count: this.count || 1,
+                description: this.productDesc,
             };
+
+            this.dashboardId && (obj.dashboard_id = this.dashboardId);
+            this.iccNumber && (obj.icc_number = this.iccNumber);
+
+            return obj;
         },
         isAlipay: function () {
             return this.pay_type == "alipay";
         },
     },
     watch: {
-        // 可见双向数据
-        modelValue: function (val) {
-            this.visible = val;
-        },
-        visible: function (val) {
-            this.$emit("update:modelValue", val);
-        },
         // 小窗口可二次定制数据
         payMode: function (val) {
             this.pay_type = val;
@@ -118,39 +167,45 @@ export default {
         productId: function (val) {
             this.product_id = val;
         },
-        returnUrl: function (val) {
-            this.return_url = val;
-        },
-        // 创建订单
-        params: {
-            immediate: true,
-            handler: function (params) {
+        modelValue: function (val) {
+            if (val) {
+                // 1.未过期，不进行二次生成
+                if (!this.expired) {
+                    console.log("未过期，不进行二次生成");
+                    return;
+                }
+                // 2.过期，重新生成
                 this.build();
-            },
+            }
         },
+    },
+    unmounted: function () {
+        clearTimeout(this.timer);
     },
     methods: {
         cancel: function () {
-            this.visible = false;
+            this.$emit("update:modelValue", false);
         },
         closeWarning: function () {
             this.warning_visible = false;
         },
         build: function () {
-            createOrder(this.params).then((res) => {
-                // 兼容升级
+            this.expired = false;
+            createOrder(this.from, this.params).then((res) => {
                 if (this.pay_type == "wepay") {
-                    this.qrcode = res.data.data?.qrcode;
-                } else {
-                    this.qrcode = res.data.data?.toPayClient;
-                    this.skip_url = res.data.data?.toPayWebSite;
+                    this.qrcode = res.data.data?.code_url;
                 }
 
-                this.order_id = res.data.data.orderId;
+                this.order_id = res.data.data.pay_order_no;
                 this.price = res.data.data.price;
+
+                // 10分钟后过期
+                this.timer = setTimeout(() => {
+                    this.expired = true;
+                }, 600000);
             });
         },
-        check: function () {
+        check: debounce(function () {
             if (!this.order_id) {
                 this.$notify.error({
                     title: "错误",
@@ -159,8 +214,8 @@ export default {
                 return;
             }
             checkOrder(this.order_id).then((res) => {
-                this.status = res.data.data.pay_status;
-                if (this.status == 1) {
+                this.status = res.data.data;
+                if (this.status) {
                     this.visible = false;
                     this.$emit("done");
                     location.reload();
@@ -168,13 +223,18 @@ export default {
                     this.warning_visible = true;
                 }
             });
-        },
+        }, 1000),
         formatPrice: function (val) {
             return (val && (val / 100).toFixed(2)) || "-";
         },
+
+        // 刷新二维码
+        onRefresh: function () {
+            this.build();
+        },
     },
     mounted: function () {
-        this.stat();
+        // this.stat();
     },
     components: {
         QrcodeVue,
