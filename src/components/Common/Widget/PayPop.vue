@@ -114,6 +114,10 @@ export default {
             type: String,
             default: "user",
         },
+        count: {
+            type: Number,
+            default: 1,
+        },
     },
     emits: ["update:modelValue", "done"],
     data: function () {
@@ -148,6 +152,7 @@ export default {
                 product_type: this.productType,
                 product_id: this.product_id,
                 description: this.productDesc,
+                count: this.count,
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
