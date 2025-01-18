@@ -171,10 +171,13 @@ export default {
         },
         productId: function (val) {
             this.product_id = val;
-            this.build();
         },
-        count(val) {
-            this.build();
+        params: {
+            immediate: true,
+            deep: true,
+            handler() {
+                this.build();
+            },
         },
         modelValue: function (val) {
             if (val) {
