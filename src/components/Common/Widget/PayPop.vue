@@ -179,7 +179,6 @@ export default {
             this.product_id = val;
         },
         idCount: {
-            immediate: true,
             deep: true,
             handler() {
                 // 改变套餐和时间，强制重新生成
