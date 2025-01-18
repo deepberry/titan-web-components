@@ -162,7 +162,7 @@ export default {
         },
         idCount() {
             return {
-                product_id: this.product_id,
+                productId: this.productId,
                 count: this.count,
             };
         },
