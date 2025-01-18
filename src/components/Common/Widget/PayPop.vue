@@ -91,7 +91,7 @@ export default {
             default: "wepay",
         },
         productId: {
-            type: String,
+            type: [String, Number],
             default: "",
         },
         productDesc: {
@@ -171,6 +171,10 @@ export default {
         },
         productId: function (val) {
             this.product_id = val;
+            this.build();
+        },
+        count(val) {
+            this.build();
         },
         modelValue: function (val) {
             if (val) {
