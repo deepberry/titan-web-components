@@ -160,6 +160,12 @@ export default {
 
             return obj;
         },
+        idCount() {
+            return {
+                product_id: this.product_id,
+                count: this.count,
+            };
+        },
         isAlipay: function () {
             return this.pay_type == "alipay";
         },
@@ -172,10 +178,11 @@ export default {
         productId: function (val) {
             this.product_id = val;
         },
-        params: {
+        idCount: {
             immediate: true,
             deep: true,
             handler() {
+                // 改变套餐和时间，强制重新生成
                 this.build();
             },
         },
