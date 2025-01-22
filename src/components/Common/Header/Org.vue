@@ -29,7 +29,7 @@
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
-        <OrgSwitchPop v-model="showOrg"></OrgSwitchPop>
+        <OrgSwitchPop v-model="showOrg" @changeOrg="changeOrg"></OrgSwitchPop>
     </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
             default: () => {},
         },
     },
+    emits: ["changeOrg"],
     data() {
         return {
             showOrg: false,
@@ -74,11 +75,15 @@ export default {
         switchOrganization: function (item) {
             if (item.disabled) return;
             switchOrg(item.organization_id).then(() => {
+                this.$emit("changeOrg");
                 // 刷新token
                 User.refreshToken().then(() => {
                     location.reload();
                 });
             });
+        },
+        changeOrg() {
+            this.$emit("changeOrg");
         },
     },
 };

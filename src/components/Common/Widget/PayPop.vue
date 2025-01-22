@@ -132,7 +132,7 @@ export default {
 
             // 订单信息
             qrcode: "",
-            order_id: "DB001173701099526844",
+            order_id: "",
             price: 0,
             status: "",
             skip_url: "", //支付宝跳转支付地址

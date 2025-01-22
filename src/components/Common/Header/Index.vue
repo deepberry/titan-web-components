@@ -39,6 +39,7 @@ export default {
             default: () => [],
         },
     },
+    emits: ["changeOrg"],
     data() {
         return {
             hasScrollTop: false,
