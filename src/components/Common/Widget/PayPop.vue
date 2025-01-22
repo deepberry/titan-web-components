@@ -164,6 +164,7 @@ export default {
             return {
                 productId: this.productId,
                 count: this.count,
+                iccNumber: this.iccNumber,
             };
         },
         isAlipay: function () {
