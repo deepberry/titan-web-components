@@ -142,7 +142,7 @@ export default {
 
             // 订单信息
             qrcode: "",
-            order_id: "DB001173701099526844",
+            order_id: "",
             price: 0,
             status: "",
             skip_url: "", //支付宝跳转支付地址
@@ -170,6 +170,13 @@ export default {
 
             return obj;
         },
+        idCount() {
+            return {
+                productId: this.productId,
+                count: this.count,
+                iccNumber: this.iccNumber,
+            };
+        },
         isAlipay: function () {
             return this.pay_type == "alipay";
         },
@@ -181,10 +188,13 @@ export default {
         },
         productId: function (val) {
             this.product_id = val;
-            this.build();
         },
-        count(val) {
-            this.build();
+        idCount: {
+            deep: true,
+            handler() {
+                // 改变套餐和时间，强制重新生成
+                this.build();
+            },
         },
         modelValue: function (val) {
             if (val) {

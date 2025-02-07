@@ -52,7 +52,7 @@ export default {
             value: "",
         };
     },
-    emits: ["update:modelValue"],
+    emits: ["update:modelValue", "changeOrg"],
     watch: {
         modelValue: {
             handler(val) {
@@ -70,6 +70,7 @@ export default {
         onConfirm() {
             getSuperToken({ organization_id: this.value }).then((res) => {
                 sessionStorage.setItem("old_org_id", this.value);
+                this.$emit("changeOrg");
                 User.update(res.data.data).then(() => {
                     const extraNames = ["monitor-detail"];
                     const { name } = this.$route || {};

@@ -12,7 +12,7 @@
 
         <div class="c-header-right">
             <slot name="right"></slot>
-            <CommonOrg ref="org" :profile="profile" :organizations="organizations"></CommonOrg>
+            <CommonOrg ref="org" :profile="profile" :organizations="organizations" @changeOrg="onChangeOrg"></CommonOrg>
             <CommonUser :profile="profile" @changeOrg="changeOrg">
                 <slot name="user"></slot>
             </CommonUser>
@@ -39,6 +39,7 @@ export default {
             default: () => [],
         },
     },
+    emits: ["changeOrg"],
     data() {
         return {
             hasScrollTop: false,
@@ -88,6 +89,9 @@ export default {
     methods: {
         changeOrg() {
             this.$refs.org.showOrgSwitch();
+        },
+        onChangeOrg() {
+            this.$emit("changeOrg");
         },
         async loadUserInfo() {
             const profile = await getProfile().then((res) => res.data.data);
