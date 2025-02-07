@@ -17,15 +17,15 @@
                         </span>
                     </template>
                 </el-tab-pane>
-                <el-tab-pane label="支付宝" name="alipay" disabled>
+                <el-tab-pane label="支付宝" name="offline">
                     <template #label>
                         <span class="u-tab">
-                            <img src="../../../assets/img/common/alipay.png" />支付宝支付<em>支持花呗分期</em>
+                            <img src="../../../assets/img/common/pay.svg" />线下支付<em>对公转账</em>
                         </span>
                     </template>
                 </el-tab-pane>
             </el-tabs>
-            <div class="c-pay-pop-content">
+            <div class="c-pay-pop-content" v-if="pay_type == 'wepay'">
                 <h2 class="u-title">{{ productDesc }}</h2>
                 <div class="u-price" v-if="price">
                     <b>{{ formatPrice(price) }}</b
@@ -57,6 +57,12 @@
                     </transition>
                 </div>
             </div>
+            <pay-pop-offline
+                v-else-if="pay_type === 'offline'"
+                :iccNumber="iccNumber"
+                :price="price"
+                :product-desc="productDesc"
+            ></pay-pop-offline>
         </div>
         <template #footer>
             <div class="u-btns">
@@ -71,6 +77,7 @@
 import QrcodeVue from "qrcode.vue";
 import { checkOrder, createOrder } from "../../../service/order";
 import { debounce } from "lodash";
+import PayPopOffline from "./PayPopOffline.vue";
 export default {
     name: "PayPop",
     props: {
@@ -88,7 +95,7 @@ export default {
         },
         payMode: {
             type: String,
-            default: "wepay",
+            default: "offline",
         },
         productId: {
             type: [String, Number],
@@ -184,7 +191,7 @@ export default {
                     return;
                 }
                 // 2.过期，重新生成
-                this.build();
+                if (this.pay_type !== "offline") this.build();
             }
         },
     },
@@ -203,15 +210,14 @@ export default {
             createOrder(this.from, this.params).then((res) => {
                 if (this.pay_type == "wepay") {
                     this.qrcode = res.data.data?.code_url;
+                    this.order_id = res.data.data.pay_order_no;
+
+                    // 10分钟后过期
+                    this.timer = setTimeout(() => {
+                        this.expired = true;
+                    }, 600000);
                 }
-
-                this.order_id = res.data.data.pay_order_no;
                 this.price = res.data.data.price;
-
-                // 10分钟后过期
-                this.timer = setTimeout(() => {
-                    this.expired = true;
-                }, 600000);
             });
         },
         check: debounce(function () {
@@ -242,11 +248,9 @@ export default {
             this.build();
         },
     },
-    mounted: function () {
-        // this.stat();
-    },
     components: {
         QrcodeVue,
+        PayPopOffline,
     },
 };
 </script>
