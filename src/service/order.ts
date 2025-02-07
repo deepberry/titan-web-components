@@ -11,3 +11,8 @@ export const checkOrder = (pay_order_no: string) => {
         },
     });
 };
+
+// 获取商品价格
+export const getGoodsPrice = (data) => {
+    return $cms().post(`mall/handmade/price`, data);
+};

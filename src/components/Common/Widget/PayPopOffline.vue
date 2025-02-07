@@ -1,5 +1,5 @@
 <template>
-    <el-descriptions :column="1" border>
+    <el-descriptions :column="1" border class="m-pay-pop-offline">
         <el-descriptions-item
             :label="item.label"
             v-for="(item, i) in bill"
@@ -24,6 +24,7 @@
 
 <script>
 import { getAc } from "../../../service/misc";
+import { getGoodsPrice } from "../../../service/order";
 export default {
     name: "PayPopOffline",
     props: {
@@ -31,37 +32,66 @@ export default {
             type: String,
             default: "",
         },
-        price: {
-            type: Number,
-            default: 0,
-        },
         productDesc: {
             type: String,
             default: "",
         },
-        time: {
+        count: {
             type: Number,
-            default: 0,
+            default: 1,
+        },
+        productId: {
+            type: [String, Number],
+            default: "",
+        },
+        productType: {
+            type: String,
+            default: "TITAN_PACK",
         },
     },
     data() {
         return {
             info: [],
+            price: 0,
+            time: this.count,
         };
     },
     computed: {
         // 账单
         bill() {
-            return [
+            const arr = [
                 { label: "续费明细", value: this.productDesc },
                 { label: "续费价格", value: `￥ ${this.toFee(this.price)}` },
-                { label: "续费时长", value: `${this.time} 月` },
+                { label: "续费时长", value: `${this.time} 天` },
                 ...this.info,
             ];
+            if (this.iccNumber) {
+                arr.unshift({ label: "续费卡号", value: this.iccNumber });
+            }
+
+            return arr;
+        },
+        product() {
+            return [this.productId, this.productType, this.count, this.iccNumber];
+        },
+    },
+    watch: {
+        product: {
+            deep: true,
+            handler() {
+                this.loadGoodsPrice();
+            },
         },
     },
     mounted() {
         this.loadTips();
+        this.loadGoodsPrice();
+
+        if (this.productType == "SIM_CARD") {
+            this.time = 365;
+        } else {
+            this.time = this.count;
+        }
     },
     methods: {
         loadTips() {
@@ -76,9 +106,34 @@ export default {
                 }
             });
         },
+        loadGoodsPrice() {
+            if (!this.productType) return;
+            const data = {
+                product_id: this.productId,
+                product_type: this.productType,
+                count: this.count,
+                icc_number: this.iccNumber,
+            };
+            getGoodsPrice(data).then((res) => {
+                this.price = res.data.data.price;
+            });
+        },
         toFee(value) {
             return (value / 100).toFixed(2);
         },
     },
 };
 </script>
+
+<style lang="less">
+.m-pay-pop-offline {
+    .m-descriptions {
+        .flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .el-descriptions__cell span {
+        .break;
+    }
+}
+</style>

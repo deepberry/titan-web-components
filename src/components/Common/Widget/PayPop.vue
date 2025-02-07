@@ -62,6 +62,9 @@
                 :iccNumber="iccNumber"
                 :price="price"
                 :product-desc="productDesc"
+                :count="count"
+                :product-type="productType"
+                :product-id="productId"
             ></pay-pop-offline>
         </div>
         <template #footer>
@@ -95,7 +98,7 @@ export default {
         },
         payMode: {
             type: String,
-            default: "offline",
+            default: "wepay",
         },
         productId: {
             type: [String, Number],
@@ -191,7 +194,7 @@ export default {
                     return;
                 }
                 // 2.过期，重新生成
-                if (this.pay_type !== "offline") this.build();
+                this.build();
             }
         },
     },
@@ -221,6 +224,10 @@ export default {
             });
         },
         check: debounce(function () {
+            if (this.pay_type == "offline") {
+                this.submitOffline();
+                return;
+            }
             if (!this.order_id) {
                 this.$notify.error({
                     title: "错误",
@@ -246,6 +253,21 @@ export default {
         // 刷新二维码
         onRefresh: function () {
             this.build();
+        },
+
+        // offline
+        submitOffline: function () {
+            this.$confirm("请确认已完成支付", "提示", {
+                confirmButtonText: "已完成支付",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    createOrder(this.from, this.params).then((res) => {
+                        location.reload();
+                    });
+                })
+                .catch(() => {});
         },
     },
     components: {
