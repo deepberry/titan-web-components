@@ -30,7 +30,10 @@
         "src/utils/props_canvas.js",
         "src/service/order.js",
         "src/utils/api.js",
-        "src/utils/interceptors.js"
+        "src/utils/interceptors.js",
+        "src/utils/user.js",
+        "src/service/account.js",
+        "src/service/misc.js"
     ],
     "exclude": ["node_modules", ".storybook", "./src/stories"]
 }

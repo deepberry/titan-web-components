@@ -1,5 +1,5 @@
 // 用户信息中央处理模块
-import { $titan2 } from "./api";
+import { $titan2 } from "@deepberry/titan-web-components/src/utils/api";
 import axios from "axios";
 import { getCdnLink } from "@deepberry/common/js/utils";
 class User {
@@ -10,8 +10,6 @@ class User {
     static DB_LOCALE = "dp_lang";
     static DB_TIMEZONE = "dp_timezone";
 
-    protected anonymous: any;
-    protected expiration: number;
     constructor() {
         this.anonymous = {
             uid: 0,
@@ -53,7 +51,7 @@ class User {
      * @param {*} data
      * @memberof User
      */
-    private _save(data) {
+    _save(data) {
         localStorage.setItem(User.TOKEN_KEY, data.v1_token);
         localStorage.setItem(User.TOKEN_KEY_V2, data.v2_token);
         localStorage.setItem(User.LAST_AUTH, data.created_at);
@@ -94,7 +92,7 @@ class User {
      * @return {*}
      * @memberof User
      */
-    isAuthenticated(): boolean {
+    isAuthenticated() {
         const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
         const isExpired = Date.now() - lastAuth > this.expiration;
         return !!this.getToken() && !isExpired;
@@ -106,7 +104,7 @@ class User {
      * @return {boolean}
      * @memberof User
      */
-    needRefreshToken(days: number = 3): boolean {
+    needRefreshToken(days = 3) {
         const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
         const isNeedRefresh = Date.now() - lastAuth > this.expiration - days * 24 * 3600 * 1000;
         return this.isAuthenticated() && isNeedRefresh;
@@ -118,7 +116,7 @@ class User {
      * @param {*} url
      * @memberof User
      */
-    toLogin(url: string = location.href) {
+    toLogin(url = location.href) {
         // 移除临时token带来的副作用
         const _ = url.split("?");
         const params = _.length > 1 ? new URLSearchParams(_[1]) : false;
@@ -134,7 +132,7 @@ class User {
      * 更新用户token
      * @returns Promise
      */
-    async refreshToken(): Promise<any> {
+    async refreshToken() {
         return $titan2()
             .post("account/token/refresh")
             .then((res) => {
@@ -176,7 +174,7 @@ class User {
      * @return {*}
      * @memberof User
      */
-    setTimezone(timezone: string) {
+    setTimezone(timezone) {
         return localStorage.setItem(User.DB_TIMEZONE, timezone);
     }
 
@@ -201,12 +199,12 @@ class User {
      * @returns  boolean
      * @memberof User
      */
-    hasPermission = (value: string[]): boolean => {
+    hasPermission = (value) => {
         const permissions = sessionStorage.getItem("titan_permissions");
         if (permissions) {
             try {
                 const permissionsArr = JSON.parse(permissions);
-                return permissionsArr.some((item: string) => value.includes(item));
+                return permissionsArr.some((item) => value.includes(item));
             } catch (error) {
                 return false;
             }
@@ -220,7 +218,7 @@ class User {
      * @returns {boolean}
      * @memberof User
      */
-    checkVersion(version: string): boolean {
+    checkVersion(version) {
         try {
             const titan_version = localStorage.getItem("titan_version");
 

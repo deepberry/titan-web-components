@@ -100,6 +100,7 @@ export default {
             type: String,
             default: "wepay",
         },
+        // 产品信息 产品id、产品描述、产品类型、园区id、icc号、数量、来源...etc 用于生成订单
         productId: {
             type: [String, Number],
             default: "",
@@ -120,13 +121,27 @@ export default {
             type: String,
             default: "",
         },
+        count: {
+            type: Number,
+            default: 1,
+        },
         from: {
             type: String,
             default: "user",
         },
-        count: {
-            type: Number,
-            default: 1,
+
+        // 支付函数 用于存在订单号的情况下，进行支付
+        payFn: {
+            type: Function,
+            default: () => {},
+        },
+        isUseFn: {
+            type: Boolean,
+            default: false,
+        },
+        payCheck: {
+            type: Function,
+            default: () => {},
         },
     },
     emits: ["update:modelValue", "done"],
@@ -219,9 +234,23 @@ export default {
             this.warning_visible = false;
         },
         build: function () {
-            this.expired = false;
-            createOrder(this.from, this.params).then((res) => {
-                if (this.pay_type == "wepay") {
+            if (!this.isUseFn) {
+                this.expired = false;
+                createOrder(this.from, this.params).then((res) => {
+                    if (this.pay_type == "wepay") {
+                        this.qrcode = res.data.data?.code_url;
+                        this.order_id = res.data.data.pay_order_no;
+
+                        // 10分钟后过期
+                        this.timer = setTimeout(() => {
+                            this.expired = true;
+                        }, 600000);
+                    }
+                    this.price = res.data.data.price;
+                });
+            } else {
+                this.expired = false;
+                this.payFn().then((res) => {
                     this.qrcode = res.data.data?.code_url;
                     this.order_id = res.data.data.pay_order_no;
 
@@ -229,9 +258,9 @@ export default {
                     this.timer = setTimeout(() => {
                         this.expired = true;
                     }, 600000);
-                }
-                this.price = res.data.data.price;
-            });
+                    this.price = res.data.data.price;
+                });
+            }
         },
         check: debounce(function () {
             if (this.pay_type == "offline") {
@@ -242,6 +271,19 @@ export default {
                 this.$notify.error({
                     title: "错误",
                     message: "无效订单号",
+                });
+                return;
+            }
+            if (this.isUseFn) {
+                this.payCheck(this.order_id).then((res) => {
+                    this.status = res.data.data;
+                    if (this.status) {
+                        this.visible = false;
+                        this.$emit("done");
+                        location.reload();
+                    } else {
+                        this.warning_visible = true;
+                    }
                 });
                 return;
             }
@@ -273,6 +315,12 @@ export default {
                 type: "warning",
             })
                 .then(() => {
+                    if (this.isUseFn) {
+                        this.payFn().then(() => {
+                            location.reload();
+                        });
+                        return;
+                    }
                     createOrder(this.from, this.params).then((res) => {
                         location.reload();
                     });
