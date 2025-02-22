@@ -34,7 +34,7 @@ function loadPop(msg, popType = "message") {
  * @param {*} target
  * @param {*} options
  */
-function installStandardInterceptors(target, options?: any) {
+function installStandardInterceptors(target, options) {
     // 如果用户token过期，需要执行User.destroy()
     // target["interceptors"]["request"].use(
     //     function (config) {
@@ -91,7 +91,7 @@ function installStandardInterceptors(target, options?: any) {
  * @param {*} target
  * @param {*} options
  */
-function installSimpleInterceptors(target, options?: any) {
+function installSimpleInterceptors(target, options) {
     const popType = (options && options.popType) || "message";
     target["interceptors"]["response"].use(
         function (response) {

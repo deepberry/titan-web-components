@@ -13,7 +13,7 @@ import { installSimpleInterceptors, installStandardInterceptors } from "./interc
  * @param {*} baseURL
  * @return {*}
  */
-export function $titan2(options?: any) {
+export function $titan2(options) {
     const config = {
         baseURL: process.env.VUE_APP_TITAN_API + "api/titan/",
         withCredentials: false,
@@ -37,7 +37,7 @@ export function $titan2(options?: any) {
  * @param {*} baseURL
  * @return {*}
  */
-export function $cms(options?: any) {
+export function $cms(options) {
     const config = {
         baseURL: process.env.VUE_APP_CMS_API + "api/cms/",
         withCredentials: false,

@@ -27,7 +27,10 @@
         "src/**/*.tsx",
         "src/**/*.vue",
         "src/utils/props_canvas.js",
-        "src/utils/props_canvas.js"
+        "src/utils/props_canvas.js",
+        "src/service/order.js",
+        "src/utils/api.js",
+        "src/utils/interceptors.js"
     ],
     "exclude": ["node_modules", ".storybook", "./src/stories"]
 }
