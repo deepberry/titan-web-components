@@ -280,7 +280,6 @@ export default {
                     if (this.status) {
                         this.visible = false;
                         this.$emit("done");
-                        location.reload();
                     } else {
                         this.warning_visible = true;
                     }
