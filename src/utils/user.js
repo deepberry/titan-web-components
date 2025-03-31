@@ -1,5 +1,5 @@
 // 用户信息中央处理模块
-import { $titan2 } from "@deepberry/titan-web-components/src/utils/api";
+import { $titan2 } from "./api";
 import axios from "axios";
 import { getCdnLink } from "@deepberry/common/js/utils";
 class User {
