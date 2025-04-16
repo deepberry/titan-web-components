@@ -19,7 +19,7 @@
                 </template>
             </div>
         </el-descriptions-item>
-        <el-descriptions-item label="汇款备注">
+        <el-descriptions-item label="汇款备注" min-width="100" label-align="right">
             <el-input v-model="remark" placeholder="请填写您的汇款备注" clearable @input="onRemarkInput"></el-input>
         </el-descriptions-item>
     </el-descriptions>
