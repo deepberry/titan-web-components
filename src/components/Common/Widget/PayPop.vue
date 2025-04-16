@@ -65,6 +65,7 @@
                 :count="count"
                 :product-type="productType"
                 :product-id="productId"
+                v-model:payRemark="payRemark"
             ></pay-pop-offline>
         </div>
         <template #footer>
@@ -168,6 +169,8 @@ export default {
             // 是否过期
             expired: true,
             timer: null,
+
+            payRemark: "", // 汇款备注
         };
     },
     computed: {
@@ -178,6 +181,7 @@ export default {
                 product_id: this.product_id,
                 description: this.productDesc,
                 count: this.count,
+                pay_remark: this.payRemark || "",
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
@@ -239,26 +243,26 @@ export default {
                 createOrder(this.from, this.params).then((res) => {
                     if (this.pay_type == "wepay") {
                         this.qrcode = res.data.data?.code_url;
-                        this.order_id = res.data.data.pay_order_no;
+                        this.order_id = res.data?.data?.pay_order_no;
 
                         // 10分钟后过期
                         this.timer = setTimeout(() => {
                             this.expired = true;
                         }, 600000);
                     }
-                    this.price = res.data.data.price;
+                    this.price = res.data?.data?.price;
                 });
             } else {
                 this.expired = false;
                 this.payFn().then((res) => {
                     this.qrcode = res.data.data?.code_url;
-                    this.order_id = res.data.data.pay_order_no;
+                    this.order_id = res.data?.data?.pay_order_no;
 
                     // 10分钟后过期
                     this.timer = setTimeout(() => {
                         this.expired = true;
                     }, 600000);
-                    this.price = res.data.data.price;
+                    this.price = res.data?.data?.price;
                 });
             }
         },

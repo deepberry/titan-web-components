@@ -19,6 +19,9 @@
                 </template>
             </div>
         </el-descriptions-item>
+        <el-descriptions-item label="汇款备注">
+            <el-input v-model="remark" placeholder="请填写您的汇款备注" clearable @input="onRemarkInput"></el-input>
+        </el-descriptions-item>
     </el-descriptions>
 </template>
 
@@ -27,6 +30,7 @@ import { getAc } from "../../../service/misc";
 import { getGoodsPrice } from "../../../service/order";
 export default {
     name: "PayPopOffline",
+    emits: ["update:payRemark"],
     props: {
         iccNumber: {
             type: String,
@@ -58,6 +62,7 @@ export default {
             info: [],
             price: 0,
             time: this.count,
+            remark: "",
         };
     },
     computed: {
@@ -71,9 +76,6 @@ export default {
             ];
             if (this.iccNumber) {
                 arr.unshift({ label: "续费卡号", value: this.iccNumber });
-            }
-            if (this.payRemark) {
-                arr.push({ label: "汇款备注", value: this.payRemark });
             }
 
             return arr;
@@ -91,6 +93,7 @@ export default {
         },
     },
     mounted() {
+        this.remark = this.payRemark;
         this.loadTips();
         this.loadGoodsPrice();
 
@@ -101,6 +104,9 @@ export default {
         }
     },
     methods: {
+        onRemarkInput(val) {
+            this.$emit("update:payRemark", val);
+        },
         loadTips() {
             getAc("bill-sim-renew").then((data) => {
                 if (data?.status) {
