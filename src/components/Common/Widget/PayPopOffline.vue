@@ -128,7 +128,7 @@ export default {
                 icc_number: this.iccNumber,
             };
             getGoodsPrice(data).then((res) => {
-                this.price = res.data.data.price;
+                this.price = res.data?.data?.price;
             });
         },
         toFee(value) {

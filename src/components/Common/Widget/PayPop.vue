@@ -66,7 +66,8 @@
                 :product-type="productType"
                 :product-id="productId"
                 v-model:payRemark="payRemark"
-            ></pay-pop-offline>
+            >
+            </pay-pop-offline>
         </div>
         <template #footer>
             <div class="u-btns">
@@ -145,7 +146,7 @@ export default {
             default: () => {},
         },
     },
-    emits: ["update:modelValue", "done"],
+    emits: ["update:modelValue", "done", "change"],
     data: function () {
         return {
             // 窗口
@@ -225,6 +226,9 @@ export default {
                 // 2.过期，重新生成
                 this.build();
             }
+        },
+        params(params) {
+            this.$emit("change", params);
         },
     },
     unmounted: function () {
