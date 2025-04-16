@@ -48,6 +48,10 @@ export default {
             type: String,
             default: "TITAN_PACK",
         },
+        payRemark: {
+            type: String,
+            default: "",
+        },
     },
     data() {
         return {
@@ -67,6 +71,9 @@ export default {
             ];
             if (this.iccNumber) {
                 arr.unshift({ label: "续费卡号", value: this.iccNumber });
+            }
+            if (this.payRemark) {
+                arr.push({ label: "汇款备注", value: this.payRemark });
             }
 
             return arr;
