@@ -81,7 +81,7 @@ export default {
             window.open("/order/index", "_blank");
         },
         toEnterprise() {
-            window.open("/enterprise/member", "_blank");
+            window.open("/enterprise/member", "_self");
         },
         toHelp() {
             window.open("/help/doc", "_blank");
