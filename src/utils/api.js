@@ -54,3 +54,21 @@ export function $cms(options) {
 
     return ins;
 }
+
+export function $uc(options) {
+    const config = {
+        baseURL: process.env.VUE_APP_SERVICE_API + "api/uc/",
+        withCredentials: false,
+        headers: {
+            Authorization: "Bearer " + User.getToken({ version: 2 }),
+        },
+    };
+
+    // 创建实例
+    const ins = axios.create(config);
+
+    // 指定拦截器
+    installStandardInterceptors(ins, options);
+
+    return ins;
+}
