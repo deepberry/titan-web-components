@@ -1,4 +1,4 @@
-import { $uc } from "../utils/api";
+import { $uc, $titan2 } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {
@@ -12,7 +12,7 @@ export function getSuperToken(data) {
 
 // 获取用户所有组织
 export function getAllOrganization() {
-    return $uc().get(`organization`);
+    return $titan2().get(`organization`);
 }
 
 // 获取当前用户组织
