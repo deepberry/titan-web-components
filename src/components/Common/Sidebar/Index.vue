@@ -61,7 +61,7 @@
                 <i class="c-nav-menu__focus" :style="focusStyle" v-show="appIndex > -1 || focus_any"></i>
                 <el-tooltip
                     effect="dark"
-                    :content="item.meta.name"
+                    :content="getName(item)"
                     placement="right"
                     v-for="(item, i) in filterMenus"
                     :key="i"
@@ -74,14 +74,8 @@
                         @click.stop="handleMenuItemClick(item, i)"
                     >
                         <div class="c-nav-menu__title">
-                            <img
-                                v-if="item.meta.icon"
-                                class="u-icon"
-                                :src="iconPath(item.meta.icon)"
-                                v-svg-inline
-                                alt=""
-                            />
-                            <span class="u-name">{{ item.meta.name }}</span>
+                            <img v-if="item.icon" class="u-icon" :src="iconPath(item.icon)" v-svg-inline alt="" />
+                            <span class="u-name">{{ getName(item) }}</span>
                         </div>
                     </li>
                 </el-tooltip>
@@ -118,26 +112,7 @@ export default {
     computed: {
         ...mapState(useCommonStore, ["opened", "sideExpanded"]),
         filterMenus() {
-            const menus = this.menus;
-            /**
-             * 1. 判断父级有无permissions字段，有则判断是否有权限
-             * 2. 判断子级有无permissions字段，有则判断是否有权限
-             */
-            const filterMenus = menus.filter((menu) => {
-                if (menu?.permissions) {
-                    return User.hasPermission(menu.permissions);
-                }
-                if (menu?.children) {
-                    menu.children = menu.children.filter((child) => {
-                        if (child.permissions) {
-                            return User.hasPermission(child?.permissions);
-                        }
-                        return true;
-                    });
-                }
-                return true;
-            });
-            return filterMenus;
+            return this.menus;
         },
         activeMenu() {
             const route = this.$route || {};
@@ -149,6 +124,9 @@ export default {
         },
         isCollapse() {
             return this.opened;
+        },
+        isEnglish() {
+            return this.$i18n.locale === "en-us";
         },
         focusStyle() {
             return {
@@ -188,16 +166,7 @@ export default {
             return meta?.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
         },
         handleMenuItemClick(item, index) {
-            this.$router.push({ name: item.name });
-        },
-        handleSubMenuItemClick(item) {
-            this.$router.push({ name: item.name });
-
-            if ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 768) {
-                useCommonStore().opened = false;
-
-                localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
-            }
+            location.href = item.path;
         },
         focusNavItem(index) {
             this.focus_index = index;
@@ -219,6 +188,9 @@ export default {
         close() {
             useCommonStore().opened = false;
             localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
+        },
+        getName(item) {
+            return this.isEnglish ? item["en-us"] : item["zh-cn"];
         },
     },
 };
