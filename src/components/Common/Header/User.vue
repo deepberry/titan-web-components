@@ -88,18 +88,14 @@ export default {
         },
         // TODO: 消息中心
         toMessage() {
-            this.$router.push({
-                path: "/user/message",
-            });
+            window.open("/user/message", "_self");
         },
         changeOrg() {
             if (this.isSuper || this.isDev) {
                 this.$emit("changeOrg", true);
                 return;
             }
-            this.$router.push({
-                path: "/user/organization",
-            });
+            window.open("/user/organization", "_self");
         },
     },
 };
