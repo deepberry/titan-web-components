@@ -40,7 +40,7 @@
                 </div>
             </el-popover>
         </template>
-        <router-link class="c-nav-logo" to="/" v-else>
+        <a class="c-nav-logo" href="/" v-else>
             <img
                 v-if="!isCollapse"
                 class="u-simple"
@@ -55,7 +55,7 @@
                 fill="#fff"
                 v-else
             />
-        </router-link>
+        </a>
         <div class="c-nav-menu">
             <ul class="c-nav-menu__list" @mouseleave="blurNav" @mouseenter="focusNav">
                 <i class="c-nav-menu__focus" :style="focusStyle" v-show="appIndex > -1 || focus_any"></i>
@@ -115,18 +115,13 @@ export default {
             return this.menus;
         },
         activeMenu() {
-            const route = this.$route || {};
-            const { meta, path, name } = route;
-            if (meta?.activeMenu) {
-                return meta.activeMenu;
-            }
-            return name;
+            return location.pathname || "";
         },
         isCollapse() {
             return this.opened;
         },
         isEnglish() {
-            return this.$i18n.locale === "en-us";
+            return User.getLocale() === "en-us";
         },
         focusStyle() {
             return {
@@ -162,8 +157,7 @@ export default {
             return require("../../../assets/img/menus/" + icon + ".svg");
         },
         isActive(item) {
-            const { meta } = this.$route || {};
-            return meta?.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
+            return item?.meta?.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
         },
         handleMenuItemClick(item, index) {
             location.href = item.path;

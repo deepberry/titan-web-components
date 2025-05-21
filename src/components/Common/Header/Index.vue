@@ -70,14 +70,6 @@ export default {
         isPad() {
             return document.documentElement.clientWidth <= 1134;
         },
-        activeMenu() {
-            const route = this.$route;
-            const { meta, path } = route;
-            if (meta.activeMenu) {
-                return meta.activeMenu;
-            }
-            return path;
-        },
     },
     mounted() {
         this.loadUserInfo();
@@ -110,7 +102,8 @@ export default {
             localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
 
             if (useCommonStore().opened) {
-                const key = this.activeMenu.split("/")[1];
+                const activeMenu = location.pathname || "";
+                const key = activeMenu.split("/")[1];
                 const index = this.menus.findIndex((item) => item.path.split("/")[1] === key);
 
                 const expended = useCommonStore().sideExpanded;

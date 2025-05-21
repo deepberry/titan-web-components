@@ -72,14 +72,7 @@ export default {
                 sessionStorage.setItem("old_org_id", this.value);
                 this.$emit("changeOrg");
                 User.update(res.data.data).then(() => {
-                    const extraNames = ["monitor-detail"];
-                    const { name } = this.$route || {};
-                    if (extraNames.includes(name)) {
-                        this.onClose();
-                        this.$router.go(-1);
-                    } else {
-                        location.reload();
-                    }
+                    location.reload();
                 });
             });
         },
