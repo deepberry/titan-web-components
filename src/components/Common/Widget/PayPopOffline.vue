@@ -69,9 +69,9 @@ export default {
         // 账单
         bill() {
             const arr = [
-                { label: "续费明细", value: this.productDesc },
-                { label: "续费价格", value: `￥ ${this.toFee(this.price)}` },
-                { label: "续费时长", value: `${this.time} 天` },
+                // { label: "续费明细", value: this.productDesc },
+                { label: "价格", value: `￥ ${this.price ? this.toFee(this.price) : 0}` },
+                // { label: "续费时长", value: `${this.time} 天` },
                 ...this.info,
             ];
             if (this.iccNumber) {
