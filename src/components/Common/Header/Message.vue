@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getMessageUnRead } from "@/service/account";
+import { getMessageUnRead } from "../../../service/account";
 import { useLocale } from "../../../hooks/index";
 const { t } = useLocale();
 export default {

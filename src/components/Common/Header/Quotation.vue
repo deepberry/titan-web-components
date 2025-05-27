@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import User from "@/utils/user";
-import { addQuotation } from "@/service/account";
+import User from "../../../utils/user";
+import { addQuotation } from "../../../service/account";
 import { throttle } from "lodash";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { useLocale } from "../../../hooks/index";

@@ -31,7 +31,7 @@
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { useLocale } from "../../../hooks/index";
 const { t } = useLocale();
-import User from "@/utils/user";
+import User from "../../../utils/user";
 export default {
     name: "WxMpDialog",
     props: ["profile"],
