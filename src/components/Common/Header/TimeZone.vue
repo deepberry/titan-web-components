@@ -1,7 +1,7 @@
 <template>
     <div class="c-header-preference" :class="{ isPhone }">
         <div class="c-header-lang" @click="onLangClick">
-            <img class="u-icon" src="@/assets/img/common/language.svg" svg-inline v-if="isPhone" />
+            <img class="u-icon" :src="require('@/assets/img/common/language.svg')" svg-inline v-if="isPhone" />
             <span class="u-lang" v-else>{{ langText }}</span>
             <el-select
                 class="u-lang-select"

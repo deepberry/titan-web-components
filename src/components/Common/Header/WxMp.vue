@@ -23,7 +23,7 @@
                 <img :src="require('@/assets/img/common/dialog/wx_mp_icon.svg')" class="u-icon" />
             </div>
         </div>
-        <img src="@/assets/img/common/close.svg" class="u-close" @click="onClose" />
+        <img :src="require('@/assets/img/common/close.svg')" class="u-close" @click="onClose" />
     </el-dialog>
 </template>
 
