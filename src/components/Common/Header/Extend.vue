@@ -117,7 +117,7 @@ export default {
             window.open("https://www.deepberry.cn/products?type=0", "_blank");
         },
         toWorkOrder() {
-            location.href = "/user/work-order";
+            location.href = "/user/feedback";
         },
         toHelp() {
             window.open(`${location.origin}/help/doc`, "_blank");
