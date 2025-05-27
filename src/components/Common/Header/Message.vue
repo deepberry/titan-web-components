@@ -4,7 +4,7 @@
             <img
                 class="u-icon u-message"
                 @click="toMessage"
-                :src="require('@/assets/img/common/header/message.svg')"
+                :src="require('../../../assets/img/common/header/message.svg')"
                 svg-inline
             />
         </el-badge>

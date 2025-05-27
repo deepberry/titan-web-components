@@ -15,15 +15,15 @@
             </div>
             <img :src="qrCodeImg" class="u-qrcode" />
             <div class="m-focus">
-                <img :src="require('@/assets/img/common/dialog/wx_mp_text.svg')" class="u-text-icon" />
+                <img :src="require('../../../assets/img/common/dialog/wx_mp_text.svg')" class="u-text-icon" />
                 <div class="m-text">
                     <p>{{ t("commonHeader.dialog.free_custom") }}</p>
                     <p>{{ t("commonHeader.dialog.new_first") }}</p>
                 </div>
-                <img :src="require('@/assets/img/common/dialog/wx_mp_icon.svg')" class="u-icon" />
+                <img :src="require('../../../assets/img/common/dialog/wx_mp_icon.svg')" class="u-icon" />
             </div>
         </div>
-        <img :src="require('@/assets/img/common/close.svg')" class="u-close" @click="onClose" />
+        <img :src="require('../../../assets/img/common/close.svg')" class="u-close" @click="onClose" />
     </el-dialog>
 </template>
 

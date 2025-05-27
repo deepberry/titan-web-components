@@ -2,14 +2,14 @@
     <div class="c-header-extend">
         <slot></slot>
         <el-dropdown>
-            <img class="u-icon u-more" :src="require('@/assets/img/common/header/more.svg')" svg-inline />
+            <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
             <template #dropdown>
                 <el-dropdown-menu>
                     <el-dropdown-item class="m-header__dropdown-item" @click.stop="toWorkOrder">
                         <div class="u-dropdown__item">
                             <img
                                 class="u-item-icon u-work"
-                                :src="require('@/assets/img/common/header/more/work-order.svg')"
+                                :src="require('../../../assets/img/common/header/more/work-order.svg')"
                                 svg-inline
                             />
                             <span>{{ t("commonHeader.extend.work_order") }}</span>
@@ -29,7 +29,7 @@
                         <div class="u-dropdown__item">
                             <img
                                 class="u-item-icon u-work"
-                                :src="require('@/assets/img/common/header/more/doc.svg')"
+                                :src="require('../../../assets/img/common/header/more/doc.svg')"
                                 svg-inline
                             />
                             <span>{{ t("commonHeader.doc") }}</span>
@@ -39,7 +39,7 @@
                         <div class="u-dropdown__item">
                             <img
                                 class="u-item-icon u-work"
-                                :src="require('@/assets/img/common/header/more/other-support.svg')"
+                                :src="require('../../../assets/img/common/header/more/other-support.svg')"
                                 svg-inline
                             />
                             <span>{{ t("commonHeader.extend.other_support") }}</span>
@@ -51,7 +51,7 @@
         <el-tooltip :content="t('commonHeader.extend.contact_custom')">
             <img
                 class="u-icon u-service"
-                :src="require('@/assets/img/common/header/service.svg')"
+                :src="require('../../../assets/img/common/header/service.svg')"
                 svg-inline
                 @click="quotationVisible = true"
             />
@@ -61,14 +61,19 @@
             <img
                 class="u-icon u-mall"
                 @click="toMall"
-                :src="require('@/assets/img/common/header/mall.svg')"
+                :src="require('../../../assets/img/common/header/mall.svg')"
                 svg-inline
             />
         </el-tooltip>
-        <div class="m-ai">
-            <img class="u-icon u-ai" @click="toMall" :src="require('@/assets/img/common/header/ai.svg')" svg-inline />
-            <span>{{ t("commonHeader.extend.ai") }}</span>
-            <el-icon><ArrowRight></ArrowRight></el-icon>
+        <div class="m-ai" :class="{ 'is-phone': isPhone }" @click="toMall">
+            <img
+                class="u-icon u-ai"
+                @click="toMall"
+                :src="require('../../../assets/img/common/header/ai.svg')"
+                svg-inline
+            />
+            <span v-if="!isPhone">{{ t("commonHeader.extend.ai") }}</span>
+            <el-icon v-if="!isPhone"><ArrowRight></ArrowRight></el-icon>
         </div>
         <el-dialog :title="t('commonHeader.extend.other_support')" v-model="quickVisible">
             <QuickSupport class="c-header-support__pop" />
@@ -93,6 +98,11 @@ export default {
             quickVisible: false,
             quotationVisible: false,
         };
+    },
+    computed: {
+        isPhone() {
+            return document.documentElement.clientWidth <= 768;
+        },
     },
     components: {
         CommonMessage,

@@ -8,7 +8,7 @@
                     <div class="u-tip">({{ t("commonHeader.quotation.first") }})</div>
                 </div>
                 <div class="u-tel">
-                    <img class="u-icon" :src="require('@/assets/img/common/header/tel.svg')" />
+                    <img class="u-icon" :src="require('../../../assets/img/common/header/tel.svg')" />
                     <span>{{ tel }}</span>
                 </div>
             </div>
