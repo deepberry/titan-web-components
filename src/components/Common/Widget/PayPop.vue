@@ -328,7 +328,12 @@ export default {
                         });
                         return;
                     }
-                    createOrder(this.from, this.params).then((res) => {
+                    // 线下支付只能是对公转账 传b2b
+                    const params = {
+                        ...this.params,
+                        pay_method: "b2b",
+                    };
+                    createOrder(this.from, params).then((res) => {
                         location.reload();
                     });
                 })
