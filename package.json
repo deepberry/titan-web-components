@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "scripts": {
         "serve": "vue-cli-service serve --mode serve",
         "preview": "vue-cli-service serve --mode preview",
@@ -20,8 +20,10 @@
         "@microsoft/signalr": "^6.0.7",
         "axios": "^1.4.0",
         "core-js": "^3.8.3",
+        "countries-and-timezones": "^3.4.1",
         "element-plus": "^2.7.0",
         "fabric": "^5.2.4",
+        "flag-icons": "^6.6.6",
         "lodash": "^4.17.21",
         "pinia": "^2.0.17",
         "qrcode.vue": "^3.6.0",

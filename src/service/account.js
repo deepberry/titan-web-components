@@ -1,4 +1,4 @@
-import { $uc, $titan2 } from "../utils/api";
+import { $uc, $titan2, $cms } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {
@@ -26,3 +26,22 @@ export function switchOrg(id) {
         organization_id: id,
     });
 }
+
+// 更新偏好设置
+export function updatePreference(data) {
+    return $titan2().put(`/user/preference`, data);
+}
+
+// 获取时区
+export function getTimeZoneList(params) {
+    return $cms().get("/titan/conf/timezone", { params });
+}
+
+// 消息中心 获取用户未读消息
+export function getMessageUnRead() {
+    return $titan2().get(`/user/message/count`);
+}
+
+export const addQuotation = (data) => {
+    return $cms().post("/www/quotation", data);
+};

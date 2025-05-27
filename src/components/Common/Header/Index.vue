@@ -12,6 +12,10 @@
 
         <div class="c-header-right">
             <slot name="right"></slot>
+            <CommonExtend :profile="profile">
+                <slot name="extend"></slot>
+            </CommonExtend>
+            <timezone />
             <CommonOrg ref="org" :profile="profile" :organizations="organizations" @changeOrg="onChangeOrg"></CommonOrg>
             <CommonUser :profile="profile" @changeOrg="changeOrg">
                 <slot name="user"></slot>
@@ -23,15 +27,19 @@
 <script>
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
+import { getProfile, getCurrentOrganization } from "../../../service/account";
 import CommonOrg from "./Org.vue";
 import CommonUser from "./User.vue";
-import { getProfile, getCurrentOrganization } from "../../../service/account";
+import Timezone from "./TimeZone.vue";
+import CommonExtend from "./Extend.vue";
 
 export default {
     name: "HeaderIndex",
     components: {
         CommonUser,
         CommonOrg,
+        Timezone,
+        CommonExtend,
     },
     props: {
         menus: {
