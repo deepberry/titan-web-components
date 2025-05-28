@@ -201,13 +201,19 @@ export default {
     }
 
     .c-header-timezone {
+        position: relative;
         max-width: 200px;
+        height: 28px;
         cursor: pointer;
         color: #909399;
         .pr;
 
         .u-timezone__wrapper {
+            .dbi;
             padding: 0 15px;
+            height: 28px;
+            line-height: 28px;
+            box-sizing: border-box;
         }
     }
     .c-header-lang {
@@ -240,6 +246,8 @@ export default {
     .u-timezone-select {
         .pa;
         .lt(0);
+        height: 28px;
+        z-index: 1001;
         .el-input,
         .el-select__wrapper {
             visibility: hidden;
