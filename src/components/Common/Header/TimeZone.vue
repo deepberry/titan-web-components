@@ -250,7 +250,8 @@ export default {
         z-index: 1001;
         .el-input,
         .el-select__wrapper {
-            visibility: hidden;
+            // visibility: hidden;
+            opacity: 0;
         }
         .el-select__suffix {
             .none;
