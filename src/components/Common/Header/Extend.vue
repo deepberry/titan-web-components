@@ -1,7 +1,7 @@
 <template>
     <div class="c-header-extend">
         <slot></slot>
-        <el-dropdown>
+        <el-dropdown class="m-header-extend__dropdown" trigger="click">
             <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
             <template #dropdown>
                 <el-dropdown-menu>
@@ -124,4 +124,10 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.m-header-extend__dropdown {
+    &:focus-visible {
+        outline: none;
+    }
+}
+</style>
