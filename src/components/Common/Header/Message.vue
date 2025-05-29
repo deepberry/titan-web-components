@@ -31,7 +31,7 @@ export default {
             });
         },
         toMessage() {
-            location.href = "/user/message";
+            location.href = "/uc/message";
         },
     },
     mounted() {

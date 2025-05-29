@@ -75,27 +75,27 @@ export default {
                 .catch(() => {});
         },
         toProfile() {
-            window.open("/user/profile", "_blank");
+            window.open("/uc/profile", "_blank");
         },
         toOrder() {
-            window.open("/order/index", "_blank");
+            window.open("/uc/order", "_blank");
         },
         toEnterprise() {
-            window.open("/enterprise/member", "_self");
+            window.open("/uc/enterprise", "_self");
         },
         toHelp() {
-            window.open("/help/doc", "_blank");
+            window.open("/uc/help", "_blank");
         },
         // TODO: 消息中心
         toMessage() {
-            window.open("/user/message", "_self");
+            window.open("/uc/message", "_self");
         },
         changeOrg() {
             if (this.isSuper || this.isDev) {
                 this.$emit("changeOrg", true);
                 return;
             }
-            window.open("/user/organization", "_self");
+            window.open("/uc/organization", "_self");
         },
     },
 };

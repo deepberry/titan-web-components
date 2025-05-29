@@ -58,8 +58,8 @@ export default {
             navs: [],
 
             menus: [
-                { name: "user", url: "/user/profile" },
-                { name: "organization", url: "/user/organization" },
+                { name: "user", url: "/uc/profile" },
+                { name: "organization", url: "/uc/organization" },
                 { name: "logout", url: "" },
             ],
         };

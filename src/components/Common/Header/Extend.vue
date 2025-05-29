@@ -65,13 +65,8 @@
                 svg-inline
             />
         </el-tooltip>
-        <div class="m-ai" :class="{ 'is-phone': isPhone }" @click="toMall">
-            <img
-                class="u-icon u-ai"
-                @click="toMall"
-                :src="require('../../../assets/img/common/header/ai.svg')"
-                svg-inline
-            />
+        <div class="m-ai" :class="{ 'is-phone': isPhone }" @click="toAi">
+            <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
             <span v-if="!isPhone">{{ t("commonHeader.extend.ai") }}</span>
             <el-icon v-if="!isPhone"><ArrowRight></ArrowRight></el-icon>
         </div>
@@ -117,10 +112,13 @@ export default {
             window.open("https://www.deepberry.cn/products?type=0", "_blank");
         },
         toWorkOrder() {
-            location.href = "/user/feedback";
+            location.href = "/uc/feedback";
         },
         toHelp() {
-            window.open(`${location.origin}/help/doc`, "_blank");
+            window.open("/uc/help", "_blank");
+        },
+        toAi() {
+            location.href = "/uc/assistant";
         },
     },
 };
