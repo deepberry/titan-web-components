@@ -87,17 +87,17 @@
 </template>
 
 <script>
+// import { markRaw } from "vue";
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import User from "../../../utils/user";
+import menus from "@deepberry/common/data/app_nav.json";
+import { getCdnLink } from "@deepberry/common/js/utils";
+import { getMenus } from "../../../service/account";
 
 export default {
     name: "CommonSidebar",
     props: {
-        menus: {
-            type: Array,
-            default: () => [],
-        },
         homes: {
             type: Array,
             default: () => [],
@@ -107,6 +107,8 @@ export default {
         return {
             focus_index: 0,
             focus_any: false,
+            // menus: markRaw(menus),
+            menus: [],
         };
     },
     computed: {
@@ -147,20 +149,26 @@ export default {
         },
     },
     mounted() {
+        this.loadMenus();
         document.addEventListener("click", this.closeEvent);
     },
     unmounted() {
         document.removeEventListener("click", this.closeEvent);
     },
     methods: {
+        loadMenus() {
+            getMenus().then((res) => {
+                this.menus = res.data.data;
+            });
+        },
         iconPath(icon) {
-            return require("../../../assets/img/menus/" + icon + ".svg");
+            return getCdnLink(icon);
         },
         isActive(item) {
-            return item?.meta?.activeMenu === item.name || this.activeMenu?.startsWith(item.name);
+            return this.activeMenu?.startsWith(item.link);
         },
-        handleMenuItemClick(item, index) {
-            location.href = item.path;
+        handleMenuItemClick(item) {
+            location.href = item.link;
         },
         focusNavItem(index) {
             this.focus_index = index;
@@ -184,7 +192,7 @@ export default {
             localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
         },
         getName(item) {
-            return this.isEnglish ? item["en-us"] : item["zh-cn"];
+            return this.isEnglish ? item["en_name"] : item["zh_name"];
         },
     },
 };

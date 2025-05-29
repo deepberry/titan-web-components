@@ -42,6 +42,12 @@ export function getMessageUnRead() {
     return $titan2().get(`/user/message/count`);
 }
 
+// 联系客服提交quote
 export const addQuotation = (data) => {
     return $cms().post("/www/quotation", data);
+};
+
+// 获取菜单栏
+export const getMenus = (params) => {
+    return $titan2().get(`/system/menu`, { params });
 };
