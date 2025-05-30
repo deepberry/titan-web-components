@@ -74,7 +74,21 @@
                         @click.stop="handleMenuItemClick(item, i)"
                     >
                         <div class="c-nav-menu__title">
-                            <img v-if="item.icon" class="u-icon" :src="iconPath(item.icon)" v-svg-inline alt="" />
+                            <template v-if="item.icon">
+                                <img
+                                    class="u-icon"
+                                    v-if="item.icon.endsWith('.svg')"
+                                    :src="iconPath(item.icon)"
+                                    v-svg-inline
+                                />
+                                <img class="u-icon" v-else :src="iconPath(item.icon)" />
+                            </template>
+                            <img
+                                class="u-icon"
+                                v-else
+                                :src="require(`../../../assets/img/default_icon.svg`)"
+                                v-svg-inline
+                            />
                             <span class="u-name">{{ getName(item) }}</span>
                         </div>
                     </li>
