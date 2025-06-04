@@ -88,6 +88,7 @@ export default {
     box-shadow: none;
     background-color: transparent;
     .r(@r);
+    overflow: hidden;
 
     .el-dialog__header {
         .none;
