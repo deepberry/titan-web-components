@@ -95,7 +95,7 @@ class User {
     isAuthenticated() {
         const lastAuth = Number(localStorage.getItem(User.LAST_AUTH)) || 0;
         const isExpired = Date.now() - lastAuth > this.expiration;
-        return !!this.getToken() && !isExpired;
+        return !!this.getToken({ version: 2 }) && !isExpired;
     }
 
     /**
