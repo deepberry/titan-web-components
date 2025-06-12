@@ -1,4 +1,4 @@
-import { $uc, $titan2, $cms } from "../utils/api";
+import { $uc, $titan2, $cms, $service } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {
@@ -34,7 +34,7 @@ export function updatePreference(data) {
 
 // 获取时区
 export function getTimeZoneList(params) {
-    return $cms().get("/titan/conf/timezone", { params });
+    return $service().get("/titan/conf/timezone", { params });
 }
 
 // 消息中心 获取用户未读消息
@@ -44,7 +44,7 @@ export function getMessageUnRead() {
 
 // 联系客服提交quote
 export const addQuotation = (data) => {
-    return $cms().post("/www/quotation", data);
+    return $service().post("/www/quotation", data);
 };
 
 // 获取菜单栏

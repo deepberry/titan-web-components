@@ -72,3 +72,39 @@ export function $uc(options) {
 
     return ins;
 }
+
+export function $service(options) {
+    const config = {
+        baseURL: process.env.VUE_APP_SERVICE_API + "api/cms/",
+        withCredentials: false,
+        headers: {
+            Authorization: "Bearer " + User.getToken({ version: 2 }),
+        },
+    };
+
+    // 创建实例
+    const ins = axios.create(config);
+
+    // 指定拦截器
+    installStandardInterceptors(ins, options);
+
+    return ins;
+}
+
+export function $admin(options) {
+    const config = {
+        baseURL: process.env.VUE_APP_SERVICE_API + "api/admin/",
+        withCredentials: false,
+        headers: {
+            Authorization: "Bearer " + User.getToken({ version: 2 }),
+        },
+    };
+
+    // 创建实例
+    const ins = axios.create(config);
+
+    // 指定拦截器
+    installStandardInterceptors(ins, options);
+
+    return ins;
+}
