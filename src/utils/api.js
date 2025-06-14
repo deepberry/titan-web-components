@@ -108,3 +108,21 @@ export function $admin(options) {
 
     return ins;
 }
+
+export function $titan(options) {
+    const config = {
+        baseURL: process.env.VUE_APP_SERVICE_API + "api/titan/",
+        withCredentials: false,
+        headers: {
+            Authorization: "Bearer " + User.getToken({ version: 2 }),
+        },
+    };
+
+    // 创建实例
+    const ins = axios.create(config);
+
+    // 指定拦截器
+    installStandardInterceptors(ins, options);
+
+    return ins;
+}

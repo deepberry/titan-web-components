@@ -1,4 +1,4 @@
-import { $uc, $titan2, $cms, $service } from "../utils/api";
+import { $uc, $titan2, $titan, $service } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {
@@ -34,7 +34,7 @@ export function updatePreference(data) {
 
 // 获取时区
 export function getTimeZoneList(params) {
-    return $service().get("/titan/conf/timezone", { params });
+    return $titan().get("/conf/timezone", { params });
 }
 
 // 消息中心 获取用户未读消息
