@@ -1,11 +1,11 @@
-import { $cms } from "../utils/api";
+import { $admin } from "../utils/api";
 
 export const createOrder = (type, data) => {
-    return $cms().post(`pay/${type}`, data);
+    return $admin().post(`pay/${type}`, data);
 };
 
 export const checkOrder = (pay_order_no) => {
-    return $cms().get(`pay/order/query`, {
+    return $admin().get(`pay/order/query`, {
         params: {
             pay_order_no,
         },
@@ -14,5 +14,5 @@ export const checkOrder = (pay_order_no) => {
 
 // 获取商品价格
 export const getGoodsPrice = (data) => {
-    return $cms().post(`mall/handmade/price`, data);
+    return $admin().post(`mall/handmade/price`, data);
 };
