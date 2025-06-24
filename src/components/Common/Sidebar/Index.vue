@@ -183,6 +183,9 @@ export default {
         },
         handleMenuItemClick(item) {
             location.href = item.link;
+            if (item.is_blank) {
+                window.open(item.link, "_blank");
+            }
         },
         focusNavItem(index) {
             this.focus_index = index;
