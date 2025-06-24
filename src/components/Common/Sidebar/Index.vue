@@ -182,9 +182,10 @@ export default {
             return this.activeMenu?.startsWith(item.link);
         },
         handleMenuItemClick(item) {
-            location.href = item.link;
             if (item.is_blank) {
                 window.open(item.link, "_blank");
+            } else {
+                location.href = item.link;
             }
         },
         focusNavItem(index) {
