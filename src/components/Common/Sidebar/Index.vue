@@ -105,7 +105,7 @@
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import User from "../../../utils/user";
-import menus from "@deepberry/common/data/app_nav.json";
+// import menus from "@deepberry/common/data/app_nav.json";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { getMenus } from "../../../service/account";
 
@@ -113,6 +113,10 @@ export default {
     name: "CommonSidebar",
     props: {
         homes: {
+            type: Array,
+            default: () => [],
+        },
+        menuList: {
             type: Array,
             default: () => [],
         },
@@ -163,7 +167,12 @@ export default {
         },
     },
     mounted() {
-        this.loadMenus();
+        if (this.menuList && this.menuList.length > 0) {
+            // erp menus 传入进来
+            this.menus = this.menuList;
+        } else {
+            this.loadMenus();
+        }
         document.addEventListener("click", this.closeEvent);
     },
     unmounted() {
