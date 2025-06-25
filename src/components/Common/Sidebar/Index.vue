@@ -128,7 +128,7 @@ export default {
     computed: {
         ...mapState(useCommonStore, ["opened", "sideExpanded"]),
         filterMenus() {
-            return this.menus;
+            return this.menus || [];
         },
         activeMenu() {
             return location.pathname || "";
@@ -146,7 +146,7 @@ export default {
         },
         appIndex() {
             const key = this.activeMenu;
-            return this.filterMenus.findIndex((item) => key === item?.name);
+            return this.filterMenus?.findIndex((item) => key === item?.name);
         },
         isPad() {
             return document.documentElement.clientWidth <= 1134;

@@ -115,6 +115,7 @@
         cursor: pointer;
     }
     .m-ai {
+        flex: none;
         .r(20px);
         background-image: linear-gradient(to left, #1e41d0, #8daaf7);
         color: #fff;
@@ -137,6 +138,9 @@
     }
     @media screen and (max-width: @ipad-y) {
         gap: 5px;
+        .m-ai {
+            width: 30px;
+        }
     }
 }
 .m-header__dropdown-item {
@@ -261,7 +265,7 @@
     // }
     .c-header-help,
     .c-header-msg {
-        display: none;
+        display: none !important;
     }
     .c-header-user {
         .u-name {

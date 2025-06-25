@@ -1,7 +1,7 @@
 <template>
     <div class="c-header-extend">
         <slot></slot>
-        <el-dropdown class="m-header-extend__dropdown" trigger="click">
+        <el-dropdown v-if="!isPhone" class="m-header-extend__dropdown" trigger="click">
             <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
             <template #dropdown>
                 <el-dropdown-menu>
