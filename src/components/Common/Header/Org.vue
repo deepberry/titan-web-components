@@ -89,11 +89,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-.c-header-org {
-    margin-right: 10px;
-    @media screen and (max-width: @phone) {
-        margin-right: 0;
-    }
-}
-</style>
+<style lang="less"></style>
