@@ -118,7 +118,7 @@ export default {
             window.open("/uc/help", "_blank");
         },
         toAi() {
-            location.href = "/uc/assistant";
+            location.href = "/aibot";
         },
     },
 };
