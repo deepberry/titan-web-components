@@ -12,7 +12,7 @@
 
         <div class="c-header-right">
             <slot name="right"></slot>
-            <CommonExtend :profile="profile">
+            <CommonExtend :profile="profile" :survey="survey" @update="loadSurvey">
                 <slot name="extend"></slot>
             </CommonExtend>
             <timezone />
@@ -27,7 +27,7 @@
 <script>
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
-import { getProfile, getCurrentOrganization } from "../../../service/account";
+import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
 import CommonOrg from "./Org.vue";
 import CommonUser from "./User.vue";
 import Timezone from "./TimeZone.vue";
@@ -71,6 +71,7 @@ export default {
                 },
             },
             organizations: [],
+            survey: {},
         };
     },
     computed: {
@@ -99,7 +100,13 @@ export default {
             if (profile?.id) {
                 const organizations = await getCurrentOrganization().then((res) => res.data.data);
                 this.organizations = organizations;
+                this.loadSurvey();
             }
+        },
+        loadSurvey() {
+            getSurveys().then((res) => {
+                this.survey = res.data?.data || {};
+            });
         },
         scroll() {
             this.hasScrollTop = document.documentElement.scrollTop > 0;

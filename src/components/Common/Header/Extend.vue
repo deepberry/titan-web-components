@@ -2,7 +2,9 @@
     <div class="c-header-extend">
         <slot></slot>
         <el-dropdown v-if="!isPhone" class="m-header-extend__dropdown" trigger="click">
-            <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
+            <el-badge :is-dot="showSurvey">
+                <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
+            </el-badge>
             <template #dropdown>
                 <el-dropdown-menu>
                     <el-dropdown-item class="m-header__dropdown-item" @click.stop="toWorkOrder">
@@ -15,16 +17,7 @@
                             <span>{{ t("commonHeader.extend.work_order") }}</span>
                         </div>
                     </el-dropdown-item>
-                    <!-- <el-dropdown-item class="m-header__dropdown-item" @click.stop="toWorkOrder">
-                        <div class="u-dropdown__item">
-                            <img
-                                class="u-item-icon u-work"
-                                :src="require('@/assets/img/common/header/more/feedback.svg')"
-                                svg-inline
-                            />
-                            <span>{{ t("commonHeader.extend.question") }}</span>
-                        </div>
-                    </el-dropdown-item> -->
+
                     <el-dropdown-item class="m-header__dropdown-item" @click.stop="toHelp">
                         <div class="u-dropdown__item">
                             <img
@@ -44,6 +37,18 @@
                             />
                             <span>{{ t("commonHeader.extend.other_support") }}</span>
                         </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="showSurvey" class="m-header__dropdown-item" @click.stop="toSurvey">
+                        <el-badge :is-dot="true" :offset="[-5, 5]">
+                            <div class="u-dropdown__item">
+                                <img
+                                    class="u-item-icon u-work"
+                                    :src="require('@/assets/img/common/header/more/feedback.svg')"
+                                    svg-inline
+                                />
+                                <span>{{ t("commonHeader.survey.title") }}</span>
+                            </div>
+                        </el-badge>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </template>
@@ -75,6 +80,7 @@
         </el-dialog>
         <WxMp v-if="profile?.id" :profile="profile"></WxMp>
         <Quotation v-if="quotationVisible" v-model:visible="quotationVisible"></Quotation>
+        <Survey v-if="surveyVisible" v-model:visible="surveyVisible" :survey="survey" @update="onSubmit"></Survey>
     </div>
 </template>
 
@@ -84,29 +90,72 @@ const { t } = useLocale();
 import CommonMessage from "./Message.vue";
 import QuickSupport from "./QuickSupport.vue";
 import Quotation from "./Quotation.vue";
+import Survey from "./Survey.vue";
 import WxMp from "./WxMp.vue";
 export default {
     name: "HeaderExtend",
-    props: ["profile"],
+    components: {
+        CommonMessage,
+        QuickSupport,
+        Quotation,
+        WxMp,
+        Survey,
+    },
+    props: ["profile", "survey"],
+    emits: ["update"],
     data() {
         return {
             quickVisible: false,
             quotationVisible: false,
+            surveyVisible: false,
         };
     },
     computed: {
         isPhone() {
             return document.documentElement.clientWidth <= 768;
         },
+        showSurvey() {
+            return !!this.survey.id && !this.survey.status;
+        },
     },
-    components: {
-        CommonMessage,
-        QuickSupport,
-        Quotation,
-        WxMp,
+    watch: {
+        showSurvey: {
+            immediate: true,
+            handler(bol) {
+                if (bol) {
+                    this.surveyVisible = this.shouldShowSurveyTip();
+                }
+            },
+        },
+        surveyVisible(bol) {
+            if (!bol) {
+                this.updateLastReminderDate(); // 关闭时也记录日期
+            }
+        },
     },
     methods: {
         t,
+        onSubmit() {
+            this.$emit("update");
+        },
+        // 判断是否需要显示提示
+        shouldShowSurveyTip() {
+            if (!this.showSurvey) return false;
+
+            const lastRemindDate = localStorage.getItem("lastSurveyTipDate");
+            if (!lastRemindDate) return true;
+
+            const today = new Date().toDateString();
+            return lastRemindDate !== today;
+        },
+        // 更新最后提醒日期
+        updateLastReminderDate() {
+            const today = new Date().toDateString();
+            localStorage.setItem("lastSurveyTipDate", today);
+        },
+        toSurvey() {
+            this.surveyVisible = true;
+        },
         toMall() {
             // to do
             window.open("https://www.deepberry.cn/products?type=0", "_blank");

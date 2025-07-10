@@ -74,6 +74,13 @@ export default {
             after: "After Sales",
             tech: "Technical Support",
         },
+        survey: {
+            title: "Questionnaire",
+            rate: "Rate",
+            content: "Content",
+            content_placeholder: "Please enter the content",
+            submit_success: "Thank you for your cooperation. We will arrange for our staff to visit you later.",
+        },
         quotation: {
             scan: `Scan to add <b>WeChat</b> for dedicated customer service manager`,
             first: `Priority processing for WeChat addition`,

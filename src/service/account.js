@@ -1,4 +1,4 @@
-import { $uc, $titan2, $titan, $service } from "../utils/api";
+import { $uc, $titan, $service } from "../utils/api";
 
 // 获取个人信息
 export function getProfile() {
@@ -12,7 +12,7 @@ export function getSuperToken(data) {
 
 // 获取用户所有组织
 export function getAllOrganization() {
-    return $titan2().get(`organization`);
+    return $titan().get(`organization`);
 }
 
 // 获取当前用户组织
@@ -29,7 +29,7 @@ export function switchOrg(id) {
 
 // 更新偏好设置
 export function updatePreference(data) {
-    return $titan2().put(`/user/preference`, data);
+    return $titan().put(`/user/preference`, data);
 }
 
 // 获取时区
@@ -39,7 +39,7 @@ export function getTimeZoneList(params) {
 
 // 消息中心 获取用户未读消息
 export function getMessageUnRead() {
-    return $titan2().get(`/user/message/count`);
+    return $titan().get(`/user/message/count`);
 }
 
 // 联系客服提交quote
@@ -49,5 +49,15 @@ export const addQuotation = (data) => {
 
 // 获取菜单栏
 export const getMenus = (params) => {
-    return $titan2().get(`/system/menu`, { params });
+    return $titan().get(`/system/menu`, { params });
+};
+
+// 获取用户调查记录
+export const getSurveys = () => {
+    return $titan().get(`/user/survey`);
+};
+
+// 用户提交调查
+export const submitSurvey = (id, data) => {
+    return $titan().post(`/user/survey/${id}`, data);
 };

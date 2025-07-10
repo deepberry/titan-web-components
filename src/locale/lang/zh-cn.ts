@@ -74,6 +74,13 @@ export default {
             after: "售后支持",
             tech: "技术支持",
         },
+        survey: {
+            title: "问卷回访",
+            rate: "评星",
+            content: "内容",
+            content_placeholder: "请输入内容",
+            submit_success: "感谢您的配合，稍后我们会安排工作人员对你进行回访。",
+        },
         quotation: {
             scan: `扫码添加 <b>微信</b> 获取专属客服经理`,
             first: `微信添加优先处理`,
