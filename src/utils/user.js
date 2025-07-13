@@ -125,7 +125,7 @@ class User {
             url = _[0] + "?" + params.toString();
         }
         url = url && encodeURIComponent(url);
-        if (location.indexOf("localhost") == -1) {
+        if (location.origin.indexOf("localhost") == -1) {
             location.href = "/account/login?redirect=" + url;
         }
     }
