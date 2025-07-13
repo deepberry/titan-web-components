@@ -43,7 +43,7 @@
                             <div class="u-dropdown__item">
                                 <img
                                     class="u-item-icon u-work"
-                                    :src="require('@/assets/img/common/header/more/feedback.svg')"
+                                    :src="require('../../../assets/img/common/header/more/feedback.svg')"
                                     svg-inline
                                 />
                                 <span>{{ t("commonHeader.survey.title") }}</span>
