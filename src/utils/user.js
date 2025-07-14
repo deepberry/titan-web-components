@@ -116,7 +116,7 @@ class User {
      * @param {*} url
      * @memberof User
      */
-    toLogin(url = location.href) {
+    toLogin(url = location.href, isForce) {
         // 移除临时token带来的副作用
         const _ = url.split("?");
         const params = _.length > 1 ? new URLSearchParams(_[1]) : false;
@@ -125,7 +125,8 @@ class User {
             url = _[0] + "?" + params.toString();
         }
         url = url && encodeURIComponent(url);
-        if (location.origin.indexOf("localhost") == -1) {
+        // 强制跳转/非dev环境
+        if (isForce || location.origin.indexOf("localhost") == -1) {
             location.href = "/account/login?redirect=" + url;
         }
     }
