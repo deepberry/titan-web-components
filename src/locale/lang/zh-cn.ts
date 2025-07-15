@@ -76,9 +76,18 @@ export default {
         },
         survey: {
             title: "问卷回访",
-            rate: "评星",
-            content: "内容",
-            content_placeholder: "请输入内容",
+            title_1: "您的声音很重要！",
+            rate: "请对整体体验进行打分",
+            rate_num: {
+                1: "非常差",
+                2: "不太行",
+                3: "一般般",
+                4: "还可以",
+                5: "非常好",
+            },
+            content: "问题反馈",
+            content_placeholder: "请填写您的宝贵意见或建议",
+            submit: "提交问题反馈",
             submit_success: "感谢您的配合，稍后我们会安排工作人员对你进行回访。",
         },
         quotation: {

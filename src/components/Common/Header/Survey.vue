@@ -1,36 +1,54 @@
 <template>
-    <el-dialog class="m-survey-dialog" :model-value="visible" :before-close="close" width="600">
+    <el-dialog class="m-survey-dialog" :model-value="visible" :show-close="false" :before-close="close" :width="500">
         <div class="m-survey" :class="{ 'is-en': isEnglish }">
-            <div class="m-survey__left">
-                <div class="u-title" v-html="t('commonHeader.quotation.scan')"></div>
-                <div class="u-middle">
-                    <img :src="qrCodeImg" class="u-qrcode" />
-                    <div class="u-tip">({{ t("commonHeader.quotation.first") }})</div>
-                </div>
-                <div class="u-tel">
-                    <img class="u-icon" :src="require('../../../assets/img/common/header/tel.svg')" />
-                    <span>{{ tel }}</span>
-                </div>
-            </div>
-            <div class="m-survey__right">
-                <div class="u-title">{{ survey?.message }}</div>
-                <el-form class="m-form" ref="form" :model="form" :rules="rules" label-position="top">
-                    <el-form-item :label="t('commonHeader.survey.rate')" prop="rate">
-                        <el-rate v-model="form.rate" size="large" />
-                    </el-form-item>
-                    <el-form-item :label="t('commonHeader.survey.content')" prop="content">
+            <img src="../../../assets/img/survey/right.png" class="u-right" />
+            <div class="u-title">{{ t("commonHeader.survey.title_1") }}</div>
+            <div class="u-message">{{ survey?.message }}</div>
+            <el-form class="m-form" ref="form" :model="form" :rules="rules" label-position="top">
+                <el-form-item label="" prop="rate">
+                    <div class="m-rate__wrapper">
+                        <div class="u-rate-title"><span>*</span> {{ t("commonHeader.survey.rate") }}</div>
+                        <div class="m-rates">
+                            <div
+                                class="u-rate"
+                                :class="form.rate === i ? 'is-active' : ''"
+                                v-for="i in 5"
+                                :key="i"
+                                @click="form.rate = i"
+                            >
+                                <img
+                                    class="u-rate-img"
+                                    :src="
+                                        form.rate === i
+                                            ? require(`../../../assets/img/survey/color/${i}.svg`)
+                                            : require(`../../../assets/img/survey/off/${i}.svg`)
+                                    "
+                                />
+                                <div class="u-rate-desc">{{ t(`commonHeader.survey.rate_num.${i}`) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </el-form-item>
+                <el-form-item label="" prop="content">
+                    <div class="m-content__wrapper">
+                        <div class="u-content-title"><span>*</span> {{ t("commonHeader.survey.content") }}</div>
                         <el-input
                             type="textarea"
                             :rows="5"
                             v-model="form.content"
+                            class="u-input"
+                            :maxlength="200"
+                            show-word-limit
                             :placeholder="t('commonHeader.survey.content_placeholder')"
                         />
-                    </el-form-item>
-                </el-form>
-                <el-button class="u-btn" :disabled="loading" @click="submit">{{
-                    t("commonHeader.quotation.submit")
-                }}</el-button>
-            </div>
+                    </div>
+                </el-form-item>
+            </el-form>
+            <el-button class="u-btn" :disabled="disabled" @click="submit">{{
+                t("commonHeader.survey.submit")
+            }}</el-button>
+
+            <img src="../../../assets/img/close.svg" class="u-close" @click="close" />
         </div>
     </el-dialog>
 </template>
@@ -52,7 +70,7 @@ export default {
             tel: "0731-85313833",
             loading: false,
             form: {
-                rate: 5,
+                rate: "",
                 content: "",
             },
             rules: {
@@ -64,6 +82,9 @@ export default {
     computed: {
         isEnglish() {
             return User.getLocale() === "en-us";
+        },
+        disabled() {
+            return this.loading || !this.form.rate || !this.form.content;
         },
     },
     watch: {},
@@ -106,84 +127,163 @@ export default {
 <style lang="less">
 .m-survey-dialog {
     .r(5px);
-    padding: 10px 10px 0;
+    padding: 50px 30px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    box-sizing: border-box;
     .el-dialog__header {
         padding-bottom: 0;
     }
     .el-dialog__body {
-        padding-top: 0;
+        padding: 0 !important;
+        .flex;
+        justify-content: center;
     }
     .m-survey {
-        .flex;
-        gap: 20px;
-    }
-    .m-survey__left {
-        .flex;
+        display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        text-align: center;
-        width: 200px;
-        background-image: linear-gradient(to bottom, #dff3fd, #fff);
-        padding-bottom: 20px;
-        .r(5px);
+        justify-content: center;
+        position: relative;
+        width: 375px;
+        padding: 30px 20px;
+        box-sizing: border-box;
+        background-image: linear-gradient(to bottom, #eedea4, #ffffff);
+        border-radius: 14px 61px 14px 14px;
+        .u-right {
+            position: absolute;
+            right: -55px;
+            top: -55px;
+            width: 180px;
+        }
         .u-title {
-            font-size: 18px;
-            line-height: 24px;
-            padding: 30px 12px 0;
-            .bold;
-            b {
-                color: #3138e9;
-                margin: 0 5px;
+            font-size: 20px;
+            font-family: "AlimamaShuHeiTi";
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .u-message {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .u-title,
+        .u-message,
+        .u-rate-title,
+        .u-content-title {
+            width: 250px;
+            /* 1. 设置渐变背景 */
+            background: linear-gradient(to top, #23386c, #45609e);
+            /* 2. 裁剪背景仅作用于文字 */
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* 3. 使文字颜色透明以显示背景 */
+            color: transparent;
+            span {
+                color: red;
             }
         }
-        .u-tip {
+        .u-rate-title,
+        .u-content-title {
             font-size: 12px;
+            font-weight: 500;
+            line-height: 2em;
+        }
+        .m-rate__wrapper {
+            margin-top: 20px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, #fffae8, #fff);
+            height: 100px;
+            padding: 8px 15px;
+            box-sizing: border-box;
+            .r(8px);
+        }
+        .m-rates {
+            .flex;
+            justify-content: space-around;
+            align-items: center;
             margin-top: 4px;
         }
-        .u-qrcode {
-            .size(150px);
-        }
-        .u-tel {
-            .r(3px);
-            border: 1px solid #eee;
-            padding: 5px 0;
-            width: 150px;
+        .u-rate {
             .flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            width: 36px;
             gap: 5px;
+            cursor: pointer;
+            &.is-active {
+                .u-rate-desc {
+                    color: #000;
+                }
+            }
         }
-        .u-icon {
-            .size(18px);
+        .u-rate-desc {
+            font-size: 10px;
+            color: #999;
+            line-height: 1;
         }
-    }
-    .m-survey__right {
-        flex: 1;
-        color: #000;
-        .u-title {
-            font-size: 15px;
-            .bold;
-            margin-bottom: 18px;
+        .u-rate-img {
+            height: 32px;
+        }
+        .m-content__wrapper {
+            margin-top: 11px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, #fffae8, #fff);
+            height: 150px;
+            padding: 8px 15px;
+            box-sizing: border-box;
+            .r(8px);
+        }
+        .u-input {
+            margin-top: 6px;
+            .el-textarea__inner {
+                height: 100px !important;
+                font-size: 12px;
+                background: #f5f1f1;
+                .r(8px);
+            }
+            .el-input__count {
+                background: #f5f1f1 !important;
+            }
+        }
+        .el-form-item {
+            margin-bottom: 0;
         }
         .el-form-item__label {
             .bold;
             color: #000;
         }
         .u-btn {
-            width: 100%;
-            margin-bottom: 20px;
+            margin: 0 auto;
+            margin-top: 18px;
             color: #fff;
-            background-color: #3138e9;
+            background-image: linear-gradient(to bottom, rgb(68, 133, 254) 0%, rgb(68, 151, 244) 100%);
+            width: 212px;
+            height: 32px;
+            .r(16px);
+            &:disabled {
+                background: #dce0e4;
+            }
+            & > span {
+                font-size: 14px !important;
+            }
         }
-    }
-    @media screen and (max-width: @phone) {
-        .m-survey__left {
-            width: 100%;
-            height: 280px;
+        .u-close {
+            position: absolute;
+            .size(32px);
+            bottom: -45px;
+            left: calc(50% - 16px);
+            cursor: pointer;
         }
-        .m-survey {
-            flex-wrap: wrap;
+        @media screen and (max-width: @phone) {
+            .u-right {
+                position: absolute;
+                right: -28px;
+                top: -55px;
+                width: 150px;
+            }
+            .u-message {
+                margin-top: 20px;
+            }
         }
     }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_未命名的渐变_5);
+      }
+
+      .cls-2 {
+        fill: url(#_未命名的渐变_9);
+      }
+
+      .cls-3 {
+        fill: url(#_未命名的渐变_8);
+      }
+
+      .cls-4 {
+        fill: url(#_未命名的渐变_7);
+      }
+
+      .cls-5 {
+        fill: #894819;
+        fill-rule: evenodd;
+      }
+
+      .cls-6 {
+        fill: url(#_未命名的渐变_5-2);
+      }
+
+      .cls-7 {
+        fill: url(#_未命名的渐变_9-2);
+      }
+    </style>
+    <radialGradient id="_未命名的渐变_9" data-name="未命名的渐变 9" cx="-229.04" cy="204.29" fx="-229.04" fy="204.29" r=".19" gradientTransform="translate(-6964.66 30051.09) rotate(61.39) scale(100.24 -100.24)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffce21"/>
+      <stop offset="1" stop-color="#f2911e"/>
+    </radialGradient>
+    <radialGradient id="_未命名的渐变_9-2" data-name="未命名的渐变 9" cx="-227.96" cy="207.34" fx="-227.96" fy="207.34" r=".19" gradientTransform="translate(7472.43 30115.09) rotate(118.61) scale(100.24)" xlink:href="#_未命名的渐变_9"/>
+    <radialGradient id="_未命名的渐变_8" data-name="未命名的渐变 8" cx="-226.46" cy="200.96" fx="-226.46" fy="200.96" r=".19" gradientTransform="translate(-104170.82 179557.34) rotate(78.56) scale(685.62 -685.62)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffea9f"/>
+      <stop offset=".12" stop-color="#ffe380"/>
+      <stop offset=".42" stop-color="#ffd250"/>
+      <stop offset=".64" stop-color="#ffc122"/>
+      <stop offset="1" stop-color="#ffb422"/>
+    </radialGradient>
+    <radialGradient id="_未命名的渐变_7" data-name="未命名的渐变 7" cx="-226.46" cy="200.96" fx="-226.46" fy="200.96" r=".19" gradientTransform="translate(-104170.82 179557.34) rotate(78.56) scale(685.62 -685.62)" gradientUnits="userSpaceOnUse">
+      <stop offset=".56" stop-color="#e35d12" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ff24f6" stop-opacity=".3"/>
+    </radialGradient>
+    <linearGradient id="_未命名的渐变_5" data-name="未命名的渐变 5" x1="70.81" y1="99.16" x2="83.26" y2="82.05" gradientTransform="translate(0 202) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4e280e"/>
+      <stop offset="1" stop-color="#281304"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_5-2" data-name="未命名的渐变 5" x1="117.48" y1="99.16" x2="129.93" y2="82.05" xlink:href="#_未命名的渐变_5"/>
+  </defs>
+  <circle class="cls-2" cx="28.44" cy="93.78" r="12.44"/>
+  <circle class="cls-7" cx="171.56" cy="93.78" r="12.44"/>
+  <circle class="cls-3" cx="100" cy="100" r="74.67"/>
+  <circle class="cls-4" cx="100" cy="100" r="74.67"/>
+  <path class="cls-1" d="M86,110.89c0,5.15-4.18,9.33-9.33,9.33s-9.33-4.18-9.33-9.33,4.18-9.33,9.33-9.33,9.33,4.18,9.33,9.33Z"/>
+  <path class="cls-6" d="M132.67,110.89c0,5.15-4.18,9.33-9.33,9.33s-9.33-4.18-9.33-9.33,4.18-9.33,9.33-9.33,9.33,4.18,9.33,9.33Z"/>
+  <path class="cls-5" d="M54.06,92.83c-1.38,2.18-.74,5.06,1.44,6.44,10.55,6.7,19.25,8.94,30.03,10.04,2.56.26,4.85-1.61,5.11-4.17.26-2.56-1.61-4.85-4.17-5.11-9.69-.98-16.92-2.88-25.97-8.63-2.18-1.38-5.06-.74-6.44,1.44Z"/>
+  <path class="cls-5" d="M145.94,92.83c1.38,2.18.74,5.06-1.44,6.44-10.55,6.7-19.25,8.94-30.03,10.04-2.56.26-4.85-1.61-5.11-4.17-.26-2.56,1.61-4.85,4.17-5.11,9.69-.98,16.92-2.88,25.97-8.63,2.18-1.38,5.06-.74,6.44,1.44Z"/>
+  <path class="cls-5" d="M92.38,145.02c-1.53.72-2.33,1.55-2.79,2.1-1.65,1.98-4.59,2.25-6.57.61-1.98-1.65-2.26-4.59-.61-6.57,1.13-1.36,2.97-3.15,5.99-4.58,3-1.41,6.92-2.35,12.09-2.35,4.65,0,8.47,1.09,11.35,2.51,2.73,1.34,4.93,3.13,6.06,4.86,1.41,2.16.8,5.05-1.35,6.46-2.16,1.41-5.05.8-6.46-1.35.02.03,0,.02-.03-.02-.17-.16-.87-.85-2.33-1.56-1.66-.81-4.07-1.55-7.24-1.55-4.03,0-6.56.73-8.11,1.46Z"/>
+</svg>

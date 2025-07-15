@@ -76,9 +76,18 @@ export default {
         },
         survey: {
             title: "Questionnaire",
-            rate: "Rate",
-            content: "Content",
-            content_placeholder: "Please enter the content",
+            title_1: "Your Voice Matters!",
+            rate: "Please rate your overall experience",
+            rate_num: {
+                1: "Very bad",
+                2: "Not very good",
+                3: "So-so",
+                4: "Well enough",
+                5: "Very good",
+            },
+            content: "Question Feedback",
+            content_placeholder: "Please fill in your valuable comments or suggestions",
+            submit: "Submit",
             submit_success: "Thank you for your cooperation. We will arrange for our staff to visit you later.",
         },
         quotation: {
