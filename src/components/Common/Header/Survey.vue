@@ -215,8 +215,8 @@ export default {
                     color: #000;
                 }
                 .u-rate-img {
-                    animation: bounce 1s;
-                    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    animation: bounce 0.5s;
+                    // animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 }
             }
         }
@@ -225,18 +225,18 @@ export default {
                 transform: translateY(0);
                 animation-timing-function: ease-in; /* 快速上升 */
             }
-            25% {
-                transform: translateY(-30px);
-                animation-timing-function: ease-out; /* 减速至顶点 */
-            }
+            // 25% {
+            //     transform: translateY(-20px);
+            //     animation-timing-function: ease-out; /* 减速至顶点 */
+            // }
             50% {
-                transform: translateY(-15px);
+                transform: translateY(-20px);
                 animation-timing-function: ease-in; /* 快速下落 */
             }
-            75% {
-                transform: translateY(-5px);
-                animation-timing-function: ease-out; /* 接近终点减速 */
-            }
+            // 75% {
+            // transform: translateY(-3px);
+            // animation-timing-function: ease-out; /* 接近终点减速 */
+            // }
             100% {
                 transform: translateY(0);
             }
