@@ -188,7 +188,8 @@ export default {
             return getCdnLink(icon);
         },
         isActive(item) {
-            return this.activeMenu?.startsWith(item.link);
+            const parentName = item.link?.split("/").filter(Boolean)?.[0];
+            return this.activeMenu?.startsWith(parentName);
         },
         handleMenuItemClick(item) {
             if (item.is_blank) {
