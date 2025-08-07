@@ -188,7 +188,7 @@ export default {
             return getCdnLink(icon);
         },
         isActive(item) {
-            const parentName = item.link?.split("/").filter(Boolean)?.[0];
+            const parentName = "/" + item.link?.split("/").filter(Boolean)?.[0];
             return this.activeMenu?.startsWith(parentName);
         },
         handleMenuItemClick(item) {
