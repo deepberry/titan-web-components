@@ -70,7 +70,7 @@ export default {
             })
                 .then(() => {
                     User.destroy();
-                    User.toLogin("", true);
+                    User.toLogin();
                 })
                 .catch(() => {});
         },
