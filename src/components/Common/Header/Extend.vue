@@ -53,14 +53,14 @@
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
-        <el-tooltip :content="t('commonHeader.extend.contact_custom')">
+        <!-- <el-tooltip :content="t('commonHeader.extend.contact_custom')">
             <img
                 class="u-icon u-service"
                 :src="require('../../../assets/img/common/header/service.svg')"
                 svg-inline
                 @click="quotationVisible = true"
             />
-        </el-tooltip>
+        </el-tooltip> -->
         <CommonMessage />
         <el-tooltip :content="t('commonHeader.extend.mall')">
             <img
@@ -79,7 +79,7 @@
             <QuickSupport class="c-header-support__pop" />
         </el-dialog>
         <WxMp v-if="profile?.id" :profile="profile"></WxMp>
-        <Quotation v-if="quotationVisible" v-model:visible="quotationVisible"></Quotation>
+        <!-- <Quotation v-if="quotationVisible" v-model:visible="quotationVisible"></Quotation> -->
         <Survey v-if="surveyVisible" v-model:visible="surveyVisible" :survey="survey" @update="onSubmit"></Survey>
     </div>
 </template>
@@ -89,7 +89,7 @@ import { useLocale } from "../../../hooks/index";
 const { t } = useLocale();
 import CommonMessage from "./Message.vue";
 import QuickSupport from "./QuickSupport.vue";
-import Quotation from "./Quotation.vue";
+// import Quotation from "./Quotation.vue";
 import Survey from "./Survey.vue";
 import WxMp from "./WxMp.vue";
 export default {
@@ -97,7 +97,7 @@ export default {
     components: {
         CommonMessage,
         QuickSupport,
-        Quotation,
+        // Quotation,
         WxMp,
         Survey,
     },
@@ -106,7 +106,7 @@ export default {
     data() {
         return {
             quickVisible: false,
-            quotationVisible: false,
+            // quotationVisible: false,
             surveyVisible: false,
         };
     },

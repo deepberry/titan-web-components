@@ -66,7 +66,7 @@ export default {
             question: "Questions and Feedback",
             contact_custom: "Contact Customer",
             mall: "Mall",
-            ai: "AI Assistant",
+            ai: "Assistant",
         },
         support: {
             title: "Support",

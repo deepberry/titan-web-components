@@ -66,7 +66,7 @@ export default {
             question: "问题与反馈",
             contact_custom: "联系客服",
             mall: "商城",
-            ai: "AI 助理",
+            ai: "助理",
         },
         support: {
             title: "支持",
