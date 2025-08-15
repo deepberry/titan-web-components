@@ -49,7 +49,7 @@ export default {
             default: () => [],
         },
     },
-    emits: ["changeOrg"],
+    emits: ["change"],
     data() {
         return {
             hasScrollTop: false,
@@ -78,7 +78,20 @@ export default {
         };
     },
     computed: {
-        ...mapState(useCommonStore, ["opened"]),
+        ...mapState(useCommonStore, ["opened", "globalNotice"]),
+    },
+    watch: {
+        globalNotice: {
+            immediate: true,
+            deep: true,
+            handler(notice) {
+                const noticeOpened = !notice?.hidden;
+                this.$emit("change", {
+                    type: "notice",
+                    value: noticeOpened,
+                });
+            },
+        },
     },
     mounted() {
         this.isPad = document.documentElement.clientWidth <= 1134;
@@ -98,7 +111,9 @@ export default {
             this.$refs.org.showOrgSwitch();
         },
         onChangeOrg() {
-            this.$emit("changeOrg");
+            this.$emit("change", {
+                type: "org",
+            });
         },
         async loadUserInfo() {
             const profile = await getProfile().then((res) => res.data.data);
