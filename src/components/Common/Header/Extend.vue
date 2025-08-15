@@ -70,7 +70,7 @@
                 svg-inline
             />
         </el-tooltip>
-        <div class="m-ai" :class="{ 'is-phone': isPad }" @click="toAi">
+        <div class="m-ai" :class="isPad ? 'is-pad' : ''" @click="toAi">
             <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
             <span v-if="!isPad">{{ t("commonHeader.extend.ai") }}</span>
             <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
