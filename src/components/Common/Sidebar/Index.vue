@@ -117,6 +117,7 @@ export default {
             default: () => [],
         },
         menuList: {
+            // erp menus 传入进来
             type: Array,
             default: () => [],
         },
@@ -125,7 +126,6 @@ export default {
         return {
             focus_index: 0,
             focus_any: false,
-            // menus: markRaw(menus),
             menus: [],
         };
     },
@@ -155,6 +155,9 @@ export default {
         isPad() {
             return document.documentElement.clientWidth <= 1134;
         },
+        isErp() {
+            return this.menuList && this.menuList.length > 0;
+        },
     },
     watch: {
         appIndex: {
@@ -167,7 +170,7 @@ export default {
         },
     },
     mounted() {
-        if (this.menuList && this.menuList.length > 0) {
+        if (this.isErp) {
             // erp menus 传入进来
             this.menus = this.menuList;
         } else {
@@ -188,7 +191,10 @@ export default {
             return getCdnLink(icon);
         },
         isActive(item) {
-            const parentName = "/" + item.link?.split("/").filter(Boolean)?.[0];
+            let parentName = "/" + item.link?.split("/").filter(Boolean)?.[0];
+            if (this.isErp) {
+                parentName = item.link;
+            }
             return this.activeMenu?.startsWith(parentName);
         },
         handleMenuItemClick(item) {
