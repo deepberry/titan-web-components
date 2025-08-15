@@ -1,7 +1,7 @@
 <template>
-    <div class="c-header-preference" :class="{ isPhone }">
+    <div class="c-header-preference" :class="isPad ? 'is-pad' : ''">
         <div class="c-header-lang" @click="onLangClick">
-            <img class="u-icon" src="../../../assets/img/common/language.svg" v-if="isPhone" />
+            <img class="u-icon" src="../../../assets/img/common/language.svg" v-if="isPad" />
             <span class="u-lang" v-else>{{ langText }}</span>
             <el-select
                 class="u-lang-select"
@@ -47,6 +47,12 @@ import { useLocale } from "../../../hooks/index";
 const { t } = useLocale();
 export default {
     name: "Timezone",
+    props: {
+        isPad: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             timezones: [], //时区列表
@@ -72,9 +78,6 @@ export default {
         };
     },
     computed: {
-        isPhone() {
-            return document.documentElement.clientWidth <= 768;
-        },
         flag() {
             const item = this.timezones.find((item) => item.timezone == this.timezone);
             return this.showFlag(item?.region);
@@ -187,7 +190,7 @@ export default {
     align-items: center;
     .h(@h);
     box-sizing: border-box;
-    &.isPhone {
+    &.is-pad {
         border: 0;
         .ml(5px);
         .c-header-lang {

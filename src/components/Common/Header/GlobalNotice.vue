@@ -30,10 +30,14 @@ import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 export default {
     name: "GlobalNotice",
+    props: {
+        isPad: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
-        return {
-            isPad: false,
-        };
+        return {};
     },
     computed: {
         ...mapState(useCommonStore, ["globalNotice"]),
@@ -42,11 +46,6 @@ export default {
         },
     },
     mounted() {
-        this.isPad = document.documentElement.clientWidth <= 1134;
-        const self = this;
-        window.onresize = function () {
-            self.isPad = document.documentElement.clientWidth <= 1134;
-        };
         useCommonStore().loadGlobalAc();
     },
     methods: {

@@ -101,14 +101,13 @@ export default {
         WxMp,
         Survey,
     },
-    props: ["profile", "survey"],
+    props: ["profile", "survey", "isPad"],
     emits: ["update"],
     data() {
         return {
             quickVisible: false,
             // quotationVisible: false,
             surveyVisible: false,
-            isPad: false,
         };
     },
     computed: {
@@ -131,13 +130,7 @@ export default {
             }
         },
     },
-    mounted() {
-        this.isPad = document.documentElement.clientWidth <= 1134;
-        const self = this;
-        window.onresize = function () {
-            self.isPad = document.documentElement.clientWidth <= 1134;
-        };
-    },
+    mounted() {},
     methods: {
         t,
         onSubmit() {

@@ -1,7 +1,7 @@
 <template>
     <div class="c-header" :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop }">
         <!-- 消息提醒 -->
-        <GlobalNotice></GlobalNotice>
+        <GlobalNotice :isPad="isPad"></GlobalNotice>
 
         <div class="c-header-left">
             <i class="u-trigger" @click.stop="toggleSidebar">
@@ -12,12 +12,12 @@
 
         <div class="c-header-right">
             <slot name="right"></slot>
-            <CommonExtend :profile="profile" :survey="survey" @update="loadSurvey">
+            <CommonExtend :profile="profile" :survey="survey" :isPad="isPad" @update="loadSurvey">
                 <slot name="extend"></slot>
             </CommonExtend>
-            <timezone />
+            <timezone :isPad="isPad" />
             <CommonOrg ref="org" :profile="profile" :organizations="organizations" @changeOrg="onChangeOrg"></CommonOrg>
-            <CommonUser :profile="profile" @changeOrg="changeOrg">
+            <CommonUser :profile="profile" :isPad="isPad" @changeOrg="changeOrg">
                 <slot name="user"></slot>
             </CommonUser>
         </div>
@@ -84,6 +84,7 @@ export default {
         this.isPad = document.documentElement.clientWidth <= 1134;
         const self = this;
         window.onresize = function () {
+            console.log("header resize");
             self.isPad = document.documentElement.clientWidth <= 1134;
         };
         this.loadUserInfo();

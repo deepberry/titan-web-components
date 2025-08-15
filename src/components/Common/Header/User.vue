@@ -42,11 +42,12 @@ export default {
             type: Object,
             default: () => {},
         },
+        isPad: {
+            type: Boolean,
+            default: false,
+        },
     },
     computed: {
-        isPad() {
-            return document.documentElement.clientWidth <= 1134;
-        },
         isSuper() {
             return this.profile?.token?.is_super;
         },

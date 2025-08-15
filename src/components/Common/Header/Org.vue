@@ -62,9 +62,6 @@ export default {
         isSuper() {
             return this.profile?.token?.is_super;
         },
-        isPad() {
-            return document.documentElement.clientWidth <= 1134;
-        },
     },
     methods: {
         t,
