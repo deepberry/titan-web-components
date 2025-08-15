@@ -1,7 +1,7 @@
 <template>
     <div class="c-header" :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop }">
         <!-- 消息提醒 -->
-        <slot name="notice"></slot>
+        <GlobalNotice></GlobalNotice>
 
         <div class="c-header-left">
             <i class="u-trigger" @click.stop="toggleSidebar">
@@ -32,10 +32,12 @@ import CommonOrg from "./Org.vue";
 import CommonUser from "./User.vue";
 import Timezone from "./TimeZone.vue";
 import CommonExtend from "./Extend.vue";
+import GlobalNotice from "./GlobalNotice.vue";
 
 export default {
     name: "HeaderIndex",
     components: {
+        GlobalNotice,
         CommonUser,
         CommonOrg,
         Timezone,

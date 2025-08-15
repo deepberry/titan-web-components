@@ -1,5 +1,5 @@
 <template>
-    <div class="l-col2">
+    <div class="l-col2" :class="{ 'is-notice': noticeOpened }">
         <CommonHeader>
             <template v-slot:user> </template>
         </CommonHeader>
@@ -23,6 +23,7 @@
 <script>
 import CommonHeader from "@/components/Common/Header/Index.vue";
 import PayPop from "@/components/Common/Widget/PayPop.vue";
+import { useCommonStore } from "./store/common";
 export default {
     name: "App",
     props: [],
@@ -89,7 +90,11 @@ export default {
             show: false,
         };
     },
-    computed: {},
+    computed: {
+        noticeOpened() {
+            return !!useCommonStore().globalNotice?.val && !useCommonStore().globalNotice?.hidden;
+        },
+    },
     watch: {},
     methods: {
         toggle: function () {
