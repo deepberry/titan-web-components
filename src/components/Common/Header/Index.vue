@@ -85,7 +85,7 @@ export default {
             immediate: true,
             deep: true,
             handler(notice) {
-                const noticeOpened = notice && !Object.hasOwn(notice, "hidden");
+                const noticeOpened = !!notice?.status && !notice?.hidden;
                 this.$emit("change", {
                     type: "notice",
                     value: noticeOpened,
