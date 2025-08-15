@@ -31,18 +31,22 @@ import { useCommonStore } from "../../../store/common";
 export default {
     name: "GlobalNotice",
     data() {
-        return {};
+        return {
+            isPad: false,
+        };
     },
     computed: {
         ...mapState(useCommonStore, ["globalNotice"]),
-        isPad() {
-            return document.documentElement.clientWidth <= 1134;
-        },
         noticeOpened() {
             return !!this.globalNotice?.val && !this.globalNotice.hidden;
         },
     },
     mounted() {
+        this.isPad = document.documentElement.clientWidth <= 1134;
+        const self = this;
+        window.onresize = function () {
+            self.isPad = document.documentElement.clientWidth <= 1134;
+        };
         useCommonStore().loadGlobalAc();
     },
     methods: {

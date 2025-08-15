@@ -74,15 +74,18 @@ export default {
             },
             organizations: [],
             survey: {},
+            isPad: false,
         };
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
-        isPad() {
-            return document.documentElement.clientWidth <= 1134;
-        },
     },
     mounted() {
+        this.isPad = document.documentElement.clientWidth <= 1134;
+        const self = this;
+        window.onresize = function () {
+            self.isPad = document.documentElement.clientWidth <= 1134;
+        };
         this.loadUserInfo();
         window.addEventListener("scroll", this.scroll);
     },

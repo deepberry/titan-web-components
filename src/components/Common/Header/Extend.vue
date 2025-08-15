@@ -1,7 +1,7 @@
 <template>
     <div class="c-header-extend">
         <slot></slot>
-        <el-dropdown v-if="!isPhone" class="m-header-extend__dropdown" trigger="click">
+        <el-dropdown v-if="!isPad" class="m-header-extend__dropdown" trigger="click">
             <el-badge :is-dot="showSurvey">
                 <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
             </el-badge>
@@ -70,10 +70,10 @@
                 svg-inline
             />
         </el-tooltip>
-        <div class="m-ai" :class="{ 'is-phone': isPhone }" @click="toAi">
+        <div class="m-ai" :class="{ 'is-phone': isPad }" @click="toAi">
             <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
-            <span v-if="!isPhone">{{ t("commonHeader.extend.ai") }}</span>
-            <el-icon v-if="!isPhone"><ArrowRight></ArrowRight></el-icon>
+            <span v-if="!isPad">{{ t("commonHeader.extend.ai") }}</span>
+            <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
         </div>
         <el-dialog :title="t('commonHeader.extend.other_support')" v-model="quickVisible">
             <QuickSupport class="c-header-support__pop" />
@@ -108,12 +108,10 @@ export default {
             quickVisible: false,
             // quotationVisible: false,
             surveyVisible: false,
+            isPad: false,
         };
     },
     computed: {
-        isPhone() {
-            return document.documentElement.clientWidth <= 768;
-        },
         showSurvey() {
             return !!this.survey.id && !this.survey.status;
         },
@@ -132,6 +130,13 @@ export default {
                 this.updateLastReminderDate(); // 关闭时也记录日期
             }
         },
+    },
+    mounted() {
+        this.isPad = document.documentElement.clientWidth <= 1134;
+        const self = this;
+        window.onresize = function () {
+            self.isPad = document.documentElement.clientWidth <= 1134;
+        };
     },
     methods: {
         t,
