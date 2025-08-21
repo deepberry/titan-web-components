@@ -9,6 +9,8 @@ class User {
     static LAST_AUTH = "created_at";
     static DB_LOCALE = "dp_lang";
     static DB_TIMEZONE = "dp_timezone";
+    static DB_PERMISSION = "titan_permissions";
+    static DB_PACKAGE = "packages";
 
     constructor() {
         this.anonymous = {
@@ -71,6 +73,9 @@ class User {
         sessionStorage.removeItem(User.TOKEN_KEY);
         sessionStorage.removeItem(User.LAST_AUTH);
         sessionStorage.removeItem(User.TOKEN_KEY_V2);
+
+        sessionStorage.removeItem(User.DB_PERMISSION);
+        sessionStorage.removeItem(User.DB_PACKAGE);
     }
 
     /**
