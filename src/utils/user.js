@@ -2,6 +2,7 @@
 import { $titan2 } from "./api";
 import axios from "axios";
 import { getCdnLink } from "@deepberry/common/js/utils";
+import { getTokenFromUrl } from "@deepberry/common/js/miniprogram";
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
@@ -86,9 +87,14 @@ class User {
      */
     getToken({ version } = { version: 1 }) {
         if (version === 2) {
-            return sessionStorage.getItem(User.TOKEN_KEY_V2) || localStorage.getItem(User.TOKEN_KEY_V2);
+            return (
+                // 是否有来自miniprogram url中的token
+                getTokenFromUrl() ||
+                sessionStorage.getItem(User.TOKEN_KEY_V2) ||
+                localStorage.getItem(User.TOKEN_KEY_V2)
+            );
         }
-        return sessionStorage.getItem(User.TOKEN_KEY) || localStorage.getItem(User.TOKEN_KEY);
+        return getTokenFromUrl() || sessionStorage.getItem(User.TOKEN_KEY) || localStorage.getItem(User.TOKEN_KEY);
     }
 
     /**
