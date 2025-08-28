@@ -1,7 +1,7 @@
 <template>
     <el-dialog class="m-survey-dialog" :model-value="visible" :show-close="false" :before-close="close" :width="500">
         <div class="m-survey" :class="{ 'is-en': isEnglish }">
-            <img src="../../../assets/img/survey/right.png" class="u-right" />
+            <img :src="rightImg" class="u-right" />
             <div class="u-title">{{ t("commonHeader.survey.title_1") }}</div>
             <div class="u-message">{{ survey?.message }}</div>
             <el-form class="m-form" ref="form" :model="form" :rules="rules" label-position="top">
@@ -67,6 +67,7 @@ export default {
     data() {
         return {
             qrCodeImg: getCdnLink("titan/qrcode/db_kf_qrcode.png"),
+            rightImg: getCdnLink("titan/common/survey/right.png"),
             tel: "0731-85313833",
             loading: false,
             form: {
