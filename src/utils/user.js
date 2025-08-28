@@ -243,6 +243,7 @@ class User {
             } else {
                 console.log("版本预检失败，清空缓存");
                 localStorage.clear();
+                sessionStorage.clear();
                 localStorage.setItem("titan_version", version);
 
                 this.toLogin();
