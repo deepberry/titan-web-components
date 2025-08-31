@@ -138,7 +138,7 @@ class User {
         url = url && encodeURIComponent(url);
         // 强制跳转/非dev环境
         if (location.origin.indexOf("localhost") == -1) {
-            location.href = "/account/login?redirect=" + url;
+            location.href = "/uc/account/login?redirect=" + url;
         }
     }
 
@@ -261,7 +261,6 @@ class User {
      */
     getTitanDefaultConf() {
         return axios.get(`${getCdnLink("/common/system/conf/titan_default.json")}`).then((res) => {
-            console.log("titan_default_conf", res);
             sessionStorage.setItem("titan_default_conf", JSON.stringify(res.data));
 
             return this.checkVersion(res.data.titan_version);
