@@ -11,7 +11,6 @@
                         <el-dropdown-item @click="changeOrg">{{
                             t("commonHeader.change_organization")
                         }}</el-dropdown-item>
-                        <el-dropdown-item @click="toHelp">{{ t("commonHeader.help") }}</el-dropdown-item>
                         <el-dropdown-item @click="toMessage">{{ t("commonHeader.message") }}</el-dropdown-item>
                         <el-divider />
                     </template>
@@ -76,16 +75,13 @@ export default {
                 .catch(() => {});
         },
         toProfile() {
-            window.open("/uc/profile", "_blank");
+            window.open("/uc/profile", "_self");
         },
         toOrder() {
-            window.open("/uc/order", "_blank");
+            window.open("/uc/order", "_self");
         },
         toEnterprise() {
             window.open("/uc/enterprise", "_self");
-        },
-        toHelp() {
-            window.open("/uc/help", "_blank");
         },
         // TODO: 消息中心
         toMessage() {

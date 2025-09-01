@@ -62,19 +62,21 @@
             />
         </el-tooltip> -->
         <CommonMessage />
-        <el-tooltip :content="t('commonHeader.extend.mall')">
-            <img
-                class="u-icon u-mall"
-                @click="toMall"
-                :src="require('../../../assets/img/common/header/mall.svg')"
-                svg-inline
-            />
-        </el-tooltip>
-        <div class="m-ai" :class="isPad ? 'is-pad' : ''" @click="toAi">
-            <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
-            <span v-if="!isPad">{{ t("commonHeader.extend.ai") }}</span>
-            <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
-        </div>
+        <template v-if="!isPad">
+            <el-tooltip :content="t('commonHeader.extend.mall')">
+                <img
+                    class="u-icon u-mall"
+                    @click="toMall"
+                    :src="require('../../../assets/img/common/header/mall.svg')"
+                    svg-inline
+                />
+            </el-tooltip>
+            <div class="m-ai" :class="isPad ? 'is-pad' : ''" @click="toAi">
+                <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
+                <span v-if="!isPad">{{ t("commonHeader.extend.ai") }}</span>
+                <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
+            </div>
+        </template>
         <el-dialog :title="t('commonHeader.extend.other_support')" v-model="quickVisible">
             <QuickSupport class="c-header-support__pop" />
         </el-dialog>
@@ -165,7 +167,7 @@ export default {
             window.open("/uc/help", "_blank");
         },
         toAi() {
-            location.href = "/aibot";
+            location.href = "/uc/aibot";
         },
     },
 };
