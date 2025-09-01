@@ -281,6 +281,12 @@ export default {
         .c-header-timezone {
             .none;
         }
+        .c-header-lang {
+            padding: 10px !important;
+            box-sizing: border-box;
+            width: 40px;
+            height: 40px;
+        }
     }
 }
 </style>
