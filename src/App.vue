@@ -12,9 +12,9 @@
 
         <PayPop
             v-model="show"
-            :productId="1"
+            :productId="productId"
             productType="TITAN_PACK"
-            :dashboardId="435"
+            :dashboardId="dashboardId"
             productDesc="普通套餐"
         ></PayPop>
     </div>
@@ -39,6 +39,8 @@ export default {
             test2: 0,
             max: 100,
             min: 0,
+            productId: 1,
+            dashboardId: 435,
 
             menus: [
                 {
@@ -106,6 +108,9 @@ export default {
     },
     created: function () {},
     mounted: function () {
+        setTimeout(() => {
+            this.productId = 2;
+        });
         // 测试
         // setInterval(() => {
         //     this.test1 = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);

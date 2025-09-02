@@ -194,6 +194,7 @@ export default {
                 productId: this.productId,
                 count: this.count,
                 iccNumber: this.iccNumber,
+                modelValue: this.modelValue,
             };
         },
         isAlipay: function () {
@@ -210,21 +211,26 @@ export default {
         },
         idCount: {
             deep: true,
-            handler() {
-                // 改变套餐和时间，强制重新生成
-                this.build();
-            },
-        },
-        modelValue: function (val) {
-            if (val) {
-                // 1.未过期，不进行二次生成
-                if (!this.expired) {
-                    console.log("未过期，不进行二次生成");
-                    return;
+            handler(newVal, oldVal) {
+                if (
+                    (oldVal.productId && oldVal.productId !== newVal.productId) ||
+                    (oldVal.iccNumber && oldVal.iccNumber !== newVal.iccNumber)
+                ) {
+                    // 改变产品（套餐或流量卡），强制重新生成
+                    this.build();
+                } else {
+                    // init
+                    if (newVal.modelValue) {
+                        // 1.未过期，不进行二次生成
+                        if (!this.expired) {
+                            console.log("未过期，不进行二次生成");
+                            return;
+                        }
+                        // 2.过期，重新生成
+                        this.build();
+                    }
                 }
-                // 2.过期，重新生成
-                this.build();
-            }
+            },
         },
         params(params) {
             this.$emit("change", params);
