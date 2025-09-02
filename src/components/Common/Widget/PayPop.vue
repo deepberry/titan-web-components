@@ -44,10 +44,9 @@
                         >手机不在身边？使用<a :href="skip_url" target="_blank">电脑版支付宝</a>支付。</span
                     >
                     <span class="u-exp">（10分钟过期，请在支付完成后点击【已完成支付】）</span>
-                    <transition name="fade">
+                    <transition name="fade" v-if="warning_visible">
                         <el-alert
                             class="u-warning"
-                            v-show="warning_visible"
                             title="订单尚未支付或已过期"
                             type="error"
                             show-icon
