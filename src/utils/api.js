@@ -15,7 +15,7 @@ import { installSimpleInterceptors, installStandardInterceptors } from "./interc
  */
 export function $titan2(options) {
     const config = {
-        baseURL: process.env.VUE_APP_TITAN_API + "api/titan/",
+        baseURL: (process.env.VUE_APP_TITAN_API || process.env.VUE_APP_SERVICE_API) + "api/titan/",
         withCredentials: false,
         headers: {
             Authorization: "Bearer " + User.getToken({ version: 2 }),
@@ -39,7 +39,7 @@ export function $titan2(options) {
  */
 export function $cms(options) {
     const config = {
-        baseURL: process.env.VUE_APP_CMS_API + "api/cms/",
+        baseURL: (process.env.VUE_APP_CMS_API || process.env.VUE_APP_SERVICE_API) + "api/cms/",
         withCredentials: false,
         headers: {
             Authorization: "Bearer " + User.getToken({ version: 2 }),
