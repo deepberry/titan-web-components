@@ -49,7 +49,7 @@ export default {
 
             apps: [
                 { name: "insights", url: "/insights" },
-                { name: "enterprise", url: "/enterprise/member" },
+                { name: "enterprise", url: "/uc/enterprise/member" },
                 { name: "erp", url: "/erp" },
                 { name: "salary", url: "/salary" },
                 { name: "workers", url: "/workers" },

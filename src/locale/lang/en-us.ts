@@ -61,8 +61,8 @@ export default {
         order_center: "Order",
         enterprise_settings: "Enterprise",
         extend: {
-            other_support: "Other Support",
-            work_order: "Work Order System",
+            other_support: "Phone & Email",
+            work_order: "Support Tickets",
             question: "Questions and Feedback",
             contact_custom: "Contact Customer",
             mall: "Mall",
@@ -75,7 +75,7 @@ export default {
             tech: "Technical Support",
         },
         survey: {
-            title: "Questionnaire",
+            title: "Survey Feedback",
             title_1: "Your Voice Matters!",
             rate: "Please rate your overall experience",
             rate_num: {

@@ -4,7 +4,9 @@ const routes = [
     {
         path: "/account",
         name: "account",
-        redirect: "/account/login",
+        redirect: {
+            name: "account-login",
+        },
         component: () => import("../views/Index.vue"),
         meta: { title: "账号中心 - Account" },
         children: [
