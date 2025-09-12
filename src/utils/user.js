@@ -55,7 +55,7 @@ class User {
      * @memberof User
      */
     _save(data) {
-        localStorage.setItem(User.TOKEN_KEY, data.v1_token);
+        data.v1_token && localStorage.setItem(User.TOKEN_KEY, data.v1_token);
         localStorage.setItem(User.TOKEN_KEY_V2, data.v2_token);
         localStorage.setItem(User.LAST_AUTH, data.created_at);
     }
