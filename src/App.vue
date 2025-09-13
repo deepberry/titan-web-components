@@ -39,8 +39,8 @@ export default {
             test2: 0,
             max: 100,
             min: 0,
-            productId: 1,
-            dashboardId: 435,
+            productId: "",
+            dashboardId: "",
 
             menus: [
                 {
@@ -103,6 +103,8 @@ export default {
             this.status = !this.status;
         },
         openPayPop: function () {
+            this.dashboardId = 435;
+            this.productId = 1;
             this.show = true;
         },
     },
