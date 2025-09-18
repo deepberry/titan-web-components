@@ -61,7 +61,7 @@ export default {
         order_center: "Order",
         enterprise_settings: "Enterprise",
         extend: {
-            other_support: "Phone & Email",
+            other_support: "Contact",
             work_order: "Support Tickets",
             question: "Questions and Feedback",
             contact_custom: "Contact Customer",
@@ -73,6 +73,7 @@ export default {
             before: "Pre Sales",
             after: "After Sales",
             tech: "Technical Support",
+            tip: "Scan with WeChat to add Enterprise WeChat customer service​",
         },
         survey: {
             title: "Survey Feedback",

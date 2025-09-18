@@ -77,7 +77,7 @@
                 <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
             </div>
         </template>
-        <el-dialog :title="t('commonHeader.extend.other_support')" v-model="quickVisible">
+        <el-dialog :title="t('commonHeader.extend.other_support')" :width="680" v-model="quickVisible">
             <QuickSupport class="c-header-support__pop" />
         </el-dialog>
         <WxMp v-if="profile?.id" :profile="profile"></WxMp>

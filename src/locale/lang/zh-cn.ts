@@ -61,7 +61,7 @@ export default {
         doc: "文档中心",
         help: "帮助中心",
         extend: {
-            other_support: "其它支持",
+            other_support: "联系方式",
             work_order: "工单系统",
             question: "问题与反馈",
             contact_custom: "联系客服",
@@ -73,6 +73,7 @@ export default {
             before: "售前咨询",
             after: "售后支持",
             tech: "技术支持",
+            tip: "微信扫一扫添加企微客服",
         },
         survey: {
             title: "问卷回访",
