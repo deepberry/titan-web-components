@@ -132,6 +132,7 @@ export default {
     background: transparent !important;
     box-shadow: none !important;
     box-sizing: border-box;
+    overflow: hidden !important;
     .el-dialog__header {
         padding-bottom: 0;
     }
