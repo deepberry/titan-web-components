@@ -126,3 +126,14 @@ export function $titan(options) {
 
     return ins;
 }
+
+export function $erp(options = {}) {
+    const base = process.env.VUE_APP_SERVICE_API + "api/erp/";
+    const ins = axios.create({
+        baseURL: base,
+        withCredentials: false,
+        headers: { Authorization: "Bearer " + User.getToken({ version: 2 }) },
+    });
+    installStandardInterceptors(ins, options);
+    return ins;
+}

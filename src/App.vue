@@ -8,6 +8,7 @@
             <slot></slot>
 
             <el-button @click="openPayPop">Open Pay Pop</el-button>
+            <el-button @click="chatVisible = true">Ai Chat</el-button>
         </div>
 
         <PayPop
@@ -17,19 +18,35 @@
             :dashboardId="dashboardId"
             productDesc="普通套餐"
         ></PayPop>
+
+        <el-dialog v-model="chatVisible" title="AI 小助手">
+            <AiChatSend
+                :showDeep="false"
+                @send="onSend"
+                @stop="onStop"
+                @record="onRecord"
+                @stopRecord="onStopRecord"
+            ></AiChatSend>
+            <AiChat ref="aiChat" :promptTip="promptTip" :fetchAskUrl="fetchAskUrl" :askFun="askFun"></AiChat>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import CommonHeader from "@/components/Common/Header/Index.vue";
 import PayPop from "@/components/Common/Widget/PayPop.vue";
+import AiChatSend from "./components/Ai/AiChatSend.vue";
+import AiChat from "./components/Ai/AiChat.vue";
 import { useCommonStore } from "./store/common";
+import { fetchAskUrl, ask } from "./service/chat.js";
 export default {
     name: "App",
     props: [],
     components: {
         CommonHeader,
         PayPop,
+        AiChatSend,
+        AiChat,
     },
     data: function () {
         return {
@@ -90,6 +107,10 @@ export default {
             ],
 
             show: false,
+            chatVisible: true,
+            promptTip: `试试"给我生成一个蓝莓小苗配方"`,
+            fetchAskUrl: fetchAskUrl,
+            askFun: ask,
         };
     },
     computed: {
@@ -99,6 +120,18 @@ export default {
     },
     watch: {},
     methods: {
+        onSend() {
+            this.$refs?.aiChat?.inputEnter();
+        },
+        onStop() {
+            this.$refs?.aiChat?.onStop();
+        },
+        onRecord() {
+            this.$refs?.aiChat?.onRecord();
+        },
+        onStopRecord() {
+            this.$refs?.aiChat?.onStopRecord();
+        },
         toggle: function () {
             this.status = !this.status;
         },

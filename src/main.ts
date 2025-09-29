@@ -24,6 +24,11 @@ app.use(VueSvgInlinePlugin, {
 import TitanUI from "../index";
 app.use(TitanUI);
 
+// Tdesign
+import TDesign from "tdesign-vue-next";
+import TDesignChat from "@tdesign-vue-next/chat"; // 引入chat组件
+app.use(TDesign).use(TDesignChat);
+
 import pinia from "./store/store";
 app.use(pinia);
 
