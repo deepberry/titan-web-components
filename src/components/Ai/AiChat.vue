@@ -23,8 +23,7 @@
                             :text="$t('ai.thinking')"
                         />
                         <t-chat-content v-if="item.content.length > 0" :content="item.content" />
-                        <!-- <div v-if="item.ferRes != null"><fer-preview :report="item.ferRes" /></div> -->
-                        <slot name="ferPreview"></slot>
+                        <slot name="ferPreview" :res="item.ferRes"></slot>
                         <div class="m-links" v-if="item.doc_references?.length">
                             <div class="u-label">{{ $t("ai.reference") }}：</div>
                             <t-link
