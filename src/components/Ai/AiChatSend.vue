@@ -4,7 +4,7 @@
             ref="chatSender"
             :stop-disabled="isStreamLoad"
             :textarea-props="{
-                placeholder: $t('ai.input_placeholder'),
+                placeholder: placeholder,
             }"
             v-model="messageText"
             @stop="onStop"
@@ -80,6 +80,10 @@ export default {
         showDeep: {
             type: Boolean,
             default: true,
+        },
+        placeholder: {
+            type: String,
+            default: t("ai.input_placeholder"),
         },
     },
     emits: ["send", "stop", "record", "stopRecord"],
