@@ -105,6 +105,7 @@ import { MessagePlugin } from "tdesign-vue-next";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 export default {
     name: "AiChat",
+    emits: ["result"],
     props: {
         promptTip: {
             type: String,
@@ -987,7 +988,8 @@ export default {
 
             this.chatList[0].ferRes = ferRes;
             if (this.chatList[0].ferRes) {
-                this.currentFerRes = this.chatList[0].ferRes;
+                const currentFerRes = this.chatList[0].ferRes;
+                this.$emit("result", currentFerRes);
             }
 
             this.renderFullChar(content, ref);
