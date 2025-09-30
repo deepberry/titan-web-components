@@ -107,7 +107,7 @@ export default {
             ],
 
             show: false,
-            chatVisible: true,
+            chatVisible: false,
             promptTip: `试试"给我生成一个蓝莓小苗配方"`,
             fetchAskUrl: fetchAskUrl,
             askFun: ask,
