@@ -135,7 +135,9 @@ export default {
             return this.menus || [];
         },
         activeMenu() {
-            return location.pathname || "";
+            // 路由中存在则用路由的，不存在则用path中的
+            const routeActiveMenu = this.$route?.meta?.activeMenu ? `/${this.$route.meta.activeMenu}` : "";
+            return routeActiveMenu || location.pathname || "";
         },
         isCollapse() {
             return this.opened;
