@@ -7,7 +7,7 @@
         }"
         ref="nav"
     >
-        <template v-if="homes?.length">
+        <!-- <template v-if="homes?.length">
             <el-popover
                 placement="right-end"
                 class="c-nav-logo_pop"
@@ -39,8 +39,8 @@
                     </a>
                 </div>
             </el-popover>
-        </template>
-        <a class="c-nav-logo" href="/" v-else>
+        </template> -->
+        <a class="c-nav-logo" href="/atlas">
             <img
                 v-if="!isCollapse"
                 class="u-simple"
@@ -160,6 +160,9 @@ export default {
         isErp() {
             return this.menuList && this.menuList.length > 0;
         },
+        path() {
+            return location.pathname;
+        },
     },
     watch: {
         appIndex: {
@@ -168,6 +171,14 @@ export default {
                 this.focus_index = val;
 
                 useCommonStore().sideExpanded = [...new Set([...this.sideExpanded, val])];
+            },
+        },
+        path: {
+            immediate: true,
+            handler(path) {
+                if (path.startsWith("/atlas")) {
+                    location.href = "/overview";
+                }
             },
         },
     },
