@@ -58,6 +58,7 @@ export default {
             min: 0,
             productId: "",
             dashboardId: "",
+            orderPrice: 30000,
 
             menus: [
                 {

@@ -44,6 +44,10 @@ export default {
             type: Number,
             default: 1,
         },
+        orderPrice: {
+            type: Number,
+            default: 1,
+        },
         productId: {
             type: [String, Number],
             default: "",
@@ -68,9 +72,17 @@ export default {
     computed: {
         // 账单
         bill() {
+            const priceValue = this.orderPrice ? this.orderPrice : this.price || 0;
+            const priceLabel = this.orderPrice ? "订单总价" : "价格";
+
+            const _price = {
+                label: priceLabel,
+                value: `￥ ${this.toFee(priceValue)}`,
+            };
+            console.log(_price);
             const arr = [
                 // { label: "续费明细", value: this.productDesc },
-                { label: "价格", value: `￥ ${this.price ? this.toFee(this.price) : 0}` },
+                _price,
                 // { label: "续费时长", value: `${this.time} 天` },
                 ...this.info,
             ];

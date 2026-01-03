@@ -64,6 +64,7 @@
                 :count="count"
                 :product-type="productType"
                 :product-id="productId"
+                :order-price="orderPrice"
                 v-model:payRemark="payRemark"
             >
             </pay-pop-offline>
@@ -105,6 +106,10 @@ export default {
         productId: {
             type: [String, Number],
             default: "",
+        },
+        orderPrice: {
+            type: Number,
+            default: 1,
         },
         productDesc: {
             type: String,
