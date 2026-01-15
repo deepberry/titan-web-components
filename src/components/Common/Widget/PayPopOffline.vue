@@ -19,8 +19,17 @@
                 </template>
             </div>
         </el-descriptions-item>
-        <el-descriptions-item label="汇款备注" min-width="100" label-align="right">
-            <el-input v-model="remark" placeholder="请填写您的汇款备注" clearable @input="onRemarkInput"></el-input>
+        <el-descriptions-item label="汇款人" min-width="100" label-align="right" label-class-name="label-required">
+            <el-form ref="inlineForm" :inline="true" :model="form" :rules="rules">
+                <el-form-item prop="remark">
+                    <el-input
+                        v-model="form.remark"
+                        placeholder="请填写汇款人/企业"
+                        clearable
+                        @input="onRemarkInput"
+                    ></el-input>
+                </el-form-item>
+            </el-form>
         </el-descriptions-item>
     </el-descriptions>
 </template>
@@ -66,7 +75,12 @@ export default {
             info: [],
             price: 0,
             time: this.count,
-            remark: "",
+            form: {
+                remark: "",
+            },
+            rules: {
+                remark: [{ required: true, message: "请填写汇款人/企业", trigger: ["blur"] }],
+            },
         };
     },
     computed: {
@@ -146,6 +160,9 @@ export default {
         toFee(value) {
             return (value / 100).toFixed(2);
         },
+        validateRemark() {
+            this.$refs.inlineForm.validate();
+        },
     },
 };
 </script>
@@ -159,6 +176,15 @@ export default {
     }
     .el-descriptions__cell span {
         .break;
+    }
+    .el-form-item {
+        width: 100%;
+        margin: 0;
+    }
+    .label-required::before {
+        content: "*";
+        color: red;
+        margin-right: 4px;
     }
 }
 </style>

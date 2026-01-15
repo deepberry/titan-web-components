@@ -57,6 +57,7 @@
                 </div>
             </div>
             <pay-pop-offline
+                ref="payPopOffline"
                 v-else-if="pay_type === 'offline'"
                 :iccNumber="iccNumber"
                 :price="price"
@@ -282,8 +283,7 @@ export default {
         },
         check: debounce(function () {
             if (this.pay_type == "offline") {
-                this.submitOffline();
-                return;
+                this.$refs.payPopOffline.validateRemark();
             }
             if (!this.order_id) {
                 this.$notify.error({
