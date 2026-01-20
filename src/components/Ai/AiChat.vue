@@ -712,13 +712,19 @@ export default {
 
             try {
                 await this.fetchSSE(() => this.startRequest(requestData), {
-                    success: (result) => {
+                    success: (result, isLast = false) => {
                         useChatStore().loading = false;
 
-                        this.timer = setTimeout(() => {
+                        // 如果是最后一条消息，同步处理；否则使用 setTimeout
+                        if (isLast) {
                             lastItem.reasoning += result.output.text;
                             lastItem.content += result.output.text;
-                        }, 20);
+                        } else {
+                            this.timer = setTimeout(() => {
+                                lastItem.reasoning += result.output.text;
+                                lastItem.content += result.output.text;
+                            }, 20);
+                        }
 
                         if (result.output?.doc_references?.length) {
                             lastItem.doc_references = lastItem.doc_references.concat(result.output.doc_references);
@@ -797,11 +803,13 @@ export default {
                             if (!raw) continue;
                             try {
                                 const json = JSON.parse(raw);
-                                success(json);
-
                                 if (json.output?.finish_reason === "stop") {
+                                    // 最后一条消息需要同步处理，避免被 clearTimeout 清除
                                     this.timer && clearTimeout(this.timer);
+                                    success(json, true); // 传递 isLast 标记
                                     console.log("解析完成");
+                                } else {
+                                    success(json);
                                 }
                             } catch (err) {
                                 console.warn("JSON解析失败:", raw, err);
