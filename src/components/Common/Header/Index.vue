@@ -43,12 +43,6 @@ export default {
         Timezone,
         CommonExtend,
     },
-    props: {
-        menus: {
-            type: Array,
-            default: () => [],
-        },
-    },
     emits: ["change"],
     data() {
         return {
@@ -138,13 +132,8 @@ export default {
             localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
 
             if (useCommonStore().opened) {
-                const activeMenu = location.pathname || "";
-                const key = activeMenu.split("/")[1];
-                const index = this.menus.findIndex((item) => item.path.split("/")[1] === key);
-
                 const expended = useCommonStore().sideExpanded;
-
-                useCommonStore().sideExpanded = [...new Set([...expended, index])];
+                useCommonStore().sideExpanded = [...new Set([...expended])];
             }
         },
     },

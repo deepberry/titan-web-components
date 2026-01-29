@@ -63,7 +63,7 @@
                     effect="dark"
                     :content="getName(item)"
                     placement="right"
-                    v-for="(item, i) in filterMenus"
+                    v-for="(item, i) in menus"
                     :key="i"
                     :hide-after="0"
                 >
@@ -112,15 +112,15 @@ import { getMenus } from "../../../service/account";
 export default {
     name: "CommonSidebar",
     props: {
-        homes: {
-            type: Array,
-            default: () => [],
-        },
-        menuList: {
-            // erp menus 传入进来
-            type: Array,
-            default: () => [],
-        },
+        // homes: {
+        //     type: Array,
+        //     default: () => [],
+        // },
+        // menuList: {
+        //     // erp menus 传入进来 已经统一
+        //     type: Array,
+        //     default: () => [],
+        // },
     },
     data() {
         return {
@@ -131,9 +131,6 @@ export default {
     },
     computed: {
         ...mapState(useCommonStore, ["opened", "sideExpanded"]),
-        filterMenus() {
-            return this.menus || [];
-        },
         activeMenu() {
             // 路由中存在则用路由的，不存在则用path中的
             const routeActiveMenu = this.$route?.meta?.activeMenu ? `/${this.$route.meta.activeMenu}` : "";
@@ -152,14 +149,14 @@ export default {
         },
         appIndex() {
             const key = this.activeMenu;
-            return this.filterMenus?.findIndex((item) => key === item?.name);
+            return this.menus?.findIndex((item) => key === item?.name);
         },
         isPad() {
             return document.documentElement.clientWidth <= 1134;
         },
-        isErp() {
-            return this.menuList && this.menuList.length > 0;
-        },
+        // isErp() {
+        //     return this.menuList && this.menuList.length > 0;
+        // },
         path() {
             return location.pathname;
         },
@@ -183,12 +180,13 @@ export default {
         },
     },
     mounted() {
-        if (this.isErp) {
-            // erp menus 传入进来
-            this.menus = this.menuList;
-        } else {
-            this.loadMenus();
-        }
+        // if (this.isErp) {
+        //     // erp menus 传入进来
+        //     this.menus = this.menuList;
+        // } else {
+        //     this.loadMenus();
+        // }
+        this.loadMenus();
         document.addEventListener("click", this.closeEvent);
     },
     unmounted() {
@@ -201,13 +199,19 @@ export default {
             });
         },
         iconPath(icon) {
+            if (icon.startsWith("http")) {
+                return icon;
+            }
+            if (icon.startsWith("/")) {
+                return getCdnLink(icon.split("/").slice(1).join("/"));
+            }
             return getCdnLink(icon);
         },
         isActive(item) {
             let parentName = "/" + item.link?.split("/").filter(Boolean)?.[0];
-            if (this.isErp) {
-                parentName = item.link;
-            }
+            // if (this.isErp) {
+            //     parentName = item.link;
+            // }
             return this.activeMenu?.startsWith(parentName);
         },
         handleMenuItemClick(item) {
