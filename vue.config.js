@@ -21,6 +21,23 @@ module.exports = {
     //❤️ define path for static files ~
     publicPath: process.env.NODE_ENV === "development" ? "/" : process.env.STATIC_PATH,
 
+    //💛 suppress Sass deprecation warnings from dependencies
+    css: {
+        loaderOptions: {
+            // dart-sass
+            sass: {
+                sassOptions: {
+                    quietDeps: true,
+                },
+            },
+            scss: {
+                sassOptions: {
+                    quietDeps: true,
+                },
+            },
+        },
+    },
+
     //❤️ Webpack configuration
     chainWebpack: (config) => {
         //💝 in-line small imgs ~

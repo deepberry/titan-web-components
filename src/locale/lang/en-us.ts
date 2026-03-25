@@ -60,6 +60,11 @@ export default {
         profile_settings: "Profile",
         order_center: "Order",
         enterprise_settings: "Enterprise",
+        current_organization: "Current Organization: ",
+        invoice_center: "Invoice Center",
+        user_management: "User Management",
+        dashboard_management: "Dashboard Management",
+        system_settings: "System Settings",
         extend: {
             other_support: "Contact",
             work_order: "Support Tickets",

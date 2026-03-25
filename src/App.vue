@@ -14,7 +14,7 @@
         <PayPop
             v-model="show"
             :productId="productId"
-            productType="TITAN_PACK"
+            :productType="productType"
             :dashboardId="dashboardId"
             productDesc="普通套餐"
         ></PayPop>
@@ -56,7 +56,9 @@ export default {
             test2: 0,
             max: 100,
             min: 0,
-            productId: "",
+
+            productId: "1",
+            productType: "ERP_PACK", // TITAN_PACK, SIM_CARD, SYSTEM_PRODUCT, ERP_PACK
             dashboardId: "",
             orderPrice: 30000,
 

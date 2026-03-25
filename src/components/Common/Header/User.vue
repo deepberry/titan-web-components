@@ -39,7 +39,7 @@ export default {
     props: {
         profile: {
             type: Object,
-            default: () => {},
+            default: () => ({}),
         },
         isPad: {
             type: Boolean,
@@ -97,5 +97,3 @@ export default {
     },
 };
 </script>
-
-<style lang="less"></style>

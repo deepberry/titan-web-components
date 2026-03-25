@@ -29,7 +29,7 @@ import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
 import CommonOrg from "./Org.vue";
-import CommonUser from "./User.vue";
+import CommonUser from "./User2.vue";
 import Timezone from "./TimeZone.vue";
 import CommonExtend from "./Extend.vue";
 import GlobalNotice from "./GlobalNotice.vue";

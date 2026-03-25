@@ -58,6 +58,11 @@ export default {
         profile_settings: "资料设置",
         order_center: "订单中心",
         enterprise_settings: "企业管理",
+        current_organization: "当前组织：",
+        invoice_center: "发票中心",
+        user_management: "用户管理",
+        dashboard_management: "园区管理",
+        system_settings: "系统设置",
         doc: "文档中心",
         help: "帮助中心",
         extend: {
