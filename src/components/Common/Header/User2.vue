@@ -66,7 +66,7 @@
                             class="u-item"
                             ><el-icon><User /></el-icon>{{ t("commonHeader.user_management") }}
                         </a>
-                        <a href="/dashboard/config" class="u-item"
+                        <a href="/greenhouse/dashboard/config" class="u-item"
                             ><el-icon><HomeFilled /></el-icon>{{ t("commonHeader.dashboard_management") }}
                         </a>
                         <a v-if="isFounder" href="/uc/enterprise/setting" class="u-item"
