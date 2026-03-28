@@ -69,7 +69,7 @@
                         <a href="/greenhouse/dashboard/config" class="u-item"
                             ><el-icon><HomeFilled /></el-icon>{{ t("commonHeader.dashboard_management") }}
                         </a>
-                        <a v-if="isFounder" href="/uc/enterprise/setting" class="u-item"
+                        <a v-if="isFounder" href="/uc/system/setting" class="u-item"
                             ><el-icon><Setting /></el-icon>{{ t("commonHeader.system_settings") }}
                         </a>
                         <div class="u-logout">
