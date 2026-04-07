@@ -1,5 +1,14 @@
 <template>
-    <div class="c-header" :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop }">
+    <div
+        class="c-header"
+        :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop, 'has-banner': hasBanner }"
+        :style="hasBanner ? { paddingTop: bannerHeight + 'px' } : {}"
+    >
+        <!-- 顶部横幅 -->
+        <div v-if="hasBanner" ref="bannerEl" class="c-header-banner">
+            <slot name="banner"></slot>
+            <el-icon class="u-banner-close" @click="closeBanner"><close /></el-icon>
+        </div>
         <!-- 消息提醒 -->
         <GlobalNotice :isPad="isPad"></GlobalNotice>
 
@@ -43,10 +52,12 @@ export default {
         Timezone,
         CommonExtend,
     },
-    emits: ["change"],
+    emits: ["change", "banner-close"],
     data() {
         return {
             hasScrollTop: false,
+            bannerClosed: false,
+            bannerHeight: 40,
             profile: {
                 // 用户资料
                 avatar: "",
@@ -73,8 +84,21 @@ export default {
     },
     computed: {
         ...mapState(useCommonStore, ["opened", "globalNotice"]),
+        hasBanner() {
+            return !!this.$slots.banner && !this.bannerClosed;
+        },
     },
     watch: {
+        hasBanner: {
+            handler(val) {
+                if (val) {
+                    this.$nextTick(() => this._setupBannerObserver());
+                } else {
+                    this._teardownBannerObserver();
+                }
+            },
+            immediate: true,
+        },
         globalNotice: {
             immediate: true,
             deep: true,
@@ -99,8 +123,29 @@ export default {
     },
     beforeUnmount() {
         window.removeEventListener("scroll", this.scroll);
+        this._teardownBannerObserver();
     },
     methods: {
+        _setupBannerObserver() {
+            if (!this.$refs.bannerEl) return;
+            this._bannerObserver = new ResizeObserver((entries) => {
+                for (const entry of entries) {
+                    this.bannerHeight = Math.round(entry.contentRect.height);
+                }
+            });
+            this._bannerObserver.observe(this.$refs.bannerEl);
+        },
+        _teardownBannerObserver() {
+            if (this._bannerObserver) {
+                this._bannerObserver.disconnect();
+                this._bannerObserver = null;
+            }
+            this.bannerHeight = 40;
+        },
+        closeBanner() {
+            this.bannerClosed = true;
+            this.$emit("banner-close");
+        },
         changeOrg() {
             this.$refs.org.showOrgSwitch();
         },

@@ -2,6 +2,20 @@
     <div class="l-col2" :class="{ 'is-notice': noticeOpened }">
         <CommonHeader>
             <template v-slot:user> </template>
+            <template #banner>
+                <div
+                    style="
+                        height: 40px;
+                        background: #409eff;
+                        color: #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    "
+                >
+                    这是一条全局横幅公告
+                </div>
+            </template>
         </CommonHeader>
         <CommonSidebar :menus="menus"></CommonSidebar>
         <div class="c-main">

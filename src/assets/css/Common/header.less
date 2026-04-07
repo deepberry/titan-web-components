@@ -33,6 +33,42 @@
     &.is-notice {
         padding-top: 40px;
     }
+    &.has-banner {
+        flex-wrap: wrap;
+    }
+}
+.c-header-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 40px;
+    z-index: 1;
+    .u-banner-close {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 16px;
+        opacity: 0.6;
+        &:hover {
+            opacity: 1;
+        }
+        // 加大触摸区域
+        &::after {
+            content: "";
+            position: absolute;
+            inset: -10px;
+        }
+        @media screen and (max-width: @phone) {
+            right: 8px;
+            font-size: 18px;
+            &::after {
+                inset: -14px;
+            }
+        }
+    }
 }
 .c-header-notice {
     position: absolute;
