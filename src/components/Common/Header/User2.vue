@@ -1,7 +1,7 @@
 <template>
     <div class="c-header-panel c-header-info">
         <div class="c-header-profile" id="c-header-profile">
-            <CommonAvatar class="u-avatar" :src="profile.avatar" />
+            <CommonAvatar class="u-avatar" :src="profile?.avatar" />
             <template v-if="isPhone || (!isPhone && !isFounder && !isSuper)">
                 <ul
                     :class="[
@@ -43,12 +43,12 @@
                 <div class="c-header-userdata u-pop-content">
                     <div class="u-profile">
                         <div class="u-basic">
-                            <span class="u-displayname">{{ profile.name }}</span>
+                            <span class="u-displayname">{{ profile?.name }}</span>
                         </div>
                         <div class="u-id">
                             <span
                                 >{{ t("commonHeader.current_organization")
-                                }}<b>{{ profile.organization?.name }}</b></span
+                                }}<b>{{ profile?.organization?.name }}</b></span
                             >
                         </div>
                     </div>
@@ -73,7 +73,12 @@
                             ><el-icon><User /></el-icon>{{ t("commonHeader.user_management") }}
                         </a>
                         <a href="/uc/enterprise/dashboard" class="u-item"
-                            ><el-icon><HomeFilled /></el-icon>{{ t("commonHeader.dashboard_management") }}
+                            ><img
+                                class="u-dashboard-icon"
+                                svg-inline
+                                src="../../../assets/img/common/greenhouse.svg"
+                                alt=""
+                            />{{ t("commonHeader.dashboard_management") }}
                         </a>
                         <a v-if="isFounder" href="/uc/system/setting" class="u-item"
                             ><el-icon><Setting /></el-icon>{{ t("commonHeader.system_settings") }}
@@ -241,6 +246,13 @@ export default {
     user-select: none;
     cursor: pointer;
     box-sizing: border-box;
+
+    .u-dashboard-icon {
+        width: 14px;
+        height: 14px;
+        fill: #454545;
+        margin-right: 5px;
+    }
 
     .u-pop-content {
         visibility: hidden;
