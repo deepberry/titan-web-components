@@ -3,7 +3,13 @@
         <div class="c-header-profile" id="c-header-profile">
             <CommonAvatar class="u-avatar" :src="profile.avatar" />
             <template v-if="isPhone || (!isPhone && !isFounder && !isSuper)">
-                <ul class="u-menu u-pop-content">
+                <ul
+                    :class="[
+                        'u-menu',
+                        'u-pop-content',
+                        { 'u-menu--mobile': isPhone, 'u-menu--desktop-lite': !isPhone && !isFounder && !isSuper },
+                    ]"
+                >
                     <li>
                         <a @click="changeOrg">{{ t("commonHeader.change_organization") }}</a>
                     </li>
@@ -220,6 +226,14 @@ export default {
     }
 }
 
+.u-menu.u-menu--desktop-lite:before {
+    right: 12px;
+}
+
+.u-menu.u-menu--desktop-lite:after {
+    right: 13px;
+}
+
 //操作面板
 .c-header-panel {
     position: relative;
@@ -256,7 +270,7 @@ export default {
     }
 
     .u-menu {
-        min-width: 140px;
+        min-width: 120px;
         width: auto;
         padding: 5px 0;
         border-radius: 4px;
@@ -264,8 +278,12 @@ export default {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
 
-    .u-menu:before {
+    .u-menu.u-menu--mobile:before {
         right: 12px;
+    }
+
+    .u-menu.u-menu--mobile:after {
+        right: 13px;
     }
 
     .u-menu a {
