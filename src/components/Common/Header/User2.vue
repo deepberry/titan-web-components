@@ -2,7 +2,7 @@
     <div class="c-header-panel c-header-info">
         <div class="c-header-profile" id="c-header-profile">
             <CommonAvatar class="u-avatar" :src="profile.avatar" />
-            <template v-if="isPhone">
+            <template v-if="isPhone || (!isPhone && !isFounder && !isSuper)">
                 <ul class="u-menu u-pop-content">
                     <li>
                         <a @click="changeOrg">{{ t("commonHeader.change_organization") }}</a>
@@ -18,14 +18,14 @@
                             {{ t("commonHeader.enterprise_settings") }}
                         </a>
                     </li>
-                    <li>
-                        <a href="/dashboard/config">{{ t("commonHeader.dashboard_management") }} </a>
+                    <li v-if="isSuper || isFounder">
+                        <a href="/uc/enterprise/dashboard">{{ t("commonHeader.dashboard_management") }} </a>
                     </li>
-                    <li>
+                    <li v-if="isSuper || isFounder">
                         <a href="/uc/order">{{ t("commonHeader.order_center") }}</a>
                     </li>
-                    <li>
-                        <a v-if="isFounder" href="/uc/enterprise/setting">{{ t("commonHeader.system_settings") }} </a>
+                    <li v-if="isSuper || isFounder">
+                        <a href="/uc/enterprise/setting">{{ t("commonHeader.system_settings") }} </a>
                     </li>
                     <hr />
                     <li>
@@ -66,7 +66,7 @@
                             class="u-item"
                             ><el-icon><User /></el-icon>{{ t("commonHeader.user_management") }}
                         </a>
-                        <a href="/greenhouse/dashboard/config" class="u-item"
+                        <a href="/uc/enterprise/dashboard" class="u-item"
                             ><el-icon><HomeFilled /></el-icon>{{ t("commonHeader.dashboard_management") }}
                         </a>
                         <a v-if="isFounder" href="/uc/system/setting" class="u-item"

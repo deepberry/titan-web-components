@@ -60,7 +60,7 @@ export default {
         enterprise_settings: "企业管理",
         current_organization: "当前组织：",
         invoice_center: "发票中心",
-        user_management: "用户管理",
+        user_management: "成员管理",
         dashboard_management: "园区管理",
         system_settings: "系统设置",
         doc: "文档中心",
@@ -171,5 +171,12 @@ export default {
         no_chat: "暂无会话",
         formula_success: "配方生成成功，请查看结果",
         formula_fail: "配方生成失败，返回结果格式错误",
+    },
+
+    // 小组件
+    widget: {
+        aigrowicons: {
+            default_icon: "默认图标",
+        },
     },
 };

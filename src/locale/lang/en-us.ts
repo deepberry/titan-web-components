@@ -168,4 +168,11 @@ export default {
         formula_success: "Formula generated successfully, please check the result",
         formula_fail: "Formula generation failed, returned result format error",
     },
+
+    // 小组件
+    widget: {
+        aigrowicons: {
+            default_icon: "Default Icon",
+        },
+    },
 };

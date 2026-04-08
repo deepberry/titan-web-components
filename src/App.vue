@@ -23,6 +23,9 @@
 
             <el-button @click="openPayPop">Open Pay Pop</el-button>
             <el-button @click="chatVisible = true">Ai Chat</el-button>
+
+            <AMap></AMap>
+            <AigrowIcons></AigrowIcons>
         </div>
 
         <PayPop
@@ -51,6 +54,8 @@ import CommonHeader from "@/components/Common/Header/Index.vue";
 import PayPop from "@/components/Common/Widget/PayPop.vue";
 import AiChatSend from "./components/Ai/AiChatSend.vue";
 import AiChat from "./components/Ai/AiChat.vue";
+import AMap from "@/components/Geo/AMap.vue";
+import AigrowIcons from "@/components/Common/Widget/AigrowIcons.vue";
 import { useCommonStore } from "./store/common";
 import { fetchAskUrl, ask } from "./service/chat.js";
 export default {
@@ -61,6 +66,8 @@ export default {
         PayPop,
         AiChatSend,
         AiChat,
+        AMap,
+        AigrowIcons,
     },
     data: function () {
         return {
