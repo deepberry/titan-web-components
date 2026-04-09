@@ -80,7 +80,7 @@
                                 alt=""
                             />{{ t("commonHeader.dashboard_management") }}
                         </a>
-                        <a v-if="isFounder" href="/uc/system/setting" class="u-item"
+                        <a v-if="isFounder || isSuper" href="/uc/system/setting" class="u-item"
                             ><el-icon><Setting /></el-icon>{{ t("commonHeader.system_settings") }}
                         </a>
                         <div class="u-logout">
