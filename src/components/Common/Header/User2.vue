@@ -423,12 +423,13 @@ export default {
     .u-other {
         padding: 10px 5px;
         .u-item {
-            padding: 5px 10px;
+            padding: 6px 10px;
             color: #454545;
             display: flex;
             border-radius: 4px;
             align-items: center;
             font-size: 14px;
+            margin-bottom: 2px;
 
             &:hover {
                 background: @primary;
