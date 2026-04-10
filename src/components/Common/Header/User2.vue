@@ -5,9 +5,12 @@
             <template v-if="isPhone || (!isPhone && !isFounder && !isSuper)">
                 <ul
                     :class="[
-                        'u-menu',
+                        'c-header-user-menu',
                         'u-pop-content',
-                        { 'u-menu--mobile': isPhone, 'u-menu--desktop-lite': !isPhone && !isFounder && !isSuper },
+                        {
+                            'c-header-user-menu--mobile': isPhone,
+                            'c-header-user-menu--desktop-lite': !isPhone && !isFounder && !isSuper,
+                        },
                     ]"
                 >
                     <li>
@@ -197,50 +200,49 @@ export default {
     }
 }
 
-.u-menu {
-    .u-delta;
-    padding: 10px 0;
-    width: 160px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-
-    a {
-        display: block;
-        line-height: 21px;
-        color: #454545;
-        &:hover {
-            color: #fff;
-        }
-        outline: none;
-        text-decoration: none;
-        overflow: hidden;
-        padding: 5px 10px 5px 16px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
-        &:hover {
-            background-color: @primary;
-        }
-    }
-
-    hr {
-        .mt(2px);
-        .mb(2px);
-        border: none;
-        border-top: 1px solid @border-hr;
-    }
-}
-
-.u-menu.u-menu--desktop-lite:before {
-    right: 12px;
-}
-
-.u-menu.u-menu--desktop-lite:after {
-    right: 13px;
-}
-
 //操作面板
 .c-header-panel {
+    .c-header-user-menu {
+        .u-delta;
+        padding: 10px 0;
+        width: 160px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        font-size: 14px;
+
+        a {
+            display: block;
+            line-height: 21px;
+            color: #454545;
+            &:hover {
+                color: #fff;
+            }
+            outline: none;
+            text-decoration: none;
+            overflow: hidden;
+            padding: 5px 10px 5px 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &:hover {
+                background-color: @primary;
+            }
+        }
+
+        hr {
+            .mt(2px);
+            .mb(2px);
+            border: none;
+            border-top: 1px solid @border-hr;
+        }
+    }
+
+    .c-header-user-menu.c-header-user-menu--desktop-lite:before {
+        right: 12px;
+    }
+
+    .c-header-user-menu.c-header-user-menu--desktop-lite:after {
+        right: 13px;
+    }
     position: relative;
     height: 100%;
     user-select: none;
@@ -268,7 +270,7 @@ export default {
     }
 
     &.on {
-        .u-menu {
+        .c-header-user-menu {
             display: block;
         }
     }
@@ -279,35 +281,34 @@ export default {
         &:not(&.c-header-info) {
             display: none;
         }
-    }
+        .c-header-user-menu {
+            min-width: 120px;
+            width: auto;
+            padding: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
 
-    .u-menu {
-        min-width: 120px;
-        width: auto;
-        padding: 5px 0;
-        border-radius: 4px;
-        border: 1px solid #dcdfe6;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    }
+        .c-header-user-menu.c-header-user-menu--mobile:before {
+            right: 12px;
+        }
 
-    .u-menu.u-menu--mobile:before {
-        right: 12px;
-    }
+        .c-header-user-menu.c-header-user-menu--mobile:after {
+            right: 13px;
+        }
 
-    .u-menu.u-menu--mobile:after {
-        right: 13px;
-    }
+        .c-header-user-menu a {
+            line-height: 36px;
+            padding: 0 16px;
+            font-size: 14px;
+            color: #606266;
+        }
 
-    .u-menu a {
-        line-height: 36px;
-        padding: 0 16px;
-        font-size: 14px;
-        color: #606266;
-    }
-
-    .u-menu a:hover {
-        background: #ecf5ff;
-        color: @primary;
+        .c-header-user-menu a:hover {
+            background: #ecf5ff;
+            color: @primary;
+        }
     }
 }
 
@@ -333,7 +334,7 @@ export default {
     position: relative;
     padding: 4px 5px 2px 6px;
 
-    .u-menu {
+    .c-header-user-menu {
         margin-top: 8px;
     }
     .u-avatar {
@@ -347,7 +348,7 @@ export default {
     }
 
     &.on {
-        .u-menu {
+        .c-header-user-menu {
             display: block;
         }
     }
