@@ -78,7 +78,7 @@
                         <a href="/uc/enterprise/dashboard" class="u-item"
                             ><img
                                 class="u-dashboard-icon"
-                                svg-inline
+                                v-svg-inline
                                 src="../../../assets/img/common/greenhouse.svg"
                                 alt=""
                             />{{ t("commonHeader.dashboard_management") }}
@@ -435,6 +435,7 @@ export default {
             &:hover {
                 background: @primary;
                 color: #fff;
+                fill: #fff;
             }
 
             i {
