@@ -5,3 +5,8 @@ export async function getAc(key) {
     const res = await $service().get(`/misc/announcement`, { params: { key } });
     return res.data?.data || {};
 }
+
+export async function getMenu(key) {
+    const res = await $service().get(`/misc/menu/${key}`);
+    return res.data?.data || {};
+}

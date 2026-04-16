@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "1.4.20",
+    "version": "1.4.21",
     "scripts": {
         "serve": "vue-cli-service serve --mode serve",
         "preview": "vue-cli-service serve --mode preview",
@@ -15,7 +15,7 @@
     },
     "main": "index.ts",
     "dependencies": {
-        "@deepberry/common": "^0.3.6",
+        "@deepberry/common": "^0.3.9",
         "@element-plus/icons-vue": "^2.3.1",
         "@microsoft/fetch-event-source": "^2.0.1",
         "@microsoft/signalr": "^6.0.7",

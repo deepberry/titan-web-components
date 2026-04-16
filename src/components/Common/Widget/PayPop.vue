@@ -56,7 +56,8 @@
                     </transition>
                 </div>
             </div>
-            <pay-pop-offline
+            <component
+                :is="client === 'admin' ? 'PayPopOfflineAdmin' : 'PayPopOffline'"
                 ref="payPopOffline"
                 v-else-if="pay_type === 'offline'"
                 :iccNumber="iccNumber"
@@ -67,8 +68,8 @@
                 :product-id="productId"
                 :order-price="orderPrice"
                 v-model:payRemark="payRemark"
-            >
-            </pay-pop-offline>
+                v-model:account="account"
+            />
         </div>
         <template #footer>
             <div class="u-btns">
@@ -84,9 +85,14 @@ import QrcodeVue from "qrcode.vue";
 import { checkOrder, createOrder } from "../../../service/order";
 import { debounce } from "lodash";
 import PayPopOffline from "./PayPopOffline.vue";
+import PayPopOfflineAdmin from "./PayPopOfflineAdmin.vue";
 export default {
     name: "PayPop",
     props: {
+        client: {
+            type: String,
+            default: "",
+        },
         modelValue: {
             type: Boolean,
             default: false,
@@ -177,6 +183,7 @@ export default {
             timer: null,
 
             payRemark: "", // 汇款备注
+            account: "", // 收款账号
         };
     },
     computed: {
@@ -188,6 +195,7 @@ export default {
                 description: this.productDesc,
                 count: this.count,
                 pay_remark: this.payRemark || "",
+                account: this.account || "",
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
@@ -353,6 +361,7 @@ export default {
     components: {
         QrcodeVue,
         PayPopOffline,
+        PayPopOfflineAdmin,
     },
 };
 </script>
