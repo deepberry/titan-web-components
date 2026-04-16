@@ -136,7 +136,7 @@ export default {
             return arr;
         },
         account() {
-            return this.bill_account[this.active].card_no || "";
+            return this.bill_account[this.active]?.card_no || "";
         },
     },
     watch: {
@@ -190,7 +190,7 @@ export default {
             return (value / 100).toFixed(2);
         },
         validateRemark() {
-            this.$refs.inlineForm.validate();
+            return this.$refs.inlineForm.validate();
         },
     },
 };

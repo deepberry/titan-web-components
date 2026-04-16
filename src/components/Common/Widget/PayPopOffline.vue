@@ -160,7 +160,7 @@ export default {
             return (value / 100).toFixed(2);
         },
         validateRemark() {
-            this.$refs.inlineForm.validate();
+            return this.$refs.inlineForm.validate();
         },
     },
 };

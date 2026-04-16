@@ -291,7 +291,8 @@ export default {
         },
         check: debounce(function () {
             if (this.pay_type == "offline") {
-                this.$refs.payPopOffline.validateRemark();
+                this.submitOffline();
+                return;
             }
             if (!this.order_id) {
                 this.$notify.error({
@@ -334,28 +335,30 @@ export default {
 
         // offline
         submitOffline: function () {
-            this.$confirm("请确认已完成支付", "提示", {
-                confirmButtonText: "已完成支付",
-                cancelButtonText: "取消",
-                type: "warning",
-            })
-                .then(() => {
-                    if (this.isUseFn) {
-                        this.payFn().then(() => {
+            this.$refs.payPopOffline.validateRemark().then(() => {
+                this.$confirm("请确认已完成支付", "提示", {
+                    confirmButtonText: "已完成支付",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                })
+                    .then(() => {
+                        if (this.isUseFn) {
+                            this.payFn().then(() => {
+                                location.reload();
+                            });
+                            return;
+                        }
+                        // 线下支付只能是对公转账 传b2b
+                        const params = {
+                            ...this.params,
+                            pay_method: "b2b",
+                        };
+                        createOrder(this.from, params).then((res) => {
                             location.reload();
                         });
-                        return;
-                    }
-                    // 线下支付只能是对公转账 传b2b
-                    const params = {
-                        ...this.params,
-                        pay_method: "b2b",
-                    };
-                    createOrder(this.from, params).then((res) => {
-                        location.reload();
-                    });
-                })
-                .catch(() => {});
+                    })
+                    .catch(() => {});
+            });
         },
     },
     components: {

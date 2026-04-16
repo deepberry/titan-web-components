@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "1.4.21",
+    "version": "1.4.22",
     "scripts": {
         "serve": "vue-cli-service serve --mode serve",
         "preview": "vue-cli-service serve --mode preview",
