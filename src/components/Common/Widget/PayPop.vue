@@ -335,6 +335,7 @@ export default {
 
         // offline
         submitOffline: function () {
+            this.$emit("update:account", this.account);
             this.$refs.payPopOffline.validateRemark().then(() => {
                 this.$confirm("请确认已完成支付", "提示", {
                     confirmButtonText: "已完成支付",
@@ -352,6 +353,7 @@ export default {
                         const params = {
                             ...this.params,
                             pay_method: "b2b",
+                            account: this.account,
                         };
                         createOrder(this.from, params).then((res) => {
                             location.reload();
