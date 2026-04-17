@@ -157,7 +157,7 @@ export default {
             default: () => {},
         },
     },
-    emits: ["update:modelValue", "done", "change"],
+    emits: ["update:modelValue", "done", "change", "update:account"],
     data: function () {
         return {
             // 窗口

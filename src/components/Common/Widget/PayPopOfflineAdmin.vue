@@ -45,7 +45,7 @@ import { getMenu } from "../../../service/misc";
 import { getGoodsPrice } from "../../../service/order";
 export default {
     name: "PayPopOffline",
-    emits: ["update:payRemark"],
+    emits: ["update:payRemark", "update:account"],
     props: {
         iccNumber: {
             type: String,
