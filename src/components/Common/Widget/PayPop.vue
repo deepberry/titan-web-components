@@ -69,6 +69,7 @@
                 :order-price="orderPrice"
                 v-model:payRemark="payRemark"
                 v-model:account="account"
+                v-model:name="name"
             />
         </div>
         <template #footer>
@@ -183,6 +184,7 @@ export default {
             timer: null,
 
             payRemark: "", // 汇款备注
+            name: "", // 汇款人/企业
             account: "", // 收款账号
         };
     },
@@ -196,6 +198,7 @@ export default {
                 count: this.count,
                 pay_remark: this.payRemark || "",
                 account: this.account || "",
+                pay_account_name: this.name || "",
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
@@ -345,7 +348,7 @@ export default {
                     .then(() => {
                         if (this.isUseFn) {
                             this.payFn().then(() => {
-                                location.reload();
+                                this.$emit("done");
                             });
                             return;
                         }
@@ -354,9 +357,10 @@ export default {
                             ...this.params,
                             pay_method: "b2b",
                             account: this.account,
+                            pay_account_name: this.name || "",
                         };
                         createOrder(this.from, params).then((res) => {
-                            location.reload();
+                            this.$emit("done");
                         });
                     })
                     .catch(() => {});

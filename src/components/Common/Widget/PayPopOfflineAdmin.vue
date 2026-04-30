@@ -26,11 +26,20 @@
             </el-descriptions-item>
         </template>
         <el-descriptions-item label="汇款人" min-width="100" label-align="right" label-class-name="label-required">
-            <el-form ref="inlineForm" :inline="true" :model="form" :rules="rules">
-                <el-form-item prop="remark">
+            <el-form ref="inlineForm" :model="form" :rules="rules">
+                <el-form-item prop="name" required>
+                    <el-input
+                        v-model="form.name"
+                        placeholder="请填写汇款人/企业"
+                        clearable
+                        @input="onNameInput"
+                    ></el-input>
+                </el-form-item>
+                <br />
+                <el-form-item>
                     <el-input
                         v-model="form.remark"
-                        placeholder="请填写汇款人/企业"
+                        placeholder="请填写汇款备注"
                         clearable
                         @input="onRemarkInput"
                     ></el-input>
@@ -45,7 +54,7 @@ import { getMenu } from "../../../service/misc";
 import { getGoodsPrice } from "../../../service/order";
 export default {
     name: "PayPopOffline",
-    emits: ["update:payRemark", "update:account"],
+    emits: ["update:payRemark", "update:account", "update:name"],
     props: {
         iccNumber: {
             type: String,
@@ -83,10 +92,11 @@ export default {
             price: 0,
             time: this.count,
             form: {
+                name: "",
                 remark: "",
             },
             rules: {
-                remark: [{ required: true, message: "请填写汇款人/企业", trigger: ["blur"] }],
+                name: [{ required: true, message: "请填写汇款人/企业", trigger: ["blur"] }],
             },
         };
     },
@@ -165,6 +175,9 @@ export default {
         }
     },
     methods: {
+        onNameInput(val) {
+            this.$emit("update:name", val);
+        },
         onRemarkInput(val) {
             this.$emit("update:payRemark", val);
         },
