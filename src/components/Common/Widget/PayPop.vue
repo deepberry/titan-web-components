@@ -27,11 +27,11 @@
             </el-tabs>
             <el-alert
                 v-if="isOfflineOnly"
-                class="u-limit-tip"
+                class="u-warning"
                 title="订单金额超过5000元，仅支持对公转账"
                 type="warning"
-                :closable="false"
                 show-icon
+                :closable="false"
             />
             <div class="c-pay-pop-content" v-if="pay_type == 'wepay'">
                 <h2 class="u-title">{{ productDesc }}</h2>
@@ -127,6 +127,10 @@ export default {
             type: Number,
             default: 1,
         },
+        wechatPayLimit: {
+            type: Number,
+            default: 0,
+        },
         productDesc: {
             type: String,
             default: "",
@@ -201,7 +205,7 @@ export default {
             return Number(this.orderPrice || this.price || 0);
         },
         isOfflineOnly() {
-            return this.currentPrice > 500000;
+            return this.wechatPayLimit > 0 && this.currentPrice > this.wechatPayLimit;
         },
         isWechatPayAllowed() {
             return !this.isOfflineOnly;
@@ -238,18 +242,32 @@ export default {
     watch: {
         // 小窗口可二次定制数据
         payMode: function (val) {
-            this.pay_type = val;
+            this.pay_type = this.isOfflineOnly ? "offline" : val;
+        },
+        pay_type(val, oldVal) {
+            if (val === oldVal) return;
+            this.warning_visible = false;
+
+            if (val !== "wepay") return;
+
+            if (!this.expired && this.qrcode && this.order_id) {
+                return;
+            }
+
+            this.qrcode = "";
+            this.order_id = "";
+
+            if (this.modelValue) {
+                this.build();
+            }
         },
         isOfflineOnly: {
             immediate: true,
             handler(val) {
                 if (val) {
                     this.pay_type = "offline";
-                    return;
-                }
-
-                if (this.pay_type === "offline" && this.payMode !== "offline") {
-                    this.pay_type = this.payMode || "wepay";
+                } else if (this.pay_type !== this.payMode) {
+                    this.pay_type = this.payMode;
                 }
             },
         },
@@ -263,11 +281,13 @@ export default {
                     (oldVal.productId && oldVal.productId !== newVal.productId) ||
                     (oldVal.iccNumber && oldVal.iccNumber !== newVal.iccNumber)
                 ) {
-                    // 改变产品（套餐或流量卡），强制重新生成
-                    this.build();
+                    // 改变产品（套餐或流量卡）时，仅微信支付重新生成二维码
+                    if (this.pay_type === "wepay") {
+                        this.build();
+                    }
                 } else {
                     // init
-                    if (newVal.modelValue) {
+                    if (newVal.modelValue && this.pay_type === "wepay") {
                         // 1.未过期，不进行二次生成
                         if (!this.expired) {
                             console.log("未过期，不进行二次生成");
@@ -294,6 +314,8 @@ export default {
             this.warning_visible = false;
         },
         build: function () {
+            if (this.pay_type !== "wepay") return;
+
             if (!this.isUseFn) {
                 this.expired = false;
                 createOrder(this.from, this.params).then((res) => {
@@ -310,7 +332,7 @@ export default {
                 });
             } else {
                 this.expired = false;
-                this.payFn().then((res) => {
+                this.payFn({ ...this.params }).then((res) => {
                     this.qrcode = res.data.data?.code_url;
                     this.order_id = res.data?.data?.pay_order_no;
 
@@ -377,7 +399,7 @@ export default {
                 })
                     .then(() => {
                         if (this.isUseFn) {
-                            this.payFn().then(() => {
+                            this.payFn({ ...this.params, pay_method: "b2b" }).then(() => {
                                 this.$emit("done");
                             });
                             return;
