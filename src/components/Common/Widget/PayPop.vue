@@ -10,7 +10,7 @@
     >
         <div class="c-pay-pop-box">
             <el-tabs class="c-pay-pop-tab" v-model="pay_type" type="card">
-                <el-tab-pane label="微信" name="wepay">
+                <el-tab-pane v-if="isWechatPayAllowed" label="微信" name="wepay">
                     <template #label>
                         <span class="u-tab">
                             <img src="../../../assets/img/common/wepay.png" />微信支付<em>支持信用卡</em>
@@ -25,6 +25,14 @@
                     </template>
                 </el-tab-pane>
             </el-tabs>
+            <el-alert
+                v-if="isOfflineOnly"
+                class="u-limit-tip"
+                title="订单金额超过5000元，仅支持对公转账"
+                type="warning"
+                :closable="false"
+                show-icon
+            />
             <div class="c-pay-pop-content" v-if="pay_type == 'wepay'">
                 <h2 class="u-title">{{ productDesc }}</h2>
                 <div class="u-price" v-if="price">
@@ -189,6 +197,15 @@ export default {
         };
     },
     computed: {
+        currentPrice() {
+            return Number(this.orderPrice || this.price || 0);
+        },
+        isOfflineOnly() {
+            return this.currentPrice > 500000;
+        },
+        isWechatPayAllowed() {
+            return !this.isOfflineOnly;
+        },
         params: function () {
             const obj = {
                 pay_method: this.pay_type,
@@ -222,6 +239,19 @@ export default {
         // 小窗口可二次定制数据
         payMode: function (val) {
             this.pay_type = val;
+        },
+        isOfflineOnly: {
+            immediate: true,
+            handler(val) {
+                if (val) {
+                    this.pay_type = "offline";
+                    return;
+                }
+
+                if (this.pay_type === "offline" && this.payMode !== "offline") {
+                    this.pay_type = this.payMode || "wepay";
+                }
+            },
         },
         productId: function (val) {
             this.product_id = val;
