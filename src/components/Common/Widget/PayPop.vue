@@ -79,6 +79,7 @@
                 v-model:account="account"
                 v-model:name="name"
             />
+            <slot v-if="pay_type === 'offline'" name="offline-extra" :pay-type="pay_type"></slot>
         </div>
         <template #footer>
             <div class="u-btns">
@@ -169,8 +170,12 @@ export default {
             type: Function,
             default: () => {},
         },
+        paymentFiles: {
+            type: Array,
+            default: () => [],
+        },
     },
-    emits: ["update:modelValue", "done", "change", "update:account"],
+    emits: ["update:modelValue", "done", "change", "update:account", "update:paymentFiles"],
     data: function () {
         return {
             // 窗口
@@ -198,6 +203,7 @@ export default {
             payRemark: "", // 汇款备注
             name: "", // 汇款人/企业
             account: "", // 收款账号
+            selectedPaymentFiles: Array.isArray(this.paymentFiles) ? [...this.paymentFiles] : [], // 收款凭证
         };
     },
     computed: {
@@ -220,6 +226,7 @@ export default {
                 pay_remark: this.payRemark || "",
                 account: this.account || "",
                 pay_account_name: this.name || "",
+                payment_files: this.selectedPaymentFiles || [],
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
@@ -260,6 +267,18 @@ export default {
             if (this.modelValue) {
                 this.build();
             }
+        },
+        paymentFiles: {
+            deep: true,
+            handler(val) {
+                this.selectedPaymentFiles = Array.isArray(val) ? [...val] : [];
+            },
+        },
+        selectedPaymentFiles: {
+            deep: true,
+            handler(val) {
+                this.$emit("update:paymentFiles", val || []);
+            },
         },
         isOfflineOnly: {
             immediate: true,
