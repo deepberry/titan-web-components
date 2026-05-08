@@ -175,7 +175,7 @@ export default {
             default: () => [],
         },
     },
-    emits: ["update:modelValue", "done", "change", "update:account", "update:paymentFiles"],
+    emits: ["update:modelValue", "done", "change", "update:account"],
     data: function () {
         return {
             // 窗口
@@ -203,7 +203,6 @@ export default {
             payRemark: "", // 汇款备注
             name: "", // 汇款人/企业
             account: "", // 收款账号
-            selectedPaymentFiles: Array.isArray(this.paymentFiles) ? [...this.paymentFiles] : [], // 收款凭证
         };
     },
     computed: {
@@ -226,7 +225,7 @@ export default {
                 pay_remark: this.payRemark || "",
                 account: this.account || "",
                 pay_account_name: this.name || "",
-                payment_files: this.selectedPaymentFiles || [],
+                payment_files: Array.isArray(this.paymentFiles) ? this.paymentFiles : [],
             };
 
             this.dashboardId && (obj.dashboard_id = this.dashboardId);
@@ -267,18 +266,6 @@ export default {
             if (this.modelValue) {
                 this.build();
             }
-        },
-        paymentFiles: {
-            deep: true,
-            handler(val) {
-                this.selectedPaymentFiles = Array.isArray(val) ? [...val] : [];
-            },
-        },
-        selectedPaymentFiles: {
-            deep: true,
-            handler(val) {
-                this.$emit("update:paymentFiles", val || []);
-            },
         },
         isOfflineOnly: {
             immediate: true,
