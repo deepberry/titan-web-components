@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "1.4.31",
+    "version": "1.4.32",
     "main": "index.ts",
     "scripts": {
         "serve": "vue-cli-service serve --mode serve",
@@ -17,8 +17,8 @@
     "peerDependencies": {
         "vue": "^3.3.0",
         "element-plus": "^2.9.0",
-        "pinia": "^2.0.0",
-        "vue-router": "^4.0.0"
+        "pinia": "^2.1.7",
+        "vue-router": "^4.2.0"
     },
     "dependencies": {
         "@deepberry/common": "^0.3.10",
@@ -74,10 +74,10 @@
         "unplugin-vue-define-options": "^0.7.3",
         "vue-loader": "^16.8.3",
         "vue-svg-inline-loader": "^2.1.5",
-        "vue": "^3.3.7",
-        "element-plus": "^2.9.10",
-        "pinia": "^2.3.1",
-        "vue-router": "^4.5.0"
+        "vue": "3.3.7",
+        "element-plus": "2.9.10",
+        "pinia": "2.1.7",
+        "vue-router": "4.5.0"
     },
     "browserslist": [
         "> 1%",
