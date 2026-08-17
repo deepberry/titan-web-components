@@ -24,7 +24,9 @@
     position: relative;
     .pointer;
 
-    &:not(.active):hover {
+    &:not(.active) > .c-nav-menu__title:hover {
+        background-color: #f0f4f9;
+
         .u-name,
         .u-expand {
             color: @logo-bg;
@@ -37,7 +39,7 @@
 
     .u-name,
     .u-expand {
-        font-size: 14px;
+        font-size: 13px;
         color: #fff;
     }
 
@@ -48,8 +50,12 @@
     }
 
     .u-expand {
-        .pa;
-        right: 10px;
+        margin-left: auto;
+        font-size: 14px;
+
+        svg {
+            fill: currentColor;
+        }
     }
 
     .u-external {
@@ -62,7 +68,7 @@
         transition: 0.12s ease-in-out;
     }
 
-    &.active {
+    &.active > .c-nav-menu__title {
         background-color: #eef5f8;
         .u-icon {
             fill: @logo-bg;
@@ -82,20 +88,25 @@
     .c-nav-logo {
         width: 60px;
     }
+
+    .u-expand {
+        .none;
+    }
 }
 
 .c-nav--opened {
     transition: all 0.2s ease-in-out;
     transform: translateX(0);
-    .c-nav-menu__item,
-    .c-nav-menu__focus {
+    .c-nav-menu__item {
         width: 100%;
     }
 
     .c-nav-menu__item {
         height: auto;
 
-        &:not(.active):hover {
+        &:not(.active) > .c-nav-menu__title:hover {
+            background-color: #223142;
+
             .u-name,
             .u-expand {
                 color: #fff;
@@ -105,10 +116,6 @@
                 fill: #fff;
             }
         }
-    }
-
-    .c-nav-menu__title:hover {
-        background-color: #223142;
     }
 
     .c-nav-mask {
@@ -132,7 +139,7 @@
 
 .c-nav-logo {
     background-color: @logo-bg;
-    width: 200px;
+    width: @sidebar-width;
     height: 60px;
     .flex;
     justify-content: center;
@@ -177,7 +184,7 @@
 }
 
 .c-nav-menu__list {
-    width: 200px;
+    width: @sidebar-width;
 }
 .c-nav-menu__title {
     .flex;
@@ -206,11 +213,22 @@
     }
 }
 .c-nav-menu__subitem {
+    box-sizing: border-box;
     height: 50px;
     padding: 0 20px 0 40px;
     .flex;
     align-items: center;
     .pointer;
+
+    .u-icon {
+        min-width: 18px;
+        width: 18px;
+        height: 18px;
+
+        * {
+            fill: inherit !important;
+        }
+    }
 
     &:hover {
         background: #223142;
@@ -239,14 +257,50 @@
         }
     }
 }
-.c-nav-menu__focus {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #f0f4f9;
-    width: @sidebar-width-fold;
-    height: @sidebar-width-fold;
-    transition: 0.08s ease-in-out;
+.c-nav-menu__sub-popper.el-popper {
+    padding: 8px 0 !important;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(24, 34, 47, 0.16);
+}
+.c-nav-menu__flyout-item {
+    box-sizing: border-box;
+    height: 54px;
+    padding: 0 24px;
+    .flex;
+    align-items: center;
+    .pointer;
+
+    .u-icon {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        margin-right: 16px;
+        fill: #303133;
+
+        * {
+            fill: inherit !important;
+        }
+    }
+
+    .u-name {
+        color: #303133;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    &:hover {
+        background-color: #f5f7fa;
+    }
+
+    &.active {
+        .u-name {
+            color: @logo-bg;
+        }
+
+        .u-icon {
+            fill: @logo-bg;
+        }
+    }
 }
 .c-nav-menu__tooltip {
     .none;

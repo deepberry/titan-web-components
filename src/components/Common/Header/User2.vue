@@ -78,7 +78,7 @@
                         <a href="/uc/enterprise/dashboard" class="u-item"
                             ><img
                                 class="u-dashboard-icon"
-                                v-svg-inline
+                                svg-inline
                                 src="../../../assets/img/common/greenhouse.svg"
                                 alt=""
                             />{{ t("commonHeader.dashboard_management") }}

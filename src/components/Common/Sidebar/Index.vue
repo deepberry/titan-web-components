@@ -57,42 +57,104 @@
             />
         </a>
         <div class="c-nav-menu">
-            <ul class="c-nav-menu__list" @mouseleave="blurNav" @mouseenter="focusNav">
-                <i class="c-nav-menu__focus" :style="focusStyle" v-show="appIndex > -1 || focus_any"></i>
-                <el-tooltip
-                    effect="dark"
-                    :content="getName(item)"
-                    placement="right"
+            <ul class="c-nav-menu__list">
+                <li
                     v-for="(item, i) in menus"
-                    :key="i"
-                    :hide-after="0"
+                    :key="menuKey(item, i)"
+                    class="c-nav-menu__item"
+                    :class="{
+                        active: isActive(item),
+                        'has-children': hasChildren(item),
+                        'is-expand': isExpanded(item, i),
+                    }"
                 >
-                    <li
-                        class="c-nav-menu__item"
-                        @mouseenter="focusNavItem(i)"
-                        :class="{ active: isActive(item) }"
-                        @click.stop="handleMenuItemClick(item, i)"
+                    <el-popover
+                        placement="right-start"
+                        trigger="hover"
+                        :width="200"
+                        :show-after="80"
+                        :hide-after="80"
+                        :disabled="isCollapse || !hasChildren(item)"
+                        popper-class="c-nav-menu__sub-popper"
                     >
-                        <div class="c-nav-menu__title">
-                            <template v-if="item.icon">
+                        <template #reference>
+                            <div class="c-nav-menu__title" @click.stop="handleMenuItemClick(item, i)">
+                                <template v-if="item.icon">
+                                    <img
+                                        class="u-icon"
+                                        v-if="item.icon.endsWith('.svg')"
+                                        :src="iconPath(item.icon, item.icon_local)"
+                                        v-svg-inline
+                                    />
+                                    <img class="u-icon" v-else :src="iconPath(item.icon, item.icon_local)" />
+                                </template>
                                 <img
                                     class="u-icon"
-                                    v-if="item.icon.endsWith('.svg')"
-                                    :src="iconPath(item.icon)"
+                                    v-else
+                                    :src="require(`../../../assets/img/default_icon.svg`)"
                                     v-svg-inline
                                 />
-                                <img class="u-icon" v-else :src="iconPath(item.icon)" />
-                            </template>
-                            <img
-                                class="u-icon"
-                                v-else
-                                :src="require(`../../../assets/img/default_icon.svg`)"
-                                v-svg-inline
-                            />
-                            <span class="u-name">{{ getName(item) }}</span>
-                        </div>
-                    </li>
-                </el-tooltip>
+                                <span class="u-name">{{ getName(item) }}</span>
+                                <el-icon v-if="hasChildren(item)" class="u-expand">
+                                    <ArrowUp v-if="isExpanded(item, i)" />
+                                    <ArrowDown v-else />
+                                </el-icon>
+                            </div>
+                        </template>
+                        <ul v-if="hasChildren(item)" class="c-nav-menu__flyout">
+                            <li
+                                v-for="(child, childIndex) in item.children"
+                                :key="menuKey(child, childIndex)"
+                                class="c-nav-menu__flyout-item"
+                                :class="{ active: isSubActive(child) }"
+                                @click.stop="handleSubMenuItemClick(child)"
+                            >
+                                <template v-if="child.icon">
+                                    <img
+                                        class="u-icon"
+                                        v-if="child.icon.endsWith('.svg')"
+                                        :src="iconPath(child.icon, child.icon_local)"
+                                        v-svg-inline
+                                    />
+                                    <img class="u-icon" v-else :src="iconPath(child.icon, child.icon_local)" />
+                                </template>
+                                <span class="u-name">{{ getName(child) }}</span>
+                            </li>
+                        </ul>
+                    </el-popover>
+                    <ul
+                        v-if="hasChildren(item) && isCollapse"
+                        class="c-nav-menu__sub"
+                        :class="{ 'is-expand': isExpanded(item, i) }"
+                    >
+                        <el-tooltip
+                            v-for="(child, childIndex) in item.children"
+                            :key="menuKey(child, childIndex)"
+                            effect="dark"
+                            :content="getName(child)"
+                            placement="right"
+                            :hide-after="0"
+                            :disabled="isCollapse"
+                        >
+                            <li
+                                class="c-nav-menu__subitem"
+                                :class="{ active: isSubActive(child) }"
+                                @click.stop="handleSubMenuItemClick(child)"
+                            >
+                                <template v-if="child.icon">
+                                    <img
+                                        class="u-icon"
+                                        v-if="child.icon.endsWith('.svg')"
+                                        :src="iconPath(child.icon, child.icon_local)"
+                                        v-svg-inline
+                                    />
+                                    <img class="u-icon" v-else :src="iconPath(child.icon, child.icon_local)" />
+                                </template>
+                                <span class="u-name">{{ getName(child) }}</span>
+                            </li>
+                        </el-tooltip>
+                    </ul>
+                </li>
             </ul>
         </div>
 
@@ -108,9 +170,15 @@ import User from "../../../utils/user";
 // import menus from "@deepberry/common/data/app_nav.json";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { getMenus } from "../../../service/account";
+import { appendLocalSidebarChildren } from "../../../constants/Sidebar";
+import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 
 export default {
     name: "CommonSidebar",
+    components: {
+        ArrowDown,
+        ArrowUp,
+    },
     props: {
         // homes: {
         //     type: Array,
@@ -124,8 +192,6 @@ export default {
     },
     data() {
         return {
-            focus_index: 0,
-            focus_any: false,
             menus: [],
         };
     },
@@ -142,14 +208,8 @@ export default {
         isEnglish() {
             return User.getLocale() === "en-us";
         },
-        focusStyle() {
-            return {
-                transform: "translateY(" + this.focus_index * 100 + "%)",
-            };
-        },
         appIndex() {
-            const key = this.activeMenu;
-            return this.menus?.findIndex((item) => key === item?.name);
+            return this.menus?.findIndex((item) => this.isActive(item));
         },
         isPad() {
             return document.documentElement.clientWidth <= 1134;
@@ -165,9 +225,12 @@ export default {
         appIndex: {
             immediate: true,
             handler(val) {
-                this.focus_index = val;
+                if (val < 0) return;
 
-                useCommonStore().sideExpanded = [...new Set([...this.sideExpanded, val])];
+                const item = this.menus[val];
+                if (this.hasChildren(item)) {
+                    this.expandMenu(item, val);
+                }
             },
         },
         path: {
@@ -195,10 +258,13 @@ export default {
     methods: {
         loadMenus() {
             getMenus().then((res) => {
-                this.menus = res.data.data;
+                this.menus = appendLocalSidebarChildren(res.data.data || []);
             });
         },
-        iconPath(icon) {
+        iconPath(icon, isLocal = false) {
+            if (isLocal) {
+                return icon;
+            }
             if (icon.startsWith("http")) {
                 return icon;
             }
@@ -214,22 +280,56 @@ export default {
             // }
             return this.activeMenu?.startsWith(parentName);
         },
-        handleMenuItemClick(item) {
+        isSubActive(item) {
+            if (!item?.link) return false;
+
+            const link = item.link.startsWith("/") ? item.link : `/${item.link}`;
+            return this.activeMenu === link || this.activeMenu?.startsWith(`${link}/`);
+        },
+        hasChildren(item) {
+            return Array.isArray(item?.children) && item.children.length > 0;
+        },
+        menuKey(item, index) {
+            return item?.id ?? item?.name ?? item?.link ?? index;
+        },
+        isExpanded(item, index) {
+            return this.sideExpanded.includes(this.menuKey(item, index));
+        },
+        expandMenu(item, index) {
+            const key = this.menuKey(item, index);
+            if (!this.sideExpanded.includes(key)) {
+                useCommonStore().sideExpanded = [...this.sideExpanded, key];
+            }
+        },
+        toggleSubMenu(item, index) {
+            const key = this.menuKey(item, index);
+            const expanded = this.sideExpanded.includes(key);
+
+            useCommonStore().sideExpanded = expanded
+                ? this.sideExpanded.filter((menuKey) => menuKey !== key)
+                : [...this.sideExpanded, key];
+        },
+        handleMenuItemClick(item, index) {
+            if (this.hasChildren(item)) {
+                this.toggleSubMenu(item, index);
+                return;
+            }
+
+            this.navigateToMenu(item);
+        },
+        handleSubMenuItemClick(item) {
+            this.navigateToMenu(item);
+
+            if ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 768) {
+                this.close();
+            }
+        },
+        navigateToMenu(item) {
             if (item.is_blank) {
                 window.open(item.link, "_blank");
             } else {
                 location.href = item.link;
             }
-        },
-        focusNavItem(index) {
-            this.focus_index = index;
-        },
-        focusNav() {
-            this.focus_any = true;
-        },
-        blurNav() {
-            this.focus_index = this.appIndex;
-            this.focus_any = false;
         },
         closeEvent(e) {
             if ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 768) return;
