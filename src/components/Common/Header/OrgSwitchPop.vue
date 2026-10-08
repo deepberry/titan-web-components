@@ -104,7 +104,7 @@ export default {
 
 <style lang="less">
 .el-dialog.m-org-switch {
-    --el-color-primary: @shell-primary;
+    --el-color-primary: var(--titan-primary, #15518f);
     max-width: calc(100vw - 32px);
     padding: 0;
     overflow: hidden;
@@ -146,11 +146,11 @@ export default {
         font-weight: 600;
     }
     .el-button--primary:not(.is-disabled) {
-        border-color: @shell-primary;
-        background: @shell-primary;
+        border-color: var(--titan-primary, #15518f);
+        background: var(--titan-primary, #15518f);
         &:hover {
-            background: @shell-navy;
-            border-color: @shell-navy;
+            background: var(--titan-navy, #0a2e67);
+            border-color: var(--titan-navy, #0a2e67);
         }
     }
 }
@@ -166,14 +166,14 @@ export default {
     place-items: center;
     flex: none;
     border-radius: 12px;
-    background: @shell-primary-dark;
+    background: var(--titan-primary-dark, #071f49);
     color: #fff;
     font-size: 22px;
-    box-shadow: inset 0 -3px 0 @shell-accent;
+    box-shadow: inset 0 -3px 0 var(--titan-accent, #ea6300);
 }
 .m-org-switch__title {
     margin: 0;
-    color: @shell-primary-dark;
+    color: var(--titan-primary-dark, #071f49);
     font-size: 19px;
     font-weight: 700;
     line-height: 1.5;
@@ -190,7 +190,7 @@ export default {
     border-radius: 10px;
     box-shadow: 0 0 0 1px #d6dfeb inset;
     &.is-focused {
-        box-shadow: 0 0 0 1px @shell-primary inset;
+        box-shadow: 0 0 0 1px var(--titan-primary, #15518f) inset;
     }
 }
 .m-org-switch__popper {
@@ -200,10 +200,10 @@ export default {
         max-width: 95vw;
     }
     .el-select-dropdown__item.is-selected {
-        color: @shell-primary;
+        color: var(--titan-primary, #15518f);
         background: #edf3fa;
         .u-id {
-            color: @shell-accent;
+            color: var(--titan-accent, #ea6300);
         }
     }
 }

@@ -56,7 +56,7 @@ export default {
 @import "./assets/css/app.less";
 
 body {
-    background: @shell-page-bg;
+    background: var(--titan-page-bg, #f4f6fa);
 }
 
 .p-components-home {
@@ -87,7 +87,7 @@ body {
 
     h1 {
         margin: 10px 0 14px;
-        color: @shell-primary-dark;
+        color: var(--titan-primary-dark, #071f49);
         font-size: clamp(32px, 4vw, 48px);
         line-height: 1.1;
         letter-spacing: -0.03em;
@@ -103,7 +103,7 @@ body {
 
 .m-components-hero__eyebrow,
 .m-components-section__heading span {
-    color: @shell-accent;
+    color: var(--titan-accent, #ea6300);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -123,7 +123,7 @@ body {
     flex: none;
     border: 1px solid rgba(21, 81, 143, 0.12);
     border-radius: 36px;
-    background: linear-gradient(145deg, @shell-primary, @shell-primary-dark);
+    background: linear-gradient(145deg, var(--titan-primary, #15518f), var(--titan-primary-dark, #071f49));
     box-shadow: 0 22px 50px rgba(7, 31, 73, 0.22);
     color: #fff;
     font-size: 42px;
@@ -204,7 +204,7 @@ body {
     flex: none;
     border-radius: 12px;
     background: rgba(21, 81, 143, 0.1);
-    color: @shell-primary;
+    color: var(--titan-primary, #15518f);
     font-size: 20px;
 }
 

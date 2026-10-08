@@ -22,7 +22,7 @@
         border-radius: 8px;
 
         &.is-active {
-            color: @titan-accent;
+            color: var(--titan-accent, #ea6300);
         }
 
         &:hover {
@@ -103,7 +103,17 @@ Element Plus Popper、Dialog 或其他 Teleport 内容可能挂载到 `body`。�
 
 ## 变量命名
 
-组件库共享 Less token 使用 `@titan-` 前缀，后接小写短横线名称，例如 `@titan-navy`、`@titan-primary-dark`、`@titan-page-bg`。共享 CSS 自定义属性若需要命名空间，也使用 `--titan-`。不要在组件库共享 token 中使用业务应用名作为前缀；第三方变量（如 `--el-*`）保留原名。
+组件库外壳主题使用带默认值的 CSS 自定义属性，例如 `var(--titan-primary, #15518f)`、`var(--titan-primary-dark, #071f49)`、`var(--titan-accent, #ea6300)`，不依赖消费项目注入 Less 主题变量。共享变量使用 `--titan-` 前缀及小写短横线名称；第三方变量（如 `--el-*`）保留原名。
+
+项目可在 `:root` 上覆盖这些变量，无需修改构建配置。Dialog / Dropdown 等弹层可能挂载到 `body`，全局主题应定义在 `:root`，仅在应用容器上定义无法覆盖传送到容器外的弹层。默认值写在使用处，不注入全局默认主题，避免覆盖宿主主题。
+
+```css
+:root {
+    --titan-primary: #0f8c5e;
+    --titan-primary-dark: #083e2b;
+    --titan-accent: #ea6300;
+}
+```
 
 变量重命名应同时修改定义、所有引用与文档示例，保持颜色等实际取值不变，并比较编译结果。
 

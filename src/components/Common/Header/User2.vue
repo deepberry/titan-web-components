@@ -269,14 +269,14 @@ export default {
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus,
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover {
     background: #f3f6fa;
-    color: @shell-primary;
+    color: var(--titan-primary, #15518f);
 }
 
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus .el-icon,
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus .u-item-icon,
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover .el-icon,
 .c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover .u-item-icon {
-    color: @shell-accent;
+    color: var(--titan-accent, #ea6300);
 }
 
 .c-header-user-dropdown .el-dropdown-menu__item--divided {
@@ -293,6 +293,6 @@ export default {
 .c-header-user-dropdown .el-dropdown-menu__item.is-logout:hover,
 .c-header-user-dropdown .el-dropdown-menu__item.is-logout:focus {
     background: #fff4ed;
-    color: @shell-accent;
+    color: var(--titan-accent, #ea6300);
 }
 </style>
