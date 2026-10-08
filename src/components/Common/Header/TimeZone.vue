@@ -5,6 +5,7 @@
             <span class="u-lang" v-else>{{ langText }}</span>
             <el-select
                 class="u-lang-select"
+                :aria-label="t('commonHeader.language')"
                 v-model="activeLang"
                 filterable
                 ref="selectLang"
@@ -22,6 +23,7 @@
             </span>
             <el-select
                 class="u-timezone-select u-select"
+                :aria-label="t('commonHeader.timezone')"
                 v-model="active"
                 filterable
                 ref="select"
@@ -49,6 +51,10 @@ export default {
     name: "Timezone",
     props: {
         isPad: {
+            type: Boolean,
+            default: false,
+        },
+        preview: {
             type: Boolean,
             default: false,
         },
@@ -97,22 +103,34 @@ export default {
         },
     },
     mounted() {
-        this.loadTimeZone();
         this.timezone = User.getTimezone();
         this.locale = User.getLocale();
         this.active = this.timezone;
         this.activeLang = this.locale;
+        this.loadTimeZone();
     },
     methods: {
+        t,
         async loadTimeZone() {
             const timezones = sessionStorage.getItem("titan_timezones");
             if (timezones) {
                 this.timezones = JSON.parse(timezones);
                 return;
             }
-            const res = await getTimeZoneList({ status: 1 });
-            this.timezones = res.data.data || [];
-            sessionStorage.setItem("titan_timezones", JSON.stringify(res.data.data || []));
+            try {
+                const res = await getTimeZoneList({ status: 1 }, this.preview ? { mute: true } : undefined);
+                this.timezones = res.data.data || [];
+                sessionStorage.setItem("titan_timezones", JSON.stringify(res.data.data || []));
+            } catch {
+                const country = ct.getCountryForTimezone(this.timezone);
+                this.timezones = [
+                    {
+                        id: `fallback-${this.timezone}`,
+                        timezone: this.timezone,
+                        region: country?.id || "CN",
+                    },
+                ];
+            }
         },
         showFlag(id) {
             return `fi-${id?.toLowerCase()}`;

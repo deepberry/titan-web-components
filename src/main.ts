@@ -24,17 +24,12 @@ app.use(VueSvgInlinePlugin, {
 import TitanUI from "../index";
 app.use(TitanUI);
 
-// Tdesign
-import TDesign from "tdesign-vue-next";
-import TDesignChat from "@tdesign-vue-next/chat"; // 引入chat组件
-app.use(TDesign).use(TDesignChat);
-
 import pinia from "./store/store";
 app.use(pinia);
 
-// import router from "./router/index";
+import router from "./router/index";
 // import { merge } from "lodash";
-// app.use(router);
+app.use(router);
 
 // 3.Mount DOM
 app.mount("#app");

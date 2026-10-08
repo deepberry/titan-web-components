@@ -1,3 +1,4 @@
+import CommonLayout from "./src/components/Common/Layout.vue";
 import CommonPanel from "./src/components/Common/Panel/Index.vue";
 import CommonMain from "./src/components/Common/Main.vue";
 
@@ -16,6 +17,7 @@ import HeaderUser from "./src/components/Common/Header/User.vue";
 import HeaderOrg from "./src/components/Common/Header/Org.vue";
 
 const components = {
+    CommonLayout,
     CommonPanel,
     CommonMain,
 

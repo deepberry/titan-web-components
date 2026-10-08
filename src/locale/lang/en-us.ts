@@ -41,8 +41,11 @@ export default {
 
     // 公共Header
     commonHeader: {
+        language: "Language",
+        timezone: "Timezone",
         organization: {
             select: "Select Organization",
+            search: "Search or select an organization",
         },
         messagebox: {
             cancel: "Cancel",

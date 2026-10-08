@@ -1,187 +1,289 @@
 <template>
-    <div class="l-col2" :class="{ 'is-notice': noticeOpened }">
-        <CommonHeader>
-            <template v-slot:user> </template>
-            <template #banner>
-                <div
-                    style="
-                        height: 40px;
-                        background: #409eff;
-                        color: #fff;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    "
-                >
-                    这是一条全局横幅公告
-                </div>
-            </template>
-        </CommonHeader>
-        <CommonSidebar :menus="menus"></CommonSidebar>
-        <div class="c-main">
-            <slot></slot>
-
-            <el-button @click="openPayPop">Open Pay Pop</el-button>
-            <el-button @click="chatVisible = true">Ai Chat</el-button>
-
-            <AMap></AMap>
-            <AigrowIcons></AigrowIcons>
-        </div>
-
-        <PayPop
-            v-model="show"
-            :productId="productId"
-            :productType="productType"
-            :dashboardId="dashboardId"
-            productDesc="普通套餐"
-        ></PayPop>
-
-        <el-dialog v-model="chatVisible" title="AI 小助手">
-            <AiChatSend
-                :showDeep="false"
-                @send="onSend"
-                @stop="onStop"
-                @record="onRecord"
-                @stopRecord="onStopRecord"
-            ></AiChatSend>
-            <AiChat ref="aiChat" :promptTip="promptTip" :fetchAskUrl="fetchAskUrl" :askFun="askFun"></AiChat>
-        </el-dialog>
-    </div>
+    <CommonLayout
+        preview
+        :title="pageTitle"
+        subtitle="公共组件与应用外壳"
+        :preview-profile="previewProfile"
+        :menu-list="menus"
+        :preview-organizations="previewOrganizations"
+    >
+        <router-view />
+    </CommonLayout>
 </template>
 
 <script>
-import CommonHeader from "@/components/Common/Header/Index.vue";
-import PayPop from "@/components/Common/Widget/PayPop.vue";
-import AiChatSend from "./components/Ai/AiChatSend.vue";
-import AiChat from "./components/Ai/AiChat.vue";
-import AMap from "@/components/Geo/AMap.vue";
-import AigrowIcons from "@/components/Common/Widget/AigrowIcons.vue";
-import { useCommonStore } from "./store/common";
-import { fetchAskUrl, ask } from "./service/chat.js";
+import CommonLayout from "@/components/Common/Layout.vue";
+import { aomsPreviewMenus, sidebarTitle } from "./constants/AomsSidebar";
+
 export default {
     name: "App",
-    props: [],
     components: {
-        CommonHeader,
-        PayPop,
-        AiChatSend,
-        AiChat,
-        AMap,
-        AigrowIcons,
-    },
-    data: function () {
-        return {
-            status: false,
-            list: ["insights"],
-            test1: 0,
-            test2: 0,
-            max: 100,
-            min: 0,
-
-            productId: "1",
-            productType: "ERP_PACK", // TITAN_PACK, SIM_CARD, SYSTEM_PRODUCT, ERP_PACK
-            dashboardId: "",
-            orderPrice: 30000,
-
-            menus: [
-                {
-                    path: "/greenhouse",
-                    name: "greenhouse",
-                    redirect: "/greenhouse/index",
-                    meta: {
-                        title: "园区管理 - GreenHouse",
-                        icon: "aigrow2",
-                        name: "园区管理",
-                    },
-                    children: [],
-                },
-                {
-                    path: "/greenhouse",
-                    name: "greenhouse",
-                    redirect: "/greenhouse/index",
-                    meta: {
-                        title: "园区管理 - GreenHouse",
-                        icon: "fruit",
-                        name: "园区管理",
-                    },
-                    children: [],
-                },
-                {
-                    path: "/greenhouse",
-                    name: "greenhouse",
-                    redirect: "/greenhouse/index",
-                    meta: {
-                        title: "园区管理 - GreenHouse",
-                        icon: "scale2",
-                        name: "园区管理",
-                    },
-                    children: [],
-                },
-                {
-                    path: "/greenhouse",
-                    name: "greenhouse",
-                    redirect: "/greenhouse/index",
-                    meta: {
-                        title: "园区管理 - GreenHouse",
-                        icon: "member_fill",
-                        name: "园区管理",
-                    },
-                    children: [],
-                },
-            ],
-
-            show: false,
-            chatVisible: false,
-            promptTip: `试试"给我生成一个蓝莓小苗配方"`,
-            fetchAskUrl: fetchAskUrl,
-            askFun: ask,
-        };
+        CommonLayout,
     },
     computed: {
-        noticeOpened() {
-            return !!useCommonStore().globalNotice?.val && !useCommonStore().globalNotice?.hidden;
+        pageTitle() {
+            return sidebarTitle(this.$route.meta) || "控制台";
         },
     },
-    watch: {},
-    methods: {
-        onSend() {
-            this.$refs?.aiChat?.inputEnter();
-        },
-        onStop() {
-            this.$refs?.aiChat?.onStop();
-        },
-        onRecord() {
-            this.$refs?.aiChat?.onRecord();
-        },
-        onStopRecord() {
-            this.$refs?.aiChat?.onStopRecord();
-        },
-        toggle: function () {
-            this.status = !this.status;
-        },
-        openPayPop: function () {
-            this.dashboardId = 435;
-            this.productId = 1;
-            this.show = true;
-        },
-    },
-    created: function () {},
-    mounted: function () {
-        setTimeout(() => {
-            this.productId = 2;
-        });
-        // 测试
-        // setInterval(() => {
-        //     this.test1 = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
-        //     this.test2 = Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
-        // }, 1000);
+    data() {
+        return {
+            previewProfile: {
+                id: 1,
+                name: "预览用户",
+                avatar: "",
+                level: 1,
+                organization: {
+                    id: 1,
+                    user_id: 1,
+                    name: "DeepBerry",
+                },
+                token: {
+                    is_dev: 0,
+                    is_super: 0,
+                },
+            },
+            previewOrganizations: [
+                { organization_id: 1, org_info: { name: "DeepBerry" } },
+                { organization_id: 2, org_info: { name: "演示组织" } },
+            ],
+            menus: aomsPreviewMenus,
+        };
     },
 };
 </script>
 
 <style lang="less">
-body {
-    background-color: #eee;
-}
 @import "./assets/css/app.less";
+
+body {
+    background: @shell-page-bg;
+}
+
+.p-components-home {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.m-components-hero {
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 42px 48px;
+    border: 1px solid #dce4ef;
+    border-radius: 20px;
+    background: radial-gradient(circle at 86% 18%, rgba(234, 99, 0, 0.16), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f6f9fd 100%);
+    box-shadow: 0 18px 48px rgba(7, 31, 73, 0.08);
+}
+
+.m-components-hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+
+    h1 {
+        margin: 10px 0 14px;
+        color: @shell-primary-dark;
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+    }
+
+    p {
+        margin: 0;
+        color: #607089;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+}
+
+.m-components-hero__eyebrow,
+.m-components-section__heading span {
+    color: @shell-accent;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.m-components-hero__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.m-components-hero__mark {
+    width: 150px;
+    height: 150px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border: 1px solid rgba(21, 81, 143, 0.12);
+    border-radius: 36px;
+    background: linear-gradient(145deg, @shell-primary, @shell-primary-dark);
+    box-shadow: 0 22px 50px rgba(7, 31, 73, 0.22);
+    color: #fff;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.08em;
+    transform: rotate(4deg);
+
+    span {
+        transform: rotate(-4deg);
+    }
+}
+
+.m-components-section {
+    margin-top: 28px;
+    padding: 28px;
+    border: 1px solid #e1e8f1;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 34px rgba(7, 31, 73, 0.05);
+}
+
+.m-components-section__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+
+    h2 {
+        margin: 5px 0 0;
+        color: #183153;
+        font-size: 22px;
+    }
+
+    p {
+        margin: 0;
+        color: #8a98aa;
+        font-size: 13px;
+    }
+}
+
+.m-components-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.m-components-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #e6ebf2;
+    border-radius: 14px;
+    background: #fbfcfe;
+
+    h3 {
+        margin: 0 0 6px;
+        color: #253a57;
+        font-size: 15px;
+    }
+
+    p {
+        margin: 0;
+        color: #7c899b;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+}
+
+.m-components-card__icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 12px;
+    background: rgba(21, 81, 143, 0.1);
+    color: @shell-primary;
+    font-size: 20px;
+}
+
+.m-components-card__status {
+    align-self: flex-start;
+    margin-left: auto;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #edf8f1;
+    color: #3a8b57;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.m-components-preview {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.m-components-preview__group {
+    padding: 20px;
+    border: 1px dashed #d6dfeb;
+    border-radius: 14px;
+
+    h3 {
+        margin: 0 0 16px;
+        color: #455974;
+        font-size: 14px;
+    }
+}
+
+.m-components-preview__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .el-button + .el-button {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: @ipad-y) {
+    .m-components-hero {
+        padding: 34px;
+    }
+
+    .m-components-hero__mark {
+        width: 116px;
+        height: 116px;
+        border-radius: 28px;
+        font-size: 34px;
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-components-hero {
+        min-height: auto;
+        padding: 28px 22px;
+    }
+
+    .m-components-hero__mark {
+        display: none;
+    }
+
+    .m-components-grid,
+    .m-components-preview {
+        grid-template-columns: 1fr;
+    }
+
+    .m-components-section {
+        padding: 22px 18px;
+    }
+
+    .m-components-section__heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
 </style>

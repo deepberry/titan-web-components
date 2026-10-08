@@ -27,7 +27,7 @@ export default {
             workers: "工人管理",
         },
         Menu: {
-            user: "资料设置",
+            user: "个人中心",
             logout: "退出登录",
             organization: "切换工作组织",
         },
@@ -41,8 +41,11 @@ export default {
 
     // 公共Header
     commonHeader: {
+        language: "语言",
+        timezone: "时区",
         organization: {
             select: "请选择需要审查的组织",
+            search: "搜索或选择组织",
         },
         messagebox: {
             cancel: "取消",
@@ -55,7 +58,7 @@ export default {
         current: "当前",
         change_organization: "切换组织",
         message: "消息中心",
-        profile_settings: "资料设置",
+        profile_settings: "个人中心",
         order_center: "订单中心",
         enterprise_settings: "企业管理",
         current_organization: "当前组织：",

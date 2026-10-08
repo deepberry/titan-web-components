@@ -1,374 +1,436 @@
-.l-col2.is-notice {
-    .c-header {
-        padding-top: 40px;
-        flex-wrap: wrap;
-    }
-    .c-main {
-        padding-top: 100px;
-    }
-}
-.c-header {
-    height: @header-height;
+@import (reference) "../shell-tokens.less";
+
+.c-topbar.el-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // background-color: @header-bgcolor;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-    position: fixed;
-    top: 0;
-    left: @sidebar-width-fold;
-    right: 0;
-    z-index: @top-level-zindex;
-
-    transition: all 0.2s ease-in-out;
-
-    &.is-opened {
-        left: @sidebar-width;
-    }
-
-    &.is-fixed {
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-    }
-    &.is-notice {
-        padding-top: 40px;
-    }
-    &.has-banner {
-        flex-wrap: wrap;
-    }
-}
-.c-header-banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 40px;
-    z-index: 1;
-    .u-banner-close {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        font-size: 16px;
-        opacity: 0.6;
-        &:hover {
-            opacity: 1;
-        }
-        // 加大触摸区域
-        &::after {
-            content: "";
-            position: absolute;
-            inset: -10px;
-        }
-        @media screen and (max-width: @phone) {
-            right: 8px;
-            font-size: 18px;
-            &::after {
-                inset: -14px;
-            }
-        }
-    }
-}
-.c-header-notice {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    box-sizing: border-box;
-    font-size: 12px;
-    background-color: #fdf6ec;
-    color: #e6a23c;
-    .flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    .u-bell {
-        position: absolute;
-        left: 10px;
-    }
-    .u-notice {
-        position: relative;
-        .flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 0;
-        overflow: hidden;
-        width: calc(100% - 20px);
-        a {
-            color: #e6a23c;
-            cursor: unset;
-            &.is-link {
-                cursor: pointer;
-                text-decoration: underline;
-            }
-            &:not(.is-move) {
-                .nobreak;
-            }
-            &.is-move {
-                display: inline-block;
-                white-space: nowrap;
-                animation: 30s wordsLoop linear infinite normal;
-                padding-right: 50%;
-            }
-        }
-    }
-    .u-close {
-        cursor: pointer;
-        &:hover {
-            transform: scale(1.1);
-            color: #ec991b;
-        }
-    }
-}
-.c-header-left {
-    .flex;
-    align-items: center;
-    padding-left: 15px;
-
-    .u-trigger {
-        .size(16px);
-        padding: 10px;
-        .r(100%);
-        background-color: #f0f4f9;
-        svg {
-            fill: #4f5464;
-        }
-        .pointer;
-        .mr(10px);
-        flex-shrink: 0;
-    }
+    padding: 0 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(100deg, @aoms-primary-dark 0%, @aoms-navy 68%, #0d397c 100%);
+    box-shadow: 0 10px 28px rgba(7, 31, 73, 0.12);
+    backdrop-filter: blur(12px);
 }
 
-.c-header-extend {
-    .flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.c-header-right {
-    padding: 0 15px;
+.c-topbar__main {
+    min-width: 0;
     display: flex;
     align-items: center;
-    gap: 15px;
-    .u-icon {
-        .size(30px);
-        cursor: pointer;
-    }
-    .m-ai {
-        flex: none;
-        .r(20px);
-        background-image: linear-gradient(to left, #1e41d0, #8daaf7);
-        color: #fff;
-        .flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 3px;
-        font-size: 14px;
-        padding-right: 10px;
-        cursor: pointer;
-        .u-ai {
-            margin-right: 3px;
-        }
-        .el-icon {
-            font-size: 12px;
-        }
-        &.is-pad {
-            padding-right: 0;
-        }
-    }
-    @media screen and (max-width: @ipad-y) {
-        gap: 5px;
-        .m-ai {
-            width: 30px;
-        }
-    }
-}
-.m-header__dropdown-item {
-    padding: 4px;
-    .u-dropdown__item {
-        .flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 10px;
-        .r(4px);
-        color: #666;
-    }
-    &:hover {
-        background-color: #ebf7fd;
-        color: #666;
-    }
-    .u-item-icon {
-        .size(18px);
-    }
 }
 
-.c-header-help {
-    .el-icon {
-        font-size: 16px;
-    }
-    margin-right: 15px;
+.c-topbar__heading {
+    min-width: 0;
 }
 
-.c-header-org {
-    display: flex;
-    align-items: center;
-    .pr;
-    color: #909399;
-    border: 1px solid #d1dbe5;
-    padding: 5px;
-    height: 30px;
-    box-sizing: border-box;
+.c-topbar__title {
+    font-weight: 750;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.c-topbar__title::before {
+    width: 3px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 9px;
     border-radius: 3px;
-    background: #fafbfc;
-    overflow: hidden;
-
-    // 左上角倒三角
-    &::after {
-        content: "";
-        display: block;
-        width: 16px;
-        height: 16px;
-        background-color: @logo-bg;
-        position: absolute;
-        top: -8px;
-        left: -8px;
-        transform: rotateZ(-135deg);
-    }
+    background: @aoms-accent;
+    content: "";
+    vertical-align: -2px;
 }
-.c-header-org__current {
+
+.c-topbar__subtitle,
+.c-topbar__org-text {
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 13px;
+}
+
+.c-topbar__org-button {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
     cursor: pointer;
-    color: #909399;
-    .pr;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.c-topbar__org-button:hover,
+.c-topbar__org-button:focus-visible {
+    border-color: rgba(234, 99, 0, 0.64);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.c-topbar__org-button.is-static {
+    cursor: default;
+}
+
+.c-topbar__org-button.is-static:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.c-topbar__org-button .c-topbar__org-text {
+    max-width: 180px;
+    overflow: hidden;
+    margin-top: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.66);
+}
+
+.c-topbar .c-topbar__org-button .c-topbar__org-icon {
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 17px;
+}
+
+.c-topbar .c-topbar__org-button .c-topbar__org-arrow {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 12px;
+}
+
+.c-topbar__org-menu {
+    min-width: 220px;
+}
+
+.c-topbar__actions {
+    min-width: 0;
     display: flex;
     align-items: center;
-    white-space: nowrap;
+    gap: 18px;
+}
+
+.c-topbar__message-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+
+.c-topbar__message-button .el-icon {
+    font-size: 20px;
+}
+
+// 用 img 隔离原版彩色 SVG，避免内联 SVG 的通用 class 和 fill 相互污染。
+.c-topbar__message-button .c-topbar__action-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+// 组织图标为单色图标，显式继承浅色，避免宿主的 Element Plus 样式覆盖。
+.c-topbar .c-topbar__org-button .el-icon svg,
+.c-topbar .c-topbar__org-button .el-icon svg path {
+    fill: currentColor;
+}
+
+.c-topbar__message-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.c-topbar__message-dot {
+    position: absolute;
+    top: -2px;
+    right: -3px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: #f56c6c;
+}
+
+.c-topbar__message-button:hover,
+.c-topbar__message-button:focus-visible {
+    border-color: rgba(234, 99, 0, 0.72);
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+.c-topbar__user-button {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.c-topbar__user-button:hover {
+    border-color: rgba(234, 99, 0, 0.72);
+    box-shadow: 0 8px 24px rgba(2, 16, 41, 0.2);
+    transform: translateY(-1px);
+}
+
+.c-topbar__user-name {
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.c-topbar__avatar {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    background: @aoms-accent;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.c-topbar-dropdown.el-popper {
+    overflow: visible;
+    padding: 6px;
+    border: 1px solid #dce4ef;
+    border-radius: 10px;
+    box-shadow: 0 14px 34px rgba(7, 31, 73, 0.16);
+}
+
+.c-topbar-dropdown .el-popper__arrow::before {
+    border-color: #dce4ef;
+    background: #fff;
+}
+
+.c-topbar-dropdown .el-dropdown-menu {
+    padding: 0;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item {
+    min-height: 42px;
+    gap: 9px;
+    padding: 0 12px;
+    border-radius: 7px;
+    color: @aoms-gray;
     font-size: 14px;
-}
-@media screen and (max-width: @ipad-y) {
-    .c-header-org__current {
-        max-width: 200px;
-    }
+    line-height: 1.35;
 }
 
-.c-header-org-item {
-    .u-prefix {
-        .mr(3px);
-        .fz(13px);
-        color: @primary;
-    }
-    &.active {
-        color: #aaa;
-        &:hover {
-            background-color: #fff;
-            cursor: default;
-            color: #aaa;
-        }
-    }
-}
-
-.c-header-user {
-    .pointer;
-}
-.c-header-user__info {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.c-topbar__dropdown-name {
+    max-width: 240px;
     overflow: hidden;
-
-    .u-avatar {
-        width: 30px !important;
-        height: 30px !important;
-        margin-right: 0 !important;
-        border-radius: 50% !important;
-    }
-    .u-name {
-        white-space: nowrap;
-    }
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.c-header-user__pop {
-    .el-divider--horizontal {
-        margin: 5px 0;
+.c-topbar-dropdown .el-dropdown-menu__item .el-icon {
+    width: 18px;
+    margin-right: 0;
+    color: #7890ad;
+    font-size: 16px;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item:not(.is-disabled):focus,
+.c-topbar-dropdown .el-dropdown-menu__item:not(.is-disabled):hover {
+    background: #f3f6fa;
+    color: @aoms-primary;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item:not(.is-disabled):focus .el-icon,
+.c-topbar-dropdown .el-dropdown-menu__item:not(.is-disabled):hover .el-icon {
+    color: @aoms-accent;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item.is-current,
+.c-topbar-dropdown .el-dropdown-menu__item.is-current.is-disabled {
+    background: rgba(234, 99, 0, 0.08);
+    color: @aoms-primary-dark;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item.is-current .el-icon {
+    color: @aoms-accent;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item--divided {
+    margin-top: 6px;
+    border-top-color: #e8edf4;
+}
+
+.c-topbar-dropdown .el-dropdown-menu__item--divided::before {
+    height: 6px;
+    margin: 0 -12px;
+    background: #fff;
+}
+
+.c-topbar-dropdown--user {
+    min-width: 164px;
+}
+
+.c-topbar-dropdown--user .el-dropdown-menu__item:last-child:not(.is-disabled):hover,
+.c-topbar-dropdown--user .el-dropdown-menu__item:last-child:not(.is-disabled):focus {
+    background: #fff4ed;
+    color: @aoms-accent;
+}
+
+@media (max-width: 1080px) {
+    .c-topbar.el-header {
+        padding: 0 18px;
+    }
+
+    .c-topbar__subtitle {
+        display: none;
+    }
+
+    .c-topbar__actions {
+        gap: 10px;
+    }
+
+    .c-topbar__org-button .c-topbar__org-text {
+        max-width: 130px;
+    }
+
+    .c-topbar__user-name {
+        max-width: 88px;
     }
 }
 
-@media screen and (max-width: @ipad-y) {
-    // .c-header {
-    //    left: 0;
-    // }
-    .c-header-help,
-    .c-header-msg {
-        display: none !important;
-    }
-    .c-header-user {
-        .u-name {
-            .none;
-        }
-    }
+// Titan 功能区沿用 AOMS 的按钮、颜色和间距。
+.c-topbar-stack {
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
-@media screen and (max-width: @ipad-y) {
-    .c-header-org {
-        border: none;
-        background-color: transparent;
-        width: 0;
-        padding: 0;
-    }
-    .c-header-org::after {
-        .none;
-    }
-    .c-header-org__current {
-        .none;
-    }
+.c-topbar-stack .c-topbar {
+    position: relative;
 }
-@media screen and (max-width: @phone) {
-    .c-header {
-        left: 0;
-    }
-}
-
-.c-header-extend {
-    .flex;
+.c-topbar__extensions {
+    display: flex;
     align-items: center;
     gap: 10px;
-
-    .c-header-msg {
-        .flex;
-        align-items: center;
-        justify-content: center;
-    }
 }
-.c-header-doc {
+.c-topbar__actions > * {
+    flex: none;
+}
+.c-topbar__heading {
+    overflow: hidden;
+}
+.c-topbar__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.c-topbar__main {
+    margin-right: 16px;
+}
+.c-topbar .c-header-panel {
+    height: 40px;
+}
+.c-topbar .c-header-preference {
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.76);
+}
+.c-topbar .c-header-preference .c-header-lang {
+    padding: 0 10px;
+    color: inherit;
+    background: transparent;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+}
+.c-topbar .c-header-preference .c-header-timezone {
+    height: 100%;
+    color: inherit;
+}
+.c-topbar .c-header-preference .u-timezone__wrapper {
+    height: 38px;
+    line-height: 38px;
+    padding: 0 10px;
+}
+.c-topbar .c-header-preference .u-lang-select,
+.c-topbar .c-header-preference .u-timezone-select {
+    width: 100%;
+    height: 100%;
+}
+.c-topbar .c-header-preference .el-select__wrapper {
+    min-height: 38px;
+}
+.c-topbar__banner {
+    position: relative;
+}
+.c-topbar__banner-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.c-topbar-stack .c-header-notice {
+    min-height: 40px;
     display: flex;
-    color: #777;
-    &:hover {
-        color: #999;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 24px;
+    background: #fdf6ec;
+    color: #e6a23c;
+    font-size: 12px;
+}
+.c-topbar-stack .c-header-notice .u-notice {
+    flex: 1;
+    min-width: 0;
+}
+.c-topbar-stack .c-header-notice a {
+    color: inherit;
+}
+.c-topbar-stack .c-header-notice .is-link {
+    text-decoration: underline;
+}
+.c-topbar-stack .c-header-notice .u-notice a + a {
+    display: none;
+}
+.c-topbar-stack .c-header-notice .u-close {
+    cursor: pointer;
+}
+@media (max-width: 1440px) {
+    .c-topbar__actions {
+        gap: 10px;
+    }
+    .c-topbar__org-button .c-topbar__org-text {
+        max-width: 120px;
+    }
+    .c-topbar__user-name {
+        max-width: 80px;
     }
 }
-.c-header-support {
-    .el-icon,
-    svg {
-        .size(16px);
+@media (max-width: 1120px) {
+    .c-topbar.el-header {
+        padding: 0 18px;
     }
-}
-
-// @media screen and (max-width: @phone) {
-//     .c-header-doc {
-//         .none;
-//     }
-// }
-
-@keyframes wordsLoop {
-    0% {
-        transform: translateX(0);
+    .c-topbar__extensions {
+        gap: 6px;
     }
-    100% {
-        transform: translateX(-100%);
+    .c-topbar__org-button .c-topbar__org-text {
+        max-width: 90px;
+    }
+    .c-topbar__user-name {
+        max-width: 60px;
     }
 }

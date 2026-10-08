@@ -1,190 +1,124 @@
 <template>
-    <div
-        class="c-header"
-        :class="{ 'is-opened': opened, 'is-fixed': hasScrollTop, 'has-banner': hasBanner }"
-        :style="hasBanner ? { paddingTop: bannerHeight + 'px' } : {}"
-    >
-        <!-- 顶部横幅 -->
-        <div v-if="hasBanner" ref="bannerEl" class="c-header-banner">
-            <slot name="banner"></slot>
-            <el-icon class="u-banner-close" @click="closeBanner"><close /></el-icon>
+    <div class="c-topbar-stack">
+        <div v-if="$slots.banner && !bannerClosed" class="c-topbar__banner">
+            <slot name="banner" />
+            <button type="button" class="c-topbar__banner-close" aria-label="Close" @click="closeBanner">
+                <el-icon><Close /></el-icon>
+            </button>
         </div>
-        <!-- 消息提醒 -->
-        <GlobalNotice :isPad="isPad"></GlobalNotice>
-
-        <div class="c-header-left">
-            <i class="u-trigger" @click.stop="toggleSidebar">
-                <img src="../../../assets/img/common/menu.svg" alt="" />
-            </i>
-            <slot></slot>
-        </div>
-
-        <div class="c-header-right">
-            <slot name="right"></slot>
-            <CommonExtend :profile="profile" :survey="survey" :isPad="isPad" @update="loadSurvey">
-                <slot name="extend"></slot>
-            </CommonExtend>
-            <timezone :isPad="isPad" />
-            <CommonOrg ref="org" :profile="profile" :organizations="organizations" @changeOrg="onChangeOrg"></CommonOrg>
-            <CommonUser :profile="profile" :isPad="isPad" @changeOrg="changeOrg">
-                <slot name="user"></slot>
-            </CommonUser>
-        </div>
+        <GlobalNotice :is-pad="isPad" :preview="preview" />
+        <el-header class="c-topbar">
+            <div class="c-topbar__main">
+                <div class="c-topbar__heading">
+                    <div class="c-topbar__title">{{ displayTitle }}</div>
+                    <slot name="heading"><slot /></slot>
+                    <div v-if="subtitle" class="c-topbar__subtitle">{{ subtitle }}</div>
+                </div>
+            </div>
+            <div class="c-topbar__actions">
+                <slot name="right" />
+                <CommonExtend
+                    :profile="profile"
+                    :survey="survey"
+                    :preview="preview"
+                    :is-pad="isPad"
+                    @update="loadSurvey"
+                >
+                    <slot name="extend" />
+                </CommonExtend>
+                <Timezone :is-pad="isPad" :preview="preview" />
+                <CommonOrg
+                    ref="org"
+                    :profile="profile"
+                    :organizations="organizations"
+                    @changeOrg="onOrganizationChanged"
+                />
+                <CommonUser :profile="profile" @changeOrg="changeOrg"><slot name="user" /></CommonUser>
+            </div>
+        </el-header>
     </div>
 </template>
-
 <script>
 import { mapState } from "pinia";
-import { useCommonStore } from "../../../store/common";
 import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
+import { useCommonStore } from "../../../store/common";
+import CommonExtend from "./Extend.vue";
+import Timezone from "./TimeZone.vue";
 import CommonOrg from "./Org.vue";
 import CommonUser from "./User2.vue";
-import Timezone from "./TimeZone.vue";
-import CommonExtend from "./Extend.vue";
 import GlobalNotice from "./GlobalNotice.vue";
-
 export default {
     name: "HeaderIndex",
-    components: {
-        GlobalNotice,
-        CommonUser,
-        CommonOrg,
-        Timezone,
-        CommonExtend,
+    components: { CommonExtend, Timezone, CommonOrg, CommonUser, GlobalNotice },
+    emits: ["change", "profile-loaded", "banner-close"],
+    props: {
+        title: { type: String, default: "" },
+        subtitle: { type: String, default: "" },
+        preview: { type: Boolean, default: false },
+        previewProfile: { type: Object, default: () => ({}) },
+        previewOrganizations: { type: Array, default: () => [] },
     },
-    emits: ["change", "banner-close"],
     data() {
-        return {
-            hasScrollTop: false,
-            bannerClosed: false,
-            bannerHeight: 40,
-            profile: {
-                // 用户资料
-                avatar: "",
-                disabled: 0,
-                id: 0,
-                name: "",
-                organization: { id: 0, active: 1, user_id: 0, name: "", logo: "" },
-                phone_number: "",
-                preference: {}, //偏好设置
-                username: "",
-                level: 1,
-                token: {
-                    is_dev: 0,
-                    is_super: 0,
-                    oid: 0,
-                    uid: 0,
-                    version: 2,
-                },
-            },
-            organizations: [],
-            survey: {},
-            isPad: false,
-        };
+        return { profile: {}, organizations: [], survey: {}, isPad: false, bannerClosed: false };
     },
     computed: {
-        ...mapState(useCommonStore, ["opened", "globalNotice"]),
-        hasBanner() {
-            return !!this.$slots.banner && !this.bannerClosed;
+        ...mapState(useCommonStore, ["globalNotice"]),
+        displayTitle() {
+            return this.title || this.$route?.meta?.title || "DeepBerry";
+        },
+        noticeOpened() {
+            return !!this.globalNotice?.val && !this.globalNotice.hidden;
         },
     },
     watch: {
-        hasBanner: {
-            handler(val) {
-                if (val) {
-                    this.$nextTick(() => this._setupBannerObserver());
-                } else {
-                    this._teardownBannerObserver();
-                }
-            },
+        noticeOpened: {
             immediate: true,
-        },
-        globalNotice: {
-            immediate: true,
-            deep: true,
-            handler(notice) {
-                const noticeOpened = !!notice?.status && !notice?.hidden;
-                this.$emit("change", {
-                    type: "notice",
-                    value: noticeOpened,
-                });
+            handler(value) {
+                this.$emit("change", { type: "notice", value });
             },
         },
     },
     mounted() {
-        this.isPad = document.documentElement.clientWidth <= 1134;
-        const self = this;
-        window.onresize = function () {
-            console.log("header resize");
-            self.isPad = document.documentElement.clientWidth <= 1134;
-        };
-        this.loadUserInfo();
-        window.addEventListener("scroll", this.scroll);
+        this.resize();
+        window.addEventListener("resize", this.resize);
+        if (this.preview) {
+            this.profile = this.previewProfile;
+            this.organizations = this.previewOrganizations;
+            this.$emit("profile-loaded", this.profile);
+        } else this.loadUserInfo();
     },
     beforeUnmount() {
-        window.removeEventListener("scroll", this.scroll);
-        this._teardownBannerObserver();
+        window.removeEventListener("resize", this.resize);
     },
     methods: {
-        _setupBannerObserver() {
-            if (!this.$refs.bannerEl) return;
-            this._bannerObserver = new ResizeObserver((entries) => {
-                for (const entry of entries) {
-                    this.bannerHeight = Math.round(entry.contentRect.height);
-                }
-            });
-            this._bannerObserver.observe(this.$refs.bannerEl);
+        resize() {
+            this.isPad = window.innerWidth <= 1023;
         },
-        _teardownBannerObserver() {
-            if (this._bannerObserver) {
-                this._bannerObserver.disconnect();
-                this._bannerObserver = null;
+        async loadUserInfo() {
+            this.profile = await getProfile().then((res) => res.data.data || {});
+            this.$emit("profile-loaded", this.profile);
+            if (this.profile.id) {
+                this.organizations = await getCurrentOrganization().then((res) => res.data.data || []);
+                this.loadSurvey();
             }
-            this.bannerHeight = 40;
+        },
+        async loadSurvey() {
+            if (this.preview) return;
+            this.survey = await getSurveys().then((res) => res.data?.data || {});
+        },
+        changeOrg() {
+            this.$refs.org.showOrgSwitch();
+        },
+        onOrganizationChanged() {
+            this.$emit("change", { type: "org" });
         },
         closeBanner() {
             this.bannerClosed = true;
             this.$emit("banner-close");
         },
-        changeOrg() {
-            this.$refs.org.showOrgSwitch();
-        },
-        onChangeOrg() {
-            this.$emit("change", {
-                type: "org",
-            });
-        },
-        async loadUserInfo() {
-            const profile = await getProfile().then((res) => res.data.data);
-            this.profile = profile;
-            if (profile?.id) {
-                const organizations = await getCurrentOrganization().then((res) => res.data.data);
-                this.organizations = organizations;
-                this.loadSurvey();
-            }
-        },
-        loadSurvey() {
-            getSurveys().then((res) => {
-                this.survey = res.data?.data || {};
-            });
-        },
-        scroll() {
-            this.hasScrollTop = document.documentElement.scrollTop > 0;
-        },
-        toggleSidebar() {
-            useCommonStore().toggleLeftSidebar();
-
-            localStorage.setItem("titan_sidebar_collapse", useCommonStore().opened ? 1 : 0);
-
-            if (useCommonStore().opened) {
-                const expended = useCommonStore().sideExpanded;
-                useCommonStore().sideExpanded = [...new Set([...expended])];
-            }
-        },
     },
 };
 </script>
-
 <style lang="less">
 @import "../../../assets/css/Common/header.less";
 </style>

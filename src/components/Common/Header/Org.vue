@@ -1,38 +1,47 @@
 <template>
-    <div class="c-header-org" v-if="profile?.id">
-        <!-- <el-icon class="u-icon"><OfficeBuilding /></el-icon> -->
-        <span class="c-header-org__current" v-if="isSuper" @click="showOrgSwitch"
-            ><el-icon class="u-icon"><OfficeBuilding /></el-icon>{{ profile?.organization?.name
-            }}<el-icon><ArrowDown /></el-icon
-        ></span>
-        <el-dropdown trigger="click" popper-class="c-header-org__pop" v-else>
-            <span class="c-header-org__current"
-                ><el-icon class="u-icon"><OfficeBuilding /></el-icon>{{ profile?.organization?.name
-                }}<el-icon><ArrowDown /></el-icon
-            ></span>
+    <div class="c-topbar__organization" v-if="profile?.id">
+        <button
+            v-if="isSuper"
+            class="c-topbar__org-button"
+            type="button"
+            :aria-label="t('commonHeader.change_organization')"
+            @click="showOrgSwitch"
+        >
+            <el-icon class="c-topbar__org-icon"><OfficeBuilding /></el-icon>
+            <span class="c-topbar__org-text" :title="profile.organization?.name">{{ profile.organization?.name }}</span>
+            <el-icon class="c-topbar__org-arrow"><ArrowDown /></el-icon>
+        </button>
+        <el-dropdown v-else trigger="click" popper-class="c-topbar-dropdown c-topbar-dropdown--organization">
+            <button class="c-topbar__org-button" type="button" :aria-label="t('commonHeader.change_organization')">
+                <el-icon class="c-topbar__org-icon"><OfficeBuilding /></el-icon>
+                <span class="c-topbar__org-text" :title="profile.organization?.name">{{
+                    profile.organization?.name
+                }}</span>
+                <el-icon class="c-topbar__org-arrow"><ArrowDown /></el-icon>
+            </button>
             <template #dropdown>
-                <el-dropdown-menu>
+                <el-dropdown-menu class="c-topbar__org-menu">
                     <el-dropdown-item
                         v-for="item in organizations"
                         :key="item.organization_id"
-                        class="c-header-org-item"
-                        :class="{ active: profile.organization.id === item.organization_id }"
+                        :class="{ 'is-current': profile.organization.id == item.organization_id }"
+                        :disabled="!!item.disabled || profile.organization.id == item.organization_id"
                         @click.stop="switchOrganization(item)"
-                        :disabled="!!item.disabled"
                     >
-                        <!-- <el-icon><ArrowRight /></el-icon> -->
-                        {{ item?.org_info?.name }}
-                        <span class="u-prefix" v-if="profile.organization.id == item.organization_id"
+                        <el-icon
+                            ><Check v-if="profile.organization.id == item.organization_id" /><OfficeBuilding v-else
+                        /></el-icon>
+                        <span class="c-topbar__dropdown-name">{{ item.org_info?.name }}</span>
+                        <span v-if="profile.organization.id == item.organization_id"
                             >({{ t("commonHeader.current") }})</span
                         >
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
-        <OrgSwitchPop v-model="showOrg" @changeOrg="changeOrg"></OrgSwitchPop>
+        <OrgSwitchPop v-model="showOrg" @changeOrg="changeOrg" />
     </div>
 </template>
-
 <script>
 import User from "../../../utils/user";
 import { switchOrg } from "../../../service/account";

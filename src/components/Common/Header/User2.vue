@@ -1,116 +1,121 @@
 <template>
     <div class="c-header-panel c-header-info">
-        <div class="c-header-profile" id="c-header-profile">
-            <CommonAvatar class="u-avatar" :src="profile?.avatar" />
-            <template v-if="isPhone || (!isPhone && !isFounder && !isSuper)">
-                <ul
-                    :class="[
-                        'c-header-user-menu',
-                        'u-pop-content',
-                        {
-                            'c-header-user-menu--mobile': isPhone,
-                            'c-header-user-menu--desktop-lite': !isPhone && !isFounder && !isSuper,
-                        },
-                    ]"
-                >
-                    <li>
-                        <a @click="changeOrg">{{ t("commonHeader.change_organization") }}</a>
-                    </li>
-                    <li>
-                        <a href="/uc/message">{{ t("commonHeader.message") }}</a>
-                    </li>
-                    <li>
-                        <a href="/uc/profile">{{ t("commonHeader.profile_settings") }}</a>
-                    </li>
-                    <li v-if="isSuper || isFounder || hasPermission('manage_member')">
-                        <a href="/uc/enterprise/member">
-                            {{ t("commonHeader.enterprise_settings") }}
-                        </a>
-                    </li>
-                    <li v-if="isSuper || isFounder">
-                        <a href="/uc/enterprise/dashboard">{{ t("commonHeader.dashboard_management") }} </a>
-                    </li>
-                    <li v-if="isSuper || isFounder">
-                        <a href="/uc/order">{{ t("commonHeader.order_center") }}</a>
-                    </li>
-                    <li v-if="isSuper || isFounder">
-                        <a href="/uc/enterprise/setting">{{ t("commonHeader.system_settings") }} </a>
-                    </li>
-                    <hr />
-                    <li>
-                        <a @click="logout">{{ t("commonHeader.logout") }}</a>
-                    </li>
-                </ul>
-            </template>
-            <template v-else>
-                <div class="c-header-userdata u-pop-content">
-                    <div class="u-profile">
-                        <div class="u-basic">
-                            <span class="u-displayname">{{ profile?.name }}</span>
-                        </div>
-                        <div class="u-id">
-                            <span
-                                >{{ t("commonHeader.current_organization")
-                                }}<b>{{ profile?.organization?.name }}</b></span
-                            >
-                        </div>
-                    </div>
+        <el-dropdown
+            trigger="click"
+            placement="bottom-end"
+            popper-class="c-header-user-dropdown"
+            @command="handleCommand"
+        >
+            <button
+                class="c-topbar__user-button"
+                type="button"
+                :aria-label="userName || t('commonHeader.profile_settings')"
+            >
+                <CommonAvatar class="c-topbar__avatar" :src="profile?.avatar" />
+                <span v-if="userName" class="c-topbar__user-name" :title="userName">{{ userName }}</span>
+            </button>
 
-                    <el-button-group class="u-actions">
-                        <a class="el-button el-button--default is-plain" href="/uc/profile">{{
-                            t("commonHeader.profile_settings")
-                        }}</a>
-                        <a class="el-button el-button--default is-plain" href="/uc/order">{{
-                            t("commonHeader.order_center")
-                        }}</a>
-                        <a class="el-button el-button--default is-plain is-disabled">{{
-                            t("commonHeader.invoice_center")
-                        }}</a>
-                    </el-button-group>
+            <template #dropdown>
+                <el-dropdown-menu class="c-header-user-dropdown__menu">
+                    <slot />
+                    <el-dropdown-item command="profile">
+                        <el-icon><User /></el-icon>
+                        <span>{{ t("commonHeader.profile_settings") }}</span>
+                    </el-dropdown-item>
 
-                    <div class="u-other">
-                        <a
-                            v-if="isSuper || isFounder || hasPermission('manage_member')"
-                            href="/uc/enterprise/member"
-                            class="u-item"
-                            ><el-icon><User /></el-icon>{{ t("commonHeader.user_management") }}
-                        </a>
-                        <a href="/uc/enterprise/dashboard" class="u-item"
-                            ><img
-                                class="u-dashboard-icon"
-                                svg-inline
-                                src="../../../assets/img/common/greenhouse.svg"
-                                alt=""
-                            />{{ t("commonHeader.dashboard_management") }}
-                        </a>
-                        <a v-if="isFounder || isSuper" href="/uc/system/setting" class="u-item"
-                            ><el-icon><Setting /></el-icon>{{ t("commonHeader.system_settings") }}
-                        </a>
-                        <div class="u-logout">
-                            <el-button @click="logout" plain>{{ t("commonHeader.logout") }}</el-button>
-                        </div>
-                    </div>
-                </div>
+                    <el-dropdown-item command="work-order" divided>
+                        <img
+                            class="u-item-icon"
+                            :src="require('../../../assets/img/common/header/more/work-order.svg')"
+                            alt=""
+                            svg-inline
+                        />
+                        <span>{{ t("commonHeader.extend.work_order") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item command="docs">
+                        <img
+                            class="u-item-icon"
+                            :src="require('../../../assets/img/common/header/more/doc.svg')"
+                            alt=""
+                            svg-inline
+                        />
+                        <span>{{ t("commonHeader.doc") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item command="support">
+                        <img
+                            class="u-item-icon"
+                            :src="require('../../../assets/img/common/header/more/other-support.svg')"
+                            alt=""
+                            svg-inline
+                        />
+                        <span>{{ t("commonHeader.extend.other_support") }}</span>
+                    </el-dropdown-item>
+
+                    <el-dropdown-item v-if="isPhone" command="organization" divided>
+                        <el-icon><OfficeBuilding /></el-icon>
+                        <span>{{ t("commonHeader.change_organization") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="isPhone" command="messages">
+                        <el-icon><Bell /></el-icon>
+                        <span>{{ t("commonHeader.message") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="canManageMembers" command="members" :divided="!isPhone">
+                        <el-icon><UserFilled /></el-icon>
+                        <span>{{ t("commonHeader.user_management") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="isSuper || isFounder" command="dashboard">
+                        <img class="u-item-icon" src="../../../assets/img/common/greenhouse.svg" alt="" svg-inline />
+                        <span>{{ t("commonHeader.dashboard_management") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="isSuper || isFounder" command="order">
+                        <el-icon><ShoppingBag /></el-icon>
+                        <span>{{ t("commonHeader.order_center") }}</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="isFounder || isSuper" command="settings">
+                        <el-icon><Setting /></el-icon>
+                        <span>{{ t("commonHeader.system_settings") }}</span>
+                    </el-dropdown-item>
+
+                    <el-dropdown-item command="logout" divided class="is-logout">
+                        <el-icon><SwitchButton /></el-icon>
+                        <span>{{ t("commonHeader.logout") }}</span>
+                    </el-dropdown-item>
+                </el-dropdown-menu>
             </template>
-        </div>
+        </el-dropdown>
+
+        <el-dialog v-model="quickVisible" :title="t('commonHeader.extend.other_support')" :width="dialogWidth">
+            <QuickSupport class="c-header-support__pop" />
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import { useLocale } from "../../../hooks";
-const { t } = useLocale();
 import User from "../../../utils/user";
 import CommonAvatar from "../Widget/Avatar.vue";
+import QuickSupport from "./QuickSupport.vue";
+
+const { t } = useLocale();
+
 export default {
     name: "CommonUser2",
     components: {
         CommonAvatar,
+        QuickSupport,
     },
     props: {
         profile: {
             type: Object,
             default: () => ({}),
         },
+    },
+    emits: ["changeOrg"],
+    data() {
+        return {
+            isPhone: window.innerWidth < 768,
+            quickVisible: false,
+        };
     },
     computed: {
         isSuper() {
@@ -122,14 +127,66 @@ export default {
         isFounder() {
             return this.profile?.id === this.profile?.organization?.user_id || this.profile.level === 99;
         },
-    },
-    data() {
-        return {
-            isPhone: window.innerWidth < 768,
-        };
+        userName() {
+            const candidates = [
+                this.profile?.name,
+                this.profile?.nickname,
+                this.profile?.display_name,
+                this.profile?.displayName,
+                this.profile?.username,
+                this.profile?.phone_number,
+                this.profile?.phone,
+                this.profile?.user?.name,
+                this.profile?.user?.username,
+            ];
+
+            const value = candidates.find((item) => item !== undefined && item !== null && String(item).trim());
+            return value === undefined ? "" : String(value).trim();
+        },
+        canManageMembers() {
+            return this.isSuper || this.isFounder || this.hasPermission("manage_member");
+        },
+        dialogWidth() {
+            return this.isPhone ? "90%" : 680;
+        },
     },
     methods: {
         t,
+        handleCommand(command) {
+            const routes = {
+                profile: "/uc/profile",
+                messages: "/uc/message",
+                members: "/uc/enterprise/member",
+                dashboard: "/uc/enterprise/dashboard",
+                order: "/uc/order",
+                settings: "/uc/system/setting",
+                "work-order": "/uc/feedback",
+            };
+
+            if (routes[command]) {
+                window.location.href = routes[command];
+                return;
+            }
+
+            if (command === "docs") {
+                window.open("/uc/help", "_blank");
+                return;
+            }
+
+            if (command === "support") {
+                this.quickVisible = true;
+                return;
+            }
+
+            if (command === "organization") {
+                this.changeOrg();
+                return;
+            }
+
+            if (command === "logout") {
+                this.logout();
+            }
+        },
         logout() {
             this.$confirm(t("commonHeader.confirm_logout"), t("commonHeader.logout"), {
                 confirmButtonText: t("commonHeader.messagebox.confirm"),
@@ -157,300 +214,85 @@ export default {
 </script>
 
 <style lang="less">
-@border-hr: #e1e4e8;
-.u-delta() {
-    .pa;
-    background-clip: padding-box;
-    background-color: #fff;
-    color: @color;
-    border: 1px solid rgba(27, 31, 35, 0.15);
-    border-radius: 4px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-    right: 0;
-    list-style: none;
-    margin: 8px 0 0 0;
-    position: absolute;
-    z-index: 820;
-    top: 100%;
-
-    &:before {
-        content: "";
-        position: absolute;
-        right: 19px;
-        top: -7px;
-        width: 0;
-        height: 0;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-bottom: 7px solid rgba(27, 31, 35, 0.15);
-        pointer-events: none;
-    }
-
-    &:after {
-        content: "";
-        position: absolute;
-        right: 13px;
-        top: -6px;
-        width: 0;
-        height: 0;
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid #fff;
-        pointer-events: none;
-    }
-}
-
-//操作面板
 .c-header-panel {
-    .c-header-user-menu {
-        .u-delta;
-        padding: 10px 0;
-        width: 160px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        font-size: 14px;
-
-        a {
-            display: block;
-            line-height: 21px;
-            color: #454545;
-            &:hover {
-                color: #fff;
-            }
-            outline: none;
-            text-decoration: none;
-            overflow: hidden;
-            padding: 5px 10px 5px 16px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            &:hover {
-                background-color: @primary;
-            }
-        }
-
-        hr {
-            .mt(2px);
-            .mb(2px);
-            border: none;
-            border-top: 1px solid @border-hr;
-        }
-    }
-
-    .c-header-user-menu.c-header-user-menu--desktop-lite:before {
-        right: 12px;
-    }
-
-    .c-header-user-menu.c-header-user-menu--desktop-lite:after {
-        right: 13px;
-    }
     position: relative;
     height: 100%;
-    user-select: none;
-    cursor: pointer;
-    box-sizing: border-box;
-
-    .u-dashboard-icon {
-        width: 14px;
-        height: 14px;
-        fill: #454545;
-        margin-right: 5px;
-    }
-
-    .u-pop-content {
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0.15s, opacity 0.15s linear;
-    }
-
-    &:hover {
-        .u-pop-content {
-            opacity: 1;
-            visibility: visible;
-        }
-    }
-
-    &.on {
-        .c-header-user-menu {
-            display: block;
-        }
-    }
-}
-
-@media screen and (max-width: @phone) {
-    .c-header-panel {
-        &:not(&.c-header-info) {
-            display: none;
-        }
-        .c-header-user-menu {
-            min-width: 120px;
-            width: auto;
-            padding: 5px 0;
-            border-radius: 4px;
-            border: 1px solid #dcdfe6;
-            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .c-header-user-menu.c-header-user-menu--mobile:before {
-            right: 12px;
-        }
-
-        .c-header-user-menu.c-header-user-menu--mobile:after {
-            right: 13px;
-        }
-
-        .c-header-user-menu a {
-            line-height: 36px;
-            padding: 0 16px;
-            font-size: 14px;
-            color: #606266;
-        }
-
-        .c-header-user-menu a:hover {
-            background: #ecf5ff;
-            color: @primary;
-        }
-    }
-}
-
-.c-header-info {
-    height: 100%;
-    .flex;
+    display: flex;
     align-items: center;
+    box-sizing: border-box;
+    user-select: none;
 }
 
-.c-header-userdata {
-    .u-delta;
-    &:after {
-        border-bottom-color: #f4f6f7;
-        right: 20px;
-    }
-
-    top: calc(100% + 17px);
+.el-dropdown__popper.c-header-user-dropdown.el-popper {
+    min-width: 164px;
+    overflow: visible;
+    padding: 6px;
+    border: 1px solid #dce4ef;
+    border-radius: 10px;
+    box-shadow: 0 14px 34px rgba(7, 31, 73, 0.16);
 }
 
-// 用户信息
-.c-header-profile {
-    cursor: pointer;
-    position: relative;
-    padding: 4px 5px 2px 6px;
-
-    .c-header-user-menu {
-        margin-top: 8px;
-    }
-    .u-avatar {
-        vertical-align: middle;
-        margin-right: 2px;
-    }
-
-    hr {
-        margin: 8px 0;
-        border-top: 1px solid @border-hr;
-    }
-
-    &.on {
-        .c-header-user-menu {
-            display: block;
-        }
-    }
+.c-header-user-dropdown .el-popper__arrow::before {
+    border-color: #dce4ef;
+    background: #fff;
 }
 
-.c-header-userdata {
-    background-clip: padding-box;
-    // background-color: #fff;
-    color: #3d454d;
-    border: 1px solid rgba(27, 31, 35, 0.15);
-    border-radius: 4px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-    right: 0;
-    list-style: none;
-    position: absolute;
-    z-index: 820;
-    top: 100%;
-    width: 360px;
-    margin-top: 10px;
-    margin-right: -10px;
+.c-header-user-dropdown .el-dropdown-menu {
+    padding: 0;
+}
 
-    .u-profile {
-        background-color: #f4f6f7;
-        padding: 12px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-    }
+.c-header-user-dropdown .el-dropdown-menu__item {
+    min-height: 42px;
+    gap: 9px;
+    padding: 0 12px;
+    border-radius: 7px;
+    color: #5a5858;
+    font-size: 14px;
+    line-height: 1.35;
+}
 
-    .u-basic {
-        .flex;
-        align-items: center;
-        gap: 3px;
-    }
+.c-header-user-dropdown .el-dropdown-menu__item .el-icon,
+.c-header-user-dropdown .el-dropdown-menu__item .u-item-icon {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    margin-right: 0;
+    color: #7890ad;
+    fill: currentColor;
+    font-size: 16px;
+}
 
-    .u-displayname {
-        .fz(15px);
-        .nobreak;
-        max-width: 200px;
-        color: @color;
-        .bold;
-        &:hover {
-            color: @primary;
-        }
-    }
+.c-header-user-dropdown .el-dropdown-menu__item .u-item-icon * {
+    fill: inherit;
+}
 
-    .u-id {
-        font-size: 12px;
-        color: #999;
-        margin-top: 6px;
-        .flex(y);
-        b {
-            color: @color;
-        }
-    }
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus,
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover {
+    background: #f3f6fa;
+    color: @shell-primary;
+}
 
-    .u-actions {
-        width: 100%;
-        .flex;
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus .el-icon,
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):focus .u-item-icon,
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover .el-icon,
+.c-header-user-dropdown .el-dropdown-menu__item:not(.is-disabled):hover .u-item-icon {
+    color: @shell-accent;
+}
 
-        .el-button {
-            border-radius: 0;
-            flex: 1;
+.c-header-user-dropdown .el-dropdown-menu__item--divided {
+    margin-top: 6px;
+    border-top-color: #e8edf4;
+}
 
-            &:first-of-type {
-                border-left-width: 0;
-            }
-            &:last-of-type {
-                border-right-width: 0;
-            }
-        }
-    }
+.c-header-user-dropdown .el-dropdown-menu__item--divided::before {
+    height: 6px;
+    margin: 0 -12px;
+    background: #fff;
+}
 
-    .u-other {
-        padding: 10px 5px;
-        .u-item {
-            padding: 6px 10px;
-            color: #454545;
-            display: flex;
-            border-radius: 4px;
-            align-items: center;
-            font-size: 14px;
-            margin-bottom: 2px;
-
-            &:hover {
-                background: @primary;
-                color: #fff;
-                fill: #fff;
-            }
-
-            i {
-                .mr(5px);
-            }
-        }
-    }
-
-    .u-logout {
-        padding: 0 10px 10px 10px;
-        .mt(10px);
-
-        .el-button {
-            width: 100%;
-        }
-    }
+.c-header-user-dropdown .el-dropdown-menu__item.is-logout:hover,
+.c-header-user-dropdown .el-dropdown-menu__item.is-logout:focus {
+    background: #fff4ed;
+    color: @shell-accent;
 }
 </style>

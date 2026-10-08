@@ -35,6 +35,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        preview: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {};
@@ -46,7 +50,7 @@ export default {
         },
     },
     mounted() {
-        useCommonStore().loadGlobalAc();
+        useCommonStore().loadGlobalAc(this.preview ? { mute: true } : undefined);
     },
     methods: {
         close() {

@@ -1,11 +1,19 @@
 import { defineStore } from "pinia";
 import { getAc } from "../service/misc.js";
 
+function readSidebarOpened() {
+    try {
+        return localStorage.getItem("titan_sidebar_collapse") !== "0";
+    } catch {
+        return true;
+    }
+}
+
 export const useCommonStore = defineStore({
     id: "commonStore",
     state: () => ({
         sidebarStatus: false,
-        opened: false, // 左侧边栏展开状态
+        opened: readSidebarOpened(), // 左侧边栏展开状态
         sideExpanded: [], // 左侧边栏展开的菜单
         globalNotice: {}, // 全局顶部公告
     }),
@@ -18,17 +26,19 @@ export const useCommonStore = defineStore({
         toggleLeftSidebar() {
             this.opened = !this.opened;
         },
-        loadGlobalAc() {
+        loadGlobalAc(options?: { mute?: boolean }) {
             const cache = sessionStorage.getItem("global_notice");
             if (cache) {
                 this.globalNotice = JSON.parse(cache);
             } else {
-                getAc("global-notice").then((data) => {
-                    if (data?.status) {
-                        this.globalNotice = data;
-                        sessionStorage.setItem("global_notice", JSON.stringify(data));
-                    }
-                });
+                getAc("global-notice", options)
+                    .then((data) => {
+                        if (data?.status) {
+                            this.globalNotice = data;
+                            sessionStorage.setItem("global_notice", JSON.stringify(data));
+                        }
+                    })
+                    .catch(() => {});
             }
         },
     },

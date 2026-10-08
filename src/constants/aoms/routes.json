@@ -1,0 +1,1440 @@
+[
+    {
+        "path": "/",
+        "children": [
+            {
+                "path": "user/profile",
+                "name": "Profile",
+                "meta": {
+                    "title": "个人中心",
+                    "titleKey": "profile.title",
+                    "order": 99,
+                    "menu": false
+                }
+            },
+            {
+                "path": "employment",
+                "name": "Employment",
+                "meta": {
+                    "title": "用工管理",
+                    "titleKey": "menu.employment",
+                    "order": 5,
+                    "icon": "employment",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "schedule-planning",
+                        "name": "SchedulePlanning",
+                        "meta": {
+                            "title": "排班规划",
+                            "titleKey": "menu.schedulePlanning",
+                            "order": 1,
+                            "icon": "task-scheduling",
+                            "permission": "schedule:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "time-work",
+                        "name": "TimeEmployment",
+                        "meta": {
+                            "title": "计时用工",
+                            "titleKey": "menu.timeEmployment",
+                            "order": 2,
+                            "icon": "employment-time",
+                            "permission": [
+                                "attendance:view",
+                                "employment-work-hours",
+                                "task:all",
+                                "task:view",
+                                "work_record:view",
+                                "work_record:statistics"
+                            ],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "data-import",
+                        "name": "EmploymentDataImport",
+                        "meta": {
+                            "title": "用工数据接入",
+                            "titleKey": "employmentImport.title",
+                            "order": 2.1,
+                            "icon": "employment",
+                            "permission": ["employment_import:view", "employment_import:manage"],
+                            "activeMenu": "/employment/time-work",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "piece-work",
+                        "name": "PieceEmployment",
+                        "meta": {
+                            "title": "计件用工",
+                            "titleKey": "menu.pieceEmployment",
+                            "order": 3,
+                            "icon": "employment-piece-log",
+                            "permission": ["piece_record:view", "piece_item:view"],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "schedules",
+                        "name": "LegacyEmploymentSchedules",
+                        "redirect": "/employment/schedule-planning",
+                        "meta": {
+                            "permission": "schedule:view",
+                            "activeMenu": "/employment/schedule-planning",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "piece-items",
+                        "name": "PieceItems",
+                        "meta": {
+                            "title": "计件项目",
+                            "titleKey": "menu.pieceItems",
+                            "order": 1,
+                            "icon": "employment-piece-item",
+                            "permission": "piece_item:view",
+                            "activeMenu": "/employment/piece-work",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "piece-records",
+                        "name": "PieceRecords",
+                        "meta": {
+                            "title": "计件台账",
+                            "titleKey": "menu.pieceRecords",
+                            "order": 2,
+                            "icon": "employment-piece-log",
+                            "permission": "piece_record:view",
+                            "activeMenu": "/employment/piece-work",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-hours",
+                        "name": "EmploymentWorkHours",
+                        "meta": {
+                            "title": "工时统计",
+                            "titleKey": "menu.workHours",
+                            "order": 3,
+                            "icon": "employment-time",
+                            "permission": [
+                                "employment-work-hours",
+                                "task:all",
+                                "task:view",
+                                "work_record:view",
+                                "work_record:statistics"
+                            ],
+                            "activeMenu": "/employment/time-work",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "/attendance/records",
+                        "name": "AttendanceRecords",
+                        "meta": {
+                            "title": "考勤台账",
+                            "titleKey": "menu.attendanceRecords",
+                            "order": 4,
+                            "icon": "employment-sched",
+                            "permission": "attendance:view",
+                            "activeMenu": "/employment/time-work",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "/tasks/schedule-planning",
+                        "name": "LegacyTaskSchedulePlanning",
+                        "meta": {
+                            "title": "排班规划",
+                            "titleKey": "menu.schedulePlanning",
+                            "order": 4.1,
+                            "icon": "task-scheduling",
+                            "permission": "schedule:view",
+                            "activeMenu": "/employment/schedule-planning",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "salary-schemes",
+                        "name": "SalarySchemes",
+                        "meta": {
+                            "title": "薪资方案",
+                            "titleKey": "menu.salarySchemes",
+                            "order": 5,
+                            "icon": "employment-payplan",
+                            "permission": "payroll_rule:view",
+                            "activeMenu": "/employment/payroll-settlements",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "payroll-assignments",
+                        "name": "PayrollAssignments",
+                        "meta": {
+                            "title": "人员薪资绑定",
+                            "titleKey": "menu.payrollAssignments",
+                            "order": 6,
+                            "icon": "employment-payplan",
+                            "permission": "payroll_rule:view",
+                            "activeMenu": "/employment/payroll-settlements",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "payroll-settlements",
+                        "name": "PayrollSettlements",
+                        "meta": {
+                            "title": "薪酬结算",
+                            "titleKey": "menu.payrollSettlements",
+                            "order": 4,
+                            "icon": "employment-payroll",
+                            "permission": ["payroll_period:view", "payroll_rule:view"],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "safety-training",
+                        "name": "LegacySafetyTraining",
+                        "meta": {
+                            "permission": "training:view",
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "",
+                "name": "Home",
+                "meta": {
+                    "title": "控制台",
+                    "titleKey": "home.workspace",
+                    "order": 1,
+                    "icon": "dashboard",
+                    "menu": true
+                }
+            },
+            {
+                "path": "materials",
+                "name": "Materials",
+                "redirect": "/materials/workbench",
+                "meta": {
+                    "title": "物资管理",
+                    "titleKey": "menu.materials",
+                    "order": 4,
+                    "icon": "material",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "workbench",
+                        "name": "MaterialWorkbench",
+                        "meta": {
+                            "title": "业务办理",
+                            "titleKey": "menu.materialWorkbench",
+                            "order": 1,
+                            "icon": "material-record",
+                            "permission": [
+                                "stock:view",
+                                "stock:manage",
+                                "material_requisition:view",
+                                "material_requisition:issue",
+                                "material_usage:view",
+                                "material_usage:manage"
+                            ],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "overview",
+                        "name": "MaterialOverview",
+                        "meta": {
+                            "title": "经营看板",
+                            "titleKey": "menu.materialOverview",
+                            "order": 2,
+                            "icon": "material-overview",
+                            "permission": ["stock:view", "stock:manage", "material_requisition:view"],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "suppliers",
+                        "name": "MaterialSuppliers",
+                        "meta": {
+                            "title": "供应商管理",
+                            "titleKey": "menu.materialSuppliers",
+                            "order": 6,
+                            "icon": "member-team",
+                            "permission": "supplier:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "suppliers/:id",
+                        "name": "MaterialSupplierDetail",
+                        "meta": {
+                            "title": "供应商详情",
+                            "permission": "supplier:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "units",
+                        "name": "MaterialUnits",
+                        "meta": {
+                            "title": "单位与换算",
+                            "titleKey": "menu.materialUnits",
+                            "order": 6.5,
+                            "icon": "material-item",
+                            "permission": "material_uom:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "types",
+                        "name": "MaterialTypes",
+                        "meta": {
+                            "title": "类型配置",
+                            "titleKey": "menu.materialTypes",
+                            "order": 7,
+                            "icon": "material-type",
+                            "permission": "material_category:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "warehouses",
+                        "name": "MaterialWarehouses",
+                        "meta": {
+                            "title": "仓库与库位",
+                            "titleKey": "menu.warehouses",
+                            "order": 6.4,
+                            "icon": "material-stock",
+                            "permission": ["stock:manage", "warehouse_location:view", "warehouse_location:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "catalog",
+                        "name": "MaterialCatalog",
+                        "meta": {
+                            "title": "物资档案",
+                            "titleKey": "menu.materialCatalog",
+                            "order": 6,
+                            "icon": "material-item",
+                            "permission": "material:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/master-data"
+                        }
+                    },
+                    {
+                        "path": "batches",
+                        "name": "MaterialBatches",
+                        "meta": {
+                            "title": "物资批次",
+                            "titleKey": "menu.materialBatches",
+                            "order": 1.2,
+                            "icon": "material-record",
+                            "permission": ["material:manage", "material_batch:quality", "stock:view", "stock:manage"],
+                            "activeMenu": "/materials/master-data",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "inventory",
+                        "name": "Inventory",
+                        "meta": {
+                            "title": "库存管理",
+                            "titleKey": "menu.inventory",
+                            "order": 3,
+                            "icon": "material-stock",
+                            "permission": [
+                                "stock:view",
+                                "stock:manage",
+                                "stock_transfer:view",
+                                "stock_transfer:manage",
+                                "stock_transfer:approve",
+                                "stock_transfer:dispatch",
+                                "stock_transfer:receive",
+                                "stock_transfer:difference"
+                            ],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "transfers",
+                        "name": "StockTransfers",
+                        "meta": {
+                            "title": "仓库调拨",
+                            "titleKey": "menu.materialTransfers",
+                            "order": 2.5,
+                            "icon": "material-record",
+                            "permission": [
+                                "stock_transfer:view",
+                                "stock_transfer:manage",
+                                "stock_transfer:approve",
+                                "stock_transfer:dispatch",
+                                "stock_transfer:receive",
+                                "stock_transfer:difference"
+                            ],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "transfers/:id",
+                        "name": "StockTransferDetail",
+                        "meta": {
+                            "title": "仓库调拨详情",
+                            "permission": [
+                                "stock_transfer:view",
+                                "stock_transfer:manage",
+                                "stock_transfer:approve",
+                                "stock_transfer:dispatch",
+                                "stock_transfer:receive",
+                                "stock_transfer:difference"
+                            ],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "inventory/:warehouseId/:skuId",
+                        "name": "StockDetail",
+                        "meta": {
+                            "title": "库存详情",
+                            "titleKey": "materials.inventory.detailTitle",
+                            "permission": ["stock:view", "stock:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "warnings",
+                        "name": "InventoryWarnings",
+                        "meta": {
+                            "title": "预警处理",
+                            "titleKey": "menu.inventoryWarnings",
+                            "permission": ["stock:view", "stock:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "requisitions",
+                        "name": "MaterialRequisitions",
+                        "meta": {
+                            "title": "领用申请",
+                            "titleKey": "menu.materialRequisitions",
+                            "order": 91,
+                            "icon": "material-requisition",
+                            "permission": ["material_requisition:view", "material_requisition:issue"],
+                            "menu": false,
+                            "activeMenu": "/materials/workbench"
+                        }
+                    },
+                    {
+                        "path": "requisitions/:id",
+                        "name": "MaterialRequisitionDetail",
+                        "meta": {
+                            "title": "领用申请详情",
+                            "permission": ["material_requisition:view", "material_requisition:issue"],
+                            "menu": false,
+                            "activeMenu": "/materials/workbench"
+                        }
+                    },
+                    {
+                        "path": "records",
+                        "name": "InventoryRecords",
+                        "meta": {
+                            "title": "库存记录",
+                            "titleKey": "menu.inventoryRecords",
+                            "order": 4,
+                            "icon": "material-record",
+                            "permission": ["stock:view", "stock:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "records/:id",
+                        "name": "StockOrderDetail",
+                        "meta": {
+                            "title": "库存业务单详情",
+                            "permission": ["stock:view", "stock:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "stocktakes/new",
+                        "name": "StocktakeCreate",
+                        "meta": {
+                            "title": "发起盘点",
+                            "permission": "stock:manage",
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "stocktakes/:id",
+                        "name": "StocktakeDetail",
+                        "meta": {
+                            "title": "盘点详情",
+                            "permission": ["stock:view", "stock:manage"],
+                            "menu": false,
+                            "activeMenu": "/materials/inventory"
+                        }
+                    },
+                    {
+                        "path": "trace",
+                        "name": "MaterialTrace",
+                        "meta": {
+                            "title": "物资溯源",
+                            "titleKey": "menu.materialTrace",
+                            "order": 4,
+                            "icon": "material-trace",
+                            "permission": ["material_trace:view", "material_usage:view"],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "trace/:level(batch|sku)/:id",
+                        "name": "MaterialTraceDetail",
+                        "meta": {
+                            "title": "物资溯源详情",
+                            "titleKey": "materials.trace.detailTitle",
+                            "permission": "material_trace:view",
+                            "menu": false,
+                            "activeMenu": "/materials/trace"
+                        }
+                    },
+                    {
+                        "path": "trace/usages/:id",
+                        "name": "MaterialUsageDetail",
+                        "meta": {
+                            "title": "用料记录详情",
+                            "permission": "material_usage:view",
+                            "menu": false,
+                            "activeMenu": "/materials/trace"
+                        }
+                    },
+                    {
+                        "path": "master-data",
+                        "name": "MaterialMasterData",
+                        "meta": {
+                            "title": "基础资料",
+                            "titleKey": "menu.materialMasterData",
+                            "order": 5,
+                            "icon": "material-item",
+                            "permission": [
+                                "material:manage",
+                                "material_category:manage",
+                                "material_uom:manage",
+                                "material_batch:quality",
+                                "supplier:manage",
+                                "stock:manage",
+                                "warehouse_location:view",
+                                "warehouse_location:manage"
+                            ],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "crops",
+                        "name": "LegacyCropManagement",
+                        "redirect": "/production/crops",
+                        "meta": {
+                            "title": "作物管理",
+                            "titleKey": "menu.cropManagement",
+                            "order": 6,
+                            "icon": "crop",
+                            "permission": "crop:view",
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "user/message",
+                "name": "Messages",
+                "meta": {
+                    "title": "消息通知",
+                    "titleKey": "menu.messages",
+                    "order": 15,
+                    "icon": "resource-document",
+                    "menu": false
+                }
+            },
+            {
+                "path": "park",
+                "name": "Park",
+                "redirect": "/park/profiles",
+                "meta": {
+                    "title": "园区管理",
+                    "titleKey": "menu.parks",
+                    "order": 6,
+                    "icon": "park",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "profiles",
+                        "name": "ParkProfiles",
+                        "meta": {
+                            "title": "园区档案",
+                            "titleKey": "menu.parkProfiles",
+                            "order": 1,
+                            "icon": "park-map",
+                            "permission": "park:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "space-config",
+                        "name": "SpaceConfig",
+                        "meta": {
+                            "title": "空间结构",
+                            "titleKey": "menu.spaceConfig",
+                            "order": 2,
+                            "icon": "park-space",
+                            "permission": "space_unit:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "space-map",
+                        "name": "SpaceMap",
+                        "meta": {
+                            "title": "空间地图",
+                            "titleKey": "menu.spaceMap",
+                            "order": 3,
+                            "icon": "park-design",
+                            "permission": "space_unit:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "space-qr",
+                        "name": "SpaceQr",
+                        "meta": {
+                            "title": "空间预览",
+                            "order": 4,
+                            "icon": "park-qr",
+                            "permission": "space_unit:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "space-terminal",
+                        "name": "SpaceTerminal",
+                        "meta": {
+                            "title": "空间终端",
+                            "order": 5,
+                            "icon": "park-client",
+                            "permission": "space_unit:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "structure",
+                        "redirect": "/park/profiles",
+                        "meta": {
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "/terminal/screen/:tab?",
+                        "name": "TerminalScreen",
+                        "meta": {
+                            "title": "空间终端屏",
+                            "permission": "attendance:view",
+                            "activeMenu": "/park/space-terminal",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "/attendance/screen",
+                        "meta": {
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "production",
+                "name": "Production",
+                "redirect": "/production/cycles",
+                "meta": {
+                    "title": "生产管理",
+                    "titleKey": "menu.production",
+                    "order": 2,
+                    "icon": "plan",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "crops",
+                        "name": "CropManagement",
+                        "meta": {
+                            "title": "作物配置",
+                            "titleKey": "menu.cropConfig",
+                            "order": 1,
+                            "icon": "plan-crop",
+                            "permission": "crop:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "cycles",
+                        "name": "ProductionCycles",
+                        "meta": {
+                            "title": "种植计划",
+                            "titleKey": "menu.plantingPlan",
+                            "order": 2,
+                            "icon": "plan-todo",
+                            "permission": "production_cycle:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "work-standards",
+                        "name": "LegacyWorkStandards",
+                        "meta": {
+                            "title": "作业标准",
+                            "titleKey": "menu.workStandards",
+                            "order": 3,
+                            "icon": "plan-task-standard",
+                            "permission": [
+                                "work-template:view",
+                                "work-process-sheet:view",
+                                "work_form_template.list",
+                                "task-type:view"
+                            ],
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "yield-forecast",
+                        "name": "YieldForecast",
+                        "meta": {
+                            "title": "产量预测",
+                            "titleKey": "menu.yieldForecast",
+                            "order": 4,
+                            "icon": "plan-forecast",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "accounting",
+                        "name": "ProductionAccounting",
+                        "meta": {
+                            "title": "生产核算",
+                            "titleKey": "menu.productionAccounting",
+                            "order": 5,
+                            "icon": "plan-summary",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "/harvest",
+                        "name": "Harvest",
+                        "meta": {
+                            "title": "采收管理",
+                            "titleKey": "menu.harvest",
+                            "icon": "plan",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "cycles/create",
+                        "name": "ProductionCycleCreate",
+                        "meta": {
+                            "title": "新建种植计划",
+                            "titleKey": "menu.productionCycleCreate",
+                            "permission": "production_cycle:create",
+                            "activeMenu": "/production/cycles",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "cycles/:id/edit",
+                        "name": "ProductionCycleEdit",
+                        "meta": {
+                            "title": "编辑种植计划",
+                            "titleKey": "menu.productionCycleEdit",
+                            "permission": "production_cycle:update",
+                            "activeMenu": "/production/cycles",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "cycles/:id",
+                        "name": "ProductionCycleDetail",
+                        "meta": {
+                            "title": "种植计划详情",
+                            "titleKey": "menu.productionCycleDetail",
+                            "permission": "production_cycle:view",
+                            "activeMenu": "/production/cycles",
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "resources",
+                "name": "Resources",
+                "meta": {
+                    "title": "资源中心",
+                    "titleKey": "menu.resources",
+                    "order": 8,
+                    "icon": "resource",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "files/assets",
+                        "name": "FileAssets",
+                        "meta": {
+                            "title": "文件管理",
+                            "titleKey": "menu.fileAssets",
+                            "order": 1,
+                            "icon": "resource-file",
+                            "permission": "file:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "documents",
+                        "name": "Documents",
+                        "meta": {
+                            "title": "文档管理",
+                            "titleKey": "menu.documentList",
+                            "order": 2,
+                            "icon": "resource-document",
+                            "permission": "document:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "documents/detail/:id?",
+                        "name": "DocumentDetail",
+                        "meta": {
+                            "title": "文档详情",
+                            "titleKey": "menu.documentDetail",
+                            "order": 2.1,
+                            "icon": "resource-document-edit",
+                            "permission": "document:view",
+                            "activeMenu": "/resources/documents",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "knowledge",
+                        "name": "KnowledgeBases",
+                        "meta": {
+                            "title": "知识库管理",
+                            "titleKey": "menu.knowledgeBases",
+                            "order": 3,
+                            "icon": "resource-document",
+                            "permission": "document:view",
+                            "activeMenu": "/resources/agent",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "knowledge/:id/documents",
+                        "name": "KnowledgeBaseDocuments",
+                        "meta": {
+                            "title": "知识库文档",
+                            "titleKey": "menu.knowledgeBaseDocuments",
+                            "order": 3.1,
+                            "icon": "resource-document",
+                            "permission": "document:view",
+                            "activeMenu": "/resources/agent",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "agent",
+                        "name": "Agent",
+                        "meta": {
+                            "title": "知识库",
+                            "titleKey": "menu.agent",
+                            "order": 4,
+                            "icon": "resource-ai",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "form-templates",
+                        "redirect": "/tasks/form-templates"
+                    },
+                    {
+                        "path": "form-templates/create",
+                        "redirect": "/tasks/form-templates/create"
+                    },
+                    {
+                        "path": "form-templates/:id/edit"
+                    }
+                ]
+            },
+            {
+                "path": "staff",
+                "name": "Staff",
+                "redirect": "/staff/workers",
+                "meta": {
+                    "title": "人员管理",
+                    "titleKey": "menu.teams",
+                    "order": 7,
+                    "icon": "member",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "workers",
+                        "name": "Workers",
+                        "meta": {
+                            "title": "人员档案",
+                            "titleKey": "menu.workers",
+                            "order": 1,
+                            "icon": "member-worker",
+                            "permission": "worker:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "job-types",
+                        "name": "JobTypes",
+                        "meta": {
+                            "title": "技能配置",
+                            "titleKey": "menu.jobTypes",
+                            "order": 2,
+                            "icon": "member-type",
+                            "permission": "job_type:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "teams",
+                        "name": "Teams",
+                        "meta": {
+                            "title": "班组配置",
+                            "titleKey": "menu.teamManagement",
+                            "order": 3,
+                            "icon": "member-team",
+                            "permission": "team:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "rating-config",
+                        "name": "RatingConfig",
+                        "meta": {
+                            "title": "评级配置",
+                            "titleKey": "menu.ratingConfig",
+                            "order": 4,
+                            "icon": "member-grade",
+                            "permission": "worker_rating:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "safety-training",
+                        "name": "SafetyTraining",
+                        "meta": {
+                            "title": "安全培训",
+                            "titleKey": "menu.safetyTraining",
+                            "order": 5,
+                            "icon": "member-safety",
+                            "permission": "training:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "teams/:id",
+                        "name": "TeamDetail",
+                        "meta": {
+                            "title": "班组详情",
+                            "titleKey": "staff.teams.detail",
+                            "order": 3.1,
+                            "icon": "member-team",
+                            "permission": "team:view",
+                            "activeMenu": "/staff/teams",
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "system",
+                "name": "System",
+                "redirect": "/system/accounts",
+                "meta": {
+                    "title": "系统设置",
+                    "titleKey": "menu.system",
+                    "order": 9,
+                    "icon": "system",
+                    "superAdmin": true,
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "accounts",
+                        "name": "SystemAccounts",
+                        "meta": {
+                            "title": "账号配置",
+                            "titleKey": "menu.accountConfig",
+                            "order": 1,
+                            "icon": "system-user",
+                            "permission": "user:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "roles",
+                        "name": "SystemRoles",
+                        "meta": {
+                            "title": "角色配置",
+                            "titleKey": "menu.roleConfig",
+                            "order": 2,
+                            "icon": "system-role",
+                            "permission": "role:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "webhook",
+                        "name": "SystemWebhook",
+                        "meta": {
+                            "title": "通知配置",
+                            "titleKey": "menu.webhook",
+                            "order": 3,
+                            "icon": "system-notice",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "notice",
+                        "name": "SystemNotice",
+                        "meta": {
+                            "title": "公告管理",
+                            "titleKey": "menu.notice",
+                            "order": 4,
+                            "icon": "system-bulletin",
+                            "permission": "notice:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "audit-logs",
+                        "name": "SystemAuditLogs",
+                        "meta": {
+                            "title": "审计日志",
+                            "titleKey": "menu.auditLogs",
+                            "order": 5,
+                            "icon": "system-audit-log",
+                            "permission": "organization:view",
+                            "menu": true
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "tasks",
+                "name": "TaskWork",
+                "meta": {
+                    "title": "作业管理",
+                    "titleKey": "menu.taskWork",
+                    "order": 3,
+                    "icon": "task-mgmt",
+                    "menu": true
+                },
+                "children": [
+                    {
+                        "path": "work-standards",
+                        "name": "WorkStandards",
+                        "meta": {
+                            "title": "作业标准",
+                            "titleKey": "menu.workStandards",
+                            "order": 1,
+                            "icon": "plan-task-standard",
+                            "permission": [
+                                "work-template:view",
+                                "work-process-sheet:view",
+                                "work_form_template.list",
+                                "task-type:view"
+                            ],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "task-assignment",
+                        "name": "TaskAssignment",
+                        "meta": {
+                            "title": "任务指派",
+                            "titleKey": "menu.taskAssignment",
+                            "order": 2,
+                            "icon": "task-assign",
+                            "permission": "task:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "work-task-schedules/:id/edit",
+                        "name": "WorkTaskScheduleEdit",
+                        "meta": {
+                            "title": "编辑周期计划",
+                            "titleKey": "workTasks.recurrence.editPlan",
+                            "order": 2.03,
+                            "icon": "task-assign",
+                            "permission": ["task:all", "task:update"],
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-task-schedules/:id",
+                        "name": "WorkTaskScheduleDetail",
+                        "meta": {
+                            "title": "周期任务详情",
+                            "titleKey": "workTasks.recurrence.detail",
+                            "order": 2.04,
+                            "icon": "task-assign",
+                            "permission": ["task:all", "task:view"],
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-tasks/create",
+                        "name": "WorkTaskCreate",
+                        "meta": {
+                            "title": "新增任务",
+                            "titleKey": "workTasks.create",
+                            "order": 2.05,
+                            "icon": "task-assign",
+                            "permission": ["task:all", "task:create"],
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-tasks/:id/edit",
+                        "name": "WorkTaskEdit",
+                        "meta": {
+                            "title": "编辑任务",
+                            "titleKey": "workTasks.edit",
+                            "order": 2.06,
+                            "icon": "task-assign",
+                            "permission": ["task:all", "task:update"],
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-tasks/:id",
+                        "name": "WorkTaskDetail",
+                        "meta": {
+                            "title": "任务详情",
+                            "titleKey": "workTasks.detail",
+                            "order": 2.1,
+                            "icon": "task-assign",
+                            "permission": ["task:all", "task:view"],
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-board",
+                        "name": "WorkBoard",
+                        "meta": {
+                            "title": "作业看板",
+                            "titleKey": "menu.workBoard",
+                            "order": 5,
+                            "icon": "task-status",
+                            "permission": "task:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "work-exceptions",
+                        "name": "WorkExceptions",
+                        "meta": {
+                            "title": "作业异常",
+                            "titleKey": "menu.workExceptions",
+                            "order": 4,
+                            "icon": "task-pest-alert",
+                            "permission": "space_issue:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "quality-acceptance",
+                        "name": "QualityAcceptance",
+                        "meta": {
+                            "title": "质量验收",
+                            "titleKey": "menu.qualityAcceptance",
+                            "order": 6,
+                            "icon": "task-spot-check",
+                            "permission": ["task:confirm", "task:view"],
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "tasks",
+                        "name": "Tasks",
+                        "meta": {
+                            "title": "任务管理",
+                            "titleKey": "menu.tasks",
+                            "order": 2.1,
+                            "icon": "task-mgmt",
+                            "permission": "task:view",
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "schedules",
+                        "name": "EmploymentSchedules",
+                        "redirect": "/employment/schedule-planning",
+                        "meta": {
+                            "title": "排班管理",
+                            "titleKey": "menu.schedules",
+                            "order": 1.1,
+                            "icon": "task-scheduling",
+                            "permission": "schedule:view",
+                            "activeMenu": "/employment/schedule-planning",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "task-types",
+                        "name": "TaskTypes",
+                        "meta": {
+                            "title": "类型配置",
+                            "titleKey": "menu.taskTypes",
+                            "order": 3,
+                            "icon": "member-type",
+                            "permission": "task-type:view",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "form-templates",
+                        "name": "WorkFormTemplates",
+                        "meta": {
+                            "title": "云表单",
+                            "titleKey": "menu.formTemplates",
+                            "order": 4,
+                            "icon": "task-form-template",
+                            "permission": "work_form_template.list",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "form-templates/create",
+                        "name": "WorkFormTemplateCreate",
+                        "meta": {
+                            "title": "新建云表单",
+                            "titleKey": "workForms.page.create",
+                            "order": 4.1,
+                            "icon": "task-form-template",
+                            "permission": "work_form_template.edit",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "form-templates/:id/edit",
+                        "name": "WorkFormTemplateEdit",
+                        "meta": {
+                            "title": "编辑云表单",
+                            "titleKey": "workForms.page.edit",
+                            "order": 4.2,
+                            "icon": "task-form-template",
+                            "permission": "work_form_template.edit",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "tasks/:id",
+                        "name": "TaskDetail",
+                        "meta": {
+                            "title": "任务详情",
+                            "titleKey": "tasks.manage.detail",
+                            "order": 1.1,
+                            "icon": "task-mgmt",
+                            "permission": "task:view",
+                            "activeMenu": "/tasks/task-assignment",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-templates",
+                        "name": "WorkTemplates",
+                        "redirect": "/tasks/work-standards",
+                        "meta": {
+                            "title": "作业模板",
+                            "titleKey": "menu.workTemplates",
+                            "order": 6,
+                            "icon": "task-form-template",
+                            "permission": "work-template:view",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-process-sheets",
+                        "name": "WorkProcessSheets",
+                        "redirect": "/tasks/work-standards?tab=process-sheets",
+                        "meta": {
+                            "title": "工艺单管理",
+                            "titleKey": "menu.workProcessSheets",
+                            "order": 5,
+                            "icon": "plan-task-standard",
+                            "permission": "work-process-sheet:view",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-process-sheets/create",
+                        "name": "WorkProcessSheetCreate",
+                        "meta": {
+                            "title": "新建工艺单",
+                            "titleKey": "workProcess.page.create",
+                            "order": 4.1,
+                            "icon": "plan-task-standard",
+                            "permission": "work-process-sheet:create",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-process-sheets/:id",
+                        "name": "WorkProcessSheetDetail",
+                        "meta": {
+                            "title": "工艺单详情",
+                            "permission": "work-process-sheet:view",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    },
+                    {
+                        "path": "work-process-sheets/:id/edit",
+                        "name": "WorkProcessSheetEdit",
+                        "meta": {
+                            "title": "编辑工艺单",
+                            "titleKey": "workProcess.page.edit",
+                            "order": 4.2,
+                            "icon": "plan-task-standard",
+                            "permission": "work-process-sheet:update",
+                            "activeMenu": "/tasks/work-standards",
+                            "menu": false
+                        }
+                    }
+                ]
+            },
+            {
+                "path": "watermark",
+                "name": "Watermark",
+                "redirect": "/watermark/albums",
+                "meta": {
+                    "title": "水印相机",
+                    "titleKey": "menu.watermark",
+                    "order": 7.5,
+                    "icon": "resource",
+                    "menu": true,
+                    "permission": "watermark:admin"
+                },
+                "children": [
+                    {
+                        "path": "records",
+                        "name": "WatermarkRecords",
+                        "meta": {
+                            "title": "照片/视频",
+                            "titleKey": "menu.watermarkRecords",
+                            "order": 0,
+                            "icon": "resource-file",
+                            "menu": false,
+                            "activeMenu": "/watermark/albums"
+                        }
+                    },
+                    {
+                        "path": "records/:id",
+                        "name": "WatermarkRecordLegacy",
+                        "meta": {
+                            "title": "照片/视频",
+                            "titleKey": "menu.watermarkRecords",
+                            "order": 0,
+                            "icon": "resource-file",
+                            "menu": false,
+                            "activeMenu": "/watermark/albums"
+                        }
+                    },
+                    {
+                        "path": "albums",
+                        "name": "WatermarkAlbums",
+                        "meta": {
+                            "title": "相册管理",
+                            "titleKey": "menu.watermarkAlbums",
+                            "order": 1,
+                            "icon": "resource-file",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "templates",
+                        "name": "WatermarkTemplates",
+                        "meta": {
+                            "title": "水印管理",
+                            "titleKey": "menu.watermarkTemplates",
+                            "order": 2,
+                            "icon": "task-form-template",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "templates/:id/edit",
+                        "name": "WatermarkTemplateEditor",
+                        "meta": {
+                            "title": "模板详情",
+                            "titleKey": "menu.watermarkTemplateEditor",
+                            "order": 3,
+                            "icon": "task-form-template",
+                            "menu": false,
+                            "activeMenu": "/watermark/templates"
+                        }
+                    },
+                    {
+                        "path": "exports",
+                        "name": "WatermarkExports",
+                        "meta": {
+                            "title": "影像导出",
+                            "titleKey": "menu.watermarkExports",
+                            "order": 4,
+                            "icon": "resource-file",
+                            "menu": false,
+                            "activeMenu": "/watermark/albums"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

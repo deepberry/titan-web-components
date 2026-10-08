@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "1.4.33",
+    "version": "2.0.0",
     "main": "index.ts",
     "scripts": {
         "serve": "vue-cli-service serve --mode serve",
@@ -8,7 +8,7 @@
         "dev": "cross-env DEV_SERVER=true vue-cli-service serve",
         "debug": "cross-env DEV_SERVER=true vue-cli-service serve --mode staging",
         "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint",
+        "lint": "vue-cli-service lint --ext .js,.jsx,.vue,.ts,.tsx,.cjs",
         "build-storybook": "build-storybook",
         "prepare": "husky install",
         "storybook": "start-storybook -p 6009 --no-open",

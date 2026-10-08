@@ -1,8 +1,8 @@
 import { $uc, $titan, $service } from "../utils/api";
 
 // 获取个人信息
-export function getProfile() {
-    return $uc().get(`user/info`);
+export function getProfile(options) {
+    return $uc(options).get(`user/info`);
 }
 
 // 领取super token
@@ -16,8 +16,8 @@ export function getAllOrganization() {
 }
 
 // 获取当前用户组织
-export function getCurrentOrganization() {
-    return $uc().get(`user/organization`);
+export function getCurrentOrganization(options) {
+    return $uc(options).get(`user/organization`);
 }
 
 // 切换组织
@@ -33,13 +33,13 @@ export function updatePreference(data) {
 }
 
 // 获取时区
-export function getTimeZoneList(params) {
-    return $titan().get("conf/timezone", { params });
+export function getTimeZoneList(params, options) {
+    return $titan(options).get("conf/timezone", { params });
 }
 
 // 消息中心 获取用户未读消息
-export function getMessageUnRead() {
-    return $titan().get(`user/message/count`);
+export function getMessageUnRead(options) {
+    return $titan(options).get(`user/message/count`);
 }
 
 // 联系客服提交quote
@@ -53,8 +53,8 @@ export const getMenus = (params) => {
 };
 
 // 获取用户调查记录
-export const getSurveys = () => {
-    return $titan().get(`user/survey`);
+export const getSurveys = (options) => {
+    return $titan(options).get(`user/survey`);
 };
 
 // 用户提交调查

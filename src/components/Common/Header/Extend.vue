@@ -1,96 +1,57 @@
 <template>
-    <div class="c-header-extend">
-        <slot></slot>
-        <el-dropdown v-if="!isPad" class="m-header-extend__dropdown" trigger="click">
-            <el-badge :is-dot="showSurvey">
-                <img class="u-icon u-more" :src="require('../../../assets/img/common/header/more.svg')" svg-inline />
-            </el-badge>
-            <template #dropdown>
-                <el-dropdown-menu>
-                    <el-dropdown-item class="m-header__dropdown-item" @click.stop="toWorkOrder">
-                        <div class="u-dropdown__item">
-                            <img
-                                class="u-item-icon u-work"
-                                :src="require('../../../assets/img/common/header/more/work-order.svg')"
-                                svg-inline
-                            />
-                            <span>{{ t("commonHeader.extend.work_order") }}</span>
-                        </div>
-                    </el-dropdown-item>
-
-                    <el-dropdown-item class="m-header__dropdown-item" @click.stop="toHelp">
-                        <div class="u-dropdown__item">
-                            <img
-                                class="u-item-icon u-work"
-                                :src="require('../../../assets/img/common/header/more/doc.svg')"
-                                svg-inline
-                            />
-                            <span>{{ t("commonHeader.doc") }}</span>
-                        </div>
-                    </el-dropdown-item>
-                    <el-dropdown-item class="m-header__dropdown-item" @click.stop="quickVisible = true">
-                        <div class="u-dropdown__item">
-                            <img
-                                class="u-item-icon u-work"
-                                :src="require('../../../assets/img/common/header/more/other-support.svg')"
-                                svg-inline
-                            />
-                            <span>{{ t("commonHeader.extend.other_support") }}</span>
-                        </div>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="showSurvey" class="m-header__dropdown-item" @click.stop="toSurvey">
-                        <el-badge :is-dot="true" :offset="[-5, 5]">
-                            <div class="u-dropdown__item">
-                                <img
-                                    class="u-item-icon u-work"
-                                    :src="require('../../../assets/img/common/header/more/feedback.svg')"
-                                    svg-inline
-                                />
-                                <span>{{ t("commonHeader.survey.title") }}</span>
-                            </div>
-                        </el-badge>
-                    </el-dropdown-item>
-                </el-dropdown-menu>
-            </template>
-        </el-dropdown>
-        <!-- <el-tooltip :content="t('commonHeader.extend.contact_custom')">
-            <img
-                class="u-icon u-service"
-                :src="require('../../../assets/img/common/header/service.svg')"
-                svg-inline
-                @click="quotationVisible = true"
-            />
-        </el-tooltip> -->
-        <CommonMessage />
-        <template v-if="!isPad">
-            <el-tooltip :content="t('commonHeader.extend.mall')">
+    <div class="c-topbar__extensions">
+        <slot />
+        <el-tooltip v-if="showSurvey" :content="t('commonHeader.survey.title')" placement="bottom">
+            <button
+                class="c-topbar__message-button"
+                type="button"
+                :aria-label="t('commonHeader.survey.title')"
+                @click="toSurvey"
+            >
+                <el-badge is-dot
+                    ><el-icon><EditPen /></el-icon
+                ></el-badge>
+            </button>
+        </el-tooltip>
+        <CommonMessage :preview="preview" />
+        <el-tooltip :content="t('commonHeader.extend.mall')" placement="bottom">
+            <button
+                class="c-topbar__message-button"
+                type="button"
+                :aria-label="t('commonHeader.extend.mall')"
+                @click="toMall"
+            >
                 <img
-                    class="u-icon u-mall"
-                    @click="toMall"
-                    :src="require('../../../assets/img/common/header/mall.svg')"
-                    svg-inline
+                    class="c-topbar__action-icon"
+                    src="../../../assets/img/common/header/mall.svg"
+                    alt=""
+                    aria-hidden="true"
                 />
-            </el-tooltip>
-            <div class="m-ai" :class="isPad ? 'is-pad' : ''" @click="toAi">
-                <img class="u-icon u-ai" :src="require('../../../assets/img/common/header/ai.svg')" svg-inline />
-                <span v-if="!isPad">{{ t("commonHeader.extend.ai") }}</span>
-                <el-icon v-if="!isPad"><ArrowRight></ArrowRight></el-icon>
-            </div>
-        </template>
-        <el-dialog :title="t('commonHeader.extend.other_support')" :width="680" v-model="quickVisible">
-            <QuickSupport class="c-header-support__pop" />
-        </el-dialog>
-        <WxMp v-if="profile?.id" :profile="profile"></WxMp>
-        <!-- <Quotation v-if="quotationVisible" v-model:visible="quotationVisible"></Quotation> -->
-        <Survey v-if="surveyVisible" v-model:visible="surveyVisible" :survey="survey" @update="onSubmit"></Survey>
+            </button>
+        </el-tooltip>
+        <el-tooltip :content="t('commonHeader.extend.ai')" placement="bottom">
+            <button
+                class="c-topbar__message-button"
+                type="button"
+                :aria-label="t('commonHeader.extend.ai')"
+                @click="toAi"
+            >
+                <img
+                    class="c-topbar__action-icon"
+                    src="../../../assets/img/common/header/ai.svg"
+                    alt=""
+                    aria-hidden="true"
+                />
+            </button>
+        </el-tooltip>
+        <WxMp v-if="profile?.id && !preview" :profile="profile" />
+        <Survey v-if="surveyVisible" v-model:visible="surveyVisible" :survey="survey" @update="onSubmit" />
     </div>
 </template>
-
 <script>
 import { useLocale } from "../../../hooks/index";
 const { t } = useLocale();
 import CommonMessage from "./Message.vue";
-import QuickSupport from "./QuickSupport.vue";
 // import Quotation from "./Quotation.vue";
 import Survey from "./Survey.vue";
 import WxMp from "./WxMp.vue";
@@ -98,16 +59,31 @@ export default {
     name: "HeaderExtend",
     components: {
         CommonMessage,
-        QuickSupport,
         // Quotation,
         WxMp,
         Survey,
     },
-    props: ["profile", "survey", "isPad"],
+    props: {
+        profile: {
+            type: Object,
+            default: () => ({}),
+        },
+        survey: {
+            type: Object,
+            default: () => ({}),
+        },
+        isPad: {
+            type: Boolean,
+            default: false,
+        },
+        preview: {
+            type: Boolean,
+            default: false,
+        },
+    },
     emits: ["update"],
     data() {
         return {
-            quickVisible: false,
             // quotationVisible: false,
             surveyVisible: false,
         };
@@ -159,12 +135,6 @@ export default {
         toMall() {
             // to do
             window.open("https://www.deepberry.cn/products?type=0", "_blank");
-        },
-        toWorkOrder() {
-            location.href = "/uc/feedback";
-        },
-        toHelp() {
-            window.open("/uc/help", "_blank");
         },
         toAi() {
             window.open("/uc/aibot", "_blank");
