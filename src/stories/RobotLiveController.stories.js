@@ -1,5 +1,5 @@
 import RobotLiveController from "../components/RobotLive/Controller.vue";
-import "../assets/css/RobotLive/Controller.less";
+import "../assets/css/robot-live/controller.less";
 export default {
     title: "RobotLive/Controller",
     component: RobotLiveController,

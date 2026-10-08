@@ -434,5 +434,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../../assets/css/Common/paypop.less";
+@import "../../../assets/css/common/pay-pop.less";
 </style>

@@ -86,5 +86,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "../../assets/css/RobotLive/Video.less";
+@import "../../assets/css/robot-live/video.less";
 </style>

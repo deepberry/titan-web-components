@@ -96,5 +96,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../../assets/css/Common/Panel/Index.less";
+@import "../../../assets/css/common/panel/index.less";
 </style>

@@ -1,5 +1,5 @@
 import RobotLiveVideo from "../components/RobotLive/Video.vue";
-import "../assets/css/RobotLive/Video.less";
+import "../assets/css/robot-live/video.less";
 export default {
     title: "RobotLive/Video",
     component: RobotLiveVideo,

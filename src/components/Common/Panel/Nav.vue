@@ -91,7 +91,7 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "../../../assets/css/Common/Panel/Nav.less";
+@import "../../../assets/css/common/panel/nav.less";
 // 自动移动适配
 @media screen and (max-width: @phone) {
     .c-panel-navigation {

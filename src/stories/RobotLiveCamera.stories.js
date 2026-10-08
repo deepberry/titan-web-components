@@ -1,5 +1,5 @@
 import RobotLiveCamera from "../components/RobotLive/Camera.vue";
-import "../assets/css/RobotLive/Camera.less";
+import "../assets/css/robot-live/camera.less";
 export default {
     title: "RobotLive/Camera",
     component: RobotLiveCamera,

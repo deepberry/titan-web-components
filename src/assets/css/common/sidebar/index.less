@@ -1,0 +1,134 @@
+@import (reference) "../../shell-tokens.less";
+
+.c-titan-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: visible;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background: radial-gradient(circle at 12% 4%, rgba(255, 255, 255, 0.1), transparent 25%),
+        linear-gradient(180deg, @titan-navy 0%, @titan-primary-dark 100%);
+    box-shadow: 12px 0 32px rgba(7, 31, 73, 0.1);
+    transition: width 0.2s ease;
+
+    &__brand {
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 0 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        text-decoration: none;
+        transition: gap 0.2s ease, padding 0.2s ease;
+
+        &:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.72);
+            outline-offset: -3px;
+        }
+    }
+
+    &__brand-name {
+        width: 170px;
+        height: 42px;
+        display: block;
+        object-fit: contain;
+        max-width: 170px;
+        filter: brightness(0) invert(1);
+        min-width: 0;
+        overflow: hidden;
+        opacity: 1;
+        transform: translateX(0);
+        transition: max-width 0.2s ease, opacity 0.16s ease, transform 0.2s ease;
+    }
+
+    &__brand-mark {
+        width: 40px;
+        height: 40px;
+        display: block;
+        flex-shrink: 0;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+    }
+
+    .c-titan-sidebar__menu {
+        width: 100%;
+        --el-menu-bg-color: transparent;
+        --el-menu-hover-bg-color: rgba(255, 255, 255, 0.08);
+        --el-menu-text-color: rgba(255, 255, 255, 0.72);
+        --el-menu-active-color: #fff;
+        --el-menu-item-height: 44px;
+        --el-menu-sub-item-height: 42px;
+        border-right: 0;
+        height: calc(100vh - 68px);
+        padding: 16px 14px 72px;
+        background: transparent;
+        overflow: auto;
+        scrollbar-width: none;
+    }
+
+    .c-titan-sidebar__menu .el-menu {
+        border-right: 0;
+        background: transparent;
+    }
+
+    .c-titan-sidebar__menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    &__toggle {
+        position: absolute;
+        right: 20px;
+        bottom: 28px;
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.76);
+        cursor: pointer;
+        transition: color 0.18s ease, background 0.18s ease;
+
+        &:hover {
+            border-color: rgba(234, 99, 0, 0.72);
+            background: rgba(234, 99, 0, 0.18);
+            color: #fff;
+        }
+    }
+
+    &__toggle-icon {
+        font-size: 22px;
+        transform: rotate(180deg);
+        transition: transform 0.18s ease;
+    }
+
+    &.is-collapsed {
+        .c-titan-sidebar__toggle-icon {
+            transform: rotate(0deg);
+        }
+
+        .c-titan-sidebar__brand {
+            gap: 0;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .c-titan-sidebar__brand-name {
+            max-width: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-6px);
+        }
+
+        .c-titan-sidebar__menu {
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+}

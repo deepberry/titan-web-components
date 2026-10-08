@@ -1,5 +1,5 @@
 import RobotLiveRobot from "../components/RobotLive/Robot.vue";
-import "../assets/css/RobotLive/Robot.less";
+import "../assets/css/robot-live/robot.less";
 export default {
     title: "RobotLive/Robot",
     component: RobotLiveRobot,

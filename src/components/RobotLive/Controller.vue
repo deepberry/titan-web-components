@@ -76,5 +76,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "../../assets/css/RobotLive/Controller.less";
+@import "../../assets/css/robot-live/controller.less";
 </style>

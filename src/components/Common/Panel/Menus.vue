@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../../assets/css/Common/Panel/Menu.less";
+@import "../../../assets/css/common/panel/menu.less";
 // 安装菜单CSS动画
 @media screen and (min-width: @phone) {
     .installPanelMenuAnimation(v-bind('(data.length -1)*100 + "%"'));

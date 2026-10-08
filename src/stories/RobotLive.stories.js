@@ -1,5 +1,5 @@
 import RobotLive from "../components/RobotLive/Index.vue";
-import "../assets/css/RobotLive/Index.less";
+import "../assets/css/robot-live/index.less";
 export default {
     title: "RobotLive/Index",
     component: RobotLive,

@@ -84,5 +84,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "../../assets/css/RobotLive/Index.less";
+@import "../../assets/css/robot-live/index.less";
 </style>

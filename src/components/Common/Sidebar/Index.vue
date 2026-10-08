@@ -136,6 +136,6 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../../../assets/css/Common/Sidebar/index.less";
-@import "../../../assets/css/Common/Sidebar/menu.less";
+@import "../../../assets/css/common/sidebar/index.less";
+@import "../../../assets/css/common/sidebar/menu.less";
 </style>

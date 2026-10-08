@@ -120,5 +120,5 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../../../assets/css/Common/header.less";
+@import "../../../assets/css/common/header.less";
 </style>

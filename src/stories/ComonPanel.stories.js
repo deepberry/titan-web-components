@@ -1,7 +1,7 @@
 import CommonPanel from "../components/Common/Panel/Index.vue";
-import "../assets/css/Common/Panel/Index.less";
-import "../assets/css/Common/Panel/Nav.less";
-import "../assets/css/Common/Panel/Menu.less";
+import "../assets/css/common/panel/index.less";
+import "../assets/css/common/panel/nav.less";
+import "../assets/css/common/panel/menu.less";
 export default {
     title: "CommonPanel/Index",
     component: CommonPanel,
