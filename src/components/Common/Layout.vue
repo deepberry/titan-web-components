@@ -1,6 +1,6 @@
 <template>
     <el-container class="c-app-shell">
-        <CommonSidebar :menu-list="menuList" :user="profile" />
+        <CommonSidebar :menu-list="menuList" :user="profile" :preview="preview" />
         <el-container class="c-app-shell__content" direction="vertical">
             <CommonHeader
                 :title="title"

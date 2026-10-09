@@ -1,17 +1,17 @@
 <template>
     <el-aside :width="opened ? '232px' : '76px'" class="c-titan-sidebar" :class="{ 'is-collapsed': !opened }">
-        <a class="c-titan-sidebar__brand" href="/" aria-label="DeepBerry" @click="goHome">
-            <img
-                v-show="!opened"
-                class="c-titan-sidebar__brand-mark"
-                src="../../../assets/img/common/logo.svg"
-                alt=""
-            />
-            <img
-                v-show="opened"
-                class="c-titan-sidebar__brand-name"
-                src="../../../assets/img/common/logo-full.svg"
-                alt="DeepBerry"
+        <a
+            class="c-titan-sidebar__brand"
+            href="/"
+            :aria-label="brand.logo || brand.logo_full ? user.organization?.name : 'DeepBerry'"
+            @click="goHome"
+        >
+            <SidebarBrand
+                :key="user.organization?.id"
+                :opened="opened"
+                :logo="brand.logo"
+                :logo-full="brand.logo_full"
+                :name="user.organization?.name || ''"
             />
         </a>
         <el-menu
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import SidebarBrand from "./Brand.vue";
+import { useBrandStore } from "../../../store/brand";
 import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import User from "../../../utils/user";
@@ -52,8 +54,9 @@ import {
 
 export default {
     name: "CommonSidebar",
-    components: { SidebarMenuNode },
+    components: { SidebarMenuNode, SidebarBrand },
     props: {
+        preview: { type: Boolean, default: false },
         menuList: { type: Array, default: null },
         user: { type: Object, default: () => ({}) },
     },
@@ -62,6 +65,9 @@ export default {
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
+        brand() {
+            return this.preview ? {} : useBrandStore();
+        },
         menus() {
             return normalizeSidebarMenus(this.menuList ?? resolveSidebarMenus(this.remoteMenus, this.user));
         },
@@ -84,6 +90,14 @@ export default {
                 : this.opened
                 ? "收起侧边栏"
                 : "展开侧边栏";
+        },
+    },
+    watch: {
+        "user.organization.id": {
+            immediate: true,
+            handler(id) {
+                if (!this.preview) useBrandStore().load(id);
+            },
         },
     },
     mounted() {
