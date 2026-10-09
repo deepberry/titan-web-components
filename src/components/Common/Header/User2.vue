@@ -3,84 +3,93 @@
         <el-dropdown
             trigger="click"
             placement="bottom-end"
-            popper-class="c-header-user-dropdown"
+            :popper-class="compact ? 'c-header-user-dropdown is-compact' : 'c-header-user-dropdown'"
             @command="handleCommand"
         >
             <button
                 class="c-topbar__user-button"
+                :class="{ 'is-avatar-only': compact }"
                 type="button"
                 :aria-label="userName || t('commonHeader.profile_settings')"
             >
                 <CommonAvatar class="c-topbar__avatar" :src="profile?.avatar" />
-                <span v-if="userName" class="c-topbar__user-name" :title="userName">{{ userName }}</span>
+                <span v-if="userName && !compact" class="c-topbar__user-name" :title="userName">{{ userName }}</span>
             </button>
 
             <template #dropdown>
-                <el-dropdown-menu class="c-header-user-dropdown__menu">
-                    <slot />
-                    <el-dropdown-item command="profile">
-                        <el-icon><User /></el-icon>
-                        <span>{{ t("commonHeader.profile_settings") }}</span>
-                    </el-dropdown-item>
+                <div>
+                    <div v-if="compact" class="c-topbar c-header-user-dropdown__tools"><slot name="tools" /></div>
+                    <el-dropdown-menu class="c-header-user-dropdown__menu">
+                        <slot />
+                        <el-dropdown-item command="profile">
+                            <el-icon><User /></el-icon>
+                            <span>{{ t("commonHeader.profile_settings") }}</span>
+                        </el-dropdown-item>
 
-                    <el-dropdown-item command="work-order" divided>
-                        <img
-                            class="u-item-icon"
-                            :src="require('../../../assets/img/common/header/more/work-order.svg')"
-                            alt=""
-                            svg-inline
-                        />
-                        <span>{{ t("commonHeader.extend.work_order") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item command="docs">
-                        <img
-                            class="u-item-icon"
-                            :src="require('../../../assets/img/common/header/more/doc.svg')"
-                            alt=""
-                            svg-inline
-                        />
-                        <span>{{ t("commonHeader.doc") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item command="support">
-                        <img
-                            class="u-item-icon"
-                            :src="require('../../../assets/img/common/header/more/other-support.svg')"
-                            alt=""
-                            svg-inline
-                        />
-                        <span>{{ t("commonHeader.extend.other_support") }}</span>
-                    </el-dropdown-item>
+                        <el-dropdown-item command="work-order" divided>
+                            <img
+                                class="u-item-icon"
+                                :src="require('../../../assets/img/common/header/more/work-order.svg')"
+                                alt=""
+                                svg-inline
+                            />
+                            <span>{{ t("commonHeader.extend.work_order") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item command="docs">
+                            <img
+                                class="u-item-icon"
+                                :src="require('../../../assets/img/common/header/more/doc.svg')"
+                                alt=""
+                                svg-inline
+                            />
+                            <span>{{ t("commonHeader.doc") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item command="support">
+                            <img
+                                class="u-item-icon"
+                                :src="require('../../../assets/img/common/header/more/other-support.svg')"
+                                alt=""
+                                svg-inline
+                            />
+                            <span>{{ t("commonHeader.extend.other_support") }}</span>
+                        </el-dropdown-item>
 
-                    <el-dropdown-item v-if="isPhone" command="organization" divided>
-                        <el-icon><OfficeBuilding /></el-icon>
-                        <span>{{ t("commonHeader.change_organization") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="isPhone" command="messages">
-                        <el-icon><Bell /></el-icon>
-                        <span>{{ t("commonHeader.message") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="canManageMembers" command="members" :divided="!isPhone">
-                        <el-icon><UserFilled /></el-icon>
-                        <span>{{ t("commonHeader.user_management") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="isSuper || isFounder" command="dashboard">
-                        <img class="u-item-icon" src="../../../assets/img/common/greenhouse.svg" alt="" svg-inline />
-                        <span>{{ t("commonHeader.dashboard_management") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="isSuper || isFounder" command="order">
-                        <el-icon><ShoppingBag /></el-icon>
-                        <span>{{ t("commonHeader.order_center") }}</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="isFounder || isSuper" command="settings">
-                        <el-icon><Setting /></el-icon>
-                        <span>{{ t("commonHeader.system_settings") }}</span>
-                    </el-dropdown-item>
+                        <el-dropdown-item v-if="isPhone && !compact" command="organization" divided>
+                            <el-icon><OfficeBuilding /></el-icon>
+                            <span>{{ t("commonHeader.change_organization") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item v-if="isPhone && !compact" command="messages">
+                            <el-icon><Bell /></el-icon>
+                            <span>{{ t("commonHeader.message") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item v-if="canManageMembers" command="members" :divided="!isPhone">
+                            <el-icon><UserFilled /></el-icon>
+                            <span>{{ t("commonHeader.user_management") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item v-if="isSuper || isFounder" command="dashboard">
+                            <img
+                                class="u-item-icon"
+                                src="../../../assets/img/common/greenhouse.svg"
+                                alt=""
+                                svg-inline
+                            />
+                            <span>{{ t("commonHeader.dashboard_management") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item v-if="isSuper || isFounder" command="order">
+                            <el-icon><ShoppingBag /></el-icon>
+                            <span>{{ t("commonHeader.order_center") }}</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item v-if="isFounder || isSuper" command="settings">
+                            <el-icon><Setting /></el-icon>
+                            <span>{{ t("commonHeader.system_settings") }}</span>
+                        </el-dropdown-item>
 
-                    <el-dropdown-item command="logout" divided class="is-logout">
-                        <el-icon><SwitchButton /></el-icon>
-                        <span>{{ t("commonHeader.logout") }}</span>
-                    </el-dropdown-item>
-                </el-dropdown-menu>
+                        <el-dropdown-item command="logout" divided class="is-logout">
+                            <el-icon><SwitchButton /></el-icon>
+                            <span>{{ t("commonHeader.logout") }}</span>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </div>
             </template>
         </el-dropdown>
 
@@ -110,6 +119,7 @@ export default {
         QuickSupport,
     },
     props: {
+        compact: { type: Boolean, default: false },
         profile: {
             type: Object,
             default: () => ({}),
@@ -219,6 +229,46 @@ export default {
 </script>
 
 <style lang="less">
+.c-topbar__user-button.is-avatar-only {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    .c-topbar__avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+.c-header-user-dropdown {
+    &.is-compact {
+        width: 280px;
+        max-width: calc(100vw - 24px);
+        .el-scrollbar__wrap {
+            max-height: min(640px, calc(100dvh - 88px));
+        }
+    }
+    &__tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        margin-bottom: 6px;
+        border-radius: 7px;
+        background: var(--titan-navy, #0a2e67);
+        .c-topbar__organization {
+            width: 100%;
+        }
+        .c-topbar__org-button {
+            width: 100%;
+            .c-topbar__org-text {
+                max-width: 190px;
+            }
+        }
+    }
+}
+
 .c-header-panel {
     position: relative;
     height: 100%;

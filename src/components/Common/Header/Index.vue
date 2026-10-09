@@ -16,24 +16,38 @@
                 </div>
             </div>
             <div class="c-topbar__actions">
-                <slot name="right" />
-                <CommonExtend
+                <HeaderTools
+                    v-if="!compact"
+                    ref="tools"
                     :profile="profile"
                     :survey="survey"
                     :preview="preview"
                     :is-pad="isPad"
-                    @update="loadSurvey"
-                >
-                    <slot name="extend" />
-                </CommonExtend>
-                <Timezone :is-pad="isPad" :preview="preview" />
-                <CommonOrg
-                    ref="org"
-                    :profile="profile"
                     :organizations="organizations"
-                    @changeOrg="onOrganizationChanged"
-                />
-                <CommonUser :profile="profile" @changeOrg="changeOrg"><slot name="user" /></CommonUser>
+                    @update="loadSurvey"
+                    @change-org="onOrganizationChanged"
+                >
+                    <template #right><slot name="right" /></template>
+                    <template #extend><slot name="extend" /></template>
+                </HeaderTools>
+                <CommonUser :profile="profile" :compact="compact" @changeOrg="changeOrg">
+                    <slot name="user" />
+                    <template v-if="compact" #tools>
+                        <HeaderTools
+                            ref="tools"
+                            :profile="profile"
+                            :survey="survey"
+                            :preview="preview"
+                            :is-pad="isPad"
+                            :organizations="organizations"
+                            @update="loadSurvey"
+                            @change-org="onOrganizationChanged"
+                        >
+                            <template #right><slot name="right" /></template>
+                            <template #extend><slot name="extend" /></template>
+                        </HeaderTools>
+                    </template>
+                </CommonUser>
             </div>
         </el-header>
     </div>
@@ -42,16 +56,15 @@
 import { mapState } from "pinia";
 import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
 import { useCommonStore } from "../../../store/common";
-import CommonExtend from "./Extend.vue";
-import Timezone from "./TimeZone.vue";
-import CommonOrg from "./Org.vue";
+import HeaderTools from "./Tools.vue";
 import CommonUser from "./User2.vue";
 import GlobalNotice from "./GlobalNotice.vue";
 export default {
     name: "HeaderIndex",
-    components: { CommonExtend, Timezone, CommonOrg, CommonUser, GlobalNotice },
+    components: { HeaderTools, CommonUser, GlobalNotice },
     emits: ["change", "profile-loaded", "banner-close"],
     props: {
+        compactMobile: { type: Boolean, default: false },
         title: { type: String, default: "" },
         subtitle: { type: String, default: "" },
         preview: { type: Boolean, default: false },
@@ -59,10 +72,13 @@ export default {
         previewOrganizations: { type: Array, default: () => [] },
     },
     data() {
-        return { profile: {}, organizations: [], survey: {}, isPad: false, bannerClosed: false };
+        return { profile: {}, organizations: [], survey: {}, isPad: window.innerWidth <= 1023, bannerClosed: false };
     },
     computed: {
         ...mapState(useCommonStore, ["globalNotice"]),
+        compact() {
+            return this.compactMobile && this.isPad;
+        },
         displayTitle() {
             return this.title || this.$route?.meta?.title || "DeepBerry";
         },
@@ -107,7 +123,7 @@ export default {
             this.survey = await getSurveys().then((res) => res.data?.data || {});
         },
         changeOrg() {
-            this.$refs.org.showOrgSwitch();
+            this.$refs.tools?.showOrgSwitch();
         },
         onOrganizationChanged() {
             this.$emit("change", { type: "org" });

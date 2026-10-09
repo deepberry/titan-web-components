@@ -1,5 +1,9 @@
 <template>
-    <el-aside :width="opened ? '232px' : '76px'" class="c-titan-sidebar" :class="{ 'is-collapsed': !opened }">
+    <el-aside
+        :width="displayOpened ? '232px' : '76px'"
+        class="c-titan-sidebar"
+        :class="{ 'is-collapsed': !displayOpened }"
+    >
         <a
             class="c-titan-sidebar__brand"
             href="/"
@@ -8,7 +12,7 @@
         >
             <SidebarBrand
                 :key="user.organization?.id"
-                :opened="opened"
+                :opened="displayOpened"
                 :logo="brand.logo"
                 :logo-full="brand.logo_full"
                 :name="user.organization?.name || ''"
@@ -18,7 +22,7 @@
             class="c-titan-sidebar__menu"
             :default-active="activeMenu"
             :default-openeds="openedPaths"
-            :collapse="!opened"
+            :collapse="!displayOpened"
             :collapse-transition="false"
             @select="handleSelect"
         >
@@ -26,10 +30,10 @@
                 v-for="item in menus"
                 :key="item.menuIndex || item.path"
                 :item="item"
-                :collapsed="!opened"
+                :collapsed="!displayOpened"
             />
         </el-menu>
-        <el-tooltip :content="toggleLabel" placement="right">
+        <el-tooltip v-if="!mobileExpandedActive" :content="toggleLabel" placement="right">
             <button class="c-titan-sidebar__toggle" type="button" :aria-label="toggleLabel" @click="toggleSidebar">
                 <img svg-inline src="../../../assets/img/aoms/expand.svg" class="c-titan-sidebar__toggle-icon" alt="" />
             </button>
@@ -56,15 +60,22 @@ export default {
     name: "CommonSidebar",
     components: { SidebarMenuNode, SidebarBrand },
     props: {
+        mobileExpanded: { type: Boolean, default: false },
         preview: { type: Boolean, default: false },
         menuList: { type: Array, default: null },
         user: { type: Object, default: () => ({}) },
     },
     data() {
-        return { remoteMenus: [] };
+        return { remoteMenus: [], isMobile: window.innerWidth <= 1023 };
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
+        mobileExpandedActive() {
+            return this.mobileExpanded && this.isMobile;
+        },
+        displayOpened() {
+            return this.mobileExpandedActive || this.opened;
+        },
         brand() {
             return this.preview ? {} : useBrandStore();
         },
@@ -101,9 +112,16 @@ export default {
         },
     },
     mounted() {
+        window.addEventListener("resize", this.onResize);
         if (this.menuList === null) this.loadMenus();
     },
+    beforeUnmount() {
+        window.removeEventListener("resize", this.onResize);
+    },
     methods: {
+        onResize() {
+            this.isMobile = window.innerWidth <= 1023;
+        },
         async loadMenus() {
             try {
                 const res = await getMenus();

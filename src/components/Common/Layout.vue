@@ -1,8 +1,9 @@
 <template>
     <el-container class="c-app-shell">
-        <CommonSidebar :menu-list="menuList" :user="profile" :preview="preview" />
+        <CommonSidebar :menu-list="menuList" :user="profile" :preview="preview" :mobile-expanded="compactMobile" />
         <el-container class="c-app-shell__content" direction="vertical">
             <CommonHeader
+                :compact-mobile="compactMobile"
                 :title="title"
                 :subtitle="subtitle"
                 :preview="preview"
@@ -38,6 +39,7 @@ export default {
     components: { CommonSidebar, CommonHeader, CommonMain },
     emits: ["change", "banner-close"],
     props: {
+        compactMobile: { type: Boolean, default: false },
         title: { type: String, default: "" },
         subtitle: { type: String, default: "" },
         menuList: { type: Array, default: null },
