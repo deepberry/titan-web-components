@@ -1,5 +1,12 @@
 <template>
-    <el-dialog class="m-survey-dialog" :model-value="visible" :show-close="false" :before-close="close" :width="500">
+    <el-dialog
+        append-to-body
+        class="m-survey-dialog"
+        :model-value="visible"
+        :show-close="false"
+        :before-close="close"
+        :width="500"
+    >
         <div class="m-survey" :class="{ 'is-en': isEnglish }">
             <img :src="rightImg" class="u-right" />
             <div class="u-title">{{ t("commonHeader.survey.title_1") }}</div>

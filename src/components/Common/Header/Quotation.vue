@@ -1,5 +1,5 @@
 <template>
-    <el-dialog class="m-quotation-dialog" :model-value="visible" :before-close="close" width="600">
+    <el-dialog append-to-body class="m-quotation-dialog" :model-value="visible" :before-close="close" width="600">
         <div class="m-quotation" :class="{ 'is-en': isEnglish }">
             <div class="m-quotation__left">
                 <div class="u-title" v-html="t('commonHeader.quotation.scan')"></div>

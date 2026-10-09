@@ -1,5 +1,6 @@
 <template>
     <el-dialog
+        append-to-body
         class="m-wx-mp-dialog"
         v-model="visible"
         :show-close="false"

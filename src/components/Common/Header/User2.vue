@@ -84,7 +84,12 @@
             </template>
         </el-dropdown>
 
-        <el-dialog v-model="quickVisible" :title="t('commonHeader.extend.other_support')" :width="dialogWidth">
+        <el-dialog
+            append-to-body
+            v-model="quickVisible"
+            :title="t('commonHeader.extend.other_support')"
+            :width="dialogWidth"
+        >
             <QuickSupport class="c-header-support__pop" />
         </el-dialog>
     </div>
