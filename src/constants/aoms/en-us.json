@@ -47,7 +47,7 @@
         "formTemplates": "Cloud Forms",
         "system": "System Settings",
         "developerConfiguration": "Developer Configuration",
-        "globalSettings": "Global Configuration",
+        "globalSettings": "Global Settings",
         "accountConfig": "Account Config",
         "roleConfig": "Role Config",
         "webhook": "Webhook",

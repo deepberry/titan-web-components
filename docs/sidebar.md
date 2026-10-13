@@ -131,7 +131,7 @@
 
 ### 系统设置与开发配置
 
-系统设置继承 `superAdmin: true`，仅超级管理员显示。第一项是“全局配置”，地址 `/uc/system/setting`；AOMS PC 的 `/system/settings` 不要求与这里一致。其后依次为账号配置、角色配置、通知配置、公告管理、审计日志。
+系统设置继承 `superAdmin: true`，仅超级管理员显示。第一项是“全局设置”，地址 `/uc/system/setting`；AOMS PC 的 `/system/settings` 不要求与这里一致。其后依次为账号配置、角色配置、通知配置、公告管理、审计日志。
 
 开发配置是顶层末项，地址 `/insights/conf`，权限码 `nav_insights`。不要设置 `superAdmin: true`，否则单独拥有该权限的普通用户也会被排除。
 

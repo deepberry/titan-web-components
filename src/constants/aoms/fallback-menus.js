@@ -305,7 +305,7 @@ export const fallbackMenus = [
         children: [
             {
                 path: "/uc/system/setting",
-                title: "全局配置",
+                title: "全局设置",
                 titleKey: "menu.globalSettings",
                 order: 0,
                 icon: "system",

@@ -47,7 +47,7 @@
         "formTemplates": "云表单",
         "system": "系统设置",
         "developerConfiguration": "开发配置",
-        "globalSettings": "全局配置",
+        "globalSettings": "全局设置",
         "accountConfig": "账号配置",
         "roleConfig": "角色配置",
         "webhook": "通知配置",
