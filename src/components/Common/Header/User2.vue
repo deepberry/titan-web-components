@@ -14,6 +14,7 @@
             >
                 <CommonAvatar class="c-topbar__avatar" :src="profile?.avatar" />
                 <span v-if="userName && !compact" class="c-topbar__user-name" :title="userName">{{ userName }}</span>
+                <el-icon v-if="!compact" class="c-topbar__user-arrow"><ArrowDown /></el-icon>
             </button>
 
             <template #dropdown>
@@ -26,32 +27,29 @@
                             <span>{{ t("commonHeader.profile_settings") }}</span>
                         </el-dropdown-item>
 
+                        <el-dropdown-item v-if="isSuper || isFounder" command="order">
+                            <el-icon><ShoppingBag /></el-icon>
+                            <span>{{ t("commonHeader.order_center") }}</span>
+                        </el-dropdown-item>
+
                         <el-dropdown-item command="work-order" divided>
-                            <img
-                                class="u-item-icon"
-                                :src="require('../../../assets/img/common/header/more/work-order.svg')"
-                                alt=""
-                                svg-inline
-                            />
+                            <el-icon><Tickets /></el-icon>
                             <span>{{ t("commonHeader.extend.work_order") }}</span>
                         </el-dropdown-item>
                         <el-dropdown-item command="docs">
-                            <img
-                                class="u-item-icon"
-                                :src="require('../../../assets/img/common/header/more/doc.svg')"
-                                alt=""
-                                svg-inline
-                            />
+                            <el-icon><Reading /></el-icon>
                             <span>{{ t("commonHeader.doc") }}</span>
                         </el-dropdown-item>
                         <el-dropdown-item command="support">
-                            <img
-                                class="u-item-icon"
-                                :src="require('../../../assets/img/common/header/more/other-support.svg')"
-                                alt=""
-                                svg-inline
-                            />
+                            <el-icon><Phone /></el-icon>
                             <span>{{ t("commonHeader.extend.other_support") }}</span>
+                        </el-dropdown-item>
+
+                        <el-dropdown-item v-if="showSurvey" command="survey">
+                            <el-icon><EditPen /></el-icon>
+                            <el-badge is-dot class="c-header-survey-badge">
+                                <span>{{ t("commonHeader.survey.title") }}</span>
+                            </el-badge>
                         </el-dropdown-item>
 
                         <el-dropdown-item v-if="isPhone && !compact" command="organization" divided>
@@ -61,27 +59,6 @@
                         <el-dropdown-item v-if="isPhone && !compact" command="messages">
                             <el-icon><Bell /></el-icon>
                             <span>{{ t("commonHeader.message") }}</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item v-if="canManageMembers" command="members" :divided="!isPhone">
-                            <el-icon><UserFilled /></el-icon>
-                            <span>{{ t("commonHeader.user_management") }}</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item v-if="isSuper || isFounder" command="dashboard">
-                            <img
-                                class="u-item-icon"
-                                src="../../../assets/img/common/greenhouse.svg"
-                                alt=""
-                                svg-inline
-                            />
-                            <span>{{ t("commonHeader.dashboard_management") }}</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item v-if="isSuper || isFounder" command="order">
-                            <el-icon><ShoppingBag /></el-icon>
-                            <span>{{ t("commonHeader.order_center") }}</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item v-if="isFounder || isSuper" command="settings">
-                            <el-icon><Setting /></el-icon>
-                            <span>{{ t("commonHeader.system_settings") }}</span>
                         </el-dropdown-item>
 
                         <el-dropdown-item command="logout" divided class="is-logout">
@@ -95,6 +72,7 @@
 
         <el-dialog
             append-to-body
+            class="c-header-support-dialog"
             v-model="quickVisible"
             :title="t('commonHeader.extend.other_support')"
             :width="dialogWidth"
@@ -119,13 +97,14 @@ export default {
         QuickSupport,
     },
     props: {
+        survey: { type: Object, default: () => ({}) },
         compact: { type: Boolean, default: false },
         profile: {
             type: Object,
             default: () => ({}),
         },
     },
-    emits: ["changeOrg"],
+    emits: ["changeOrg", "survey"],
     data() {
         return {
             isPhone: window.innerWidth < 768,
@@ -133,6 +112,9 @@ export default {
         };
     },
     computed: {
+        showSurvey() {
+            return !!this.survey.id && !this.survey.status;
+        },
         isSuper() {
             return this.profile?.token?.is_super;
         },
@@ -168,6 +150,10 @@ export default {
     methods: {
         t,
         handleCommand(command) {
+            if (command === "survey") {
+                this.$emit("survey");
+                return;
+            }
             const routes = {
                 profile: "/uc/profile",
                 messages: "/uc/message",
@@ -294,6 +280,15 @@ export default {
 
 .c-header-user-dropdown .el-dropdown-menu {
     padding: 0;
+}
+
+.c-header-user-dropdown {
+    .c-header-survey-badge {
+        .el-badge__content.is-dot {
+            top: 4px;
+            right: -4px;
+        }
+    }
 }
 
 .c-header-user-dropdown .el-dropdown-menu__item {

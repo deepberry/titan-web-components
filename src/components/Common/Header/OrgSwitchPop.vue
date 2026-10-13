@@ -124,6 +124,9 @@ export default {
         right: 14px;
         width: 32px;
         height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 8px;
 
         &:hover {

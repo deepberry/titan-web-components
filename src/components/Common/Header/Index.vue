@@ -30,7 +30,13 @@
                     <template #right><slot name="right" /></template>
                     <template #extend><slot name="extend" /></template>
                 </HeaderTools>
-                <CommonUser :profile="profile" :compact="compact" @changeOrg="changeOrg">
+                <CommonUser
+                    :profile="profile"
+                    :compact="compact"
+                    :survey="survey"
+                    @survey="openSurvey"
+                    @changeOrg="changeOrg"
+                >
                     <slot name="user" />
                     <template v-if="compact" #tools>
                         <HeaderTools
@@ -107,6 +113,9 @@ export default {
         window.removeEventListener("resize", this.resize);
     },
     methods: {
+        openSurvey() {
+            this.$refs.tools?.openSurvey();
+        },
         resize() {
             this.isPad = window.innerWidth <= 1023;
         },

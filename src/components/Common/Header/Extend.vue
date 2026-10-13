@@ -1,18 +1,6 @@
 <template>
     <div class="c-topbar__extensions">
         <slot />
-        <el-tooltip v-if="showSurvey" :content="t('commonHeader.survey.title')" placement="bottom">
-            <button
-                class="c-topbar__message-button"
-                type="button"
-                :aria-label="t('commonHeader.survey.title')"
-                @click="toSurvey"
-            >
-                <el-badge is-dot
-                    ><el-icon><EditPen /></el-icon
-                ></el-badge>
-            </button>
-        </el-tooltip>
         <CommonMessage :preview="preview" />
         <el-tooltip :content="t('commonHeader.extend.mall')" placement="bottom">
             <button

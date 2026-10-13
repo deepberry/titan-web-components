@@ -1,6 +1,6 @@
 <template>
     <CommonLayout
-        preview
+        :preview="useStaticPreview"
         :title="pageTitle"
         subtitle="公共组件与应用外壳"
         :preview-profile="previewProfile"
@@ -13,6 +13,7 @@
 
 <script>
 import CommonLayout from "@/components/Common/Layout.vue";
+import User from "./utils/user";
 import { aomsPreviewMenus, sidebarTitle } from "./constants/AomsSidebar";
 
 export default {
@@ -27,6 +28,7 @@ export default {
     },
     data() {
         return {
+            useStaticPreview: !User.getToken({ version: 2 }),
             previewProfile: {
                 id: 1,
                 name: "预览用户",

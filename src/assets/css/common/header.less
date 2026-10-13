@@ -89,14 +89,18 @@
     color: rgba(255, 255, 255, 0.66);
 }
 
-.c-topbar .c-topbar__org-button .c-topbar__org-icon {
-    color: rgba(255, 255, 255, 0.66);
-    font-size: 17px;
-}
+.c-topbar {
+    .c-topbar__org-button .c-topbar__org-icon {
+        color: #fff;
+        opacity: 0.66;
+        font-size: 17px;
+    }
 
-.c-topbar .c-topbar__org-button .c-topbar__org-arrow {
-    color: rgba(255, 255, 255, 0.64);
-    font-size: 12px;
+    .c-topbar__org-button .c-topbar__org-arrow,
+    .c-topbar__user-button .c-topbar__user-arrow {
+        color: rgba(255, 255, 255, 0.64);
+        font-size: 12px;
+    }
 }
 
 .c-topbar__org-menu {
@@ -175,15 +179,22 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: rgba(255, 255, 255, 0.66);
     cursor: pointer;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-}
+    transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 
-.c-topbar__user-button:hover {
-    border-color: rgba(234, 99, 0, 0.72);
-    box-shadow: 0 8px 24px rgba(2, 16, 41, 0.2);
-    transform: translateY(-1px);
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 24px rgba(2, 16, 41, 0.2);
+        transform: translateY(-1px);
+
+        .c-topbar__avatar {
+            border-color: #fff;
+        }
+    }
 }
 
 .c-topbar__user-name {
@@ -193,17 +204,23 @@
     white-space: nowrap;
 }
 
-.c-topbar__avatar {
+.c-topbar__avatar.el-avatar {
     width: 26px;
     height: 26px;
     display: grid;
     place-items: center;
     border-radius: 999px;
-    border: 2px solid #fff;
-    background: var(--titan-accent, #ea6300);
+    border: 2px solid rgba(255, 255, 255, 0.66);
+    transition: border-color 0.18s ease;
+    background: var(--titan-muted, #64748b);
+    background-clip: padding-box;
     color: #fff;
     font-size: 12px;
     font-weight: 750;
+
+    > img {
+        background: #fff;
+    }
 }
 
 .c-topbar-dropdown.el-popper {

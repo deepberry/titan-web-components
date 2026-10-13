@@ -66,11 +66,11 @@ export default {
         user_management: "成员管理",
         dashboard_management: "园区管理",
         system_settings: "系统设置",
-        doc: "文档中心",
+        doc: "帮助文档",
         help: "帮助中心",
         extend: {
             other_support: "联系方式",
-            work_order: "工单系统",
+            work_order: "在线工单",
             question: "问题与反馈",
             contact_custom: "联系客服",
             mall: "商城",

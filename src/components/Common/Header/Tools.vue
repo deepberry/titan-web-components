@@ -1,10 +1,17 @@
 <template>
     <div class="c-topbar__tools">
         <slot name="right" />
-        <CommonExtend :profile="profile" :survey="survey" :preview="preview" :is-pad="isPad" @update="$emit('update')">
+        <CommonExtend
+            ref="extend"
+            :profile="profile"
+            :survey="survey"
+            :preview="preview"
+            :is-pad="isPad"
+            @update="$emit('update')"
+        >
             <slot name="extend" />
         </CommonExtend>
-        <Timezone :is-pad="isPad" :preview="preview" />
+        <Timezone v-if="isDevelopment" :is-pad="isPad" :preview="preview" />
         <CommonOrg ref="org" :profile="profile" :organizations="organizations" @changeOrg="$emit('change-org')" />
     </div>
 </template>
@@ -23,7 +30,15 @@ export default {
         isPad: { type: Boolean, default: false },
     },
     emits: ["update", "change-org"],
+    computed: {
+        isDevelopment() {
+            return process.env.NODE_ENV === "development";
+        },
+    },
     methods: {
+        openSurvey() {
+            this.$refs.extend.toSurvey();
+        },
         showOrgSwitch() {
             this.$refs.org.showOrgSwitch();
         },
