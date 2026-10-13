@@ -46,6 +46,8 @@
         "knowledgeBaseDocuments": "Knowledge Documents",
         "formTemplates": "Cloud Forms",
         "system": "System Settings",
+        "developerConfiguration": "Developer Configuration",
+        "globalSettings": "Global Configuration",
         "accountConfig": "Account Config",
         "roleConfig": "Role Config",
         "webhook": "Webhook",
@@ -64,7 +66,7 @@
         "materialSuppliers": "Suppliers",
         "materialUnits": "Units & Conversions",
         "materialTransfers": "Warehouse Transfers",
-        "employment": "Labor Management",
+        "employment": "Payroll Management",
         "schedules": "Scheduling",
         "timeEmployment": "Time-based Labor",
         "pieceEmployment": "Piecework Labor",
@@ -104,7 +106,14 @@
         "harvest": "Harvest Management",
         "taskTypes": "Task Types",
         "workTemplates": "Work Templates",
-        "workProcessSheets": "Work Process Sheets"
+        "workProcessSheets": "Work Process Sheets",
+        "environmentManagement": "Environment Management",
+        "environmentDevices": "Device Management",
+        "environmentMonitor": "Monitoring Dashboard",
+        "fertilizationAssistant": "Fertilization Assistant",
+        "harvestManagement": "Harvest Management",
+        "deepberryHarvest": "DeepBerry Harvest",
+        "easyWeigh": "Easy Weigh"
     },
     "home": {
         "title": "Console",

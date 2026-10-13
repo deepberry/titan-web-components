@@ -46,6 +46,8 @@
         "knowledgeBaseDocuments": "知识库文档",
         "formTemplates": "云表单",
         "system": "系统设置",
+        "developerConfiguration": "开发配置",
+        "globalSettings": "全局配置",
         "accountConfig": "账号配置",
         "roleConfig": "角色配置",
         "webhook": "通知配置",
@@ -64,7 +66,7 @@
         "materialSuppliers": "供应商管理",
         "materialUnits": "单位与换算",
         "materialTransfers": "仓库调拨",
-        "employment": "用工管理",
+        "employment": "薪资管理",
         "schedules": "排班管理",
         "timeEmployment": "计时用工",
         "pieceEmployment": "计件用工",
@@ -104,7 +106,14 @@
         "harvest": "采收管理",
         "taskTypes": "任务类型",
         "workTemplates": "作业模板",
-        "workProcessSheets": "工艺单管理"
+        "workProcessSheets": "工艺单管理",
+        "environmentManagement": "环控管理",
+        "environmentDevices": "设备管理",
+        "environmentMonitor": "监控大盘",
+        "fertilizationAssistant": "配肥助手",
+        "harvestManagement": "采收管理",
+        "deepberryHarvest": "深莓轻采收",
+        "easyWeigh": "好易称"
     },
     "home": {
         "title": "控制台",

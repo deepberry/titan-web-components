@@ -175,21 +175,22 @@ function buildSidebarBranch(
             requiresOrganizationAdmin ||
             hasRoutePermission(normalizedRoute.meta.permission, permissions);
         if (!canAccessCurrent) return;
-        const childMenus = Array.isArray(normalizedRoute.children)
-            ? buildSidebarBranch(
-                  normalizedRoute.children,
-                  permissions,
-                  menuIndexes,
-                  user,
-                  normalizedRoute.path,
-                  requiresOrganizationAdmin,
-                  requiresSuperAdmin
-              )
-            : [];
+        const childMenus =
+            !normalizedRoute.meta.placeholder && Array.isArray(normalizedRoute.children)
+                ? buildSidebarBranch(
+                      normalizedRoute.children,
+                      permissions,
+                      menuIndexes,
+                      user,
+                      normalizedRoute.path,
+                      requiresOrganizationAdmin,
+                      requiresSuperAdmin
+                  )
+                : [];
         const hasRouteChildren = Array.isArray(normalizedRoute.children) && normalizedRoute.children.length > 0;
         const shouldRenderCurrent = normalizedRoute.meta.menu !== false && Boolean(normalizedRoute.name);
 
-        if (hasRouteChildren && childMenus.length === 0) {
+        if (hasRouteChildren && childMenus.length === 0 && !normalizedRoute.meta.placeholder) {
             return;
         }
 
@@ -198,7 +199,9 @@ function buildSidebarBranch(
             return;
         }
 
-        const mockChildren = normalizeMockChildren(linkedMenu?.mockChildren || normalizedRoute.meta.mockChildren);
+        const mockChildren = normalizedRoute.meta.placeholder
+            ? []
+            : normalizeMockChildren(linkedMenu?.mockChildren || normalizedRoute.meta.mockChildren);
         const menuIndex =
             linkedMenu?.code ||
             linkedMenu?.permission ||
@@ -219,7 +222,7 @@ function buildSidebarBranch(
             menuIndex,
             order: getOrderValue(linkedMenu, normalizedRoute.meta.order ?? ""),
             icon: normalizedRoute.meta.icon || "Menu",
-            disabled: linkedMenu?.disabled === true,
+            disabled: normalizedRoute.meta.disabled === true || linkedMenu?.disabled === true,
             children: sortByOrder(childMenus),
             mockChildren: sortByOrder(mockChildren),
         };
@@ -266,6 +269,7 @@ export function extractUserMenus(user, cachedMenus = []) {
 
 export function resolveSidebarMenus(menus, user) {
     const permissions = collectPermissions(menus);
+    collectPermissions(user?.permissions).forEach((permission) => permissions.add(permission));
     const menuIndexes = buildMenuIndexes(menus);
 
     return buildSidebarBranch(routes, permissions, menuIndexes, user);

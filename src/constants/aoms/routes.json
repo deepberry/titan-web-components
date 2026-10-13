@@ -1,5 +1,17 @@
 [
     {
+        "path": "/insights/conf",
+        "name": "DeveloperConfiguration",
+        "meta": {
+            "title": "开发配置",
+            "titleKey": "menu.developerConfiguration",
+            "order": 100,
+            "icon": "system",
+            "permission": "nav_insights",
+            "menu": true
+        }
+    },
+    {
         "path": "/",
         "children": [
             {
@@ -13,13 +25,13 @@
                 }
             },
             {
-                "path": "employment",
+                "path": "/uc/employment",
                 "name": "Employment",
                 "meta": {
-                    "title": "用工管理",
+                    "title": "薪资管理",
                     "titleKey": "menu.employment",
-                    "order": 5,
-                    "icon": "employment",
+                    "order": 7.5,
+                    "icon": "employment-payroll",
                     "menu": true
                 },
                 "children": [
@@ -32,7 +44,8 @@
                             "order": 1,
                             "icon": "task-scheduling",
                             "permission": "schedule:view",
-                            "menu": true
+                            "activeMenu": "/uc/employment",
+                            "menu": false
                         }
                     },
                     {
@@ -51,7 +64,8 @@
                                 "work_record:view",
                                 "work_record:statistics"
                             ],
-                            "menu": true
+                            "activeMenu": "/uc/employment",
+                            "menu": false
                         }
                     },
                     {
@@ -63,7 +77,7 @@
                             "order": 2.1,
                             "icon": "employment",
                             "permission": ["employment_import:view", "employment_import:manage"],
-                            "activeMenu": "/employment/time-work",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
@@ -76,16 +90,17 @@
                             "order": 3,
                             "icon": "employment-piece-log",
                             "permission": ["piece_record:view", "piece_item:view"],
-                            "menu": true
+                            "activeMenu": "/uc/employment",
+                            "menu": false
                         }
                     },
                     {
                         "path": "schedules",
                         "name": "LegacyEmploymentSchedules",
-                        "redirect": "/employment/schedule-planning",
+                        "redirect": "/uc/employment/schedule-planning",
                         "meta": {
                             "permission": "schedule:view",
-                            "activeMenu": "/employment/schedule-planning",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
@@ -98,7 +113,7 @@
                             "order": 1,
                             "icon": "employment-piece-item",
                             "permission": "piece_item:view",
-                            "activeMenu": "/employment/piece-work",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
@@ -111,7 +126,7 @@
                             "order": 2,
                             "icon": "employment-piece-log",
                             "permission": "piece_record:view",
-                            "activeMenu": "/employment/piece-work",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
@@ -130,12 +145,12 @@
                                 "work_record:view",
                                 "work_record:statistics"
                             ],
-                            "activeMenu": "/employment/time-work",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
                     {
-                        "path": "/attendance/records",
+                        "path": "/uc/attendance/records",
                         "name": "AttendanceRecords",
                         "meta": {
                             "title": "考勤台账",
@@ -143,12 +158,12 @@
                             "order": 4,
                             "icon": "employment-sched",
                             "permission": "attendance:view",
-                            "activeMenu": "/employment/time-work",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
                     {
-                        "path": "/tasks/schedule-planning",
+                        "path": "/uc/tasks/schedule-planning",
                         "name": "LegacyTaskSchedulePlanning",
                         "meta": {
                             "title": "排班规划",
@@ -156,7 +171,7 @@
                             "order": 4.1,
                             "icon": "task-scheduling",
                             "permission": "schedule:view",
-                            "activeMenu": "/employment/schedule-planning",
+                            "activeMenu": "/uc/employment",
                             "menu": false
                         }
                     },
@@ -169,7 +184,7 @@
                             "order": 5,
                             "icon": "employment-payplan",
                             "permission": "payroll_rule:view",
-                            "activeMenu": "/employment/payroll-settlements",
+                            "activeMenu": "/uc/employment/payroll-settlements",
                             "menu": false
                         }
                     },
@@ -182,7 +197,7 @@
                             "order": 6,
                             "icon": "employment-payplan",
                             "permission": "payroll_rule:view",
-                            "activeMenu": "/employment/payroll-settlements",
+                            "activeMenu": "/uc/employment/payroll-settlements",
                             "menu": false
                         }
                     },
@@ -193,7 +208,7 @@
                             "title": "薪酬结算",
                             "titleKey": "menu.payrollSettlements",
                             "order": 4,
-                            "icon": "employment-payroll",
+                            "icon": "employment-payplan",
                             "permission": ["payroll_period:view", "payroll_rule:view"],
                             "menu": true
                         }
@@ -204,9 +219,11 @@
                         "meta": {
                             "permission": "training:view",
                             "menu": false
-                        }
+                        },
+                        "redirect": "/uc/staff/safety-training"
                     }
-                ]
+                ],
+                "redirect": "/uc/employment/payroll-settlements"
             },
             {
                 "path": "",
@@ -228,7 +245,9 @@
                     "titleKey": "menu.materials",
                     "order": 4,
                     "icon": "material",
-                    "menu": true
+                    "menu": true,
+                    "disabled": true,
+                    "placeholder": true
                 },
                 "children": [
                     {
@@ -577,9 +596,9 @@
                 }
             },
             {
-                "path": "park",
+                "path": "/uc/park",
                 "name": "Park",
-                "redirect": "/park/profiles",
+                "redirect": "/uc/park/profiles",
                 "meta": {
                     "title": "园区管理",
                     "titleKey": "menu.parks",
@@ -648,25 +667,31 @@
                     },
                     {
                         "path": "structure",
-                        "redirect": "/park/profiles",
+                        "redirect": "/uc/park/profiles",
                         "meta": {
                             "menu": false
                         }
                     },
                     {
-                        "path": "/terminal/screen/:tab?",
+                        "path": "/uc/terminal/screen/:tab?",
                         "name": "TerminalScreen",
                         "meta": {
                             "title": "空间终端屏",
                             "permission": "attendance:view",
-                            "activeMenu": "/park/space-terminal",
+                            "activeMenu": "/uc/park/space-terminal",
                             "menu": false
                         }
                     },
                     {
-                        "path": "/attendance/screen",
+                        "path": "/uc/attendance/screen",
                         "meta": {
                             "menu": false
+                        },
+                        "redirect": {
+                            "name": "TerminalScreen",
+                            "params": {
+                                "tab": "attendance"
+                            }
                         }
                     }
                 ]
@@ -678,9 +703,10 @@
                 "meta": {
                     "title": "生产管理",
                     "titleKey": "menu.production",
-                    "order": 2,
+                    "order": 1.25,
                     "icon": "plan",
-                    "menu": true
+                    "menu": true,
+                    "disabled": true
                 },
                 "children": [
                     {
@@ -754,7 +780,8 @@
                             "title": "采收管理",
                             "titleKey": "menu.harvest",
                             "icon": "plan",
-                            "menu": false
+                            "menu": false,
+                            "order": 3.5
                         }
                     },
                     {
@@ -811,7 +838,7 @@
                             "titleKey": "menu.fileAssets",
                             "order": 1,
                             "icon": "resource-file",
-                            "permission": "file:view",
+                            "permission": "resource:file",
                             "menu": true
                         }
                     },
@@ -823,7 +850,7 @@
                             "titleKey": "menu.documentList",
                             "order": 2,
                             "icon": "resource-document",
-                            "permission": "document:view",
+                            "permission": "resource:document",
                             "menu": true
                         }
                     },
@@ -835,7 +862,7 @@
                             "titleKey": "menu.documentDetail",
                             "order": 2.1,
                             "icon": "resource-document-edit",
-                            "permission": "document:view",
+                            "permission": "resource:document",
                             "activeMenu": "/resources/documents",
                             "menu": false
                         }
@@ -848,7 +875,7 @@
                             "titleKey": "menu.knowledgeBases",
                             "order": 3,
                             "icon": "resource-document",
-                            "permission": "document:view",
+                            "permission": "resource:document",
                             "activeMenu": "/resources/agent",
                             "menu": false
                         }
@@ -861,7 +888,7 @@
                             "titleKey": "menu.knowledgeBaseDocuments",
                             "order": 3.1,
                             "icon": "resource-document",
-                            "permission": "document:view",
+                            "permission": "resource:document",
                             "activeMenu": "/resources/agent",
                             "menu": false
                         }
@@ -872,8 +899,9 @@
                         "meta": {
                             "title": "知识库",
                             "titleKey": "menu.agent",
-                            "order": 4,
+                            "order": 0,
                             "icon": "resource-ai",
+                            "disabled": true,
                             "menu": true
                         }
                     },
@@ -891,9 +919,9 @@
                 ]
             },
             {
-                "path": "staff",
+                "path": "/uc/staff",
                 "name": "Staff",
-                "redirect": "/staff/workers",
+                "redirect": "/uc/staff/workers",
                 "meta": {
                     "title": "人员管理",
                     "titleKey": "menu.teams",
@@ -971,7 +999,7 @@
                             "order": 3.1,
                             "icon": "member-team",
                             "permission": "team:view",
-                            "activeMenu": "/staff/teams",
+                            "activeMenu": "/uc/staff/teams",
                             "menu": false
                         }
                     }
@@ -990,6 +1018,17 @@
                     "menu": true
                 },
                 "children": [
+                    {
+                        "path": "/uc/system/setting",
+                        "name": "SystemSettings",
+                        "meta": {
+                            "title": "全局配置",
+                            "titleKey": "menu.globalSettings",
+                            "order": 0,
+                            "icon": "system",
+                            "menu": true
+                        }
+                    },
                     {
                         "path": "accounts",
                         "name": "SystemAccounts",
@@ -1059,7 +1098,9 @@
                     "titleKey": "menu.taskWork",
                     "order": 3,
                     "icon": "task-mgmt",
-                    "menu": true
+                    "menu": true,
+                    "disabled": true,
+                    "placeholder": true
                 },
                 "children": [
                     {
@@ -1357,9 +1398,9 @@
                 "meta": {
                     "title": "水印相机",
                     "titleKey": "menu.watermark",
-                    "order": 7.5,
+                    "order": 7.75,
                     "icon": "resource",
-                    "menu": true,
+                    "menu": false,
                     "permission": "watermark:admin"
                 },
                 "children": [
@@ -1395,7 +1436,7 @@
                             "titleKey": "menu.watermarkAlbums",
                             "order": 1,
                             "icon": "resource-file",
-                            "menu": true
+                            "menu": false
                         }
                     },
                     {
@@ -1406,7 +1447,7 @@
                             "titleKey": "menu.watermarkTemplates",
                             "order": 2,
                             "icon": "task-form-template",
-                            "menu": true
+                            "menu": false
                         }
                     },
                     {
@@ -1436,5 +1477,92 @@
                 ]
             }
         ]
+    },
+    {
+        "path": "/environment",
+        "name": "EnvironmentManagement",
+        "redirect": "/greenhouse",
+        "meta": {
+            "title": "环控管理",
+            "titleKey": "menu.environmentManagement",
+            "order": 1.5,
+            "icon": "greenhouse",
+            "menu": true
+        },
+        "children": [
+            {
+                "path": "/greenhouse",
+                "name": "GreenhouseDevices",
+                "meta": {
+                    "title": "设备管理",
+                    "titleKey": "menu.environmentDevices",
+                    "order": 1,
+                    "icon": "device",
+                    "menu": true
+                }
+            },
+            {
+                "path": "/monitor",
+                "name": "EnvironmentMonitor",
+                "meta": {
+                    "title": "监控大盘",
+                    "titleKey": "menu.environmentMonitor",
+                    "order": 2,
+                    "icon": "monitor",
+                    "menu": true
+                }
+            },
+            {
+                "path": "/lab/fertilization/form",
+                "name": "FertilizationAssistant",
+                "meta": {
+                    "title": "配肥助手",
+                    "titleKey": "menu.fertilizationAssistant",
+                    "order": 3,
+                    "icon": "beaker",
+                    "menu": true
+                }
+            }
+        ]
+    },
+    {
+        "path": "/harvest",
+        "name": "HarvestManagement",
+        "meta": {
+            "title": "采收管理",
+            "titleKey": "menu.harvestManagement",
+            "order": 3.5,
+            "icon": "basket",
+            "menu": true,
+            "mockChildren": [
+                {
+                    "path": "/erp",
+                    "title": "深莓轻采收",
+                    "titleKey": "menu.deepberryHarvest",
+                    "code": "deepberry-harvest",
+                    "order": 1,
+                    "icon": "basket",
+                    "disabled": false
+                },
+                {
+                    "title": "好易称",
+                    "titleKey": "menu.easyWeigh",
+                    "code": "easy-weigh",
+                    "order": 2,
+                    "icon": "scale",
+                    "disabled": true
+                }
+            ]
+        }
+    },
+    {
+        "path": "/erp",
+        "name": "DeepberryHarvest",
+        "meta": {
+            "title": "深莓轻采收",
+            "titleKey": "menu.deepberryHarvest",
+            "menu": false,
+            "activeMenu": "/erp"
+        }
     }
 ]

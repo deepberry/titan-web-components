@@ -2,6 +2,7 @@
     <el-sub-menu
         v-if="hasChildren"
         :index="nodeIndex"
+        :disabled="item.disabled"
         :class="menuNodeClass"
         :popper-class="collapsed ? 'c-titan-sidebar__popper' : ''"
         :title="collapsed ? displayTitle : undefined"
