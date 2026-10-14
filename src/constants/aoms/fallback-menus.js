@@ -14,7 +14,7 @@ export const fallbackMenus = [
         titleKey: "menu.environmentManagement",
         code: "environment",
         order: 1.5,
-        icon: "greenhouse",
+        icon: "env",
         disabled: false,
         children: [
             {
@@ -22,7 +22,7 @@ export const fallbackMenus = [
                 title: "设备管理",
                 titleKey: "menu.environmentDevices",
                 order: 1,
-                icon: "device",
+                icon: "env-device",
                 disabled: false,
             },
             {
@@ -30,7 +30,7 @@ export const fallbackMenus = [
                 title: "监控大盘",
                 titleKey: "menu.environmentMonitor",
                 order: 2,
-                icon: "monitor",
+                icon: "env-dashboard",
                 disabled: false,
             },
             {
@@ -38,7 +38,7 @@ export const fallbackMenus = [
                 title: "配肥助手",
                 titleKey: "menu.fertilizationAssistant",
                 order: 3,
-                icon: "beaker",
+                icon: "env-fert",
                 disabled: false,
             },
         ],
@@ -472,7 +472,7 @@ export const fallbackMenus = [
         titleKey: "menu.developerConfiguration",
         code: "nav_insights",
         order: 100,
-        icon: "system",
+        icon: "dev-config",
         disabled: false,
     },
     {
@@ -481,7 +481,7 @@ export const fallbackMenus = [
         titleKey: "menu.harvestManagement",
         code: "harvest",
         order: 3.5,
-        icon: "basket",
+        icon: "product-harvest",
         disabled: false,
         mockChildren: [
             {
@@ -490,7 +490,7 @@ export const fallbackMenus = [
                 titleKey: "menu.deepberryHarvest",
                 code: "deepberry-harvest",
                 order: 1,
-                icon: "basket",
+                icon: "product-erp",
                 disabled: false,
             },
             {
@@ -498,7 +498,7 @@ export const fallbackMenus = [
                 titleKey: "menu.easyWeigh",
                 code: "easy-weigh",
                 order: 2,
-                icon: "scale",
+                icon: "product-hyc",
                 disabled: true,
             },
         ],

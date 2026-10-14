@@ -1,5 +1,6 @@
 {
     "menu": {
+        "extensions": "扩展功能",
         "watermarkAlbums": "相册管理",
         "watermark": "水印相机",
         "watermarkTemplates": "水印管理",

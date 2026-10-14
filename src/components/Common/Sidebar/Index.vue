@@ -66,7 +66,7 @@ export default {
         user: { type: Object, default: () => ({}) },
     },
     data() {
-        return { remoteMenus: [], isMobile: window.innerWidth <= 1023 };
+        return { remoteMenus: [], menuRequestId: 0, isMobile: window.innerWidth <= 1023 };
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
@@ -108,14 +108,15 @@ export default {
             immediate: true,
             handler(id) {
                 if (!this.preview) useBrandStore().load(id);
+                if (!this.preview && this.menuList === null) this.loadMenus();
             },
         },
     },
     mounted() {
         window.addEventListener("resize", this.onResize);
-        if (this.menuList === null) this.loadMenus();
     },
     beforeUnmount() {
+        this.menuRequestId++;
         window.removeEventListener("resize", this.onResize);
     },
     methods: {
@@ -123,11 +124,14 @@ export default {
             this.isMobile = window.innerWidth <= 1023;
         },
         async loadMenus() {
+            const requestId = ++this.menuRequestId;
+            this.remoteMenus = [];
             try {
                 const res = await getMenus();
+                if (requestId !== this.menuRequestId) return;
                 this.remoteMenus = res.data.data || [];
             } catch {
-                this.remoteMenus = [];
+                if (requestId === this.menuRequestId) this.remoteMenus = [];
             }
         },
         toggleSidebar() {

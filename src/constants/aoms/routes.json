@@ -6,7 +6,7 @@
             "title": "开发配置",
             "titleKey": "menu.developerConfiguration",
             "order": 100,
-            "icon": "system",
+            "icon": "dev-config",
             "permission": "nav_insights",
             "menu": true
         }
@@ -1486,7 +1486,7 @@
             "title": "环控管理",
             "titleKey": "menu.environmentManagement",
             "order": 1.5,
-            "icon": "greenhouse",
+            "icon": "env",
             "menu": true
         },
         "children": [
@@ -1497,7 +1497,7 @@
                     "title": "设备管理",
                     "titleKey": "menu.environmentDevices",
                     "order": 1,
-                    "icon": "device",
+                    "icon": "env-device",
                     "menu": true
                 }
             },
@@ -1508,7 +1508,7 @@
                     "title": "监控大盘",
                     "titleKey": "menu.environmentMonitor",
                     "order": 2,
-                    "icon": "monitor",
+                    "icon": "env-dashboard",
                     "menu": true
                 }
             },
@@ -1519,7 +1519,7 @@
                     "title": "配肥助手",
                     "titleKey": "menu.fertilizationAssistant",
                     "order": 3,
-                    "icon": "beaker",
+                    "icon": "env-fert",
                     "menu": true
                 }
             }
@@ -1532,7 +1532,7 @@
             "title": "采收管理",
             "titleKey": "menu.harvestManagement",
             "order": 3.5,
-            "icon": "basket",
+            "icon": "product-harvest",
             "menu": true,
             "mockChildren": [
                 {
@@ -1541,7 +1541,7 @@
                     "titleKey": "menu.deepberryHarvest",
                     "code": "deepberry-harvest",
                     "order": 1,
-                    "icon": "basket",
+                    "icon": "product-erp",
                     "disabled": false
                 },
                 {
@@ -1549,7 +1549,7 @@
                     "titleKey": "menu.easyWeigh",
                     "code": "easy-weigh",
                     "order": 2,
-                    "icon": "scale",
+                    "icon": "product-hyc",
                     "disabled": true
                 }
             ]

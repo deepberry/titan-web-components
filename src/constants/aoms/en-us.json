@@ -1,5 +1,6 @@
 {
     "menu": {
+        "extensions": "Extensions",
         "watermarkAlbums": "Albums",
         "watermark": "Watermark camera",
         "watermarkTemplates": "Watermark templates",

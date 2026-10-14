@@ -267,12 +267,44 @@ export function extractUserMenus(user, cachedMenus = []) {
     return Array.isArray(userMenus) && userMenus.length > 0 ? userMenus : fallbackMenus;
 }
 
-export function resolveSidebarMenus(menus, user) {
-    const permissions = collectPermissions(menus);
+export function resolveSidebarMenus(menus, user, { development = process.env.NODE_ENV === "development" } = {}) {
+    const customMenus = (Array.isArray(menus) ? menus : []).filter((item) => item?.user_id && item?.organization_id);
+    const fixedMenus = (Array.isArray(menus) ? menus : []).filter((item) => !customMenus.includes(item));
+    const permissions = collectPermissions(fixedMenus);
     collectPermissions(user?.permissions).forEach((permission) => permissions.add(permission));
-    const menuIndexes = buildMenuIndexes(menus);
+    const menuIndexes = buildMenuIndexes(fixedMenus);
 
-    return buildSidebarBranch(routes, permissions, menuIndexes, user);
+    const entries = buildSidebarBranch(routes, permissions, menuIndexes, user);
+    if (development) {
+        customMenus.push({
+            id: "dev-demo",
+            title: "自定义项",
+            en_name: "Custom item",
+            link: "https://deepberry.cn",
+            is_blank: 1,
+        });
+    }
+    if (customMenus.length) {
+        const systemIndex = entries.findIndex((item) => item.path === "/system");
+        entries.splice(systemIndex < 0 ? entries.length : systemIndex, 0, {
+            menuIndex: "custom-extensions",
+            title: "扩展功能",
+            titleKey: "menu.extensions",
+            en_name: "Extensions",
+            icon: "ext-feat",
+            children: sortByOrder(
+                customMenus.map((item) => ({
+                    ...item,
+                    path: item.path || item.link || "",
+                    title: item.title || item.zh_name || item.name || "未命名菜单",
+                    menuIndex: `custom-menu-${item.id || item.link || item.path}`,
+                    order: getOrderValue(item),
+                    icon: item.icon || "ext-func-1",
+                }))
+            ),
+        });
+    }
+    return entries;
 }
 
 export function resolveActiveMenuPath(menus, routePath, activeMenu = "") {

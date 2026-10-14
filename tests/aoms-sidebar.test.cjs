@@ -63,8 +63,90 @@ test("permission filtering excludes admin groups and unauthorized children", () 
 });
 test("all visible menu icons exist locally", () => {
     for (const item of flatten(menus)) {
-        assert(fs.existsSync(path.join(__dirname, "../src/assets/img/aoms", `${item.icon}.svg`)), item.icon);
+        assert(
+            ["aoms", "menus"].some((folder) =>
+                fs.existsSync(path.join(__dirname, `../src/assets/img/${folder}`, `${item.icon}.svg`))
+            ),
+            item.icon
+        );
     }
+});
+
+test("custom menus form one extensions group and retain links, icons and new-tab settings", () => {
+    const custom = [
+        {
+            id: 2,
+            user_id: 1,
+            organization_id: 9,
+            zh_name: "外部报表",
+            en_name: "Reports",
+            link: "https://example.com",
+            icon: "uploads/report.svg",
+            is_blank: 1,
+            sort: 2,
+        },
+        { id: 1, user_id: 1, organization_id: 9, zh_name: "自定义入口", link: "/custom", sort: 1 },
+    ];
+    const tree = resolveSidebarMenus([...fallbackMenus, ...custom], { is_founder: true });
+    const group = tree.find((item) => item.menuIndex === "custom-extensions");
+    assert.equal(group.icon, "ext-feat");
+    assert.deepEqual(
+        group.children.map((item) => item.path),
+        ["/custom", "https://example.com"]
+    );
+    assert.equal(group.children[1].icon, "uploads/report.svg");
+    assert.equal(group.children[1].is_blank, 1);
+    assert.equal(group.children[1].en_name, "Reports");
+    assert.equal(
+        tree.indexOf(group) + 1,
+        tree.findIndex((item) => item.path === "/system")
+    );
+    assert.deepEqual(resolveOpenedMenuPaths(tree, "/custom"), ["custom-extensions"]);
+    assert.equal(resolveActiveMenuPath(tree, "/custom/detail"), "/custom");
+    assert(
+        !resolveSidebarMenus(fallbackMenus, { is_founder: true }).some((item) => item.menuIndex === "custom-extensions")
+    );
+});
+
+test("development always provides a demo custom menu while production hides an empty group", () => {
+    const tree = resolveSidebarMenus([], {}, { development: true });
+    const group = tree.find((item) => item.menuIndex === "custom-extensions");
+    assert.equal(group.children.length, 1);
+    assert.equal(group.children[0].title, "自定义项");
+    assert.equal(group.children[0].path, "https://deepberry.cn");
+    assert.equal(group.children[0].is_blank, 1);
+    assert.equal(group.children[0].icon, "ext-func-1");
+    assert(!resolveSidebarMenus([], {}, { development: false }).some((item) => item.menuIndex === "custom-extensions"));
+    const custom = { id: 1, user_id: 1, organization_id: 1, link: "/custom" };
+    const realGroup = resolveSidebarMenus([custom], {}, { development: false }).find(
+        (item) => item.menuIndex === "custom-extensions"
+    );
+    assert.equal(realGroup.children[0].icon, "ext-func-1");
+    assert.equal(
+        resolveSidebarMenus([custom], {}, { development: true }).find((item) => item.menuIndex === "custom-extensions")
+            .children.length,
+        2
+    );
+});
+
+test("custom menus do not grant built-in permissions or override built-in menu metadata", () => {
+    const tree = resolveSidebarMenus(
+        [
+            {
+                id: 1,
+                user_id: 1,
+                organization_id: 9,
+                zh_name: "自定义",
+                link: "/other",
+                code: "nav_insights",
+                path: "/insights/conf",
+            },
+            { user_id: 1, zh_name: "非组织自定义", link: "/ignored" },
+        ],
+        { id: 1 }
+    );
+    assert(!tree.some((item) => item.path === "/insights/conf"));
+    assert.equal(tree.find((item) => item.menuIndex === "custom-extensions").children.length, 1);
 });
 
 test("every visible menu leaf resolves to its AOMS path in the preview router", () => {
