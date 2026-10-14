@@ -1,3 +1,4 @@
+import "@deepberry/common/css/global.less";
 import { app } from "@storybook/vue3";
 
 // store
@@ -8,6 +9,7 @@ app.use(pinia);
 // element plus
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import "../src/assets/css/app.less";
 app.use(ElementPlus);
 
 export const parameters = {

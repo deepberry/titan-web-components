@@ -1,3 +1,5 @@
+import "@deepberry/common/css/global.less";
+
 // 1.Create APP
 import { createApp } from "vue";
 import App from "./App.vue";
