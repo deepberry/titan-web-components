@@ -5,22 +5,16 @@
  * @Description:
  */
 const path = require("path");
+const { createDevProxy } = require("@deepberry/common/js/proxy.cjs");
 module.exports = {
     //⚛️ Proxy ~
     devServer: {
-        proxy: {
-            "/api/titan": {
-                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:10090" : "https://api.deepberry.cn",
-            },
-            "/api/cms": {
-                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.deepberry.cn",
-            },
-        },
-        port: 3800,
+        proxy: createDevProxy(),
+        port: process.env.VUE_APP_DEV_PORT || 3800,
     },
 
     //❤️ define path for static files ~
-    publicPath: process.env.NODE_ENV === "development" ? "/" : process.env.STATIC_PATH,
+    publicPath: process.env.NODE_ENV === "development" ? "/" : process.env.VUE_APP_STATIC_PATH || "/",
 
     //💛 suppress Sass deprecation warnings from dependencies
     css: {

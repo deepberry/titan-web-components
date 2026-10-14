@@ -3,10 +3,10 @@
     "version": "2.0.7",
     "main": "index.ts",
     "scripts": {
-        "serve": "vue-cli-service serve --mode serve",
+        "serve": "cross-env NODE_ENV=development vue-cli-service serve --mode production",
         "preview": "vue-cli-service serve --mode preview",
-        "dev": "cross-env DEV_SERVER=true vue-cli-service serve",
-        "debug": "cross-env DEV_SERVER=true vue-cli-service serve --mode staging",
+        "dev": "vue-cli-service serve --mode development",
+        "debug": "vue-cli-service serve --mode development",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint --ext .js,.jsx,.vue,.ts,.tsx,.cjs",
         "build-storybook": "build-storybook",
