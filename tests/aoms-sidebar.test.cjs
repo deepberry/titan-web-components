@@ -293,3 +293,109 @@ test("production group is disabled while retaining its children", () => {
     assert.equal(production.disabled, true);
     assert(production.children.length > 0);
 });
+
+test("all built-in menu identifiers are single words and unique within each group", () => {
+    const check = (items, prefix = "") => {
+        const slugs = new Set();
+        for (const item of items) {
+            assert.match(item.slug, /^[a-z]+$/);
+            assert(!slugs.has(item.slug), item.sidebarKey);
+            slugs.add(item.slug);
+            assert.equal(item.sidebarKey, prefix ? `${prefix}.${item.slug}` : item.slug);
+            check(item.children.length ? item.children : item.mockChildren, item.sidebarKey);
+        }
+    };
+    check(menus);
+});
+
+test("hidden settings remove groups and nested entries without changing permission or input data", () => {
+    const tree = resolveSidebarMenus(
+        fallbackMenus,
+        { is_founder: true },
+        {
+            development: false,
+            hidden: ["harvest", "environment.monitor", "system.announcements", "unknown"],
+        }
+    );
+    assert(!tree.some((item) => item.slug === "harvest"));
+    assert.deepEqual(
+        tree.find((item) => item.slug === "environment").children.map((item) => item.slug),
+        ["devices", "fertilizer"]
+    );
+    assert(!tree.find((item) => item.slug === "system").children.some((item) => item.slug === "announcements"));
+    assert(menus.find((item) => item.slug === "environment").children.some((item) => item.slug === "monitor"));
+    assert(
+        !resolveSidebarMenus(
+            fallbackMenus,
+            { is_founder: true },
+            {
+                development: false,
+                hidden: ["environment.devices", "environment.monitor", "environment.fertilizer"],
+            }
+        ).some((item) => item.slug === "environment")
+    );
+    const { applySidebarSettings } = require("../src/constants/aoms/sidebar-settings");
+    assert.deepEqual(applySidebarSettings(menus, { hidden: null }), menus);
+    assert(
+        !applySidebarSettings(menus, { hidden: ["harvest.erp", "harvest.weighing"] }).some(
+            (item) => item.slug === "harvest"
+        )
+    );
+    assert(
+        !resolveSidebarMenus([], {}, { development: true, hidden: ["extensions.demo"] }).some(
+            (item) => item.slug === "extensions"
+        )
+    );
+});
+
+test("CDN forbidden list supports comma-separated groups, nested keys and task alias", () => {
+    const { parseSidebarForbidden } = require("../src/constants/aoms/sidebar-settings");
+    assert.deepEqual(parseSidebarForbidden(" production,task, environment.monitor, ,production "), [
+        "production",
+        "tasks",
+        "environment.monitor",
+    ]);
+    assert.deepEqual(parseSidebarForbidden(null), []);
+    assert.deepEqual(parseSidebarForbidden(""), []);
+    const tree = resolveSidebarMenus(
+        fallbackMenus,
+        { is_founder: true },
+        {
+            development: false,
+            hidden: parseSidebarForbidden("production,task"),
+        }
+    );
+    assert(!tree.some((item) => ["production", "tasks"].includes(item.slug)));
+    assert(tree.some((item) => item.slug === "environment"));
+});
+
+test("global sidebar loader requests the CDN configuration and handles bad responses", async () => {
+    const vm = require("node:vm");
+    const filename = path.join(__dirname, "../src/service/sidebar-settings.js");
+    const { code } = babel.transformSync(fs.readFileSync(filename, "utf8"), {
+        configFile: false,
+        babelrc: false,
+        plugins: [require("@babel/plugin-transform-modules-commonjs")],
+    });
+    const exports = {};
+    let requested;
+    let response = { ok: true, json: async () => ({ sidebar_menu_forbidden: "production,task" }) };
+    vm.runInNewContext(code, {
+        exports,
+        require: () => require("../src/constants/aoms/sidebar-settings"),
+        fetch: async (url, options) => {
+            requested = { url, options };
+            return response;
+        },
+    });
+    const signal = new AbortController().signal;
+    const settings = await exports.loadSidebarSettings(signal);
+    assert.deepEqual(settings.hidden, ["production", "tasks"]);
+    assert.equal(requested.url, "https://cdn.deepberry.cn/common/system/conf/titan_default.json");
+    assert.equal(requested.options.cache, "no-cache");
+    assert.equal(requested.options.signal, signal);
+    response = { ok: false, status: 503 };
+    await assert.rejects(exports.loadSidebarSettings(signal), /503/);
+    response = { ok: true, json: async () => ({}) };
+    assert.deepEqual((await exports.loadSidebarSettings(signal)).hidden, []);
+});

@@ -2,6 +2,7 @@
     <el-container class="c-app-shell">
         <CommonSidebar
             ref="sidebar"
+            :sidebar-settings="sidebarSettings"
             :menu-list="menuList"
             :user="profile"
             :preview="preview"
@@ -52,6 +53,7 @@ export default {
         title: { type: String, default: "" },
         subtitle: { type: String, default: "" },
         menuList: { type: Array, default: null },
+        sidebarSettings: { type: Object, default: () => ({}) },
         preview: { type: Boolean, default: false },
         previewProfile: { type: Object, default: () => ({}) },
         previewOrganizations: { type: Array, default: () => [] },

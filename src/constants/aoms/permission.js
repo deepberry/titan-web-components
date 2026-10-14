@@ -1,6 +1,7 @@
 import routes from "./routes.json";
 import { fallbackMenus } from "./fallback-menus";
 import { isSuperAdmin } from "./user-access";
+import { applySidebarSettings } from "./sidebar-settings";
 import { collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
 
 export { canAccessRoute, collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
@@ -267,7 +268,11 @@ export function extractUserMenus(user, cachedMenus = []) {
     return Array.isArray(userMenus) && userMenus.length > 0 ? userMenus : fallbackMenus;
 }
 
-export function resolveSidebarMenus(menus, user, { development = process.env.NODE_ENV === "development" } = {}) {
+export function resolveSidebarMenus(
+    menus,
+    user,
+    { development = process.env.NODE_ENV === "development", hidden = [] } = {}
+) {
     const customMenus = (Array.isArray(menus) ? menus : []).filter((item) => item?.user_id && item?.organization_id);
     const fixedMenus = (Array.isArray(menus) ? menus : []).filter((item) => !customMenus.includes(item));
     const permissions = collectPermissions(fixedMenus);
@@ -278,6 +283,7 @@ export function resolveSidebarMenus(menus, user, { development = process.env.NOD
     if (development) {
         customMenus.push({
             id: "dev-demo",
+            slug: "demo",
             title: "自定义项",
             en_name: "Custom item",
             link: "https://deepberry.cn",
@@ -304,7 +310,7 @@ export function resolveSidebarMenus(menus, user, { development = process.env.NOD
             ),
         });
     }
-    return entries;
+    return applySidebarSettings(entries, { hidden });
 }
 
 export function resolveActiveMenuPath(menus, routePath, activeMenu = "") {

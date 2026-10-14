@@ -48,9 +48,11 @@ import { mapState } from "pinia";
 import { useCommonStore } from "../../../store/common";
 import User from "../../../utils/user";
 import { getMenus } from "../../../service/account";
+import { loadSidebarSettings } from "../../../service/sidebar-settings";
 import SidebarMenuNode from "./MenuNode.vue";
 import {
     normalizeSidebarMenus,
+    applySidebarSettings,
     resolveSidebarMenus,
     resolveActiveMenuPath,
     resolveOpenedMenuPaths,
@@ -63,10 +65,16 @@ export default {
         mobileExpanded: { type: Boolean, default: false },
         preview: { type: Boolean, default: false },
         menuList: { type: Array, default: null },
+        sidebarSettings: { type: Object, default: () => ({}) },
         user: { type: Object, default: () => ({}) },
     },
     data() {
-        return { remoteMenus: [], menuRequestId: 0, isMobile: window.innerWidth <= 1023 };
+        return {
+            remoteMenus: [],
+            globalSidebarSettings: { hidden: [] },
+            menuRequestId: 0,
+            isMobile: window.innerWidth <= 1023,
+        };
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
@@ -80,7 +88,14 @@ export default {
             return this.preview ? {} : useBrandStore();
         },
         menus() {
-            return normalizeSidebarMenus(this.menuList ?? resolveSidebarMenus(this.remoteMenus, this.user));
+            return normalizeSidebarMenus(
+                applySidebarSettings(this.menuList ?? resolveSidebarMenus(this.remoteMenus, this.user), {
+                    hidden: [
+                        ...this.globalSidebarSettings.hidden,
+                        ...(Array.isArray(this.sidebarSettings?.hidden) ? this.sidebarSettings.hidden : []),
+                    ],
+                })
+            );
         },
         activeMenu() {
             const routePath = this.$route?.path || location.pathname;
@@ -114,12 +129,28 @@ export default {
     },
     mounted() {
         window.addEventListener("resize", this.onResize);
+        this.loadGlobalSidebarSettings();
     },
     beforeUnmount() {
         this.menuRequestId++;
+        this.sidebarConfigController?.abort();
         window.removeEventListener("resize", this.onResize);
     },
     methods: {
+        async loadGlobalSidebarSettings() {
+            const controller = new AbortController();
+            this.sidebarConfigController?.abort();
+            this.sidebarConfigController = controller;
+            const timeout = setTimeout(() => controller.abort(), 8000);
+            try {
+                const settings = await loadSidebarSettings(controller.signal);
+                if (!controller.signal.aborted) this.globalSidebarSettings = settings;
+            } catch {
+                // 配置不可用时保留现有菜单，不阻塞导航。
+            } finally {
+                clearTimeout(timeout);
+            }
+        },
         onResize() {
             this.isMobile = window.innerWidth <= 1023;
         },

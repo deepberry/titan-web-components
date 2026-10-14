@@ -13,6 +13,7 @@ import envDashboardIcon from "../assets/img/menus/env-dashboard.svg";
 import envFertIcon from "../assets/img/menus/env-fert.svg";
 import extFeatIcon from "../assets/img/menus/ext-feat.svg";
 import extFuncIcon from "../assets/img/menus/ext-func-1.svg";
+export { applySidebarSettings } from "./aoms/sidebar-settings";
 
 const menuIcons = {
     "dev-config": devConfigIcon,

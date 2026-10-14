@@ -1,6 +1,6 @@
 {
     "name": "@deepberry/titan-web-components",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "main": "index.ts",
     "scripts": {
         "serve": "cross-env NODE_ENV=development vue-cli-service serve --mode production",

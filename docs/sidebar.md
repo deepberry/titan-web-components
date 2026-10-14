@@ -163,3 +163,94 @@ node --test tests/aoms-sidebar.test.cjs
 ```
 
 测试覆盖顶层顺序、权限、禁用占位、水印隐藏、UC 前缀、跨组展开及预览路由。静态测试通过不代表正式宿主的业务页面、鉴权或跨应用跳转已经验证。
+
+## 菜单 slug 与隐藏标识清单
+
+`slug` 是独立的小写英文单词，`sidebarKey` 是用于隐藏配置的完整标识，不替代权限 `code`、点击标识 `menuIndex` 或路径。标识维护在 `src/constants/aoms/sidebar-settings.js`，不要随显示文案修改。以下按菜单顺序列出，实际展示仍受权限及禁用占位规则控制。
+
+### 一级菜单
+
+| 名称     | slug / 隐藏标识 | 路径             |
+| -------- | --------------- | ---------------- |
+| 控制台   | `home`          | `/`              |
+| 生产管理 | `production`    | `/production`    |
+| 环控管理 | `environment`   | `/environment`   |
+| 作业管理 | `tasks`         | `/tasks`         |
+| 采收管理 | `harvest`       | `/harvest`       |
+| 物资管理 | `materials`     | `/materials`     |
+| 园区管理 | `parks`         | `/uc/park`       |
+| 人员管理 | `staff`         | `/uc/staff`      |
+| 薪资管理 | `payroll`       | `/uc/employment` |
+| 资源中心 | `resources`     | `/resources`     |
+| 扩展功能 | `extensions`    | 无，仅分组       |
+| 系统设置 | `system`        | `/system`        |
+| 开发配置 | `developer`     | `/insights/conf` |
+
+### 子项
+
+| 所属分组 | 名称       | slug            | 隐藏标识                 | 路径                                 | 说明                     |
+| -------- | ---------- | --------------- | ------------------------ | ------------------------------------ | ------------------------ |
+| 生产管理 | 作物配置   | `crops`         | `production.crops`       | `/production/crops`                  | —                        |
+| 生产管理 | 种植计划   | `plans`         | `production.plans`       | `/production/cycles`                 | —                        |
+| 生产管理 | 产量预测   | `forecast`      | `production.forecast`    | `/production/yield-forecast`         | —                        |
+| 生产管理 | 生产核算   | `accounting`    | `production.accounting`  | `/production/accounting`             | —                        |
+| 环控管理 | 设备管理   | `devices`       | `environment.devices`    | `/greenhouse`                        | —                        |
+| 环控管理 | 监控大盘   | `monitor`       | `environment.monitor`    | `/monitor`                           | —                        |
+| 环控管理 | 配肥助手   | `fertilizer`    | `environment.fertilizer` | `/lab/fertilization/form`            | —                        |
+| 作业管理 | 作业标准   | `standards`     | `tasks.standards`        | `/tasks/work-standards`              | 预留，当前父组为禁用占位 |
+| 作业管理 | 任务指派   | `assignments`   | `tasks.assignments`      | `/tasks/task-assignment`             | 预留，当前父组为禁用占位 |
+| 作业管理 | 作业看板   | `board`         | `tasks.board`            | `/tasks/work-board`                  | 预留，当前父组为禁用占位 |
+| 作业管理 | 作业异常   | `exceptions`    | `tasks.exceptions`       | `/tasks/work-exceptions`             | 预留，当前父组为禁用占位 |
+| 作业管理 | 质量验收   | `quality`       | `tasks.quality`          | `/tasks/quality-acceptance`          | 预留，当前父组为禁用占位 |
+| 采收管理 | 深莓轻采收 | `erp`           | `harvest.erp`            | `/erp`                               | —                        |
+| 采收管理 | 好易称     | `weighing`      | `harvest.weighing`       | 无                                   | 禁用                     |
+| 物资管理 | 业务办理   | `workbench`     | `materials.workbench`    | `/materials/workbench`               | 预留，当前父组为禁用占位 |
+| 物资管理 | 经营看板   | `overview`      | `materials.overview`     | `/materials/overview`                | 预留，当前父组为禁用占位 |
+| 物资管理 | 库存管理   | `inventory`     | `materials.inventory`    | `/materials/inventory`               | 预留，当前父组为禁用占位 |
+| 物资管理 | 物资溯源   | `trace`         | `materials.trace`        | `/materials/trace`                   | 预留，当前父组为禁用占位 |
+| 物资管理 | 基础资料   | `catalog`       | `materials.catalog`      | `/materials/master-data`             | 预留，当前父组为禁用占位 |
+| 园区管理 | 园区档案   | `profiles`      | `parks.profiles`         | `/uc/park/profiles`                  | —                        |
+| 园区管理 | 空间结构   | `structure`     | `parks.structure`        | `/uc/park/space-config`              | —                        |
+| 园区管理 | 空间地图   | `map`           | `parks.map`              | `/uc/park/space-map`                 | —                        |
+| 园区管理 | 空间预览   | `preview`       | `parks.preview`          | `/uc/park/space-qr`                  | —                        |
+| 园区管理 | 空间终端   | `terminal`      | `parks.terminal`         | `/uc/park/space-terminal`            | —                        |
+| 人员管理 | 人员档案   | `workers`       | `staff.workers`          | `/uc/staff/workers`                  | —                        |
+| 人员管理 | 技能配置   | `skills`        | `staff.skills`           | `/uc/staff/job-types`                | —                        |
+| 人员管理 | 班组配置   | `teams`         | `staff.teams`            | `/uc/staff/teams`                    | —                        |
+| 人员管理 | 评级配置   | `ratings`       | `staff.ratings`          | `/uc/staff/rating-config`            | —                        |
+| 人员管理 | 安全培训   | `training`      | `staff.training`         | `/uc/staff/safety-training`          | —                        |
+| 薪资管理 | 薪酬结算   | `settlements`   | `payroll.settlements`    | `/uc/employment/payroll-settlements` | —                        |
+| 资源中心 | 知识库     | `knowledge`     | `resources.knowledge`    | `/resources/agent`                   | 禁用                     |
+| 资源中心 | 文件管理   | `files`         | `resources.files`        | `/resources/files/assets`            | —                        |
+| 资源中心 | 文档管理   | `documents`     | `resources.documents`    | `/resources/documents`               | —                        |
+| 扩展功能 | 自定义项   | `demo`          | `extensions.demo`        | `https://deepberry.cn`               | 仅 dev 环境              |
+| 系统设置 | 全局设置   | `settings`      | `system.settings`        | `/uc/system/setting`                 | —                        |
+| 系统设置 | 账号配置   | `accounts`      | `system.accounts`        | `/system/accounts`                   | —                        |
+| 系统设置 | 角色配置   | `roles`         | `system.roles`           | `/system/roles`                      | —                        |
+| 系统设置 | 通知配置   | `notifications` | `system.notifications`   | `/system/webhook`                    | —                        |
+| 系统设置 | 公告管理   | `announcements` | `system.announcements`   | `/system/notice`                     | —                        |
+| 系统设置 | 审计日志   | `logs`          | `system.logs`            | `/system/audit-logs`                 | —                        |
+
+### 使用方式
+
+```json
+{
+    "sidebar": {
+        "hidden": ["harvest", "environment.monitor", "system.announcements"]
+    }
+}
+```
+
+公共布局 CommonLayout 和 CommonSidebar 接受响应式 `sidebarSettings` 配置：
+
+```vue
+<CommonLayout :sidebar-settings="globalSettings.sidebar" />
+```
+
+`harvest` 隐藏整组；`environment.monitor` 和 `system.announcements` 分别隐藏监控大盘及公告管理。子项全部隐藏后自动移除空组；本来没有子项的占位菜单保留。配置缺失、`hidden` 非数组或未知标识不会影响其他菜单，配置变化会重新计算菜单。显式传入 `menuList` 时同样应用过滤。隐藏只控制导航展示，不替代鉴权。
+
+纯函数入口：`resolveSidebarMenus(menus, user, { hidden })` 或 `applySidebarSettings(menuTree, { hidden })`。返回新菜单树，不修改输入，也不修改原有权限和路由。
+
+扩展功能组标识为 `extensions`。真实自定义菜单可提供稳定的单词 `slug`，完整标识为 `extensions.<slug>`；未提供 slug 时可以通过 `extensions` 隐藏整组。dev 演示项为 `extensions.demo`，新窗口打开 `https://deepberry.cn`。
+
+公共侧边栏挂载时统一请求 `https://cdn.deepberry.cn/common/system/conf/titan_default.json`，读取 `sidebar_menu_forbidden` 字符串并按英文逗号拆分、去除空格和重复项。例如 `production,task` 隐藏生产管理和作业管理；`task` 兼容为 `tasks`。支持子项完整标识，例如 `environment.monitor`。dev 预览和显式 menuList 也应用此配置。线上隐藏列表与 sidebarSettings.hidden 合并；请求失败或超时不阻塞导航。
