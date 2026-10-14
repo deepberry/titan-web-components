@@ -1,5 +1,5 @@
 // 用户信息中央处理模块
-import { $titan2 } from "./api";
+import { $titan } from "./api";
 import axios from "axios";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { getTokenFromUrl } from "@deepberry/common/js/miniprogram";
@@ -147,7 +147,7 @@ class User {
      * @returns Promise
      */
     async refreshToken() {
-        return $titan2()
+        return $titan()
             .post("account/token/refresh")
             .then((res) => {
                 this.update(res.data.data);

@@ -1,4 +1,4 @@
-import { $uc, $titan, $service } from "../utils/api";
+import { $uc, $titan, $cms } from "../utils/api";
 
 // 获取个人信息
 export function getProfile(options) {
@@ -44,7 +44,7 @@ export function getMessageUnRead(options) {
 
 // 联系客服提交quote
 export const addQuotation = (data) => {
-    return $service().post("www/quotation", data);
+    return $cms().post("www/quotation", data);
 };
 
 // 获取菜单栏

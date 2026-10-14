@@ -1,139 +1,18 @@
-/**
- * 请求实例生成器
- * @desc 用于生成请求实例，可以自定义配置，编写请求头等
- */
-
-import axios from "axios";
+import { createApiClient } from "@deepberry/common/js/api";
+import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
 import User from "./user";
-import { installSimpleInterceptors, installStandardInterceptors } from "./interceptors";
 
-/**
- * titan接口请求构建器
- *
- * @param {*} baseURL
- * @return {*}
- */
-export function $titan2(options) {
-    const config = {
-        baseURL: (process.env.VUE_APP_TITAN_API || process.env.VUE_APP_SERVICE_API) + "api/titan/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
+const client = createApiClient({
+    getToken: (version) => User.getToken({ version }),
+    // 保留组件库原有语义：业务 code 由组件处理，只统一提示 HTTP/网络错误。
+    validateResponse: false,
+    onError(message, popType) {
+        if (popType === "alert") ElMessageBox.alert(message, "错误");
+        else if (popType === "notify") ElNotification({ title: "错误", message, duration: 3000 });
+        else ElMessage({ message, type: "error" });
+    },
+});
 
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-/**
- * cms接口请求构建器
- *
- * @param {*} baseURL
- * @return {*}
- */
-export function $cms(options) {
-    const config = {
-        baseURL: (process.env.VUE_APP_CMS_API || process.env.VUE_APP_SERVICE_API) + "api/cms/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
-
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-export function $uc(options) {
-    const config = {
-        baseURL: process.env.VUE_APP_SERVICE_API + "api/uc/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
-
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-export function $service(options) {
-    const config = {
-        baseURL: process.env.VUE_APP_SERVICE_API + "api/cms/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
-
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-export function $admin(options) {
-    const config = {
-        baseURL: process.env.VUE_APP_SERVICE_API + "api/admin/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
-
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-export function $titan(options) {
-    const config = {
-        baseURL: process.env.VUE_APP_SERVICE_API + "api/titan/",
-        withCredentials: false,
-        headers: {
-            Authorization: "Bearer " + User.getToken({ version: 2 }),
-        },
-    };
-
-    // 创建实例
-    const ins = axios.create(config);
-
-    // 指定拦截器
-    installStandardInterceptors(ins, options);
-
-    return ins;
-}
-
-export function $erp(options = {}) {
-    const base = process.env.VUE_APP_SERVICE_API + "api/erp/";
-    const ins = axios.create({
-        baseURL: base,
-        withCredentials: false,
-        headers: { Authorization: "Bearer " + User.getToken({ version: 2 }) },
-    });
-    installStandardInterceptors(ins, options);
-    return ins;
-}
+export const { $uc, $titan, $cms, $admin, $erp, resolveServiceUrl } = client;
+// 兼容现有应用的公开导入，新代码使用服务名。
+export { $titan as $titan2, $cms as $service };

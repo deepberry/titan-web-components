@@ -1,8 +1,8 @@
-import { $service } from "../utils/api";
+import { $cms } from "../utils/api";
 import OSS from "ali-oss";
 
 export const uploadToOss = (data, { bucket = "deepberry" } = {}) => {
-    return $service()
+    return $cms()
         .get(`/system/upload/sts-token/temp`, { params: { bucket } })
         .then((res) => {
             return res.data?.data;
@@ -15,7 +15,7 @@ export const uploadToOss = (data, { bucket = "deepberry" } = {}) => {
                 region: token?.region,
                 bucket: token?.bucket || bucket,
                 refreshSTSToken: async () => {
-                    const token = await $service().get(`/system/upload/sts-token/temp`);
+                    const token = await $cms().get(`/system/upload/sts-token/temp`);
                     return {
                         accessKeyId: token.AccessKeyId,
                         accessKeySecret: token.AccessKeySecret,

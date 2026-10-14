@@ -1,12 +1,12 @@
-import { $service } from "../utils/api";
+import { $cms } from "../utils/api";
 
 // 加载公告
 export async function getAc(key, options) {
-    const res = await $service(options).get(`/misc/announcement`, { params: { key } });
+    const res = await $cms(options).get(`/misc/announcement`, { params: { key } });
     return res.data?.data || {};
 }
 
 export async function getMenu(key) {
-    const res = await $service().get(`/misc/menu/${key}`);
+    const res = await $cms().get(`/misc/menu/${key}`);
     return res.data?.data || {};
 }
