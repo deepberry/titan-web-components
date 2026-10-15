@@ -39,7 +39,10 @@
     >
         <span class="c-titan-sidebar__menu-entry">
             <img v-svg-inline :src="resolvedIcon" class="c-titan-sidebar__menu-icon" alt="" />
-            <span class="c-titan-sidebar__menu-title">{{ displayTitle }}</span>
+            <span class="c-titan-sidebar__menu-title">
+                {{ displayTitle }}
+                <span v-if="item.isDevDemo" class="c-titan-sidebar__dev-tag">DEV</span>
+            </span>
             <span
                 v-if="hasBadge"
                 class="c-titan-sidebar__menu-badge"

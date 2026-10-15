@@ -1,22 +1,63 @@
 # 侧边栏说明
 
-本文记录 titan-web-components 当前侧边栏实现及菜单约定。更新日期：2026-10-14。
+本文记录 titan-web-components 当前侧边栏实现及菜单约定。更新日期：2026-10-15。
+
+## 职责边界与统一接入
+
+整个侧边栏逻辑由公共库闭环维护。业务库直接引入 `CommonLayout`，不定义、复制或拼装侧边栏菜单，也不使用预览菜单替代真实用户菜单。
+
+公共库统一负责菜单请求、路由骨架、身份与权限码过滤、扩展功能、排序、图标与翻译、线上隐藏配置、高亮与展开、折叠与移动端控制，以及切换组织后的重新加载。新增菜单规则应修改本库，不在 UC、AOMS 等业务库增加另一套过滤或兜底逻辑。
+
+```vue
+<template>
+    <CommonLayout :title="title">
+        <router-view />
+    </CommonLayout>
+</template>
+
+<script>
+import CommonLayout from "@deepberry/titan-web-components/src/components/Common/Layout.vue";
+
+export default {
+    components: { CommonLayout },
+    computed: {
+        title() {
+            return this.$route.meta?.title || "";
+        },
+    },
+};
+</script>
+```
+
+业务库负责真实业务页面、路由与兼容别名、页面无权限占位及后端鉴权；菜单显示不代表接口授权。登录成功暂时直接跳转站点根路径 `/`，由业务库的登录流程落实，真实首页去向后续另行统一。
+
+### 已确认的可见规则
+
+| 菜单                      | 规则                                                                                                       |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 控制台 `/`                | 所有登录用户均可见，无额外业务权限码要求                                                                   |
+| 系统设置 `/system`        | `is_founder = 1`、`is_super = 1` 或超级管理员角色，满足任一条件即可                                        |
+| 开发配置 `/insights/conf` | 独立顶层菜单，仅 `is_dev = 1` 或 `is_super = 1` 可见；单独的 `is_founder` 不放行，不依赖 `nav_insights`    |
+| 扩展功能                  | 对所有用户开放；有真实自定义项才显示，开发环境额外提供保底演示项                                           |
+| 其它业务菜单              | 保留现有权限码过滤、禁用、占位和线上隐藏规则，权限码可能隐藏组或入口；业务页面另行处理访问鉴权和无权限占位 |
+
+身份字段统一由本库解析：开发者读取 `user.token.is_dev`，缺失时读取 `user.is_dev`；超级身份读取 `user.token.is_super`，缺失时读取 `user.is_super`，也识别 `user.role.is_super` / `user.Role.is_super` 的超级管理员角色。标记按数值 1 判断，避免将字符串 `"0"` 当成已授权。
 
 ## 组件与配置入口
 
-| 文件                                                   | 职责                                        |
-| ------------------------------------------------------ | ------------------------------------------- |
-| `src/components/Common/Layout.vue`                     | 应用外壳，将 `menuList`、用户资料传给侧边栏 |
-| `src/components/Common/Sidebar/Index.vue`              | 获取菜单、计算高亮与展开、处理跳转及折叠    |
-| `src/components/Common/Sidebar/MenuNode.vue`           | 递归渲染分组和菜单项，支持禁用及角标        |
-| `src/components/Common/Sidebar/Brand.vue`              | 企业品牌展示                                |
-| `src/constants/AomsSidebar.js`                         | 菜单规范化、图标和翻译、静态预览菜单        |
-| `src/constants/aoms/routes.json`                       | 默认菜单的路由骨架、权限及显示元数据        |
-| `src/constants/aoms/fallback-menus.js`                 | 静态预览和菜单补充配置                      |
-| `src/constants/aoms/permission.js`                     | 生成菜单、排序、高亮及祖先展开              |
-| `src/constants/aoms/route-access.js`、`user-access.js` | 权限和管理员身份判断                        |
-| `src/constants/aoms/zh-cn.json`、`en-us.json`          | 菜单中英文文案                              |
-| `src/router/index.ts`                                  | 组件库展示用路由，不加载业务页面            |
+| 文件                                                   | 职责                                       |
+| ------------------------------------------------------ | ------------------------------------------ |
+| `src/components/Common/Layout.vue`                     | 应用外壳，统一提供用户资料与侧边栏刷新能力 |
+| `src/components/Common/Sidebar/Index.vue`              | 获取菜单、计算高亮与展开、处理跳转及折叠   |
+| `src/components/Common/Sidebar/MenuNode.vue`           | 递归渲染分组和菜单项，支持禁用及角标       |
+| `src/components/Common/Sidebar/Brand.vue`              | 企业品牌展示                               |
+| `src/constants/AomsSidebar.js`                         | 菜单规范化、图标和翻译、静态预览菜单       |
+| `src/constants/aoms/routes.json`                       | 默认菜单的路由骨架、权限及显示元数据       |
+| `src/constants/aoms/fallback-menus.js`                 | 静态预览和菜单补充配置                     |
+| `src/constants/aoms/permission.js`                     | 生成菜单、排序、高亮及祖先展开             |
+| `src/constants/aoms/route-access.js`、`user-access.js` | 权限和管理员身份判断                       |
+| `src/constants/aoms/zh-cn.json`、`en-us.json`          | 菜单中英文文案                             |
+| `src/router/index.ts`                                  | 组件库展示用路由，不加载业务页面           |
 
 ## 菜单来源和扩展方式
 
@@ -26,22 +67,31 @@
 -   `menuList` 为 `null`（默认）：请求 `getMenus()`，即 Titan 服务的 `system/menu`；将响应的 `data.data` 交给 `resolveSidebarMenus(remoteMenus, user)`。
 -   请求失败时使用空接口菜单继续生成；不代表所有菜单都会显示，仍受路由权限控制。
 -   默认生成以本地 `routes.json` 为骨架。接口菜单通过路径或权限码补充标题、顺序、禁用状态等，不能单凭接口数据增加本地未定义的路由。
--   `aomsPreviewMenus` 使用 `fallbackMenus` 和超级管理员身份生成，用于静态展示。不能将这份全量预览菜单直接当作普通用户的授权菜单。
+-   `aomsPreviewMenus` 使用 `fallbackMenus` 和预览身份生成，仅用于本库展示与测试。业务库禁止将其传给 `menuList`，否则会绕过真实用户的身份与权限判断。
 -   `preview` 主要控制预览相关行为，本身不绕过权限；不传 `menuList` 时仍会加载菜单。
 
 ### 侧边栏没有 slot
 
 当前 `CommonSidebar` 没有菜单扩展 slot，`CommonLayout` 也没有转发侧边栏 slot。现有自定义菜单接口是 `menuList`，并且它替换整个菜单列表，而非自动追加。
 
-宿主要追加菜单时，先准备已完成权限过滤的完整列表，再合并自定义项并传入：
+`menuList` 是已有的整树覆盖能力，保留用于本库展示、测试等受控场景，不作为业务库的标准接入方式。它会绕过默认菜单生成和身份权限判断，因此 UC、AOMS 等业务库不应传入该属性，也不应自行调用 `resolveSidebarMenus` 维护第二份菜单状态。
 
-```vue
-<CommonLayout :menu-list="sidebarMenus">
-    <router-view />
-</CommonLayout>
+业务扩展通过 Titan `system/menu` 接口维护，由公共侧边栏自动识别并放入“扩展功能”组。真实自定义项需包含 `user_id` 与 `organization_id`，支持 `id`、`slug`、`title` / `zh_name`、`link` / `path`、`icon`、`sort` / `order`、`is_blank` 等字段。自定义项不能授予内置业务权限或覆盖内置菜单元数据。
+
+新增、编辑、删除或排序菜单后，菜单管理页面注入公共布局提供的 `refreshCustomMenus` 并调用；不另写菜单请求、缓存或组织切换逻辑：
+
+```js
+export default {
+    inject: { refreshCustomMenus: { from: "refreshCustomMenus", default: () => {} } },
+    methods: {
+        async afterSave() {
+            await this.refreshCustomMenus();
+        },
+    },
+};
 ```
 
-`sidebarMenus` 应包含原菜单与扩展菜单，并由宿主按最终顺序排列。侧边栏支持 `path` 或 `link`、`title` 或 `zh_name`、`children` 等字段；建议使用统一的 `path`、`title`、`menuIndex`、`icon`、`disabled` 格式。
+不得继续使用 UC 本地的 `refreshUcCustomMenus`。切换组织由公共侧边栏监听 `user.organization.id` 后重新请求；请求序号用于防止旧组织响应覆盖新组织菜单。
 
 ### 顶部工具栏的扩展 slot
 
@@ -50,7 +100,7 @@
 `CommonLayout #extend` → `CommonHeader #extend` → `CommonHeaderTools #extend` → `HeaderExtend` 默认 slot。
 
 ```vue
-<CommonLayout :menu-list="sidebarMenus">
+<CommonLayout>
     <template #extend>
         <button type="button" @click="openCustomTool">扩展工具</button>
     </template>
@@ -64,22 +114,22 @@
 
 这是全量预览顺序，实际用户可能因权限而缺少部分分组。
 
-| 顺序 | 菜单     | 路径或分组标识   | 状态                             |
-| ---- | -------- | ---------------- | -------------------------------- |
-| 1    | 控制台   | `/`              | 可用                             |
-| 2    | 生产管理 | `/production`    | 整组禁用，保留子菜单配置         |
-| 3    | 环控管理 | `/environment`   | 可用                             |
-| 4    | 作业管理 | `/tasks`         | 禁用占位，不展示子菜单           |
-| 5    | 采收管理 | `/harvest`       | 可展开，子项分别控制禁用         |
-| 6    | 物资管理 | `/materials`     | 禁用占位，不展示子菜单           |
-| 7    | 园区管理 | `/uc/park`       | 按权限显示                       |
-| 8    | 人员管理 | `/uc/staff`      | 按权限显示                       |
-| 9    | 薪资管理 | `/uc/employment` | 按权限显示                       |
-| 10   | 资源中心 | `/resources`     | 按权限显示                       |
-| 11   | 系统设置 | `/system`        | 仅超级管理员                     |
-| 12   | 开发配置 | `/insights/conf` | 超级管理员或 `nav_insights` 权限 |
+| 顺序 | 菜单     | 路径或分组标识   | 状态                               |
+| ---- | -------- | ---------------- | ---------------------------------- |
+| 1    | 控制台   | `/`              | 可用                               |
+| 2    | 生产管理 | `/production`    | 整组禁用，保留子菜单配置           |
+| 3    | 环控管理 | `/environment`   | 可用                               |
+| 4    | 作业管理 | `/tasks`         | 禁用占位，不展示子菜单             |
+| 5    | 采收管理 | `/harvest`       | 可展开，子项分别控制禁用           |
+| 6    | 物资管理 | `/materials`     | 禁用占位，不展示子菜单             |
+| 7    | 园区管理 | `/uc/park`       | 按权限显示                         |
+| 8    | 人员管理 | `/uc/staff`      | 按权限显示                         |
+| 9    | 薪资管理 | `/uc/employment` | 按权限显示                         |
+| 10   | 资源中心 | `/resources`     | 按权限显示                         |
+| 11   | 系统设置 | `/system`        | 创始标记、超级身份或超级管理员角色 |
+| 12   | 开发配置 | `/insights/conf` | `is_dev` 或 `is_super`             |
 
-控制台保持最前；“生产管理第一个”指控制台后的第一组。“采收管理”紧随作业管理。全量菜单末尾依次为资源中心、系统设置、开发配置。
+控制台保持最前；“生产管理第一个”指控制台后的第一组。“采收管理”紧随作业管理。有扩展功能时插入系统设置前；完整末尾顺序为资源中心、扩展功能、系统设置、开发配置。
 
 默认生成按 `order` / `sort` 升序排列，同序时按标题排列；接口提供的顺序优先于路由元数据。直接传入 `menuList` 则保持宿主给定顺序。
 
@@ -131,30 +181,28 @@
 
 ### 系统设置与开发配置
 
-系统设置继承 `superAdmin: true`，仅超级管理员显示。第一项是“全局设置”，地址 `/uc/system/setting`；AOMS PC 的 `/system/settings` 不要求与这里一致。其后依次为账号配置、角色配置、通知配置、公告管理、审计日志。
+系统设置继承 `superAdmin: true`，由 `isSuperAdmin` 判断：允许 `is_founder`、超级身份或超级管理员角色。第一项是“全局设置”，地址 `/uc/system/setting`；其后依次为账号配置、角色配置、通知配置、公告管理、审计日志。业务库通过路由别名兼容公共路径，不改写菜单树。
 
-开发配置是顶层末项，地址 `/insights/conf`，权限码 `nav_insights`。不要设置 `superAdmin: true`，否则单独拥有该权限的普通用户也会被排除。
-
-旧 Insights 路由声明过 `requiredAuth: true` 和 `slug: nav_insights`，但参考项目中的旧菜单权限过滤已被注释。这里使用当前组件库的 `meta.permission` 实现可见规则。
+开发配置是独立顶层末项，地址 `/insights/conf`，标记 `meta.developer: true`。菜单和共享路由权限函数都要求开发者或超级身份，不使用 `nav_insights` 授权，也不因单独的 `is_founder` 标记放行。它不属于系统设置组，不继承该组的身份规则。
 
 ## 权限、跳转和展示行为
 
--   超级管理员：`user.is_founder` 为 `true` 或数值 1，或 `user.role.is_super` / `user.Role.is_super` 为数值 1。
+-   身份判断集中于 `user-access.js`：`isSuperUser` 识别超级身份与超级管理员角色，`isSuperAdmin` 另允许 `is_founder`，`isDeveloper` 识别开发者。系统设置与开发配置按各自规则使用，不能混用。
 -   组织管理员：另通过组织 `user_id` / `userId` 与用户 id 相等判断；组织管理员不会自动获得超级管理员菜单。
 -   默认侧边栏权限来自接口菜单中的字符串、`code`、`permission`，并合并 `user.permissions`。数组形式的路由权限满足任意一项即可。
 -   `public` 路由不进入默认菜单；无 `name` 的节点不生成自身菜单；`menu: false` 不显示自身。
--   `menuList` 绕过上述默认过滤，宿主必须自行处理权限及禁用占位规则。
+-   `menuList` 绕过上述默认过滤；业务库不传入，以确保公共库的规则实际生效。
 -   默认高亮先看 `activeMenu`，再按当前 URL 匹配最长可用菜单路径；展开组通过菜单树查找。
 -   点击禁用项无效；`is_blank` 使用新窗口；宿主 Router 能匹配的内部地址使用 `router.push`，其他地址使用 `location.href`。
 -   禁用或隐藏入口只控制导航，不代替宿主路由守卫及后端鉴权。`canAccessRoute` 和侧边栏的权限入参应由宿主保持一致。
 -   中文默认；英语从 `en-us.json` 取 `titleKey` 文案。标题翻译优先于配置的 `title`。
 -   图标优先使用 `src/assets/img/aoms` 中同名 SVG，找不到时使用默认图标；直接传入的本地或远程图标也有对应处理。
--   `badgeCount` / `badgeTone` 可用于角标；`decorateMenuBadgeCounts` 可按子项汇总。默认菜单生成不自动读取业务数量，宿主应在生成菜单后装饰并通过 `menuList` 传入。
+-   `badgeCount` / `badgeTone` 可用于角标；`decorateMenuBadgeCounts` 可按子项汇总。默认菜单生成不自动读取业务数量。如需业务角标，应在公共库增加统一的数据接入能力，业务库不通过覆盖整份菜单实现。
 -   展开宽度 232px，折叠宽度 76px；折叠状态写入 `titan_sidebar_collapse`。移动端条件为宽度不超过 1023px，支持外壳的紧凑模式展开。
 
 ## 维护与验证
 
-菜单变化通常需要同步 `routes.json`、`fallback-menus.js`、中英文文案和必要图标。修改 `menuList` 接入时，同时核对宿主是否绕过默认权限过滤。
+菜单变化通常需要同步 `routes.json`、`fallback-menus.js`、中英文文案和必要图标。接入验证须确认业务库未传 `menuList`、未引用 `aomsPreviewMenus`，且未自行请求或拼装侧边栏菜单。
 
 运行现有检查：
 

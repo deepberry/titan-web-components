@@ -181,6 +181,7 @@ test("developer configuration allows developers and super admins but rejects ord
     const route = require("../src/constants/aoms/routes.json").find((item) => item.path === "/insights/conf");
     const users = [
         {},
+        { is_founder: true, token: { is_dev: 0, is_super: 0 } },
         { permissions: ["nav_insights"] },
         { organization: { user_id: "100" }, id: "100" },
         { token: { is_dev: 0 }, is_dev: 1 },
@@ -194,7 +195,8 @@ test("developer configuration allows developers and super admins but rejects ord
         { token: { is_dev: 1 } },
         { token: { is_dev: "1" } },
         { is_dev: true },
-        { is_founder: true, token: { is_dev: 0 } },
+        { token: { is_super: 1, is_dev: 0 } },
+        { is_super: "1" },
         { role: { is_super: 1 }, token: { is_dev: 0 } },
     ]) {
         assert(resolveSidebarMenus([], user).some((item) => item.path === route.path));
@@ -410,4 +412,17 @@ test("global sidebar loader requests the CDN configuration and handles bad respo
     await assert.rejects(exports.loadSidebarSettings(signal), /503/);
     response = { ok: true, json: async () => ({}) };
     assert.deepEqual((await exports.loadSidebarSettings(signal)).hidden, []);
+});
+
+test("system settings allow founders, super tokens and super roles only", () => {
+    const { canAccessRoute } = require("../src/constants/aoms/route-access");
+    const systemRoute = { meta: { superAdmin: true } };
+    for (const user of [{ is_founder: true }, { token: { is_super: 1 } }, { is_super: 1 }, { role: { is_super: 1 } }]) {
+        assert(resolveSidebarMenus([], user).some((item) => item.path === "/system"));
+        assert(canAccessRoute({ matched: [systemRoute] }, [], user));
+    }
+    for (const user of [{}, { token: { is_dev: 1, is_super: 0 } }, { id: 1, organization: { user_id: 1 } }]) {
+        assert(!resolveSidebarMenus(fallbackMenus, user).some((item) => item.path === "/system"));
+        assert(!canAccessRoute({ matched: [systemRoute] }, fallbackMenus, user));
+    }
 });

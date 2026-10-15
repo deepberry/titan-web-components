@@ -1,6 +1,6 @@
 import routes from "./routes.json";
 import { fallbackMenus } from "./fallback-menus";
-import { isDeveloper, isSuperAdmin } from "./user-access";
+import { isDeveloper, isSuperAdmin, isSuperUser } from "./user-access";
 import { applySidebarSettings } from "./sidebar-settings";
 import { collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
 
@@ -159,7 +159,7 @@ function buildSidebarBranch(
         }
 
         const requiresDeveloper = parentRequiresDeveloper || normalizedRoute.meta.developer === true;
-        if (requiresDeveloper && !isDeveloper(user) && !isSuperAdmin(user)) return;
+        if (requiresDeveloper && !isDeveloper(user) && !isSuperUser(user)) return;
 
         const requiresOrganizationAdmin =
             parentRequiresOrganizationAdmin || normalizedRoute.meta.organizationAdmin === true;
@@ -288,6 +288,7 @@ export function resolveSidebarMenus(
     if (development) {
         customMenus.push({
             id: "dev-demo",
+            isDevDemo: true,
             slug: "demo",
             title: "自定义项",
             en_name: "Custom item",
