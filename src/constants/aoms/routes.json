@@ -7,7 +7,7 @@
             "titleKey": "menu.developerConfiguration",
             "order": 100,
             "icon": "dev-config",
-            "permission": "nav_insights",
+            "developer": true,
             "menu": true
         }
     },

@@ -1,6 +1,6 @@
 import routes from "./routes.json";
 import { fallbackMenus } from "./fallback-menus";
-import { isSuperAdmin } from "./user-access";
+import { isDeveloper, isSuperAdmin } from "./user-access";
 import { applySidebarSettings } from "./sidebar-settings";
 import { collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
 
@@ -146,7 +146,8 @@ function buildSidebarBranch(
     user,
     parentPath = "",
     parentRequiresOrganizationAdmin = false,
-    parentRequiresSuperAdmin = false
+    parentRequiresSuperAdmin = false,
+    parentRequiresDeveloper = false
 ) {
     const entries = [];
 
@@ -156,6 +157,9 @@ function buildSidebarBranch(
         if (normalizedRoute.meta.public) {
             return;
         }
+
+        const requiresDeveloper = parentRequiresDeveloper || normalizedRoute.meta.developer === true;
+        if (requiresDeveloper && !isDeveloper(user) && !isSuperAdmin(user)) return;
 
         const requiresOrganizationAdmin =
             parentRequiresOrganizationAdmin || normalizedRoute.meta.organizationAdmin === true;
@@ -185,7 +189,8 @@ function buildSidebarBranch(
                       user,
                       normalizedRoute.path,
                       requiresOrganizationAdmin,
-                      requiresSuperAdmin
+                      requiresSuperAdmin,
+                      requiresDeveloper
                   )
                 : [];
         const hasRouteChildren = Array.isArray(normalizedRoute.children) && normalizedRoute.children.length > 0;
