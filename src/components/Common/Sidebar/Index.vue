@@ -61,6 +61,7 @@ import {
 export default {
     name: "CommonSidebar",
     components: { SidebarMenuNode, SidebarBrand },
+    emits: ["select"],
     props: {
         mobileExpanded: { type: Boolean, default: false },
         preview: { type: Boolean, default: false },
@@ -174,6 +175,7 @@ export default {
             }
         },
         handleSelect(path) {
+            this.$emit("select", path);
             const find = (items) => {
                 for (const item of items) {
                     if (item.path === path) return item;
