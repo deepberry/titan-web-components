@@ -42,6 +42,99 @@
     height: 20px;
     fill: currentColor;
 }
+
+.c-app-shell__mobile-menu-toggle,
+.c-app-shell__mobile-menu-backdrop {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .c-app-shell {
+        .c-titan-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 60;
+            height: 100dvh;
+            transform: translateX(-100%);
+            visibility: hidden;
+            transition: width 0.2s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+        }
+
+        &.is-mobile-menu-open .c-titan-sidebar {
+            transform: translateX(0);
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        &__content {
+            width: 100%;
+        }
+
+        .c-app-shell__main {
+            padding: 12px;
+        }
+
+        &__breadcrumb {
+            padding: 16px 12px 0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .c-topbar.el-header {
+            height: 64px;
+            min-height: 64px;
+            padding: 12px 12px 12px 60px;
+            flex-wrap: nowrap;
+            gap: 10px;
+        }
+
+        .c-topbar__actions {
+            max-width: 100%;
+            flex-wrap: nowrap;
+            gap: 8px;
+        }
+
+        .c-topbar__org-button {
+            max-width: 100%;
+        }
+
+        &__mobile-menu-toggle {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 61;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: var(--titan-navy, #0a2e67);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        &.is-mobile-menu-open .c-app-shell__mobile-menu-toggle {
+            left: auto;
+            right: 12px;
+        }
+
+        &__mobile-menu-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 232px;
+            z-index: 59;
+            display: block;
+            border: 0;
+            background: rgba(7, 31, 73, 0.45);
+        }
+    }
+}
 .c-titan-sidebar.is-collapsed .c-titan-sidebar__menu-icon {
     width: 22px;
     height: 22px;

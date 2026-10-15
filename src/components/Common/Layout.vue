@@ -1,16 +1,33 @@
 <template>
-    <el-container class="c-app-shell">
+    <el-container class="c-app-shell" :class="{ 'is-mobile-menu-open': mobileMenuOpen }">
         <CommonSidebar
             ref="sidebar"
             :sidebar-settings="sidebarSettings"
             :menu-list="menuList"
             :user="profile"
             :preview="preview"
-            :mobile-expanded="compactMobile"
+            :mobile-expanded="isMobile"
+            @select="closeMobileMenu"
+        />
+        <button
+            class="c-app-shell__mobile-menu-toggle"
+            type="button"
+            :aria-label="mobileMenuOpen ? '关闭导航菜单' : '打开导航菜单'"
+            :aria-expanded="mobileMenuOpen"
+            @click="toggleMobileMenu"
+        >
+            <el-icon><Close v-if="mobileMenuOpen" /><MenuIcon v-else /></el-icon>
+        </button>
+        <button
+            v-if="mobileMenuOpen"
+            class="c-app-shell__mobile-menu-backdrop"
+            type="button"
+            aria-label="关闭导航菜单"
+            @click="closeMobileMenu"
         />
         <el-container class="c-app-shell__content" direction="vertical">
             <CommonHeader
-                :compact-mobile="compactMobile"
+                :compact-mobile="compactMobile || isMobile"
                 :title="title"
                 :subtitle="subtitle"
                 :preview="preview"
@@ -37,13 +54,13 @@
 </template>
 <script>
 import { markRaw } from "vue";
-import { ArrowRight } from "@element-plus/icons-vue";
+import { ArrowRight, Close, Menu as MenuIcon } from "@element-plus/icons-vue";
 import CommonSidebar from "./Sidebar/Index.vue";
 import CommonHeader from "./Header/Index.vue";
 import CommonMain from "./Main.vue";
 export default {
     name: "CommonLayout",
-    components: { CommonSidebar, CommonHeader, CommonMain },
+    components: { CommonSidebar, CommonHeader, CommonMain, Close, MenuIcon },
     emits: ["change", "banner-close"],
     provide() {
         return { refreshCustomMenus: () => this.$refs.sidebar?.loadMenus() };
@@ -59,7 +76,12 @@ export default {
         previewOrganizations: { type: Array, default: () => [] },
     },
     data() {
-        return { profile: {}, ArrowRight: markRaw(ArrowRight) };
+        return {
+            profile: {},
+            ArrowRight: markRaw(ArrowRight),
+            isMobile: window.innerWidth <= 1023,
+            mobileMenuOpen: false,
+        };
     },
     computed: {
         breadcrumbs() {
@@ -70,6 +92,34 @@ export default {
                     title: item.meta.title || item.meta.name,
                     to: item.path && item.path !== this.$route.path ? item.path : undefined,
                 }));
+        },
+    },
+    watch: {
+        "$route.fullPath"() {
+            this.closeMobileMenu();
+        },
+    },
+    mounted() {
+        window.addEventListener("resize", this.onResize);
+        window.addEventListener("keydown", this.onKeydown);
+    },
+    beforeUnmount() {
+        window.removeEventListener("resize", this.onResize);
+        window.removeEventListener("keydown", this.onKeydown);
+    },
+    methods: {
+        onResize() {
+            this.isMobile = window.innerWidth <= 1023;
+            if (!this.isMobile) this.closeMobileMenu();
+        },
+        onKeydown(event) {
+            if (event.key === "Escape") this.closeMobileMenu();
+        },
+        toggleMobileMenu() {
+            this.mobileMenuOpen = !this.mobileMenuOpen;
+        },
+        closeMobileMenu() {
+            this.mobileMenuOpen = false;
         },
     },
 };

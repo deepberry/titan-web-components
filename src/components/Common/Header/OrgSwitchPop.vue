@@ -228,4 +228,82 @@ export default {
         white-space: nowrap;
     }
 }
+
+@media (max-width: 767px) {
+    .el-dialog.m-org-switch {
+        width: calc(100vw - 32px) !important;
+        height: auto !important;
+        min-height: 0;
+        max-height: calc(100dvh - 32px);
+        margin: auto !important;
+        align-self: center;
+        border-radius: 16px;
+
+        .el-dialog__header {
+            padding: 20px 48px 18px 18px;
+        }
+
+        .el-dialog__headerbtn {
+            top: 14px;
+            right: 12px;
+        }
+
+        .el-dialog__body {
+            padding: 22px 18px;
+        }
+
+        .el-dialog__footer {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding: 0 18px 20px;
+            border-top: 0;
+            background: #fff;
+
+            .el-button {
+                width: 100%;
+                min-width: 0;
+                height: 42px;
+                margin: 0;
+            }
+        }
+    }
+
+    .m-org-switch__heading {
+        gap: 12px;
+    }
+
+    .m-org-switch__icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        font-size: 20px;
+    }
+
+    .m-org-switch__title {
+        font-size: 18px;
+        line-height: 1.35;
+    }
+
+    .m-org-switch__description {
+        margin-top: 2px;
+        font-size: 12px;
+    }
+
+    .m-org-switch__select .el-select__wrapper {
+        min-height: 46px;
+        padding: 8px 12px;
+    }
+
+    .m-org-switch__popper {
+        width: calc(100vw - 70px) !important;
+        min-width: 0 !important;
+        max-width: calc(100vw - 70px);
+        box-sizing: border-box;
+
+        .el-select-dropdown__wrap {
+            max-height: clamp(128px, 36dvh, 180px);
+        }
+    }
+}
 </style>

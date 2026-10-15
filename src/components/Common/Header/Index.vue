@@ -78,12 +78,19 @@ export default {
         previewOrganizations: { type: Array, default: () => [] },
     },
     data() {
-        return { profile: {}, organizations: [], survey: {}, isPad: window.innerWidth <= 1023, bannerClosed: false };
+        return {
+            profile: {},
+            organizations: [],
+            survey: {},
+            isPad: window.innerWidth <= 1023,
+            isPhone: window.innerWidth < 768,
+            bannerClosed: false,
+        };
     },
     computed: {
         ...mapState(useCommonStore, ["globalNotice"]),
         compact() {
-            return this.compactMobile && this.isPad;
+            return this.isPhone || (this.compactMobile && this.isPad);
         },
         displayTitle() {
             return this.title || this.$route?.meta?.title || "DeepBerry";
@@ -118,6 +125,7 @@ export default {
         },
         resize() {
             this.isPad = window.innerWidth <= 1023;
+            this.isPhone = window.innerWidth < 768;
         },
         async loadUserInfo() {
             this.profile = await getProfile().then((res) => res.data.data || {});
