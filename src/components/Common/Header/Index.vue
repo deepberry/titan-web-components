@@ -79,6 +79,7 @@ export default {
     },
     data() {
         return {
+            userRequestId: 0,
             profile: {},
             organizations: [],
             survey: {},
@@ -110,6 +111,7 @@ export default {
     mounted() {
         this.resize();
         window.addEventListener("resize", this.resize);
+        window.addEventListener("titan:logout", this.clearUserInfo);
         if (this.preview) {
             this.profile = this.previewProfile;
             this.organizations = this.previewOrganizations;
@@ -117,7 +119,9 @@ export default {
         } else this.loadUserInfo();
     },
     beforeUnmount() {
+        this.userRequestId++;
         window.removeEventListener("resize", this.resize);
+        window.removeEventListener("titan:logout", this.clearUserInfo);
     },
     methods: {
         openSurvey() {
@@ -127,17 +131,31 @@ export default {
             this.isPad = window.innerWidth <= 1023;
             this.isPhone = window.innerWidth < 768;
         },
+        clearUserInfo() {
+            this.userRequestId++;
+            this.profile = {};
+            this.organizations = [];
+            this.survey = {};
+            this.$emit("profile-loaded", this.profile);
+        },
         async loadUserInfo() {
-            this.profile = await getProfile().then((res) => res.data.data || {});
+            const requestId = ++this.userRequestId;
+            const profile = await getProfile().then((res) => res.data.data || {});
+            if (requestId !== this.userRequestId) return;
+            this.profile = profile;
             this.$emit("profile-loaded", this.profile);
             if (this.profile.id) {
-                this.organizations = await getCurrentOrganization().then((res) => res.data.data || []);
+                const organizations = await getCurrentOrganization().then((res) => res.data.data || []);
+                if (requestId !== this.userRequestId) return;
+                this.organizations = organizations;
                 this.loadSurvey();
             }
         },
         async loadSurvey() {
             if (this.preview) return;
-            this.survey = await getSurveys().then((res) => res.data?.data || {});
+            const requestId = this.userRequestId;
+            const survey = await getSurveys().then((res) => res.data?.data || {});
+            if (requestId === this.userRequestId) this.survey = survey;
         },
         changeOrg() {
             this.$refs.tools?.showOrgSwitch();

@@ -2,7 +2,7 @@ import routes from "./routes.json";
 import { fallbackMenus } from "./fallback-menus";
 import { isDeveloper, isSuperAdmin, isSuperUser } from "./user-access";
 import { applySidebarSettings } from "./sidebar-settings";
-import { collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
+import { isOrganizationAdmin } from "./route-access";
 
 export { canAccessRoute, collectPermissions, hasRoutePermission, isOrganizationAdmin } from "./route-access";
 
@@ -141,7 +141,6 @@ function normalizeMockChildren(children = []) {
 
 function buildSidebarBranch(
     routeList,
-    permissions,
     menuIndexes,
     user,
     parentPath = "",
@@ -174,17 +173,10 @@ function buildSidebarBranch(
         }
 
         const linkedMenu = findMenuMeta(normalizedRoute, menuIndexes);
-        const canAccessCurrent =
-            isSuperAdmin(user) ||
-            requiresSuperAdmin ||
-            requiresOrganizationAdmin ||
-            hasRoutePermission(normalizedRoute.meta.permission, permissions);
-        if (!canAccessCurrent) return;
         const childMenus =
             !normalizedRoute.meta.placeholder && Array.isArray(normalizedRoute.children)
                 ? buildSidebarBranch(
                       normalizedRoute.children,
-                      permissions,
                       menuIndexes,
                       user,
                       normalizedRoute.path,
@@ -279,12 +271,9 @@ export function resolveSidebarMenus(
     { development = process.env.NODE_ENV === "development", hidden = [] } = {}
 ) {
     const customMenus = (Array.isArray(menus) ? menus : []).filter((item) => item?.user_id && item?.organization_id);
-    const fixedMenus = (Array.isArray(menus) ? menus : []).filter((item) => !customMenus.includes(item));
-    const permissions = collectPermissions(fixedMenus);
-    collectPermissions(user?.permissions).forEach((permission) => permissions.add(permission));
-    const menuIndexes = buildMenuIndexes(fixedMenus);
-
-    const entries = buildSidebarBranch(routes, permissions, menuIndexes, user);
+    // 内置菜单以本地配置为准；接口只提供真实扩展项，线上隐藏配置由 applySidebarSettings 处理。
+    const menuIndexes = buildMenuIndexes(fallbackMenus);
+    const entries = buildSidebarBranch(routes, menuIndexes, user);
     if (development) {
         customMenus.push({
             id: "dev-demo",

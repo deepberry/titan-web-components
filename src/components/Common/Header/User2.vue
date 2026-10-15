@@ -27,7 +27,7 @@
                             <span>{{ t("commonHeader.profile_settings") }}</span>
                         </el-dropdown-item>
 
-                        <el-dropdown-item v-if="isSuper || isFounder" command="order">
+                        <el-dropdown-item command="order">
                             <el-icon><ShoppingBag /></el-icon>
                             <span>{{ t("commonHeader.order_center") }}</span>
                         </el-dropdown-item>

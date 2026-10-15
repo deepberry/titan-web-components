@@ -77,6 +77,8 @@ class User {
 
         sessionStorage.removeItem(User.DB_PERMISSION);
         sessionStorage.removeItem(User.DB_PACKAGE);
+
+        window.dispatchEvent(new Event("titan:logout"));
     }
 
     /**

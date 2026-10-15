@@ -54,11 +54,12 @@ test("a menu with a cross-group URL expands its actual ancestor", () => {
     const tree = [{ path: "/park", menuIndex: "park", children: [{ path: "/materials/overview" }] }];
     assert.deepEqual(resolveOpenedMenuPaths(tree, "/materials/overview"), ["park"]);
 });
-test("permission filtering excludes admin groups and unauthorized children", () => {
+test("built-in business menus remain visible without permission codes while identity restrictions apply", () => {
     const limited = resolveSidebarMenus([{ code: "production_cycle:view" }], { id: "100" });
     const paths = flatten(limited).map((item) => item.path);
     assert(paths.includes("/production/cycles"));
-    assert(!paths.includes("/production/crops"));
+    assert(paths.includes("/production/crops"));
+    for (const path of ["/uc/park", "/uc/staff", "/uc/employment", "/resources"]) assert(paths.includes(path));
     assert(!paths.includes("/system"));
 });
 test("all visible menu icons exist locally", () => {
@@ -227,7 +228,7 @@ test("resources is third from last with the first three AOMS entries", () => {
         const resourcePaths = authorized.find((item) => item.path === "/resources").children.map((item) => item.path);
         assert(resourcePaths.includes(expectedPath));
         assert(
-            !resourcePaths.includes(
+            resourcePaths.includes(
                 expectedPath === "/resources/documents" ? "/resources/files/assets" : "/resources/documents"
             )
         );
@@ -425,4 +426,38 @@ test("system settings allow founders, super tokens and super roles only", () => 
         assert(!resolveSidebarMenus(fallbackMenus, user).some((item) => item.path === "/system"));
         assert(!canAccessRoute({ matched: [systemRoute] }, fallbackMenus, user));
     }
+});
+
+test("development respects identity restrictions while retaining the extension demo", () => {
+    for (const user of [undefined, {}, { token: { is_dev: 0, is_super: 0 } }]) {
+        for (const development of [true, false]) {
+            const tree = resolveSidebarMenus([], user, { development });
+            assert(!tree.some((item) => item.path === "/insights/conf" || item.path === "/system"));
+            assert.equal(
+                tree.some((item) => item.menuIndex === "custom-extensions"),
+                development
+            );
+        }
+    }
+    const app = fs.readFileSync(path.join(__dirname, "../src/App.vue"), "utf8");
+    assert(!app.includes(":menu-list="));
+    assert(!app.includes("aomsPreviewMenus"));
+});
+
+test("empty remote menus and ordinary permissions do not change built-in business navigation", () => {
+    const user = { token: { is_dev: 0, is_super: 0 } };
+    const empty = resolveSidebarMenus([], user, { development: false });
+    const legacy = resolveSidebarMenus(
+        [{ code: "manage_member" }],
+        { ...user, permissions: ["salary_manage"] },
+        { development: false }
+    );
+    assert.deepEqual(empty, legacy);
+    assert(empty.some((item) => item.path === "/resources"));
+    assert(!empty.some((item) => item.path === "/system" || item.path === "/insights/conf"));
+    assert(
+        !resolveSidebarMenus([], user, { development: false, hidden: ["resources"] }).some(
+            (item) => item.path === "/resources"
+        )
+    );
 });

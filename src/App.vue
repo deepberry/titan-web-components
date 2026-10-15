@@ -4,7 +4,6 @@
         :title="pageTitle"
         subtitle="公共组件与应用外壳"
         :preview-profile="previewProfile"
-        :menu-list="menus"
         :preview-organizations="previewOrganizations"
     >
         <router-view />
@@ -14,7 +13,7 @@
 <script>
 import CommonLayout from "@/components/Common/Layout.vue";
 import User from "./utils/user";
-import { aomsPreviewMenus, sidebarTitle } from "./constants/AomsSidebar";
+import { sidebarTitle } from "./constants/AomsSidebar";
 
 export default {
     name: "App",
@@ -48,7 +47,6 @@ export default {
                 { organization_id: 1, org_info: { name: "DeepBerry" } },
                 { organization_id: 2, org_info: { name: "演示组织" } },
             ],
-            menus: aomsPreviewMenus,
         };
     },
 };
