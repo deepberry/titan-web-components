@@ -19,7 +19,7 @@ const {
     resolveOpenedMenuPaths,
 } = require("../src/constants/aoms/permission");
 const { fallbackMenus } = require("../src/constants/aoms/fallback-menus");
-const menus = resolveSidebarMenus(fallbackMenus, { is_founder: true });
+const menus = resolveSidebarMenus(fallbackMenus, { is_founder: true, token: { is_dev: 1 } });
 function flatten(items) {
     return items.flatMap((item) => [item, ...flatten(item.children || [])]);
 }
@@ -176,17 +176,29 @@ test("every visible menu leaf resolves to its AOMS path in the preview router", 
     assert.equal(exports.default.resolve("/production/cycles/123/edit").meta.activeMenu, "/production/cycles");
 });
 
-test("developer configuration is last and requires super admin or nav_insights", () => {
-    assert.equal(menus.at(-1).path, "/insights/conf");
-    for (const user of [{ is_founder: true }, { role: { is_super: 1 } }]) {
-        assert(resolveSidebarMenus([], user).some((item) => item.path === "/insights/conf"));
+test("developer configuration allows developers and super admins but rejects ordinary menu grants", () => {
+    const { canAccessRoute } = require("../src/constants/aoms/route-access");
+    const route = require("../src/constants/aoms/routes.json").find((item) => item.path === "/insights/conf");
+    const users = [
+        {},
+        { permissions: ["nav_insights"] },
+        { organization: { user_id: "100" }, id: "100" },
+        { token: { is_dev: 0 }, is_dev: 1 },
+        { token: { is_dev: "false" } },
+    ];
+    for (const user of users) {
+        assert(!resolveSidebarMenus(fallbackMenus, user).some((item) => item.path === route.path));
+        assert.equal(canAccessRoute({ matched: [route] }, fallbackMenus, user), false);
     }
-    for (const permissions of [["nav_insights"], [{ code: "nav_insights" }]]) {
-        assert(resolveSidebarMenus(permissions, { id: "100" }).some((item) => item.path === "/insights/conf"));
-    }
-    assert(resolveSidebarMenus([], { permissions: ["nav_insights"] }).some((item) => item.path === "/insights/conf"));
-    for (const user of [{ id: "100" }, { id: "100", organization: { user_id: "100" } }]) {
-        assert(!resolveSidebarMenus([], user).some((item) => item.path === "/insights/conf"));
+    for (const user of [
+        { token: { is_dev: 1 } },
+        { token: { is_dev: "1" } },
+        { is_dev: true },
+        { is_founder: true, token: { is_dev: 0 } },
+        { role: { is_super: 1 }, token: { is_dev: 0 } },
+    ]) {
+        assert(resolveSidebarMenus([], user).some((item) => item.path === route.path));
+        assert.equal(canAccessRoute({ matched: [route] }, [], user), true);
     }
 });
 

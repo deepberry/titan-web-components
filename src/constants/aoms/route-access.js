@@ -1,4 +1,4 @@
-import { isSuperAdmin } from "./user-access";
+import { isDeveloper, isSuperAdmin } from "./user-access";
 
 function appendPermission(set, value) {
     if (typeof value !== "string") return;
@@ -51,6 +51,8 @@ export function hasRoutePermission(requiredPermission, permissions) {
 
 export function canAccessRoute(to, menus, user) {
     if (isSuperAdmin(user)) return true;
+
+    if (to.matched.some((record) => record.meta?.developer === true) && !isDeveloper(user)) return false;
 
     if (to.matched.some((record) => record.meta?.superAdmin === true)) return false;
 

@@ -49,5 +49,5 @@ export function normalizeSidebarMenus(items = []) {
     }));
 }
 // The component showcase displays all navigation states. Host apps supply their authorized menus.
-export const aomsPreviewMenus = resolveSidebarMenus(fallbackMenus, { is_founder: true });
+export const aomsPreviewMenus = resolveSidebarMenus(fallbackMenus, { is_founder: true, token: { is_dev: 1 } });
 export { resolveSidebarMenus, resolveActiveMenuPath, resolveOpenedMenuPaths };

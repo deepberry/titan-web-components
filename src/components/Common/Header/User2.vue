@@ -162,15 +162,11 @@ export default {
                 order: "/uc/order",
                 settings: "/uc/system/setting",
                 "work-order": "/uc/feedback",
+                docs: "/uc/help",
             };
 
             if (routes[command]) {
                 window.location.href = routes[command];
-                return;
-            }
-
-            if (command === "docs") {
-                window.open("/uc/help", "_blank");
                 return;
             }
 
