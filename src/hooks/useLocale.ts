@@ -2,7 +2,7 @@
 import * as Locales from "../locale";
 
 // 工具方法
-import { getCurrentInstance, computed, unref } from "vue";
+import { computed, unref } from "vue";
 import { get } from "lodash";
 import User from "../utils/user";
 
@@ -11,7 +11,7 @@ const defaultLocale = "zh-cn";
 
 // 读取路径
 export const translate = (path, locale) => {
-    const _locale = locale.includes("-") ? locale.replace("-", "_") : locale;
+    const _locale = (locale || defaultLocale).toLowerCase().replace(/-/g, "_");
     return get(Locales[_locale], `${path}`, path);
 };
 
@@ -29,7 +29,7 @@ export const useLocale = (_locale?: string) => {
         return _locale || globalLocale || defaultLocale;
     });
     const lang = computed(() => {
-        return Locales[unref(locale)];
+        return Locales[unref(locale).toLowerCase().replace(/-/g, "_")] || Locales.zh_cn;
     });
     return {
         locale,

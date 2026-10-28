@@ -15,7 +15,7 @@
                     v-if="hasBadge"
                     class="c-titan-sidebar__menu-badge"
                     :class="[`is-${badgeTone}`, { 'is-dot': collapsed }]"
-                    :aria-label="`${displayTitle}待关注 ${badgeCount} 项`"
+                    :aria-label="badgeLabel"
                     >{{ collapsed ? "" : formattedBadgeCount }}</span
                 >
             </span>
@@ -47,7 +47,7 @@
                 v-if="hasBadge"
                 class="c-titan-sidebar__menu-badge"
                 :class="[`is-${badgeTone}`, { 'is-dot': collapsed }]"
-                :aria-label="`${displayTitle}待关注 ${badgeCount} 项`"
+                :aria-label="badgeLabel"
                 >{{ collapsed ? "" : formattedBadgeCount }}</span
             >
         </span>
@@ -57,6 +57,7 @@
 <script>
 import { sidebarIcon, sidebarTitle } from "../../../constants/AomsSidebar";
 import User from "../../../utils/user";
+import { translate } from "../../../hooks/useLocale";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { formatMenuBadgeCount, normalizeMenuBadgeCount } from "../../../constants/aoms/menu-badges";
 
@@ -105,6 +106,11 @@ export default {
         },
         displayTitle() {
             return sidebarTitle(this.item, User.getLocale() === "en-us");
+        },
+        badgeLabel() {
+            return translate("commonSidebar.badge", User.getLocale())
+                .replace("{title}", this.displayTitle)
+                .replace("{count}", String(this.badgeCount));
         },
         badgeCount() {
             return normalizeMenuBadgeCount(this.item?.badgeCount);

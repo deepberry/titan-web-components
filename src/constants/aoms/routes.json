@@ -1,6 +1,6 @@
 [
     {
-        "path": "/insights/conf",
+        "path": "/greenhouse/insights/conf",
         "name": "DeveloperConfiguration",
         "meta": {
             "title": "开发配置",
@@ -648,6 +648,7 @@
                         "name": "SpaceQr",
                         "meta": {
                             "title": "空间预览",
+                            "titleKey": "menu.spacePreview",
                             "order": 4,
                             "icon": "park-qr",
                             "permission": "space_unit:view",
@@ -659,6 +660,7 @@
                         "name": "SpaceTerminal",
                         "meta": {
                             "title": "空间终端",
+                            "titleKey": "menu.spaceTerminal",
                             "order": 5,
                             "icon": "park-client",
                             "permission": "space_unit:view",

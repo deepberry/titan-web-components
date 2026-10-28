@@ -9,12 +9,16 @@ export default {
             down: "Down",
             forward: "Forward",
             backward: "Backward",
-            zoomIn: "Zoon In",
+            zoomIn: "Zoom In",
             zoomOut: "Zoom Out",
         },
         Message: {
             isRunning: "Ongoing action",
         },
+    },
+
+    commonSidebar: {
+        badge: "{title}: {count} items need attention",
     },
 
     // 公共侧边栏
@@ -87,6 +91,7 @@ export default {
             title: "Survey Feedback",
             title_1: "Your Voice Matters!",
             rate: "Please rate your overall experience",
+            rate_placeholder: "Please select a rating",
             rate_num: {
                 1: "Bad",
                 2: "Poor",
@@ -131,6 +136,9 @@ export default {
             package_limit: "Your current plan does not support this module",
             package_limit_tip: "Upgrade your package to experience more services",
             to_upgrade: "Click Upgrade",
+
+            renew: "Renew Plan",
+            monitor_product: "Analytics Pro",
 
             mp_focus: "Scan the QR code to follow the official account",
             free: "Get exclusive benefits for free",

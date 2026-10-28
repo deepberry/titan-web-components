@@ -17,6 +17,10 @@ export default {
         },
     },
 
+    commonSidebar: {
+        badge: "{title}待关注 {count} 项",
+    },
+
     // 公共侧边栏
     CommonPanel: {
         Navigation: {
@@ -87,6 +91,7 @@ export default {
             title: "问卷回访",
             title_1: "您的声音很重要！",
             rate: "请对整体体验进行打分",
+            rate_placeholder: "请选择评分",
             rate_num: {
                 1: "非常差",
                 2: "不太行",

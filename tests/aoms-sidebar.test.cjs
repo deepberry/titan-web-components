@@ -39,7 +39,7 @@ test("AOMS navigation contains the current twelve groups in order", () => {
             "/uc/employment",
             "/resources",
             "/system",
-            "/insights/conf",
+            "/greenhouse/insights/conf",
         ]
     );
     assert(!flatten(menus).some((item) => item.path.startsWith("/erp") || item.path.startsWith("/components")));
@@ -140,13 +140,13 @@ test("custom menus do not grant built-in permissions or override built-in menu m
                 zh_name: "自定义",
                 link: "/other",
                 code: "nav_insights",
-                path: "/insights/conf",
+                path: "/greenhouse/insights/conf",
             },
             { user_id: 1, zh_name: "非组织自定义", link: "/ignored" },
         ],
         { id: 1 }
     );
-    assert(!tree.some((item) => item.path === "/insights/conf"));
+    assert(!tree.some((item) => item.path === "/greenhouse/insights/conf"));
     assert.equal(tree.find((item) => item.menuIndex === "custom-extensions").children.length, 1);
 });
 
@@ -179,7 +179,9 @@ test("every visible menu leaf resolves to its AOMS path in the preview router", 
 
 test("developer configuration allows developers and super admins but rejects ordinary menu grants", () => {
     const { canAccessRoute } = require("../src/constants/aoms/route-access");
-    const route = require("../src/constants/aoms/routes.json").find((item) => item.path === "/insights/conf");
+    const route = require("../src/constants/aoms/routes.json").find(
+        (item) => item.path === "/greenhouse/insights/conf"
+    );
     const users = [
         {},
         { is_founder: true, token: { is_dev: 0, is_super: 0 } },
@@ -208,7 +210,7 @@ test("developer configuration allows developers and super admins but rejects ord
 test("resources is third from last with the first three AOMS entries", () => {
     assert.deepEqual(
         menus.slice(-3).map((item) => item.path),
-        ["/resources", "/system", "/insights/conf"]
+        ["/resources", "/system", "/greenhouse/insights/conf"]
     );
     const resources = menus.find((item) => item.path === "/resources");
     assert.equal(resources.icon, "resource");
@@ -432,7 +434,7 @@ test("development respects identity restrictions while retaining the extension d
     for (const user of [undefined, {}, { token: { is_dev: 0, is_super: 0 } }]) {
         for (const development of [true, false]) {
             const tree = resolveSidebarMenus([], user, { development });
-            assert(!tree.some((item) => item.path === "/insights/conf" || item.path === "/system"));
+            assert(!tree.some((item) => item.path === "/greenhouse/insights/conf" || item.path === "/system"));
             assert.equal(
                 tree.some((item) => item.menuIndex === "custom-extensions"),
                 development
@@ -454,7 +456,7 @@ test("empty remote menus and ordinary permissions do not change built-in busines
     );
     assert.deepEqual(empty, legacy);
     assert(empty.some((item) => item.path === "/resources"));
-    assert(!empty.some((item) => item.path === "/system" || item.path === "/insights/conf"));
+    assert(!empty.some((item) => item.path === "/system" || item.path === "/greenhouse/insights/conf"));
     assert(
         !resolveSidebarMenus([], user, { development: false, hidden: ["resources"] }).some(
             (item) => item.path === "/resources"

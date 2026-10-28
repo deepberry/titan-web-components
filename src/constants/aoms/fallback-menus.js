@@ -82,6 +82,7 @@ export const fallbackMenus = [
             {
                 path: "/uc/park/space-qr",
                 title: "空间预览",
+                titleKey: "menu.spacePreview",
                 code: "space_unit:view",
                 order: 4,
                 icon: "park-qr",
@@ -90,6 +91,7 @@ export const fallbackMenus = [
             {
                 path: "/uc/park/space-terminal",
                 title: "空间终端",
+                titleKey: "menu.spaceTerminal",
                 code: "space_unit:view",
                 order: 5,
                 icon: "park-client",
@@ -467,7 +469,7 @@ export const fallbackMenus = [
         disabled: false,
     },
     {
-        path: "/insights/conf",
+        path: "/greenhouse/insights/conf",
         title: "开发配置",
         titleKey: "menu.developerConfiguration",
         code: "nav_insights",
