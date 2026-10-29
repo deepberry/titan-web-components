@@ -302,6 +302,7 @@ test("harvest follows tasks with ERP and the Easy Weigh external link enabled", 
             ["好易称", "https://hyc-www.deepberry.cn", false],
         ]
     );
+    assert.equal(harvest.mockChildren.find((item) => item.code === "easy-weigh").is_blank, 1);
     assert.deepEqual(resolveOpenedMenuPaths(menus, "/erp"), ["harvest"]);
 });
 

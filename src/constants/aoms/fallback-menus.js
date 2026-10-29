@@ -497,6 +497,7 @@ export const fallbackMenus = [
             },
             {
                 path: "https://hyc-www.deepberry.cn",
+                is_blank: 1,
                 title: "好易称",
                 titleKey: "menu.easyWeigh",
                 code: "easy-weigh",

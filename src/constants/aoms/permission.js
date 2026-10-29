@@ -134,6 +134,7 @@ function normalizeMockChildren(children = []) {
             order: getOrderValue(item),
             icon: item.icon || "Menu",
             disabled: item.disabled !== undefined ? item.disabled : !(item.path || item.route),
+            is_blank: item.is_blank,
             children: normalizeMockChildren(item.children),
             isMock: true,
         }));
