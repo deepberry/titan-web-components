@@ -291,7 +291,7 @@ test("environment management follows production with the requested cross-group U
     assert.deepEqual(resolveOpenedMenuPaths(menus, "/monitor"), ["environment"]);
 });
 
-test("harvest follows tasks with ERP enabled and Easy Weigh disabled", () => {
+test("harvest follows tasks with ERP and the Easy Weigh external link enabled", () => {
     const index = menus.findIndex((item) => item.path === "/tasks");
     const harvest = menus[index + 1];
     assert.equal(harvest.path, "/harvest");
@@ -299,7 +299,7 @@ test("harvest follows tasks with ERP enabled and Easy Weigh disabled", () => {
         harvest.mockChildren.map((item) => [item.title, item.path, item.disabled]),
         [
             ["深莓轻采收", "/erp", false],
-            ["好易称", "", true],
+            ["好易称", "https://hyc-www.deepberry.cn", false],
         ]
     );
     assert.deepEqual(resolveOpenedMenuPaths(menus, "/erp"), ["harvest"]);
