@@ -17,17 +17,8 @@ export const translate = (path, locale) => {
 
 // 组件hook
 export const useLocale = (_locale?: string) => {
-    // 获取上下文实例
-    // const vm = getCurrentInstance() as any;
-
-    // 获取全局语言设置
-    // const globalLocale = vm?.$i18n?.locale;
-    const globalLocale = User.getLocale();
-
-    // 获取当前语言:本地设置>全局设置>默认设置
-    const locale = computed(() => {
-        return _locale || globalLocale || defaultLocale;
-    });
+    // Read inside the computed so preference changes invalidate existing translations.
+    const locale = computed(() => _locale || User.getLocale() || defaultLocale);
     const lang = computed(() => {
         return Locales[unref(locale).toLowerCase().replace(/-/g, "_")] || Locales.zh_cn;
     });

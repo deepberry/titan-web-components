@@ -63,7 +63,6 @@ export default {
         return {
             timezones: [], //时区列表
             timezone: "",
-            locale: "",
             showSelect: false,
             active: "",
 
@@ -84,6 +83,9 @@ export default {
         };
     },
     computed: {
+        locale() {
+            return User.getLocale();
+        },
         flag() {
             const item = this.timezones.find((item) => item.timezone == this.timezone);
             return this.showFlag(item?.region);
@@ -102,9 +104,13 @@ export default {
             return item?.label;
         },
     },
+    watch: {
+        locale(value) {
+            this.activeLang = value;
+        },
+    },
     mounted() {
         this.timezone = User.getTimezone();
-        this.locale = User.getLocale();
         this.active = this.timezone;
         this.activeLang = this.locale;
         this.loadTimeZone();
@@ -169,7 +175,6 @@ export default {
                 timezone: this.timezone,
                 locale,
             }).then(() => {
-                this.locale = locale;
                 this.showLangSelect = false;
                 User.setLocale(locale);
                 // 页面重载

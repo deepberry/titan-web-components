@@ -46,6 +46,8 @@ const slugs = {
     agent: "knowledge",
     fileAssets: "files",
     documentList: "documents",
+    watermarkAlbums: "albums",
+    watermarkTemplates: "watermarks",
     system: "system",
     globalSettings: "settings",
     accountConfig: "accounts",

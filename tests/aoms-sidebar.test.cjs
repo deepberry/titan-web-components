@@ -207,7 +207,7 @@ test("developer configuration allows developers and super admins but rejects ord
     }
 });
 
-test("resources is third from last with the first three AOMS entries", () => {
+test("resources includes album and watermark management", () => {
     assert.deepEqual(
         menus.slice(-3).map((item) => item.path),
         ["/resources", "/system", "/greenhouse/insights/conf"]
@@ -220,6 +220,8 @@ test("resources is third from last with the first three AOMS entries", () => {
             ["/resources/agent", "resource-ai", true],
             ["/resources/files/assets", "resource-file", false],
             ["/resources/documents", "resource-document", false],
+            ["/watermark-camera/albums", "cemera-album", false],
+            ["/watermark-camera/templates", "cemera-watermark", false],
         ]
     );
     for (const [permission, expectedPath] of [
@@ -261,7 +263,7 @@ test("UC groups synchronize AOMS navigation and prefix all nested paths", () => 
 test("watermark camera group and its children stay hidden even with permission", () => {
     for (const user of [{ is_founder: true }, { id: "100" }]) {
         const visible = resolveSidebarMenus([{ code: "watermark:admin" }], user);
-        assert(!flatten(visible).some((item) => item.path.startsWith("/watermark")));
+        assert(!flatten(visible).some((item) => item.path === "/watermark" || item.path.startsWith("/watermark/")));
     }
 });
 
@@ -278,17 +280,17 @@ test("tasks and materials are disabled top-level placeholders", () => {
     }
 });
 
-test("environment management follows production with the requested cross-group URLs", () => {
+test("environment management uses greenhouse URLs for every child", () => {
     assert.equal(menus[2].path, "/environment");
     assert.deepEqual(
         menus[2].children.map((item) => [item.title, item.path]),
         [
             ["设备管理", "/greenhouse"],
-            ["监控大盘", "/monitor"],
-            ["配肥助手", "/lab/fertilization/form"],
+            ["监控大盘", "/greenhouse/monitor"],
+            ["配肥助手", "/greenhouse/lab/fertilization/form"],
         ]
     );
-    assert.deepEqual(resolveOpenedMenuPaths(menus, "/monitor"), ["environment"]);
+    assert.deepEqual(resolveOpenedMenuPaths(menus, "/greenhouse/monitor"), ["environment"]);
 });
 
 test("harvest follows tasks with ERP and the Easy Weigh external link enabled", () => {

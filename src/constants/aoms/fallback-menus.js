@@ -26,7 +26,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/monitor",
+                path: "/greenhouse/monitor",
                 title: "监控大盘",
                 titleKey: "menu.environmentMonitor",
                 order: 2,
@@ -34,7 +34,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/lab/fertilization/form",
+                path: "/greenhouse/lab/fertilization/form",
                 title: "配肥助手",
                 titleKey: "menu.fertilizationAssistant",
                 order: 3,
@@ -283,6 +283,24 @@ export const fallbackMenus = [
                 code: "resource:document",
                 order: 2,
                 icon: "resource-document",
+                disabled: false,
+            },
+            {
+                path: "/watermark-camera/albums",
+                title: "相册管理",
+                titleKey: "menu.watermarkAlbums",
+                code: "watermark_album:view",
+                order: 5,
+                icon: "cemera-album",
+                disabled: false,
+            },
+            {
+                path: "/watermark-camera/templates",
+                title: "水印管理",
+                titleKey: "menu.watermarkTemplates",
+                code: "watermark_template:view",
+                order: 6,
+                icon: "cemera-watermark",
                 disabled: false,
             },
             {

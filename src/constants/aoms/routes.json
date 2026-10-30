@@ -833,6 +833,30 @@
                 },
                 "children": [
                     {
+                        "path": "/watermark-camera/albums",
+                        "name": "ResourceWatermarkAlbums",
+                        "meta": {
+                            "title": "相册管理",
+                            "titleKey": "menu.watermarkAlbums",
+                            "order": 5,
+                            "icon": "cemera-album",
+                            "permission": "watermark_album:view",
+                            "menu": true
+                        }
+                    },
+                    {
+                        "path": "/watermark-camera/templates",
+                        "name": "ResourceWatermarkTemplates",
+                        "meta": {
+                            "title": "水印管理",
+                            "titleKey": "menu.watermarkTemplates",
+                            "order": 6,
+                            "icon": "cemera-watermark",
+                            "permission": "watermark_template:view",
+                            "menu": true
+                        }
+                    },
+                    {
                         "path": "files/assets",
                         "name": "FileAssets",
                         "meta": {
@@ -1504,7 +1528,7 @@
                 }
             },
             {
-                "path": "/monitor",
+                "path": "/greenhouse/monitor",
                 "name": "EnvironmentMonitor",
                 "meta": {
                     "title": "监控大盘",
@@ -1515,7 +1539,7 @@
                 }
             },
             {
-                "path": "/lab/fertilization/form",
+                "path": "/greenhouse/lab/fertilization/form",
                 "name": "FertilizationAssistant",
                 "meta": {
                     "title": "配肥助手",

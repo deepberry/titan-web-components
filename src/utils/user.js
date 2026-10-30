@@ -1,8 +1,19 @@
+import { ref } from "vue";
 // 用户信息中央处理模块
 import { $titan } from "./api";
 import axios from "axios";
 import { getCdnLink } from "@deepberry/common/js/utils";
 import { getTokenFromUrl } from "@deepberry/common/js/miniprogram";
+const localeRevision = ref(0);
+if (typeof window !== "undefined") {
+    window.addEventListener("titan:locale-change", () => {
+        localeRevision.value++;
+    });
+    window.addEventListener("storage", (event) => {
+        if (!event.key || event.key === "dp_lang") localeRevision.value++;
+    });
+}
+
 class User {
     // 令牌KEY(兼容旧命名)
     static TOKEN_KEY = "TOKEN_TITAN";
@@ -165,7 +176,9 @@ class User {
      * @memberof User
      */
     setLocale(locale) {
-        return localStorage.setItem(User.DB_LOCALE, locale);
+        const normalized = String(locale).trim().replace(/_/g, "-").toLowerCase();
+        localStorage.setItem(User.DB_LOCALE, normalized);
+        window.dispatchEvent(new CustomEvent("titan:locale-change", { detail: { locale: normalized } }));
     }
 
     /**
@@ -175,11 +188,14 @@ class User {
      * @memberof User
      */
     getLocale() {
+        // Track preference changes in component computed properties and translation hooks.
+        void localeRevision.value;
         const _val = localStorage.getItem(User.DB_LOCALE);
         if (!_val) {
             return "zh-cn";
         } else {
-            return _val.toLowerCase();
+            const normalized = _val.trim().replace(/_/g, "-").toLowerCase();
+            return normalized === "en" ? "en-us" : normalized === "zh" ? "zh-cn" : normalized;
         }
     }
 
