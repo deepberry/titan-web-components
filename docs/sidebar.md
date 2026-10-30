@@ -139,11 +139,11 @@ export default {
 
 ### 环控管理：子项统一使用 greenhouse 前缀
 
-| 子项     | 地址                                 |
-| -------- | ------------------------------------ |
-| 设备管理 | `/greenhouse`                        |
-| 监控大盘 | `/greenhouse/monitor`                |
-| 配肥助手 | `/greenhouse/lab/fertilization/form` |
+| 子项     | 地址                             |
+| -------- | -------------------------------- |
+| 设备管理 | `/greenhouse`                    |
+| 监控大盘 | `/greenhouse/monitor`            |
+| 配肥助手 | `/greenhouse/fertilization/form` |
 
 `/environment` 是分组标识，点击后重定向到 `/greenhouse`；所有子项地址均以 `/greenhouse` 开头。定位展开组时应按菜单树寻找祖先，不能按 URL 前缀推断。
 
@@ -246,7 +246,7 @@ node --test tests/aoms-sidebar.test.cjs
 | 生产管理 | 生产核算   | `accounting`    | `production.accounting`  | `/production/accounting`             | —                        |
 | 环控管理 | 设备管理   | `devices`       | `environment.devices`    | `/greenhouse`                        | —                        |
 | 环控管理 | 监控大盘   | `monitor`       | `environment.monitor`    | `/greenhouse/monitor`                | —                        |
-| 环控管理 | 配肥助手   | `fertilizer`    | `environment.fertilizer` | `/greenhouse/lab/fertilization/form` | —                        |
+| 环控管理 | 配肥助手   | `fertilizer`    | `environment.fertilizer` | `/greenhouse/fertilization/form`     | —                        |
 | 作业管理 | 作业标准   | `standards`     | `tasks.standards`        | `/tasks/work-standards`              | 预留，当前父组为禁用占位 |
 | 作业管理 | 任务指派   | `assignments`   | `tasks.assignments`      | `/tasks/task-assignment`             | 预留，当前父组为禁用占位 |
 | 作业管理 | 作业看板   | `board`         | `tasks.board`            | `/tasks/work-board`                  | 预留，当前父组为禁用占位 |

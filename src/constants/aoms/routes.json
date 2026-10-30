@@ -1539,7 +1539,7 @@
                 }
             },
             {
-                "path": "/greenhouse/lab/fertilization/form",
+                "path": "/greenhouse/fertilization/form",
                 "name": "FertilizationAssistant",
                 "meta": {
                     "title": "配肥助手",

@@ -287,7 +287,7 @@ test("environment management uses greenhouse URLs for every child", () => {
         [
             ["设备管理", "/greenhouse"],
             ["监控大盘", "/greenhouse/monitor"],
-            ["配肥助手", "/greenhouse/lab/fertilization/form"],
+            ["配肥助手", "/greenhouse/fertilization/form"],
         ]
     );
     assert.deepEqual(resolveOpenedMenuPaths(menus, "/greenhouse/monitor"), ["environment"]);

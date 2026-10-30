@@ -34,7 +34,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/greenhouse/lab/fertilization/form",
+                path: "/greenhouse/fertilization/form",
                 title: "配肥助手",
                 titleKey: "menu.fertilizationAssistant",
                 order: 3,
