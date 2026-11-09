@@ -72,7 +72,7 @@ export default {
     data() {
         return {
             remoteMenus: [],
-            globalSidebarSettings: { hidden: [] },
+            globalSidebarSettings: { hidden: [], disabled: [] },
             menuRequestId: 0,
             isMobile: window.innerWidth <= 1023,
         };
@@ -94,6 +94,10 @@ export default {
                     hidden: [
                         ...this.globalSidebarSettings.hidden,
                         ...(Array.isArray(this.sidebarSettings?.hidden) ? this.sidebarSettings.hidden : []),
+                    ],
+                    disabled: [
+                        ...this.globalSidebarSettings.disabled,
+                        ...(Array.isArray(this.sidebarSettings?.disabled) ? this.sidebarSettings.disabled : []),
                     ],
                 })
             );

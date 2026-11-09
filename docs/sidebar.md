@@ -68,7 +68,7 @@ export default {
 -   传入非空值的 `menuList`：直接规范化并显示该列表，不执行默认菜单生成、权限过滤或排序。传入 `[]` 会显示空菜单。
 -   `menuList` 为 `null`（默认）：请求 `getMenus()`，即 Titan 服务的 `system/menu`；将响应的 `data.data` 交给 `resolveSidebarMenus(remoteMenus, user)`。
 -   请求失败时仍生成本地内置菜单；特殊身份限制和线上隐藏规则继续生效。
--   默认生成以本地 `routes.json` 和 `fallback-menus.js` 确定内置菜单。`system/menu` 只提取真实自定义扩展项，缺少权限码或接口失败不会删除内置业务菜单。全局配置接口的 `sidebar_menu_forbidden` 用于线上临时隐藏，不作为授权菜单来源。
+-   默认生成以本地 `routes.json` 和 `fallback-menus.js` 确定内置菜单。`system/menu` 只提取真实自定义扩展项，缺少权限码或接口失败不会删除内置业务菜单。全局配置接口的 `sidebar_menu_forbidden` 和 `sidebar_menu_disabled` 用于线上临时隐藏或禁用，不作为授权菜单来源。
 -   `aomsPreviewMenus` 使用 `fallbackMenus` 和预览身份生成，仅用于本库展示与测试。本库本地展示页和业务库均禁止将其传给 `menuList`，否则会绕过真实用户的身份与权限判断。
 -   `preview` 主要控制预览相关行为，本身不绕过权限；不传 `menuList` 时仍会加载菜单。
 
@@ -156,11 +156,10 @@ export default {
 
 ### 禁用分组、占位分组、隐藏分组不同
 
--   生产管理：`meta.disabled: true`，保留子路由和子菜单；`el-sub-menu` 绑定 `disabled`，分组不能展开。禁用导航不会禁止直接访问业务 URL。
--   作业管理、物资管理：同时设置 `meta.placeholder: true` 和 `meta.disabled: true`。默认生成仍显示顶层分组，但跳过子菜单及 `mockChildren`，作为后续建设占位。
+-   生产管理、作业管理和物资管理默认启用，可用全局配置 `sidebar_menu_disabled` 禁用。禁用时分组继续显示，但不能展开。直接访问业务 URL 仍由路由权限决定。
 -   水印相机：父路由及所有子路由均设 `meta.menu: false`，整组不显示；路由保留。
 -   仅隐藏父路由不够：默认生成遇到 `menu: false` 父节点时会将可见子节点提升到上一层，所以隐藏整组必须同时隐藏子项。
--   禁用由路由 `meta.disabled` 或补充菜单的 `disabled` 任一为真决定。
+-   路由 `meta.disabled` 和补充菜单的 `disabled` 仍可标记固定禁用项。
 
 ### UC 三组：同步 AOMS 元数据，地址增加 `/uc`
 
@@ -236,6 +235,8 @@ node --test tests/aoms-sidebar.test.cjs
 | 系统设置 | `system`        | `/system`        |
 | 开发配置 | `developer`     | `/insights/conf` |
 
+相册管理、水印管理和劳务考勤暂不在侧边栏展示。后续将统一归入「水印相机」分组，排在「资源中心」前。
+
 ### 子项
 
 | 所属分组 | 名称       | slug            | 隐藏标识                 | 路径                                 | 说明                     |
@@ -273,8 +274,6 @@ node --test tests/aoms-sidebar.test.cjs
 | 资源中心 | 知识库     | `knowledge`     | `resources.knowledge`    | `/resources/agent`                   | 禁用                     |
 | 资源中心 | 文件管理   | `files`         | `resources.files`        | `/resources/files/assets`            | —                        |
 | 资源中心 | 文档管理   | `documents`     | `resources.documents`    | `/resources/documents`               | —                        |
-| 资源中心 | 相册管理   | `albums`        | `resources.albums`       | `/watermark-camera/albums`           | —                        |
-| 资源中心 | 水印管理   | `watermarks`    | `resources.watermarks`   | `/watermark-camera/templates`        | —                        |
 | 扩展功能 | 自定义项   | `demo`          | `extensions.demo`        | `https://deepberry.cn`               | 仅 dev 环境              |
 | 系统设置 | 全局设置   | `settings`      | `system.settings`        | `/uc/system/setting`                 | —                        |
 | 系统设置 | 账号配置   | `accounts`      | `system.accounts`        | `/system/accounts`                   | —                        |
@@ -305,4 +304,8 @@ node --test tests/aoms-sidebar.test.cjs
 
 扩展功能组标识为 `extensions`。真实自定义菜单可提供稳定的单词 `slug`，完整标识为 `extensions.<slug>`；未提供 slug 时可以通过 `extensions` 隐藏整组。dev 演示项为 `extensions.demo`，新窗口打开 `https://deepberry.cn`。
 
-公共侧边栏挂载时统一请求 `https://cdn.deepberry.cn/common/system/conf/titan_default.json`，读取 `sidebar_menu_forbidden` 字符串并按英文逗号拆分、去除空格和重复项。例如 `production,task` 隐藏生产管理和作业管理；`task` 兼容为 `tasks`。支持子项完整标识，例如 `environment.monitor`。dev 预览和显式 menuList 也应用此配置。线上隐藏列表与 sidebarSettings.hidden 合并；请求失败或超时不阻塞导航。
+公共侧边栏挂载时请求 `https://cdn.deepberry.cn/common/system/conf/titan_default.json`。两个字段都接受英文逗号分隔的菜单标识，自动去除空格和重复项。两者都支持子项完整标识（例如 `environment.monitor`），并兼容将 `task` 写成 `tasks`。
+
+-   `sidebar_menu_forbidden` 隐藏命中的菜单，对应 `sidebarSettings.hidden`。
+-   `sidebar_menu_disabled` 禁用命中的菜单，对应 `sidebarSettings.disabled`。例如 `production,tasks,materials` 会保留这三个分组并置灰。
+-   全局配置和组件传入的列表分别合并。若同一菜单同时命中，优先隐藏。预览和显式传入的 `menuList` 也应用这些配置，请求失败或超时不阻塞导航。

@@ -234,6 +234,7 @@ function buildSidebarBranch(
 
 function findParentTrail(items, targetPath, trail = []) {
     for (const item of items) {
+        if (item.disabled) continue;
         const children = getDisplayChildren(item);
 
         if (children.length > 0) {

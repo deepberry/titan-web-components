@@ -245,9 +245,7 @@
                     "titleKey": "menu.materials",
                     "order": 4,
                     "icon": "material",
-                    "menu": true,
-                    "disabled": true,
-                    "placeholder": true
+                    "menu": true
                 },
                 "children": [
                     {
@@ -707,8 +705,7 @@
                     "titleKey": "menu.production",
                     "order": 1.25,
                     "icon": "plan",
-                    "menu": true,
-                    "disabled": true
+                    "menu": true
                 },
                 "children": [
                     {
@@ -841,7 +838,7 @@
                             "order": 5,
                             "icon": "cemera-album",
                             "permission": "watermark_album:view",
-                            "menu": true
+                            "menu": false
                         }
                     },
                     {
@@ -853,7 +850,7 @@
                             "order": 6,
                             "icon": "cemera-watermark",
                             "permission": "watermark_template:view",
-                            "menu": true
+                            "menu": false
                         }
                     },
                     {
@@ -1124,9 +1121,7 @@
                     "titleKey": "menu.taskWork",
                     "order": 3,
                     "icon": "task-mgmt",
-                    "menu": true,
-                    "disabled": true,
-                    "placeholder": true
+                    "menu": true
                 },
                 "children": [
                     {

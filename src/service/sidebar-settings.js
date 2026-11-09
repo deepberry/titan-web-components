@@ -6,5 +6,8 @@ export async function loadSidebarSettings(signal) {
     const response = await fetch(SIDEBAR_CONFIG_URL, { cache: "no-cache", signal });
     if (!response.ok) throw new Error(`Sidebar configuration HTTP ${response.status}`);
     const config = await response.json();
-    return { hidden: parseSidebarForbidden(config?.sidebar_menu_forbidden) };
+    return {
+        hidden: parseSidebarForbidden(config?.sidebar_menu_forbidden),
+        disabled: parseSidebarForbidden(config?.sidebar_menu_disabled),
+    };
 }

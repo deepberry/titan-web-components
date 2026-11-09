@@ -84,17 +84,26 @@ export function getSidebarSlug(item) {
 }
 
 export function applySidebarSettings(items, settings = {}, parentKey = "") {
-    const hidden = new Set(
-        Array.isArray(settings?.hidden) ? settings.hidden.filter((key) => typeof key === "string") : []
-    );
-    return items.flatMap((item) => {
-        const slug = getSidebarSlug(item);
-        const sidebarKey = slug ? (parentKey ? `${parentKey}.${slug}` : slug) : "";
-        if (sidebarKey && hidden.has(sidebarKey)) return [];
-        const children = applySidebarSettings(item.children || [], settings, sidebarKey);
-        const mockChildren = applySidebarSettings(item.mockChildren || [], settings, sidebarKey);
-        const hadChildren = (item.children?.length || item.mockChildren?.length) > 0;
-        if (hadChildren && !children.length && !mockChildren.length) return [];
-        return [{ ...item, slug, sidebarKey, children, mockChildren }];
-    });
+    const hidden = new Set(Array.isArray(settings?.hidden) ? settings.hidden : []);
+    const disabled = new Set(Array.isArray(settings?.disabled) ? settings.disabled : []);
+
+    function visit(nodes, parentKey, parentDisabled) {
+        return nodes.flatMap((item) => {
+            const slug = getSidebarSlug(item);
+            const sidebarKey = slug ? (parentKey ? `${parentKey}.${slug}` : slug) : "";
+            if (sidebarKey && hidden.has(sidebarKey)) return [];
+
+            const disabledBySettings = parentDisabled || Boolean(sidebarKey && disabled.has(sidebarKey));
+            const children = visit(item.children || [], sidebarKey, disabledBySettings);
+            const mockChildren = visit(item.mockChildren || [], sidebarKey, disabledBySettings);
+            const hadChildren = (item.children?.length || item.mockChildren?.length) > 0;
+            if (hadChildren && !children.length && !mockChildren.length) return [];
+
+            return [
+                { ...item, slug, sidebarKey, children, mockChildren, ...(disabledBySettings && { disabled: true }) },
+            ];
+        });
+    }
+
+    return visit(items, parentKey, false);
 }

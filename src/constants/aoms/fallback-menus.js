@@ -106,7 +106,6 @@ export const fallbackMenus = [
         code: "production_cycle:view",
         order: 1.25,
         icon: "plan",
-        disabled: true,
         children: [
             {
                 path: "/production/crops",
@@ -209,7 +208,6 @@ export const fallbackMenus = [
         code: "task-type:view",
         order: 3,
         icon: "task-mgmt",
-        disabled: true,
         children: [
             {
                 path: "/tasks/work-standards",
@@ -285,24 +283,25 @@ export const fallbackMenus = [
                 icon: "resource-document",
                 disabled: false,
             },
-            {
-                path: "/watermark-camera/albums",
-                title: "相册管理",
-                titleKey: "menu.watermarkAlbums",
-                code: "watermark_album:view",
-                order: 5,
-                icon: "cemera-album",
-                disabled: false,
-            },
-            {
-                path: "/watermark-camera/templates",
-                title: "水印管理",
-                titleKey: "menu.watermarkTemplates",
-                code: "watermark_template:view",
-                order: 6,
-                icon: "cemera-watermark",
-                disabled: false,
-            },
+            // 相册管理和水印管理暂缓开放，后续与劳务考勤一起归入资源中心前的「水印相机」。
+            // {
+            //     path: "/watermark-camera/albums",
+            //     title: "相册管理",
+            //     titleKey: "menu.watermarkAlbums",
+            //     code: "watermark_album:view",
+            //     order: 5,
+            //     icon: "cemera-album",
+            //     disabled: false,
+            // },
+            // {
+            //     path: "/watermark-camera/templates",
+            //     title: "水印管理",
+            //     titleKey: "menu.watermarkTemplates",
+            //     code: "watermark_template:view",
+            //     order: 6,
+            //     icon: "cemera-watermark",
+            //     disabled: false,
+            // },
             {
                 path: "/resources/agent",
                 title: "知识库",
@@ -385,7 +384,6 @@ export const fallbackMenus = [
         code: "materials",
         order: 4,
         icon: "material",
-        disabled: true,
         children: [
             {
                 path: "/materials/workbench",

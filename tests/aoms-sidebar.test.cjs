@@ -207,7 +207,7 @@ test("developer configuration allows developers and super admins but rejects ord
     }
 });
 
-test("resources includes album and watermark management", () => {
+test("resources omits album and watermark management while they are pending", () => {
     assert.deepEqual(
         menus.slice(-3).map((item) => item.path),
         ["/resources", "/system", "/greenhouse/insights/conf"]
@@ -220,8 +220,6 @@ test("resources includes album and watermark management", () => {
             ["/resources/agent", "resource-ai", true],
             ["/resources/files/assets", "resource-file", false],
             ["/resources/documents", "resource-document", false],
-            ["/watermark-camera/albums", "cemera-album", false],
-            ["/watermark-camera/templates", "cemera-watermark", false],
         ]
     );
     for (const [permission, expectedPath] of [
@@ -267,16 +265,11 @@ test("watermark camera group and its children stay hidden even with permission",
     }
 });
 
-test("tasks and materials are disabled top-level placeholders", () => {
-    for (const user of [{ is_founder: true }, { id: "100" }]) {
-        const visible = resolveSidebarMenus([], user);
-        for (const path of ["/tasks", "/materials"]) {
-            const item = visible.find((entry) => entry.path === path);
-            assert(item, path);
-            assert.equal(item.disabled, true);
-            assert.deepEqual(item.children, []);
-            assert.deepEqual(item.mockChildren, []);
-        }
+test("production, tasks and materials are enabled by default", () => {
+    for (const key of ["production", "tasks", "materials"]) {
+        const item = menus.find((entry) => entry.sidebarKey === key);
+        assert.equal(item.disabled, false, key);
+        assert(item.children.length > 0, key);
     }
 });
 
@@ -308,10 +301,24 @@ test("harvest follows tasks with ERP and the Easy Weigh external link enabled", 
     assert.deepEqual(resolveOpenedMenuPaths(menus, "/erp"), ["harvest"]);
 });
 
-test("production group is disabled while retaining its children", () => {
-    const production = menus.find((item) => item.path === "/production");
-    assert.equal(production.disabled, true);
-    assert(production.children.length > 0);
+test("disabled settings keep groups and children visible, with hidden settings taking precedence", () => {
+    const { applySidebarSettings } = require("../src/constants/aoms/sidebar-settings");
+    const tree = applySidebarSettings(menus, {
+        disabled: ["production", "tasks", "materials", "environment.monitor"],
+        hidden: ["tasks"],
+    });
+    assert(!tree.some((item) => item.sidebarKey === "tasks"));
+    for (const key of ["production", "materials"]) {
+        const group = tree.find((item) => item.sidebarKey === key);
+        assert.equal(group.disabled, true);
+        assert(group.children.length > 0);
+        assert(group.children.every((child) => child.disabled));
+        assert.deepEqual(resolveOpenedMenuPaths(tree, group.children[0].path), []);
+    }
+    const environment = tree.find((item) => item.sidebarKey === "environment");
+    assert.equal(environment.disabled, false);
+    assert.equal(environment.children.find((item) => item.sidebarKey === "environment.monitor").disabled, true);
+    assert.equal(menus.find((item) => item.sidebarKey === "production").disabled, false);
 });
 
 test("all built-in menu identifiers are single words and unique within each group", () => {
@@ -399,7 +406,13 @@ test("global sidebar loader requests the CDN configuration and handles bad respo
     });
     const exports = {};
     let requested;
-    let response = { ok: true, json: async () => ({ sidebar_menu_forbidden: "production,task" }) };
+    let response = {
+        ok: true,
+        json: async () => ({
+            sidebar_menu_forbidden: "production,task",
+            sidebar_menu_disabled: " task, materials, task, environment.monitor ",
+        }),
+    };
     vm.runInNewContext(code, {
         exports,
         require: () => require("../src/constants/aoms/sidebar-settings"),
@@ -411,13 +424,16 @@ test("global sidebar loader requests the CDN configuration and handles bad respo
     const signal = new AbortController().signal;
     const settings = await exports.loadSidebarSettings(signal);
     assert.deepEqual(settings.hidden, ["production", "tasks"]);
+    assert.deepEqual(settings.disabled, ["tasks", "materials", "environment.monitor"]);
     assert.equal(requested.url, "https://cdn.deepberry.cn/common/system/conf/titan_default.json");
     assert.equal(requested.options.cache, "no-cache");
     assert.equal(requested.options.signal, signal);
     response = { ok: false, status: 503 };
     await assert.rejects(exports.loadSidebarSettings(signal), /503/);
     response = { ok: true, json: async () => ({}) };
-    assert.deepEqual((await exports.loadSidebarSettings(signal)).hidden, []);
+    const emptySettings = await exports.loadSidebarSettings(signal);
+    assert.deepEqual(emptySettings.hidden, []);
+    assert.deepEqual(emptySettings.disabled, []);
 });
 
 test("system settings allow founders, super tokens and super roles only", () => {
