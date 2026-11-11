@@ -314,7 +314,7 @@ export const fallbackMenus = [
         ],
     },
     {
-        path: "/system",
+        path: "/uc/system",
         title: "系统设置",
         titleKey: "menu.system",
         code: "system",
@@ -331,7 +331,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/system/accounts",
+                path: "/uc/system/accounts",
                 title: "账号配置",
                 titleKey: "menu.accountConfig",
                 code: "user:view",
@@ -340,7 +340,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/system/roles",
+                path: "/uc/system/roles",
                 title: "角色配置",
                 titleKey: "menu.roleConfig",
                 code: "role:view",
@@ -349,7 +349,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/system/webhook",
+                path: "/uc/system/webhook",
                 title: "通知配置",
                 titleKey: "menu.webhook",
                 code: "webhook",
@@ -358,7 +358,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/system/notice",
+                path: "/uc/system/notice",
                 title: "公告管理",
                 titleKey: "menu.notice",
                 code: "notice:view",
@@ -367,7 +367,7 @@ export const fallbackMenus = [
                 disabled: false,
             },
             {
-                path: "/system/audit-logs",
+                path: "/uc/system/audit-logs",
                 title: "审计日志",
                 titleKey: "menu.auditLogs",
                 code: "organization:view",

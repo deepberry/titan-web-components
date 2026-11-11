@@ -1029,9 +1029,9 @@
                 ]
             },
             {
-                "path": "system",
+                "path": "/uc/system",
                 "name": "System",
-                "redirect": "/system/accounts",
+                "redirect": "/uc/system/accounts",
                 "meta": {
                     "title": "系统设置",
                     "titleKey": "menu.system",

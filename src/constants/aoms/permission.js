@@ -288,7 +288,7 @@ export function resolveSidebarMenus(
         });
     }
     if (customMenus.length) {
-        const systemIndex = entries.findIndex((item) => item.path === "/system");
+        const systemIndex = entries.findIndex((item) => item.path === "/uc/system");
         entries.splice(systemIndex < 0 ? entries.length : systemIndex, 0, {
             menuIndex: "custom-extensions",
             title: "扩展功能",
@@ -310,10 +310,14 @@ export function resolveSidebarMenus(
     return applySidebarSettings(entries, { hidden });
 }
 
-export function resolveActiveMenuPath(menus, routePath, activeMenu = "") {
-    const targetPaths = [activeMenu, routePath].filter(
-        (path, index, paths) => typeof path === "string" && path && paths.indexOf(path) === index
-    );
+export function resolveActiveMenuPath(menus, routePath, activeMenu = "", base = "") {
+    const targetPaths = [activeMenu, routePath]
+        .flatMap((path) =>
+            base && typeof path === "string" && path.startsWith("/") && !path.startsWith(`${base}/`)
+                ? [path, `${base}${path}`]
+                : [path]
+        )
+        .filter((path, index, paths) => typeof path === "string" && path && paths.indexOf(path) === index);
 
     for (const targetPath of targetPaths) {
         let matchedPath = "";

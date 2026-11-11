@@ -38,7 +38,7 @@ export default {
 | 菜单                      | 规则                                                                                                                 |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | 控制台 `/`                | 所有登录用户均可见，无额外业务权限码要求                                                                             |
-| 系统设置 `/system`        | `is_founder = 1`、`is_super = 1` 或超级管理员角色，满足任一条件即可                                                  |
+| 系统设置 `/uc/system`     | `is_founder = 1`、`is_super = 1` 或超级管理员角色，满足任一条件即可                                                  |
 | 开发配置 `/insights/conf` | 独立顶层菜单，所有环境均仅 `is_dev = 1` 或 `is_super = 1` 可见；单独的 `is_founder` 不放行，不依赖 `nav_insights`    |
 | 扩展功能                  | 对所有用户开放；有真实自定义项才显示，开发环境额外提供保底演示项                                                     |
 | 其它业务菜单              | 内置组和入口由本地配置确定，不按业务权限码过滤；保留禁用、占位和线上临时隐藏规则；访问权限与无权限占位由业务页面负责 |
@@ -128,7 +128,7 @@ export default {
 | 8    | 人员管理 | `/uc/staff`      | 按本地配置显示                      |
 | 9    | 薪资管理 | `/uc/employment` | 按本地配置显示                      |
 | 10   | 资源中心 | `/resources`     | 按本地配置显示                      |
-| 11   | 系统设置 | `/system`        | 创始标记、超级身份或超级管理员角色  |
+| 11   | 系统设置 | `/uc/system`     | 创始标记、超级身份或超级管理员角色  |
 | 12   | 开发配置 | `/insights/conf` | 所有环境均需 `is_dev` 或 `is_super` |
 
 控制台保持最前；“生产管理第一个”指控制台后的第一组。“采收管理”紧随作业管理。有扩展功能时插入系统设置前；完整末尾顺序为资源中心、扩展功能、系统设置、开发配置。
@@ -232,7 +232,7 @@ node --test tests/aoms-sidebar.test.cjs
 | 薪资管理 | `payroll`       | `/uc/employment` |
 | 资源中心 | `resources`     | `/resources`     |
 | 扩展功能 | `extensions`    | 无，仅分组       |
-| 系统设置 | `system`        | `/system`        |
+| 系统设置 | `system`        | `/uc/system`     |
 | 开发配置 | `developer`     | `/insights/conf` |
 
 相册管理、水印管理和劳务考勤暂不在侧边栏展示。后续将统一归入「水印相机」分组，排在「资源中心」前。
@@ -276,11 +276,11 @@ node --test tests/aoms-sidebar.test.cjs
 | 资源中心 | 文档管理   | `documents`     | `resources.documents`    | `/resources/documents`               | —                        |
 | 扩展功能 | 自定义项   | `demo`          | `extensions.demo`        | `https://deepberry.cn`               | 仅 dev 环境              |
 | 系统设置 | 全局设置   | `settings`      | `system.settings`        | `/uc/system/setting`                 | —                        |
-| 系统设置 | 账号配置   | `accounts`      | `system.accounts`        | `/system/accounts`                   | —                        |
-| 系统设置 | 角色配置   | `roles`         | `system.roles`           | `/system/roles`                      | —                        |
-| 系统设置 | 通知配置   | `notifications` | `system.notifications`   | `/system/webhook`                    | —                        |
-| 系统设置 | 公告管理   | `announcements` | `system.announcements`   | `/system/notice`                     | —                        |
-| 系统设置 | 审计日志   | `logs`          | `system.logs`            | `/system/audit-logs`                 | —                        |
+| 系统设置 | 账号配置   | `accounts`      | `system.accounts`        | `/uc/system/accounts`                | —                        |
+| 系统设置 | 角色配置   | `roles`         | `system.roles`           | `/uc/system/roles`                   | —                        |
+| 系统设置 | 通知配置   | `notifications` | `system.notifications`   | `/uc/system/webhook`                 | —                        |
+| 系统设置 | 公告管理   | `announcements` | `system.announcements`   | `/uc/system/notice`                  | —                        |
+| 系统设置 | 审计日志   | `logs`          | `system.logs`            | `/uc/system/audit-logs`              | —                        |
 
 ### 使用方式
 

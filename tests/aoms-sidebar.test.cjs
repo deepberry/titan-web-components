@@ -38,7 +38,7 @@ test("AOMS navigation contains the current twelve groups in order", () => {
             "/uc/staff",
             "/uc/employment",
             "/resources",
-            "/system",
+            "/uc/system",
             "/greenhouse/insights/conf",
         ]
     );
@@ -49,6 +49,7 @@ test("detail routes highlight the longest menu path without selecting home", () 
     assert.equal(resolveActiveMenuPath(menus, "/materials/overview"), "/materials/overview");
     assert.equal(resolveActiveMenuPath(menus, "/unknown"), "/unknown");
     assert.equal(resolveActiveMenuPath(menus, "/some-detail", "/tasks/work-standards"), "/tasks/work-standards");
+    assert.equal(resolveActiveMenuPath(menus, "/enterprise/member", "/system/accounts", "/uc"), "/uc/system/accounts");
 });
 test("a menu with a cross-group URL expands its actual ancestor", () => {
     const tree = [{ path: "/park", menuIndex: "park", children: [{ path: "/materials/overview" }] }];
@@ -60,7 +61,7 @@ test("built-in business menus remain visible without permission codes while iden
     assert(paths.includes("/production/cycles"));
     assert(paths.includes("/production/crops"));
     for (const path of ["/uc/park", "/uc/staff", "/uc/employment", "/resources"]) assert(paths.includes(path));
-    assert(!paths.includes("/system"));
+    assert(!paths.includes("/uc/system"));
 });
 test("all visible menu icons exist locally", () => {
     for (const item of flatten(menus)) {
@@ -100,7 +101,7 @@ test("custom menus form one extensions group and retain links, icons and new-tab
     assert.equal(group.children[1].en_name, "Reports");
     assert.equal(
         tree.indexOf(group) + 1,
-        tree.findIndex((item) => item.path === "/system")
+        tree.findIndex((item) => item.path === "/uc/system")
     );
     assert.deepEqual(resolveOpenedMenuPaths(tree, "/custom"), ["custom-extensions"]);
     assert.equal(resolveActiveMenuPath(tree, "/custom/detail"), "/custom");
@@ -210,7 +211,7 @@ test("developer configuration allows developers and super admins but rejects ord
 test("resources omits album and watermark management while they are pending", () => {
     assert.deepEqual(
         menus.slice(-3).map((item) => item.path),
-        ["/resources", "/system", "/greenhouse/insights/conf"]
+        ["/resources", "/uc/system", "/greenhouse/insights/conf"]
     );
     const resources = menus.find((item) => item.path === "/resources");
     assert.equal(resources.icon, "resource");
@@ -239,7 +240,7 @@ test("resources omits album and watermark management while they are pending", ()
 
 test("UC groups synchronize AOMS navigation and prefix all nested paths", () => {
     const definitions = require("../src/constants/aoms/routes.json").find((item) => item.path === "/").children;
-    for (const name of ["Park", "Staff", "Employment"]) {
+    for (const name of ["Park", "Staff", "Employment", "System"]) {
         const route = definitions.find((item) => item.name === name);
         assert(route.path.startsWith("/uc/"));
         for (const child of route.children) {
@@ -440,11 +441,11 @@ test("system settings allow founders, super tokens and super roles only", () => 
     const { canAccessRoute } = require("../src/constants/aoms/route-access");
     const systemRoute = { meta: { superAdmin: true } };
     for (const user of [{ is_founder: true }, { token: { is_super: 1 } }, { is_super: 1 }, { role: { is_super: 1 } }]) {
-        assert(resolveSidebarMenus([], user).some((item) => item.path === "/system"));
+        assert(resolveSidebarMenus([], user).some((item) => item.path === "/uc/system"));
         assert(canAccessRoute({ matched: [systemRoute] }, [], user));
     }
     for (const user of [{}, { token: { is_dev: 1, is_super: 0 } }, { id: 1, organization: { user_id: 1 } }]) {
-        assert(!resolveSidebarMenus(fallbackMenus, user).some((item) => item.path === "/system"));
+        assert(!resolveSidebarMenus(fallbackMenus, user).some((item) => item.path === "/uc/system"));
         assert(!canAccessRoute({ matched: [systemRoute] }, fallbackMenus, user));
     }
 });
@@ -453,7 +454,7 @@ test("development respects identity restrictions while retaining the extension d
     for (const user of [undefined, {}, { token: { is_dev: 0, is_super: 0 } }]) {
         for (const development of [true, false]) {
             const tree = resolveSidebarMenus([], user, { development });
-            assert(!tree.some((item) => item.path === "/greenhouse/insights/conf" || item.path === "/system"));
+            assert(!tree.some((item) => item.path === "/greenhouse/insights/conf" || item.path === "/uc/system"));
             assert.equal(
                 tree.some((item) => item.menuIndex === "custom-extensions"),
                 development
@@ -475,7 +476,7 @@ test("empty remote menus and ordinary permissions do not change built-in busines
     );
     assert.deepEqual(empty, legacy);
     assert(empty.some((item) => item.path === "/resources"));
-    assert(!empty.some((item) => item.path === "/system" || item.path === "/greenhouse/insights/conf"));
+    assert(!empty.some((item) => item.path === "/uc/system" || item.path === "/greenhouse/insights/conf"));
     assert(
         !resolveSidebarMenus([], user, { development: false, hidden: ["resources"] }).some(
             (item) => item.path === "/resources"

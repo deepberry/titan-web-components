@@ -105,7 +105,13 @@ export default {
         activeMenu() {
             const routePath = this.$route?.path || location.pathname;
             const active = this.$route?.meta?.activeMenu;
-            return resolveActiveMenuPath(this.menus, routePath, active ? `/${String(active).replace(/^\//, "")}` : "");
+            const base = this.$router?.options.history.base || "";
+            return resolveActiveMenuPath(
+                this.menus,
+                routePath,
+                active ? `/${String(active).replace(/^\//, "")}` : "",
+                base
+            );
         },
         openedPaths() {
             return resolveOpenedMenuPaths(this.menus, this.activeMenu);
@@ -189,14 +195,20 @@ export default {
             };
             const item = find(this.menus);
             if (!item || item.disabled) return;
-            if (item.is_blank) window.open(path, "_blank", "noopener");
-            else if (
-                this.$router &&
-                path.startsWith("/") &&
-                !path.startsWith("//") &&
-                this.$router.resolve(path).matched.length
+            if (item.is_blank) {
+                window.open(path, "_blank", "noopener");
+                return;
+            }
+            const router = this.$router;
+            const base = router?.options.history.base;
+            const routerPath = base && path.startsWith(`${base}/`) ? path.slice(base.length) : path;
+            if (
+                router &&
+                routerPath.startsWith("/") &&
+                !routerPath.startsWith("//") &&
+                router.resolve(routerPath).matched.length
             )
-                this.$router.push(path);
+                router.push(routerPath);
             else location.href = path;
         },
         goHome(event) {
