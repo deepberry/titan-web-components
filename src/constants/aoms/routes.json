@@ -1,15 +1,42 @@
 [
     {
-        "path": "/greenhouse/insights/conf",
-        "name": "DeveloperConfiguration",
+        "path": "/greenhouse/insights",
+        "name": "DeveloperConfigurationGroup",
+        "redirect": "/greenhouse/insights/api",
         "meta": {
             "title": "开发配置",
             "titleKey": "menu.developerConfiguration",
             "order": 100,
             "icon": "dev-config",
-            "developer": true,
+            "superAdmin": true,
             "menu": true
-        }
+        },
+        "children": [
+            {
+                "path": "conf",
+                "name": "DeveloperConfiguration",
+                "meta": {
+                    "title": "设备编程",
+                    "titleKey": "menu.deviceProgramming",
+                    "order": 0,
+                    "icon": "dev-config",
+                    "developer": true,
+                    "menu": true
+                }
+            },
+            {
+                "path": "api",
+                "name": "OpenApi",
+                "meta": {
+                    "title": "开放API",
+                    "titleKey": "menu.openApi",
+                    "order": 1,
+                    "icon": "resource-document",
+                    "superAdmin": true,
+                    "menu": true
+                }
+            }
+        ]
     },
     {
         "path": "/",

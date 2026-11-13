@@ -56,6 +56,8 @@ const slugs = {
     notice: "announcements",
     auditLogs: "logs",
     developerConfiguration: "developer",
+    deviceProgramming: "programming",
+    openApi: "api",
     extensions: "extensions",
 };
 const pathSlugs = {

@@ -50,6 +50,8 @@
         "formTemplates": "云表单",
         "system": "系统设置",
         "developerConfiguration": "开发配置",
+        "deviceProgramming": "设备编程",
+        "openApi": "开放API",
         "globalSettings": "全局设置",
         "accountConfig": "账号配置",
         "roleConfig": "角色配置",

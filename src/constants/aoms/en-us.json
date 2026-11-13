@@ -50,6 +50,8 @@
         "formTemplates": "Cloud Forms",
         "system": "Settings",
         "developerConfiguration": "Developer",
+        "deviceProgramming": "Device Programming",
+        "openApi": "Open API",
         "globalSettings": "Global Settings",
         "accountConfig": "Account Config",
         "roleConfig": "Role Config",

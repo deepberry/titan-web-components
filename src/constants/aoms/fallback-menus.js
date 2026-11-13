@@ -485,13 +485,31 @@ export const fallbackMenus = [
         disabled: false,
     },
     {
-        path: "/greenhouse/insights/conf",
+        path: "/greenhouse/insights",
         title: "开发配置",
         titleKey: "menu.developerConfiguration",
         code: "nav_insights",
         order: 100,
         icon: "dev-config",
         disabled: false,
+        children: [
+            {
+                path: "/greenhouse/insights/conf",
+                title: "设备编程",
+                titleKey: "menu.deviceProgramming",
+                order: 0,
+                icon: "dev-config",
+                disabled: false,
+            },
+            {
+                path: "/greenhouse/insights/api",
+                title: "开放API",
+                titleKey: "menu.openApi",
+                order: 1,
+                icon: "resource-document",
+                disabled: false,
+            },
+        ],
     },
     {
         path: "/harvest",
