@@ -498,7 +498,7 @@ export const fallbackMenus = [
                 title: "设备编程",
                 titleKey: "menu.deviceProgramming",
                 order: 0,
-                icon: "dev-config",
+                icon: "dev-prog",
                 disabled: false,
             },
             {
@@ -506,7 +506,7 @@ export const fallbackMenus = [
                 title: "开放API",
                 titleKey: "menu.openApi",
                 order: 1,
-                icon: "resource-document",
+                icon: "dev-api",
                 disabled: false,
             },
         ],

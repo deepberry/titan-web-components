@@ -3,6 +3,8 @@ import { fallbackMenus } from "./aoms/fallback-menus";
 import zh from "./aoms/zh-cn.json";
 import en from "./aoms/en-us.json";
 import devConfigIcon from "../assets/img/menus/dev-config.svg";
+import devProgIcon from "../assets/img/menus/dev-prog.svg";
+import devApiIcon from "../assets/img/menus/dev-api.svg";
 import productHarvestIcon from "../assets/img/menus/product-harvest.svg";
 import productErpIcon from "../assets/img/menus/product-erp.svg";
 import productHycIcon from "../assets/img/menus/product-hyc.svg";
@@ -17,6 +19,8 @@ export { applySidebarSettings } from "./aoms/sidebar-settings";
 
 const menuIcons = {
     "dev-config": devConfigIcon,
+    "dev-prog": devProgIcon,
+    "dev-api": devApiIcon,
     "product-harvest": productHarvestIcon,
     "product-erp": productErpIcon,
     "product-hyc": productHycIcon,
