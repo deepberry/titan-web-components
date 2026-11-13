@@ -64,9 +64,20 @@ import { mapState } from "pinia";
 import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
 import { useCommonStore } from "../../../store/common";
 import { sidebarTitle } from "../../../constants/AomsSidebar";
+import { fallbackMenus } from "../../../constants/aoms/fallback-menus";
 import HeaderTools from "./Tools.vue";
 import CommonUser from "./User2.vue";
 import GlobalNotice from "./GlobalNotice.vue";
+
+const menuByPath = new Map();
+function indexMenus(menus) {
+    for (const menu of menus) {
+        if (menu.path) menuByPath.set(menu.path, menu);
+        if (menu.children) indexMenus(menu.children);
+    }
+}
+indexMenus(fallbackMenus);
+
 export default {
     name: "HeaderIndex",
     components: { HeaderTools, CommonUser, GlobalNotice },
@@ -76,7 +87,7 @@ export default {
         headerTheme: { type: String, default: "light" },
         compactMobile: { type: Boolean, default: false },
         title: { type: String, default: "" },
-        subtitle: { type: String, default: "" },
+        subtitle: { type: String, default: undefined },
         preview: { type: Boolean, default: false },
         previewProfile: { type: Object, default: () => ({}) },
         previewOrganizations: { type: Array, default: () => [] },
@@ -102,10 +113,22 @@ export default {
             return this.title || this.$route?.meta?.title || "DeepBerry";
         },
         displaySubtitle() {
-            const subtitle = this.subtitle?.trim();
-            if (this.headerTheme !== "light") return subtitle;
-            const { titleKey, en_name } = this.$route?.meta || {};
-            return sidebarTitle({ titleKey, en_name }, true) || subtitle;
+            if (this.subtitle != null) return this.subtitle.trim();
+            if (this.headerTheme !== "light") return "";
+
+            const { path, meta = {} } = this.$route || {};
+            const { titleKey, en_name, activeMenu } = meta;
+            const englishTitle = sidebarTitle({ titleKey, en_name }, true);
+            if (englishTitle) return englishTitle;
+
+            const base = (this.$router?.options.history.base || "").replace(/\/$/, "");
+            for (const value of [path, activeMenu]) {
+                if (!value) continue;
+                const menuPath = `/${value.replace(/^\/+/, "")}`;
+                const menu = menuByPath.get(menuPath) || menuByPath.get(`${base}${menuPath}`);
+                if (menu) return sidebarTitle({ titleKey: menu.titleKey, en_name: menu.en_name }, true);
+            }
+            return "";
         },
         noticeOpened() {
             return !!this.globalNotice?.val && !this.globalNotice.hidden;

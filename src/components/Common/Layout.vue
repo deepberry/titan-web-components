@@ -73,7 +73,7 @@ export default {
     props: {
         compactMobile: { type: Boolean, default: false },
         title: { type: String, default: "" },
-        subtitle: { type: String, default: "" },
+        subtitle: { type: String, default: undefined },
         menuList: { type: Array, default: null },
         sidebarSettings: { type: Object, default: () => ({}) },
         sidebarTheme: { type: String, default: "legacy" },
