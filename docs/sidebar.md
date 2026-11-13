@@ -61,6 +61,10 @@ export default {
 | `src/constants/aoms/zh-cn.json`、`en-us.json`          | 菜单中英文文案                             |
 | `src/router/index.ts`                                  | 组件库展示用路由，不加载业务页面           |
 
+## 外壳主题
+
+`CommonLayout` 默认使用深色侧栏和白色头部。传入 `sidebar-theme="default"` 可切回原配色，组件库预览页也可通过 `?sidebarTheme=default` 切换。单独使用组件时，`CommonSidebar` 可通过同名属性切换，`CommonHeader` 可用 `header-theme="dark"` 切回深色头部。
+
 ## 菜单来源和扩展方式
 
 `CommonSidebar` 接收 `menuList`、`user`、`preview`、`mobileExpanded`。
@@ -141,7 +145,7 @@ export default {
 
 | 子项     | 地址                             |
 | -------- | -------------------------------- |
-| 设备管理 | `/greenhouse`                    |
+| 设备控制 | `/greenhouse`                    |
 | 监控大盘 | `/greenhouse/monitor`            |
 | 配肥助手 | `/greenhouse/fertilization/form` |
 
@@ -245,7 +249,7 @@ node --test tests/aoms-sidebar.test.cjs
 | 生产管理 | 种植计划   | `plans`         | `production.plans`       | `/production/cycles`                 | —                        |
 | 生产管理 | 产量预测   | `forecast`      | `production.forecast`    | `/production/yield-forecast`         | —                        |
 | 生产管理 | 生产核算   | `accounting`    | `production.accounting`  | `/production/accounting`             | —                        |
-| 环控管理 | 设备管理   | `devices`       | `environment.devices`    | `/greenhouse`                        | —                        |
+| 环控管理 | 设备控制   | `devices`       | `environment.devices`    | `/greenhouse`                        | —                        |
 | 环控管理 | 监控大盘   | `monitor`       | `environment.monitor`    | `/greenhouse/monitor`                | —                        |
 | 环控管理 | 配肥助手   | `fertilizer`    | `environment.fertilizer` | `/greenhouse/fertilization/form`     | —                        |
 | 作业管理 | 作业标准   | `standards`     | `tasks.standards`        | `/tasks/work-standards`              | 预留，当前父组为禁用占位 |

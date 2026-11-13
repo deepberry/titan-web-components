@@ -19,7 +19,7 @@ export const fallbackMenus = [
         children: [
             {
                 path: "/greenhouse",
-                title: "设备管理",
+                title: "设备控制",
                 titleKey: "menu.environmentDevices",
                 order: 1,
                 icon: "env-device",

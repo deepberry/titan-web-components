@@ -7,7 +7,7 @@
             </button>
         </div>
         <GlobalNotice :is-pad="isPad" :preview="preview" />
-        <el-header class="c-topbar">
+        <el-header class="c-topbar" :class="{ 'is-light': headerTheme === 'light' }">
             <div class="c-topbar__main">
                 <div class="c-topbar__heading">
                     <div class="c-topbar__title">{{ displayTitle }}</div>
@@ -31,6 +31,7 @@
                     <template #extend><slot name="extend" /></template>
                 </HeaderTools>
                 <CommonUser
+                    :avatar-only="avatarOnly || headerTheme === 'light'"
                     :profile="profile"
                     :compact="compact"
                     :survey="survey"
@@ -70,6 +71,8 @@ export default {
     components: { HeaderTools, CommonUser, GlobalNotice },
     emits: ["change", "profile-loaded", "banner-close"],
     props: {
+        avatarOnly: { type: Boolean, default: false },
+        headerTheme: { type: String, default: "light" },
         compactMobile: { type: Boolean, default: false },
         title: { type: String, default: "" },
         subtitle: { type: String, default: "" },
@@ -172,4 +175,5 @@ export default {
 </script>
 <style lang="less">
 @import "../../../assets/css/common/header.less";
+@import "../../../assets/css/common/header-light.less";
 </style>

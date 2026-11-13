@@ -8,13 +8,15 @@
         >
             <button
                 class="c-topbar__user-button"
-                :class="{ 'is-avatar-only': compact }"
+                :class="{ 'is-avatar-only': showAvatarOnly }"
                 type="button"
                 :aria-label="userName || t('commonHeader.profile_settings')"
             >
                 <CommonAvatar class="c-topbar__avatar" :src="profile?.avatar" />
-                <span v-if="userName && !compact" class="c-topbar__user-name" :title="userName">{{ userName }}</span>
-                <el-icon v-if="!compact" class="c-topbar__user-arrow"><ArrowDown /></el-icon>
+                <span v-if="userName && !showAvatarOnly" class="c-topbar__user-name" :title="userName">{{
+                    userName
+                }}</span>
+                <el-icon v-if="!showAvatarOnly" class="c-topbar__user-arrow"><ArrowDown /></el-icon>
             </button>
 
             <template #dropdown>
@@ -99,6 +101,7 @@ export default {
     props: {
         survey: { type: Object, default: () => ({}) },
         compact: { type: Boolean, default: false },
+        avatarOnly: { type: Boolean, default: false },
         profile: {
             type: Object,
             default: () => ({}),
@@ -112,6 +115,9 @@ export default {
         };
     },
     computed: {
+        showAvatarOnly() {
+            return this.compact || this.avatarOnly;
+        },
         showSurvey() {
             return !!this.survey.id && !this.survey.status;
         },

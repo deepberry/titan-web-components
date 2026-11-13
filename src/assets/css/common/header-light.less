@@ -1,0 +1,187 @@
+@titan-header-light-text: #334155;
+@titan-header-light-muted: #64748b;
+@titan-header-light-border: #dce3eb;
+@titan-header-light-control: #f6f8fb;
+@titan-header-light-hover: #edf3f8;
+@titan-header-light-focus: #527da6;
+
+.c-topbar.el-header.is-light {
+    border-bottom-color: #e6ebf0;
+    background: #fff;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    .c-topbar__title {
+        color: #18222f;
+        font-size: 16px;
+        font-weight: 650;
+        line-height: 22px;
+        letter-spacing: 0;
+
+        &::before {
+            content: none;
+        }
+    }
+
+    .c-topbar__subtitle {
+        margin-top: 2px;
+        color: @titan-header-light-muted;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .c-topbar__org-button,
+    .c-topbar__user-button {
+        border-color: @titan-header-light-border;
+        border-radius: 8px;
+        background: @titan-header-light-control;
+        color: @titan-header-light-text;
+        font-size: 13px;
+
+        &:hover,
+        &:focus-visible,
+        &[aria-expanded="true"] {
+            border-color: #b6c8db;
+            background: @titan-header-light-hover;
+            box-shadow: none;
+            transform: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @titan-header-light-focus;
+            outline-offset: 2px;
+        }
+    }
+
+    .c-topbar__message-button {
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+
+        .c-topbar__action-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background: transparent;
+            transform: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @titan-header-light-focus;
+            outline-offset: 2px;
+        }
+    }
+
+    .c-topbar__user-button.is-avatar-only {
+        border-radius: 50%;
+        background: transparent;
+
+        &:hover,
+        &:focus-visible,
+        &[aria-expanded="true"] {
+            background: transparent;
+        }
+    }
+
+    .c-topbar__org-button {
+        &.is-static:hover {
+            border-color: @titan-header-light-border;
+            background: @titan-header-light-control;
+        }
+
+        .c-topbar__org-text {
+            color: @titan-header-light-text;
+        }
+
+        .c-topbar__org-icon {
+            color: @titan-header-light-muted;
+            opacity: 1;
+        }
+    }
+
+    .c-topbar__org-arrow,
+    .c-topbar__user-arrow {
+        color: @titan-header-light-muted;
+    }
+
+    .c-topbar__user-button .c-topbar__avatar {
+        border-color: @titan-header-light-border;
+    }
+
+    .c-header-preference {
+        border-color: @titan-header-light-border;
+        border-radius: 8px;
+        background: #fff;
+        color: @titan-header-light-text;
+        font-size: 13px;
+
+        &:focus-within {
+            border-color: @titan-header-light-focus;
+        }
+
+        .c-header-lang {
+            border-radius: 7px 0 0 7px;
+            background: @titan-header-light-control;
+            box-shadow: 1px 0 0 @titan-header-light-border;
+
+            &:only-child {
+                border-radius: 7px;
+            }
+        }
+    }
+}
+
+.c-app-shell.has-light-header {
+    .c-app-shell__mobile-menu-toggle {
+        border-color: @titan-header-light-border;
+        border-radius: 50%;
+        background: @titan-header-light-hover;
+        color: #18222f;
+    }
+}
+
+@media (min-width: 1024px) {
+    .c-topbar.el-header.is-light {
+        padding-inline: 24px;
+
+        .c-topbar__actions {
+            gap: 12px;
+        }
+
+        .c-topbar__extensions {
+            gap: 10px;
+
+            .c-topbar__message-button {
+                width: 32px;
+            }
+        }
+
+        .c-topbar__org-button,
+        .c-topbar__user-button,
+        .c-header-preference,
+        .c-header-panel {
+            height: 36px;
+        }
+
+        .c-header-preference {
+            .u-timezone__wrapper {
+                height: 34px;
+                line-height: 34px;
+            }
+
+            .el-select__wrapper {
+                min-height: 34px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .c-topbar.el-header.is-light .c-header-preference .c-header-lang {
+        border-radius: 7px;
+        box-shadow: none;
+    }
+}

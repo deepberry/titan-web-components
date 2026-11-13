@@ -1,8 +1,12 @@
 <template>
-    <el-container class="c-app-shell" :class="{ 'is-mobile-menu-open': mobileMenuOpen }">
+    <el-container
+        class="c-app-shell"
+        :class="{ 'is-mobile-menu-open': mobileMenuOpen, 'has-light-header': sidebarTheme === 'legacy' }"
+    >
         <CommonSidebar
             ref="sidebar"
             :sidebar-settings="sidebarSettings"
+            :sidebar-theme="sidebarTheme"
             :menu-list="menuList"
             :user="profile"
             :preview="preview"
@@ -27,6 +31,7 @@
         />
         <el-container class="c-app-shell__content" direction="vertical">
             <CommonHeader
+                :header-theme="sidebarTheme === 'legacy' ? 'light' : 'dark'"
                 :compact-mobile="compactMobile || isMobile"
                 :title="title"
                 :subtitle="subtitle"
@@ -71,6 +76,7 @@ export default {
         subtitle: { type: String, default: "" },
         menuList: { type: Array, default: null },
         sidebarSettings: { type: Object, default: () => ({}) },
+        sidebarTheme: { type: String, default: "legacy" },
         preview: { type: Boolean, default: false },
         previewProfile: { type: Object, default: () => ({}) },
         previewOrganizations: { type: Array, default: () => [] },

@@ -113,7 +113,7 @@
         "workTemplates": "作业模板",
         "workProcessSheets": "工艺单管理",
         "environmentManagement": "环控管理",
-        "environmentDevices": "设备管理",
+        "environmentDevices": "设备控制",
         "environmentMonitor": "监控大盘",
         "fertilizationAssistant": "配肥助手",
         "harvestManagement": "采收管理",

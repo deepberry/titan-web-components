@@ -1,6 +1,7 @@
 <template>
     <CommonLayout
         :preview="useStaticPreview"
+        :sidebar-theme="sidebarTheme"
         :title="pageTitle"
         subtitle="公共组件与应用外壳"
         :preview-profile="previewProfile"
@@ -27,6 +28,8 @@ export default {
     },
     data() {
         return {
+            sidebarTheme:
+                new URLSearchParams(window.location.search).get("sidebarTheme") === "default" ? "default" : undefined,
             useStaticPreview: !User.getToken({ version: 2 }),
             previewProfile: {
                 id: 1,

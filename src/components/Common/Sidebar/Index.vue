@@ -1,8 +1,8 @@
 <template>
     <el-aside
-        :width="displayOpened ? '232px' : '76px'"
+        :width="sidebarWidth"
         class="c-titan-sidebar"
-        :class="{ 'is-collapsed': !displayOpened }"
+        :class="{ 'is-collapsed': !displayOpened, 'is-legacy': legacyTheme }"
     >
         <a
             class="c-titan-sidebar__brand"
@@ -31,6 +31,7 @@
                 :key="item.menuIndex || item.path"
                 :item="item"
                 :collapsed="!displayOpened"
+                :legacy-theme="legacyTheme"
             />
         </el-menu>
         <el-tooltip v-if="!mobileExpandedActive" :content="toggleLabel" placement="right">
@@ -64,6 +65,7 @@ export default {
     emits: ["select"],
     props: {
         mobileExpanded: { type: Boolean, default: false },
+        sidebarTheme: { type: String, default: "legacy" },
         preview: { type: Boolean, default: false },
         menuList: { type: Array, default: null },
         sidebarSettings: { type: Object, default: () => ({}) },
@@ -79,6 +81,13 @@ export default {
     },
     computed: {
         ...mapState(useCommonStore, ["opened"]),
+        legacyTheme() {
+            return this.sidebarTheme === "legacy";
+        },
+        sidebarWidth() {
+            if (this.displayOpened) return "232px";
+            return this.legacyTheme ? "64px" : "76px";
+        },
         mobileExpandedActive() {
             return this.mobileExpanded && this.isMobile;
         },
@@ -223,4 +232,5 @@ export default {
 <style lang="less">
 @import "../../../assets/css/common/sidebar/index.less";
 @import "../../../assets/css/common/sidebar/menu.less";
+@import "../../../assets/css/common/sidebar/legacy.less";
 </style>

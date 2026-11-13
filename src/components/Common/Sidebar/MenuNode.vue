@@ -4,7 +4,7 @@
         :index="nodeIndex"
         :disabled="item.disabled"
         :class="menuNodeClass"
-        :popper-class="collapsed ? 'c-titan-sidebar__popper' : ''"
+        :popper-class="popperClass"
         :title="collapsed ? displayTitle : undefined"
     >
         <template #title>
@@ -26,6 +26,7 @@
             :key="getNodeKey(child)"
             :item="child"
             :collapsed="false"
+            :legacy-theme="legacyTheme"
             :level="level + 1"
         />
     </el-sub-menu>
@@ -72,12 +73,17 @@ export default {
             type: Boolean,
             default: false,
         },
+        legacyTheme: { type: Boolean, default: false },
         level: {
             type: Number,
             default: 1,
         },
     },
     computed: {
+        popperClass() {
+            if (this.legacyTheme) return "c-titan-sidebar__popper is-legacy";
+            return this.collapsed ? "c-titan-sidebar__popper" : "";
+        },
         nodeIndex() {
             return this.getNodeKey(this.item);
         },
