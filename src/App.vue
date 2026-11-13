@@ -3,7 +3,6 @@
         :preview="useStaticPreview"
         :sidebar-theme="sidebarTheme"
         :title="pageTitle"
-        subtitle="公共组件与应用外壳"
         :preview-profile="previewProfile"
         :preview-organizations="previewOrganizations"
     >

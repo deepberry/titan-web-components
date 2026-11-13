@@ -11,6 +11,11 @@
     box-shadow: none;
     backdrop-filter: none;
 
+    .c-topbar__heading {
+        position: relative;
+        padding-left: 11px;
+    }
+
     .c-topbar__title {
         color: #18222f;
         font-size: 16px;
@@ -19,15 +24,24 @@
         letter-spacing: 0;
 
         &::before {
-            content: none;
+            position: absolute;
+            top: 4px;
+            left: 0;
+            height: 14px;
+            margin-right: 0;
+            background: #00467b;
         }
     }
 
     .c-topbar__subtitle {
+        display: block;
+        overflow: hidden;
         margin-top: 2px;
         color: @titan-header-light-muted;
         font-size: 12px;
         line-height: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .c-topbar__org-button,

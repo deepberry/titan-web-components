@@ -11,8 +11,8 @@
             <div class="c-topbar__main">
                 <div class="c-topbar__heading">
                     <div class="c-topbar__title">{{ displayTitle }}</div>
+                    <div v-if="displaySubtitle" class="c-topbar__subtitle">{{ displaySubtitle }}</div>
                     <slot name="heading"><slot /></slot>
-                    <div v-if="subtitle" class="c-topbar__subtitle">{{ subtitle }}</div>
                 </div>
             </div>
             <div class="c-topbar__actions">
@@ -63,6 +63,7 @@
 import { mapState } from "pinia";
 import { getProfile, getCurrentOrganization, getSurveys } from "../../../service/account";
 import { useCommonStore } from "../../../store/common";
+import { sidebarTitle } from "../../../constants/AomsSidebar";
 import HeaderTools from "./Tools.vue";
 import CommonUser from "./User2.vue";
 import GlobalNotice from "./GlobalNotice.vue";
@@ -98,6 +99,12 @@ export default {
         },
         displayTitle() {
             return this.title || this.$route?.meta?.title || "DeepBerry";
+        },
+        displaySubtitle() {
+            const subtitle = this.subtitle?.trim();
+            if (this.headerTheme !== "light") return subtitle;
+            const { titleKey, en_name } = this.$route?.meta || {};
+            return sidebarTitle({ titleKey, en_name }, true) || subtitle;
         },
         noticeOpened() {
             return !!this.globalNotice?.val && !this.globalNotice.hidden;
