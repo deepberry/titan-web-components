@@ -10,6 +10,11 @@
     background: #fff;
     box-shadow: none;
     backdrop-filter: none;
+    transition: box-shadow 0.18s ease;
+
+    &.is-scrolled {
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
 
     .c-topbar__heading {
         position: relative;

@@ -7,7 +7,7 @@
             </button>
         </div>
         <GlobalNotice :is-pad="isPad" :preview="preview" />
-        <el-header class="c-topbar" :class="{ 'is-light': headerTheme === 'light' }">
+        <el-header class="c-topbar" :class="{ 'is-light': headerTheme === 'light', 'is-scrolled': scrolled }">
             <div class="c-topbar__main">
                 <div class="c-topbar__heading">
                     <div class="c-topbar__title">{{ displayTitle }}</div>
@@ -90,6 +90,7 @@ export default {
             isPad: window.innerWidth <= 1023,
             isPhone: window.innerWidth < 768,
             bannerClosed: false,
+            scrolled: false,
         };
     },
     computed: {
@@ -120,6 +121,21 @@ export default {
     },
     mounted() {
         this.resize();
+        let scrollParent = this.$el.parentElement;
+        while (
+            scrollParent &&
+            scrollParent !== document.body &&
+            scrollParent !== document.documentElement &&
+            !/^(auto|scroll|hidden|overlay)$/.test(window.getComputedStyle(scrollParent).overflowY)
+        ) {
+            scrollParent = scrollParent.parentElement;
+        }
+        this.headerScrollTarget =
+            scrollParent && scrollParent !== document.body && scrollParent !== document.documentElement
+                ? scrollParent
+                : window;
+        this.headerScrollTarget.addEventListener("scroll", this.updateScrollState, { passive: true });
+        this.updateScrollState();
         window.addEventListener("resize", this.resize);
         window.addEventListener("titan:logout", this.clearUserInfo);
         if (this.preview) {
@@ -130,10 +146,15 @@ export default {
     },
     beforeUnmount() {
         this.userRequestId++;
+        this.headerScrollTarget?.removeEventListener("scroll", this.updateScrollState);
         window.removeEventListener("resize", this.resize);
         window.removeEventListener("titan:logout", this.clearUserInfo);
     },
     methods: {
+        updateScrollState() {
+            const target = this.headerScrollTarget;
+            this.scrolled = (target === window ? window.scrollY : target.scrollTop) > 0;
+        },
         openSurvey() {
             this.$refs.tools?.openSurvey();
         },
